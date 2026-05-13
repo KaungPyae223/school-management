@@ -1,0 +1,26 @@
+import { createBrowserRouter } from "react-router";
+import dashboardRoutes from "../features/dashboard/routes/routes";
+import NotFound from "../components/errors/NotFound";
+import ErrorPage from "../components/errors/ErrorPage";
+import courceRoutes from "../features/courses/routes/routes";
+import Layout from "../layouts/Layout";
+
+const routes = [
+  {
+    path: "/",
+    Component: Layout,
+    children: [
+      ...dashboardRoutes,
+      ...courceRoutes,
+      {
+        path: "*",
+        Component: NotFound,
+      },
+    ],
+    ErrorBoundary: ErrorPage,
+  },
+];
+
+const router = createBrowserRouter(routes);
+
+export default router;
