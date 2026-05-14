@@ -67,7 +67,7 @@ const CoursesCreatePage = () => {
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
       <FormHeader title="Create Course" />
       <CardContent>
-        <form id="form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="create-course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <ImageInput label="Image" form={form} imageInputName="image" />
             <Controller
@@ -132,7 +132,7 @@ const CoursesCreatePage = () => {
           </FieldGroup>
         </form>
       </CardContent>
-      <FormFooter form={form} formID="form" />
+      <FormFooter form={form} formID="create-course-form" />
     </Card>
   );
 };
