@@ -6,11 +6,8 @@ export const createCourse = () => {
   ipcMain.handle("course:create", async (_, data) => {
     try {
       const { image, imageName, ...restData } = data;
-      let imageUrl = null;
-      if (image) {
-        const imageBuffer = Buffer.from(new Uint8Array(image));
-        imageUrl = await saveImage(imageBuffer, imageName);
-      }
+
+      const imageUrl = await saveImage(image, imageName);
 
       const course = await prisma.course.create({
         data: {

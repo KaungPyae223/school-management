@@ -16,6 +16,8 @@ import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
 import ImageInput from "../../../components/form/ImageInput";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   image: z
@@ -29,18 +31,14 @@ const formSchema = z.object({
         message: "Only .jpg, .jpeg, .png and .webp formats are supported",
       },
     ),
-  name: z
-    .string()
-    .min(5, "Course name must be at least 5 characters.")
-    .max(32, "Course name must be at most 32 characters."),
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters.")
-    .max(300, "Description must be at most 300 characters."),
+  name: z.string().min(1, "Course name must be at least 1 characters."),
+  description: z.string().min(1, "Description must be at least 1 characters."),
   price: z.number().min(0, "Price must be at least 0"),
 });
 
 const CoursesCreatePage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   useAddBreadcrumb({
     title: "Create Course",
     params: [
@@ -55,11 +53,12 @@ const CoursesCreatePage = () => {
       image: undefined,
       name: "",
       description: "",
-      price: undefined,
+      price: "" as unknown as number,
     },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     const image = data.image;
 
     const arrayBuffer = await image.arrayBuffer();
@@ -69,7 +68,13 @@ const CoursesCreatePage = () => {
       image: arrayBuffer,
       imageName: image.name,
     });
-    console.log(res);
+    if (!res.success) {
+      toast.error(res.error);
+    } else {
+      toast.success("Course created successfully");
+      form.reset();
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -89,7 +94,7 @@ const CoursesCreatePage = () => {
                     {...field}
                     id="name"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Login button not working on mobile"
+                    placeholder="Enter course name"
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -128,7 +133,10 @@ const CoursesCreatePage = () => {
                     id="price"
                     type="number"
                     aria-invalid={fieldState.invalid}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      field.onChange(val === "" ? undefined : Number(val));
+                    }}
                     placeholder="Enter course price"
                     autoComplete="off"
                   />
@@ -141,7 +149,11 @@ const CoursesCreatePage = () => {
           </FieldGroup>
         </form>
       </CardContent>
-      <FormFooter form={form} formID="create-course-form" />
+      <FormFooter
+        form={form}
+        formID="create-course-form"
+        isSubmitting={isLoading}
+      />
     </Card>
   );
 };
