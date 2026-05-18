@@ -1,12 +1,15 @@
 import { SidebarProvider } from "../components/ui/sidebar";
 import { AppSidebar } from "../components/side-bar/SideBar";
-import { Outlet } from "react-router";
+import { Outlet, useNavigation } from "react-router";
 import Header from "../components/header/Header";
-import { Suspense } from "react";
+
 import { Toaster } from "../components/ui/sonner";
 import LoadingPage from "../components/loading/LoadingPage";
 
 const Layout = () => {
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -16,9 +19,7 @@ const Layout = () => {
         </div>
 
         <div className="p-6 container mx-auto">
-          <Suspense fallback={<LoadingPage />}>
-            <Outlet />
-          </Suspense>
+          {isLoading ? <LoadingPage /> : <Outlet />}
         </div>
       </main>
       <Toaster position="top-center" richColors={true} />

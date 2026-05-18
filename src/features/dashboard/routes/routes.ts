@@ -1,12 +1,12 @@
-import { lazy } from "react";
 import ErrorPage from "../../../components/errors/ErrorPage";
-
-const DashboardPage = lazy(() => import("../pages/DashboardPage"));
 
 const routes = [
   {
     index: true,
-    Component: DashboardPage,
+    lazy: async () => {
+      const module = await import("../pages/DashboardPage");
+      return { Component: module.default };
+    },
     ErrorBoundary: ErrorPage,
   },
 ];

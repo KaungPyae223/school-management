@@ -1,7 +1,6 @@
 import { TooltipProvider } from "../components/ui/tooltip";
-import { RouterProvider } from "react-router/dom";
+import { RouterProvider } from "react-router";
 import { LazyMotion, domAnimation } from "framer-motion";
-
 import router from "./routes";
 
 const Index = () => {

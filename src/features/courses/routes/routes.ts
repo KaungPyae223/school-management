@@ -1,18 +1,20 @@
-import { lazy } from "react";
 import ErrorPage from "../../../components/errors/ErrorPage";
-
-const CoursesPage = lazy(() => import("../pages/CoursesPage"));
-const CoursesCreatePage = lazy(() => import("../pages/CoursesCreatePage"));
 
 const routes = [
   {
     path: "courses",
-    Component: CoursesPage,
+    lazy: async () => {
+      const module = await import("../pages/CoursesPage");
+      return { Component: module.default };
+    },
     ErrorBoundary: ErrorPage,
   },
   {
     path: "courses/create",
-    Component: CoursesCreatePage,
+    lazy: async () => {
+      const module = await import("../pages/CoursesCreatePage");
+      return { Component: module.default };
+    },
     ErrorBoundary: ErrorPage,
   },
 ];

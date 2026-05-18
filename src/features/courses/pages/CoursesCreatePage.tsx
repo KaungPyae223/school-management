@@ -59,8 +59,17 @@ const CoursesCreatePage = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const image = data.image;
+
+    const arrayBuffer = await image.arrayBuffer();
+
+    const res = await window.api.createCourse({
+      ...data,
+      image: arrayBuffer,
+      imageName: image.name,
+    });
+    console.log(res);
   };
 
   return (

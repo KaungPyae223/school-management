@@ -1,13 +1,24 @@
 import { ipcMain } from "electron";
 import { prisma } from "../../db/prisma.js";
+import { saveImage } from "../utils/saveimage.js";
 
 export const createCourse = () => {
   ipcMain.handle("course:create", async (_, data) => {
     try {
+      const { image, imageName, ...restData } = data;
+      let imageUrl = null;
+      if (image) {
+        const imageBuffer = Buffer.from(new Uint8Array(image));
+        imageUrl = await saveImage(imageBuffer, imageName);
+      }
+
       const course = await prisma.course.create({
-        data,
+        data: {
+          ...restData,
+          image: imageUrl,
+        },
       });
-      return { success: true, course };
+      return { success: true, data: course };
     } catch (error) {
       return { success: false, error: error.message };
     }
