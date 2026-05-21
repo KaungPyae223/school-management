@@ -1,7 +1,7 @@
 import useBreadCrumbStore from "../../stores/useBreadCrumbStroe";
 import { SidebarTrigger } from "../ui/sidebar";
 import BreadCrumb from "./BreadCrumb";
-
+import { AnimatePresence, m } from "framer-motion";
 
 const Header = () => {
   const { title } = useBreadCrumbStore();
@@ -16,7 +16,18 @@ const Header = () => {
 
       {/* Right side: Actions */}
       <div className="flex items-center gap-2">
-        <h1 className="text-lg font-semibold">{title}</h1>
+        <AnimatePresence mode="wait">
+          <m.h1
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="text-lg font-semibold"
+            key={title}
+          >
+            {title}
+          </m.h1>
+        </AnimatePresence>
       </div>
     </header>
   );

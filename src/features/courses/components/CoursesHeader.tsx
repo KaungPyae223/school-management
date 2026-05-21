@@ -31,12 +31,12 @@ const CoursesHeader = () => {
             </TabsTrigger>
           </TabsList>
           <Button variant="outline">
-            <Download className="w-4 h-4 mr-1" /> Export CSV
+            <Download className="w-4 h-4 mr-0.5" /> Export CSV
           </Button>
 
           <Link to="/courses/create">
             <Button>
-              <Plus className="w-4 h-4 mr-1" /> Add Course
+              <Plus className="w-4 h-4 mr-0.5" /> Add Course
             </Button>
           </Link>
         </div>

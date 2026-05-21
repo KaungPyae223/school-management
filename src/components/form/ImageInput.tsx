@@ -10,47 +10,41 @@ import type {
   PathValue,
   UseFormReturn,
 } from "react-hook-form";
+import { toast } from "sonner";
 
 const ImageInput = <T extends FieldValues = FieldValues>({
   form,
   label,
   imageInputName,
-  previewImageURL,
+  oldImageURL,
+  imageWatch,
 }: {
   form: UseFormReturn<T>;
   label: string;
   imageInputName: Path<T>;
-  previewImageURL?: string;
+  oldImageURL?: string;
+  imageWatch: File | undefined;
 }) => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  const selectedImage = imageWatch ? URL.createObjectURL(imageWatch) : null;
 
   const handleImageUpload = (files: FileList | null) => {
     if (!files || files.length === 0) return;
 
     const file = files[0];
-    const validTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "image/svg+xml",
-    ];
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
 
     if (!validTypes.includes(file.type)) {
-      alert("Please upload a JPEG, PNG, WebP, or SVG image");
+      toast.error("Please upload a JPEG, PNG, or WebP image");
       return;
     }
 
-    if (file.size > 2 * 1024 * 1024) {
-      alert("File size must be less than 2MB");
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("File size must be less than 5MB");
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setSelectedImage(e.target?.result as string);
-    };
-    reader.readAsDataURL(file);
     form.setValue(imageInputName, file as PathValue<T, Path<T>>);
   };
 
@@ -71,7 +65,6 @@ const ImageInput = <T extends FieldValues = FieldValues>({
   };
 
   const clearImage = () => {
-    setSelectedImage(null);
     form.setValue(imageInputName, undefined);
   };
 
@@ -107,6 +100,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
                       size="sm"
                       className="absolute -top-2 -right-2 h-8 w-8 p-0 rounded-full shadow-lg"
                       onClick={(e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         clearImage();
                       }}
@@ -114,9 +108,9 @@ const ImageInput = <T extends FieldValues = FieldValues>({
                       <X className="h-4 w-4" />
                     </Button>
                   </div>
-                ) : previewImageURL ? (
+                ) : oldImageURL ? (
                   <img
-                    src={previewImageURL}
+                    src={oldImageURL}
                     alt="Project cover"
                     className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-sm"
                   />
@@ -146,7 +140,6 @@ const ImageInput = <T extends FieldValues = FieldValues>({
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) {
-                form.setValue(imageInputName, file as PathValue<T, Path<T>>);
                 handleImageUpload(e.target.files);
               }
             }}

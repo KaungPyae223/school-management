@@ -13,7 +13,7 @@ const useAddBreadcrumb = ({
   useEffect(() => {
     setTitle(title || "");
     setParams(params || []);
-  }, [title, params, setTitle, setParams]);
+  }, [setTitle, setParams]);
 };
 
 export default useAddBreadcrumb;

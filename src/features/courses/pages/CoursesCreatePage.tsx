@@ -16,8 +16,9 @@ import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
 import ImageInput from "../../../components/form/ImageInput";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 
 const formSchema = z.object({
   image: z
@@ -38,12 +39,19 @@ const formSchema = z.object({
 
 const CoursesCreatePage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
   useAddBreadcrumb({
     title: "Create Course",
     params: [
-      { link: "/courses", name: "Courses" },
-      { link: "/courses/create", name: "Create" },
+      {
+        name: "Courses",
+        link: "/courses",
+      },
+      {
+        name: "Create",
+        link: "/courses/create",
+      },
     ],
   });
 
@@ -57,7 +65,13 @@ const CoursesCreatePage = () => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = () => {
+    setConfirmDialogOpen(true);
+  };
+
+  const createCourse = async () => {
+    const data = form.getValues();
+
     setIsLoading(true);
     const image = data.image;
 
@@ -83,7 +97,12 @@ const CoursesCreatePage = () => {
       <CardContent>
         <form id="create-course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-            <ImageInput label="Image" form={form} imageInputName="image" />
+            <ImageInput
+              label="Image"
+              form={form}
+              imageInputName="image"
+              imageWatch={form.watch("image")}
+            />
             <Controller
               name="name"
               control={form.control}
@@ -153,6 +172,14 @@ const CoursesCreatePage = () => {
         form={form}
         formID="create-course-form"
         isSubmitting={isLoading}
+      />
+
+      <ConfirmDialog
+        confirmDialogOpen={confirmDialogOpen}
+        setConfirmDialogOpen={setConfirmDialogOpen}
+        onConfirm={createCourse}
+        title="Create this course?"
+        description="Please confirm that you want to create this course with the provided information. You can edit the course later if needed."
       />
     </Card>
   );

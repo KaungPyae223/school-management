@@ -1,4 +1,5 @@
 export interface ResponseDataType {
+  error?: string | null;
   data: unknown[];
   meta: {
     total_data: number;
