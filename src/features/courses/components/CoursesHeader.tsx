@@ -8,8 +8,30 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../../../components/ui/input-group";
+import ColumnSelector from "../../../components/column-selector/ColumnSelector";
+import { AnimatePresence, m } from "framer-motion";
 
-const CoursesHeader = () => {
+const CoursesHeader = ({
+  selectedColumns,
+  setSelectedColumns,
+  tab,
+}: {
+  selectedColumns: string[];
+  setSelectedColumns: (columns: string[]) => void;
+  tab: string;
+}) => {
+  const columns = [
+    "Name",
+    "Price",
+    "Description",
+    "Students",
+    "Teachers",
+    "Classes",
+    "Active",
+    "Created At",
+    "Updated At",
+  ];
+
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-row gap-3 justify-between">
@@ -20,7 +42,26 @@ const CoursesHeader = () => {
               <Search />
             </InputGroupAddon>
           </InputGroup>
+          <AnimatePresence mode="wait" initial={false}>
+            {tab === "list" && (
+              <m.div
+                key="list"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ColumnSelector
+                  columns={columns}
+                  alwaysSelectedColumns={["Name", "Price"]}
+                  selectedColumns={selectedColumns}
+                  setSelectedColumns={setSelectedColumns}
+                />
+              </m.div>
+            )}
+          </AnimatePresence>
         </div>
+
         <div className="flex gap-2">
           <TabsList>
             <TabsTrigger value="grid">

@@ -6,11 +6,14 @@ import CoursesList from "../components/CoursesList";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
 import { useNavigate } from "react-router";
 import { LibraryBig } from "lucide-react";
+import { useGetQueryParams } from "../../../hooks/use-get-query-params";
+import { courseService } from "../../../services/courses";
+import { useAppQuery } from "../../../hooks/use-app-query";
+import type { ResponseDataType } from "../../../types/ResponseTypes";
 
 const CoursesPage = () => {
   useAddBreadcrumb({
@@ -18,35 +21,28 @@ const CoursesPage = () => {
   });
 
   const [tab, setTab] = useState("grid");
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([
+    "Name",
+    "Price",
+    "Description",
+    "Created At",
+  ]);
   const navigate = useNavigate();
 
-  const getAllCourses = async () => {
-    const data = await window.api.getAllCourses({
-      page: 1,
-      limit: 10,
-      search: "",
-      sort: "createdAt",
-      order: "desc",
-    });
+  const { activeQueryParams } = useGetQueryParams();
 
-    if (data.error) {
-      throw new Error(data.error);
-    }
-
-    return data;
-  };
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["courses"],
-    queryFn: getAllCourses,
-    throwOnError: true,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
+  const { data, isLoading } = useAppQuery({
+    queryKey: ["courses", activeQueryParams],
+    queryFn: () => courseService.getAllCourses(activeQueryParams),
+  }) as { data: ResponseDataType; isLoading: boolean };
 
   return (
     <Tabs value={tab} onValueChange={setTab} className="space-y-4">
-      <CoursesHeader />
+      <CoursesHeader
+        selectedColumns={selectedColumns}
+        setSelectedColumns={setSelectedColumns}
+        tab={tab}
+      />
       {isLoading ? (
         <LoadingComponent />
       ) : data?.data.length === 0 ? (
@@ -72,7 +68,7 @@ const CoursesPage = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <CoursesGrid />
+                <CoursesGrid data={data?.data} />
               </m.div>
             )}
 
@@ -84,7 +80,7 @@ const CoursesPage = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <CoursesList />
+                <CoursesList data={data?.data} selectedColumns={selectedColumns} />
               </m.div>
             )}
           </AnimatePresence>

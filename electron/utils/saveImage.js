@@ -19,5 +19,5 @@ export const saveImage = async (image, originalFileName) => {
 
   await fs.promises.writeFile(filePath, imageBuffer);
 
-  return filePath;
+  return uniqueFileName;
 };

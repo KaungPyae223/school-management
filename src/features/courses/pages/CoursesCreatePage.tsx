@@ -19,6 +19,8 @@ import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCreateCourse } from "../hooks/useCreateCourse";
 
 const formSchema = z.object({
   image: z
@@ -38,7 +40,6 @@ const formSchema = z.object({
 });
 
 const CoursesCreatePage = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
   useAddBreadcrumb({
@@ -69,26 +70,25 @@ const CoursesCreatePage = () => {
     setConfirmDialogOpen(true);
   };
 
+  const { mutateAsync, isPending } = useCreateCourse();
+
   const createCourse = async () => {
-    const data = form.getValues();
+    try {
+      const data = form.getValues();
+      const image = data.image;
 
-    setIsLoading(true);
-    const image = data.image;
+      const arrayBuffer = await image.arrayBuffer();
 
-    const arrayBuffer = await image.arrayBuffer();
+      await mutateAsync({
+        ...data,
+        image: arrayBuffer,
+        imageName: image.name,
+      });
 
-    const res = await window.api.createCourse({
-      ...data,
-      image: arrayBuffer,
-      imageName: image.name,
-    });
-    if (!res.success) {
-      toast.error(res.error);
-    } else {
       toast.success("Course created successfully");
-      form.reset();
+    } catch (error: any) {
+      toast.error(error.message);
     }
-    setIsLoading(false);
   };
 
   return (
@@ -171,7 +171,7 @@ const CoursesCreatePage = () => {
       <FormFooter
         form={form}
         formID="create-course-form"
-        isSubmitting={isLoading}
+        isSubmitting={isPending}
       />
 
       <ConfirmDialog

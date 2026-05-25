@@ -1,12 +1,15 @@
-import { ArrowDown,  ArrowUp, ArrowUpDown } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { useSearchParams } from "react-router";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
+import { AnimatePresence, m } from "framer-motion";
 
 interface TableHeadProps {
   className?: string;
+  sortKey?: string;
   children: React.ReactNode;
   sortable?: boolean;
   align?: "left" | "right" | "center";
+  hidden?: boolean;
   [key: string]: unknown;
 }
 
@@ -14,7 +17,9 @@ const TableHead = ({
   className,
   children,
   sortable = false,
+  sortKey,
   align = "left",
+  hidden = false,
   ...props
 }: TableHeadProps) => {
   const alignmentClass =
@@ -30,17 +35,18 @@ const TableHead = ({
   const sort = searchParams.get("sort");
   const sortDirection = searchParams.get("sortDirection");
 
-  const handleSort = (column: string) => {
+  const handleSort = () => {
     const newSortDirection =
-      sort === column ? (sortDirection === "asc" ? "desc" : "asc") : "asc";
+      sort === sortKey ? (sortDirection === "asc" ? "desc" : "asc") : "asc";
 
     updateQueryParams({
-      sort: column,
+      sort: sortKey,
       sortDirection: newSortDirection,
+      page: 1,
     });
   };
 
-  const isSorted = sort === String(children);
+  const isSorted = sort === sortKey;
 
   const sortIcon = isSorted ? (
     sortDirection === "asc" ? (
@@ -53,18 +59,26 @@ const TableHead = ({
   );
 
   return (
-    <th
-      className={`hidden first:pl-6 last:pr-6 lg:table-cell px-3 py-3.5 ${alignmentClass} font-semibold text-muted-foreground ${className}`}
-      {...props}
-    >
-      <div
-        onClick={() => sortable && handleSort(String(children))}
-        className={`flex items-center gap-2 ${alignmentClass} ${sortable ? "cursor-pointer" : ""}`}
-      >
-        {children}
-        {sortable && sortIcon}
-      </div>
-    </th>
+    <AnimatePresence mode="sync" initial={false}>
+      {!hidden && (
+        <m.th
+          className={`first:pl-6 last:pr-6 lg:table-cell px-3 py-3.5 ${alignmentClass} font-semibold text-muted-foreground ${className} `}
+          {...props}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div
+            onClick={() => sortable && handleSort()}
+            className={`flex items-center gap-2 ${alignmentClass} ${sortable ? "cursor-pointer" : ""}`}
+          >
+            {children}
+            {sortable && sortIcon}
+          </div>
+        </m.th>
+      )}
+    </AnimatePresence>
   );
 };
 

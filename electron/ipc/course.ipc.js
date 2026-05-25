@@ -1,6 +1,7 @@
 import { ipcMain } from "electron";
 import { prisma } from "../../db/prisma.js";
-import { saveImage } from "../utils/saveimage.js";
+import { saveImage } from "../utils/saveImage.js";
+import { showImage } from "../utils/showImage.js";
 
 export const getAllCourses = () => {
   ipcMain.handle("course:index", async (_, data) => {
@@ -9,20 +10,16 @@ export const getAllCourses = () => {
       limit = 10,
       search = "",
       sort = "createdAt",
-      order = "desc",
+      sortDirection = "desc",
     } = data;
 
-    const avilableSort = new Set([
-      "createdAt",
-      "updatedAt",
-      "name",
-      "description",
-      "price",
-    ]);
-    const avilableOrder = new Set(["asc", "desc"]);
+    const avilableSort = new Set(["createdAt", "updatedAt", "name", "price"]);
+    const avilableSortDirection = new Set(["asc", "desc"]);
 
     const finalSort = avilableSort.has(sort) ? sort : "createdAt";
-    const finalOrder = avilableOrder.has(order) ? order : "desc";
+    const finalSortDirection = avilableSortDirection.has(sortDirection)
+      ? sortDirection
+      : "desc";
 
     const skip = Number(page - 1) * Number(limit);
 
@@ -42,7 +39,7 @@ export const getAllCourses = () => {
           skip,
           take: limit,
           orderBy: {
-            [finalSort]: finalOrder,
+            [finalSort]: finalSortDirection,
           },
         }),
         prisma.course.count({ where }),
@@ -51,7 +48,10 @@ export const getAllCourses = () => {
       const total_pages = Math.ceil(Number(totalData) / Number(limit));
       return {
         error: null,
-        data: courses,
+        data: courses.map((course) => ({
+          ...course,
+          image: showImage(course.image),
+        })),
         meta: { total_data: totalData, total_pages, page, limit },
       };
     } catch (error) {

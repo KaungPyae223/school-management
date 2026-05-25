@@ -25,13 +25,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
+import { formatCurrency } from "../../../utils/format-currency";
 
-const CoursesCard = () => {
+const CoursesCard = ({ course }: { course: any }) => {
+  console.log(course.image);
   return (
     <Card className="shadow-sm hover:shadow-md pt-0 transition-shadow duration-200 group overflow-hidden">
       <div className="relative">
         <img
-          src="https://images.unsplash.com/photo-1769736540771-3fdda750175b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={course.image}
           alt=""
           className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -61,16 +63,16 @@ const CoursesCard = () => {
 
         <div className="absolute bottom-3 left-3">
           <Badge variant="secondary" className="text-sm shadow-sm p-3">
-            15,0000
+            {formatCurrency(course.price)}
           </Badge>
         </div>
       </div>
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-2 flex-1">
         <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-lg">JLPT N5 Class</CardTitle>
+          <CardTitle className="text-lg">{course.name}</CardTitle>
         </div>
-        <p className="text-sm text-muted-foreground mt-1">
-          Master basic Japanese language skills for the JLPT N5 examination
+        <p className="text-sm text-muted-foreground mt-1 line-clamp-3">
+          {course.description}
         </p>
       </CardHeader>
 
