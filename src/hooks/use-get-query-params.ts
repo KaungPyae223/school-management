@@ -10,15 +10,17 @@ export const useGetQueryParams = () => {
   return {
     activeParams: params.toString(),
     activeQueryParams: Object.fromEntries(
-      Array.from(params).map(([key, value]) => {
-        if (numberParams.includes(key)) {
-          return [key, Number(value)];
-        }
-        if (key === "isTerminated") {
-          return [key, value === "true"];
-        }
-        return [key, value];
-      }),
+      Array.from(params)
+        .filter(([key]) => key !== "columns")
+        .map(([key, value]) => {
+          if (numberParams.includes(key)) {
+            return [key, Number(value)];
+          }
+          if (key === "isTerminated") {
+            return [key, value === "true"];
+          }
+          return [key, value];
+        }),
     ),
   };
 };

@@ -9,12 +9,13 @@ import {
 import useBreadCrumbStore from "../../stores/useBreadCrumbStroe";
 import React from "react";
 import { AnimatePresence, m } from "framer-motion";
+import { Link } from "react-router";
 
 const BreadCrumb = () => {
   const { params } = useBreadCrumbStore();
 
   return (
-    <AnimatePresence >
+    <AnimatePresence>
       {params.length > 0 && (
         <m.div
           initial={{ opacity: 0, x: -10 }}
@@ -36,8 +37,8 @@ const BreadCrumb = () => {
                       {isLast ? (
                         <BreadcrumbPage>{param.name}</BreadcrumbPage>
                       ) : (
-                        <BreadcrumbLink href={param.link}>
-                          {param.name}
+                        <BreadcrumbLink asChild>
+                          <Link to={param.link}>{param.name}</Link>
                         </BreadcrumbLink>
                       )}
                     </BreadcrumbItem>

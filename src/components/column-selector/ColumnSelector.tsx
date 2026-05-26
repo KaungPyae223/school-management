@@ -9,39 +9,51 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Columns } from "lucide-react";
+import { useSetQueryParams } from "../../hooks/use-set-query-params";
+import { useGetSelectedColumns } from "../../hooks/use-get-selected-columns";
 
 interface Props {
   columns: string[];
   alwaysSelectedColumns: string[];
-  selectedColumns: string[];
-  setSelectedColumns: (columns: string[]) => void;
+  defaultSelectedColumns: string[];
 }
 
 const ColumnSelector: React.FC<Props> = ({
   columns,
   alwaysSelectedColumns,
-  selectedColumns,
-  setSelectedColumns,
+  defaultSelectedColumns,
 }) => {
-  const toggleColumn = (title: string) => {
-    const isExist = selectedColumns.includes(title);
+  const updateQueryParams = useSetQueryParams();
 
-    if (isExist) {
-      setSelectedColumns(selectedColumns.filter((col) => col !== title));
+  const selectedColumns = useGetSelectedColumns(defaultSelectedColumns);
+
+  const toggleColumn = (title: string) => {
+    let checkColumns: string[] = [];
+
+    if (selectedColumns.includes(title)) {
+      checkColumns = selectedColumns.filter((col) => col !== title);
     } else {
-      setSelectedColumns([...selectedColumns, title]);
+      checkColumns = [...selectedColumns, title];
     }
+
+    updateQueryParams({
+      columns: checkColumns.join(","),
+    });
   };
 
   const selectAllColumns = () => {
-    setSelectedColumns(columns);
+    updateQueryParams({
+      columns: columns.join(","),
+    });
   };
+
+  const visibleColumnsCount = selectedColumns.length;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          <Columns /> Columns ( {selectedColumns.length} )
+          <Columns /> Columns ( {visibleColumnsCount} )
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

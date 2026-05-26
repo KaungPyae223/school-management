@@ -19,14 +19,14 @@ import TableCell from "../../../components/table/TableCell";
 import TableActionButton from "../../../components/table/TableActionButton";
 import { formatCurrency } from "../../../utils/format-currency";
 import { formatDate } from "../../../utils/format-date";
+import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
 
-const CoursesList = ({
-  data,
-  selectedColumns,
-}: {
-  data: any;
-  selectedColumns: string[];
-}) => {
+const CoursesList = ({ data }: { data: any }) => {
+  const selectedColumns = useGetSelectedColumns([
+    "Name",
+    "Price",
+    "Description",
+  ]);
   return (
     <Table>
       <TableHeader>

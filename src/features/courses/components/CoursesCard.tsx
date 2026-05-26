@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   BookOpen,
+  Calendar,
+  CalendarClock,
   EllipsisVertical,
   Pencil,
   PlayCircle,
@@ -26,9 +28,10 @@ import {
   DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
 import { formatCurrency } from "../../../utils/format-currency";
+import { formatDate } from "../../../utils/format-date";
+import { Separator } from "../../../components/ui/separator";
 
 const CoursesCard = ({ course }: { course: any }) => {
-  console.log(course.image);
   return (
     <Card className="shadow-sm hover:shadow-md pt-0 transition-shadow duration-200 group overflow-hidden">
       <div className="relative">
@@ -43,7 +46,7 @@ const CoursesCard = ({ course }: { course: any }) => {
           <DropdownMenuTrigger asChild>
             <Button
               size="icon-sm"
-              className="absolute top-3 right-3 bg-primary/50 hover:bg-primary/90"
+              className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/30"
             >
               <EllipsisVertical />
             </Button>
@@ -62,7 +65,10 @@ const CoursesCard = ({ course }: { course: any }) => {
         </DropdownMenu>
 
         <div className="absolute bottom-3 left-3">
-          <Badge variant="secondary" className="text-sm shadow-sm p-3">
+          <Badge
+            variant="secondary"
+            className="text-sm shadow-sm bg-white/90 text-foreground"
+          >
             {formatCurrency(course.price)}
           </Badge>
         </div>
@@ -82,6 +88,7 @@ const CoursesCard = ({ course }: { course: any }) => {
             icon={
               <Users size={14} className="text-blue-600 dark:text-blue-400" />
             }
+            iconBg="bg-blue-100 dark:bg-blue-900/30"
             label="Students"
             value="10"
           />
@@ -93,6 +100,7 @@ const CoursesCard = ({ course }: { course: any }) => {
                 className="text-purple-600 dark:text-purple-400"
               />
             }
+            iconBg="bg-purple-100 dark:bg-purple-900/30"
             label="Teachers"
             value="10"
           />
@@ -104,6 +112,7 @@ const CoursesCard = ({ course }: { course: any }) => {
                 className="text-orange-600 dark:text-orange-400"
               />
             }
+            iconBg="bg-orange-100 dark:bg-orange-900/30"
             label="Classes"
             value="20"
           />
@@ -115,9 +124,42 @@ const CoursesCard = ({ course }: { course: any }) => {
                 className="text-orange-600 dark:text-orange-400"
               />
             }
+            iconBg="bg-orange-100 dark:bg-orange-900/30"
             label="Active"
             value="5"
           />
+        </div>
+      </CardContent>
+
+      <CardContent>
+        <Separator className="mb-4" />
+        <div className="space-y-2">
+          {course.createdAt && (
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-1.5 text-xs  uppercase tracking-wide text-muted-foreground font-medium">
+                <Calendar className="h-3 w-3" />
+                Created
+              </span>
+              <Badge variant="secondary" className="text-xs font-medium">
+                {formatDate(course.createdAt)}
+              </Badge>
+            </div>
+          )}
+
+          {course.updatedAt && course.updatedAt !== course.createdAt && (
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-muted-foreground font-medium">
+                <CalendarClock className="h-3 w-3" />
+                Last updated
+              </span>
+              <Badge
+                variant="secondary"
+                className="text-xs font-medium text-blue-700 dark:text-blue-300"
+              >
+                {formatDate(course.updatedAt)}
+              </Badge>
+            </div>
+          )}
         </div>
       </CardContent>
 
@@ -135,16 +177,16 @@ const CourseStatsCard = ({
   icon,
   label,
   value,
+  iconBg,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
+  iconBg: string;
 }) => {
   return (
     <div className="flex items-center gap-2.5 p-2 rounded-lg bg-muted/50">
-      <div className="p-1.5 rounded-md bg-purple-100 dark:bg-purple-900/30">
-        {icon}
-      </div>
+      <div className={`p-1.5 rounded-md ${iconBg}`}>{icon}</div>
       <div>
         <p className="text-xs text-muted-foreground">{label}</p>
         <p className="text-sm font-medium">{value}</p>

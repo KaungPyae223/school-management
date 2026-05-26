@@ -21,12 +21,7 @@ const CoursesPage = () => {
   });
 
   const [tab, setTab] = useState("grid");
-  const [selectedColumns, setSelectedColumns] = useState<string[]>([
-    "Name",
-    "Price",
-    "Description",
-    "Created At",
-  ]);
+
   const navigate = useNavigate();
 
   const { activeQueryParams } = useGetQueryParams();
@@ -38,11 +33,7 @@ const CoursesPage = () => {
 
   return (
     <Tabs value={tab} onValueChange={setTab} className="space-y-4">
-      <CoursesHeader
-        selectedColumns={selectedColumns}
-        setSelectedColumns={setSelectedColumns}
-        tab={tab}
-      />
+      <CoursesHeader tab={tab} />
       {isLoading ? (
         <LoadingComponent />
       ) : data?.data.length === 0 ? (
@@ -80,7 +71,7 @@ const CoursesPage = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <CoursesList data={data?.data} selectedColumns={selectedColumns} />
+                <CoursesList data={data?.data} />
               </m.div>
             )}
           </AnimatePresence>

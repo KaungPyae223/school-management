@@ -11,27 +11,7 @@ import {
 import ColumnSelector from "../../../components/column-selector/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
 
-const CoursesHeader = ({
-  selectedColumns,
-  setSelectedColumns,
-  tab,
-}: {
-  selectedColumns: string[];
-  setSelectedColumns: (columns: string[]) => void;
-  tab: string;
-}) => {
-  const columns = [
-    "Name",
-    "Price",
-    "Description",
-    "Students",
-    "Teachers",
-    "Classes",
-    "Active",
-    "Created At",
-    "Updated At",
-  ];
-
+const CoursesHeader = ({ tab }: { tab: string }) => {
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-row gap-3 justify-between">
@@ -52,10 +32,19 @@ const CoursesHeader = ({
                 transition={{ duration: 0.3 }}
               >
                 <ColumnSelector
-                  columns={columns}
+                  columns={[
+                    "Name",
+                    "Price",
+                    "Description",
+                    "Students",
+                    "Teachers",
+                    "Classes",
+                    "Active",
+                    "Created At",
+                    "Updated At",
+                  ]}
                   alwaysSelectedColumns={["Name", "Price"]}
-                  selectedColumns={selectedColumns}
-                  setSelectedColumns={setSelectedColumns}
+                  defaultSelectedColumns={["Name", "Price", "Description"]}
                 />
               </m.div>
             )}
