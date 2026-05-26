@@ -8,21 +8,22 @@ import { m, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { LibraryBig } from "lucide-react";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { courseService } from "../../../services/courses";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
+import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 
 const CoursesPage = () => {
   useAddBreadcrumb({
     title: "Courses",
   });
 
-  const [tab, setTab] = useState("grid");
-
   const navigate = useNavigate();
+
+  const { view, changeView } = useViewTabChange();
 
   const { activeQueryParams } = useGetQueryParams();
 
@@ -32,8 +33,8 @@ const CoursesPage = () => {
   }) as { data: ResponseDataType; isLoading: boolean };
 
   return (
-    <Tabs value={tab} onValueChange={setTab} className="space-y-4">
-      <CoursesHeader tab={tab} />
+    <Tabs value={view} onValueChange={changeView} className="space-y-4">
+      <CoursesHeader tab={view} />
       {isLoading ? (
         <LoadingComponent />
       ) : data?.data.length === 0 ? (
@@ -51,7 +52,7 @@ const CoursesPage = () => {
       ) : (
         <>
           <AnimatePresence mode="wait" initial={false}>
-            {tab === "grid" && (
+            {view === "grid" && (
               <m.div
                 key="grid"
                 initial={{ opacity: 0, y: 20 }}
@@ -63,7 +64,7 @@ const CoursesPage = () => {
               </m.div>
             )}
 
-            {tab === "list" && (
+            {view === "list" && (
               <m.div
                 key="list"
                 initial={{ opacity: 0, y: 20 }}

@@ -6,12 +6,13 @@ export const useGetQueryParams = () => {
   const params = new URLSearchParams(searchParams);
 
   const numberParams = ["page", "limit"];
+  const neglectParams = ["columns", "view"];
 
   return {
     activeParams: params.toString(),
     activeQueryParams: Object.fromEntries(
       Array.from(params)
-        .filter(([key]) => key !== "columns")
+        .filter(([key]) => !neglectParams.includes(key))
         .map(([key, value]) => {
           if (numberParams.includes(key)) {
             return [key, Number(value)];
