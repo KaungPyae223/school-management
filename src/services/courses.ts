@@ -18,4 +18,14 @@ export const courseService = {
 
     return data;
   },
+
+  deleteCourse: async (id: number) => {
+    const res = await window.api.deleteCourse(id);
+
+    if (!res.success) {
+      throw new Error(res.error);
+    }
+
+    return res;
+  },
 };

@@ -50,9 +50,9 @@ const TableHead = ({
 
   const sortIcon = isSorted ? (
     sortDirection === "asc" ? (
-      <ArrowDown className="h-3.5 w-3.5 cursor-pointer text-muted-foreground/70" />
-    ) : (
       <ArrowUp className="h-3.5 w-3.5 cursor-pointer text-muted-foreground/70" />
+    ) : (
+      <ArrowDown className="h-3.5 w-3.5 cursor-pointer text-muted-foreground/70" />
     )
   ) : (
     <ArrowUpDown className="h-3.5 w-3.5 cursor-pointer text-muted-foreground/70" />

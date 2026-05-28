@@ -1,6 +1,5 @@
-import { getAllCourses, createCourse } from "./course.ipc.js";
+import { courseIPCs } from "./course.ipc.js";
 
 export const registerIpcHandlers = () => {
-  getAllCourses();
-  createCourse();
+  courseIPCs();
 };

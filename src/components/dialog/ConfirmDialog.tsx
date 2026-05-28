@@ -9,6 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
+import { Loader2 } from "lucide-react";
 
 const ConfirmDialog = ({
   confirmDialogOpen,
@@ -17,6 +18,7 @@ const ConfirmDialog = ({
   title,
   description,
   variant = "default",
+  isPending = false,
 }: {
   confirmDialogOpen: boolean;
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,6 +26,7 @@ const ConfirmDialog = ({
   title: string;
   description: string;
   variant?: "default" | "destructive";
+  isPending?: boolean;
 }) => {
   return (
     <AlertDialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
@@ -40,8 +43,13 @@ const ConfirmDialog = ({
             onClick={onConfirm}
             variant={variant}
             size="default"
+            disabled={isPending}
           >
-            Continue
+            {isPending ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              "Continue"
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

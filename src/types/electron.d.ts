@@ -13,7 +13,9 @@ declare global {
       createCourse: (
         data: any,
       ) => Promise<{ success: boolean; data?: any; error?: string }>;
+      deleteCourse: (
+        id: number,
+      ) => Promise<{ success: boolean; error?: string }>;
     };
   }
 }
-

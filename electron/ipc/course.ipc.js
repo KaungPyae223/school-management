@@ -2,15 +2,16 @@ import { ipcMain } from "electron";
 import { prisma } from "../../db/prisma.js";
 import { saveImage } from "../utils/saveImage.js";
 import { showImage } from "../utils/showImage.js";
+import { deleteImage } from "../utils/deleteImage.js";
 
-export const getAllCourses = () => {
+export const courseIPCs = () => {
   ipcMain.handle("course:index", async (_, data) => {
     const {
       page = 1,
       limit = 10,
       search = "",
       sort = "createdAt",
-      sortDirection = "desc",
+      sortDirection = "asc",
     } = data;
 
     const avilableSort = new Set(["createdAt", "updatedAt", "name", "price"]);
@@ -19,7 +20,7 @@ export const getAllCourses = () => {
     const finalSort = avilableSort.has(sort) ? sort : "createdAt";
     const finalSortDirection = avilableSortDirection.has(sortDirection)
       ? sortDirection
-      : "desc";
+      : "asc";
 
     const skip = Number(page - 1) * Number(limit);
 
@@ -67,9 +68,7 @@ export const getAllCourses = () => {
       };
     }
   });
-};
 
-export const createCourse = () => {
   ipcMain.handle("course:create", async (_, data) => {
     try {
       const { image, imageName, ...restData } = data;
@@ -81,6 +80,26 @@ export const createCourse = () => {
           ...restData,
           image: imageUrl,
         },
+      });
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  ipcMain.handle("course:delete", async (_, id) => {
+    try {
+      const { image } = await prisma.course.findUnique({
+        where: { id },
+        select: { image: true },
+      });
+
+      if (image) {
+        await deleteImage(image);
+      }
+
+      const course = await prisma.course.delete({
+        where: { id },
       });
       return { success: true, data: course };
     } catch (error) {

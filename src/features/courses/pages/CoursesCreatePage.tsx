@@ -16,10 +16,9 @@ import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
 import ImageInput from "../../../components/form/ImageInput";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { useQueryClient } from "@tanstack/react-query";
 import { useCreateCourse } from "../hooks/useCreateCourse";
 
 const formSchema = z.object({
@@ -88,6 +87,8 @@ const CoursesCreatePage = () => {
       toast.success("Course created successfully");
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setConfirmDialogOpen(false);
     }
   };
 
