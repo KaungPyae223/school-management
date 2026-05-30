@@ -21,16 +21,18 @@ import { formatDate } from "../../../utils/format-date";
 import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
 import CourseDeleteAlert from "./CourseDeleteAlert";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const CoursesList = ({ data }: { data: any }) => {
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [courseId, setCourseId] = useState<number>(0);
+  const navigate = useNavigate();
+
   const selectedColumns = useGetSelectedColumns([
     "Name",
     "Price",
     "Description",
   ]);
-
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [courseId, setCourseId] = useState<number>(0);
 
   const handleDelete = (id: number) => {
     setCourseId(id);
@@ -172,6 +174,7 @@ const CoursesList = ({ data }: { data: any }) => {
                   <TableActionButton
                     icon={<Pencil className="size-4" />}
                     tooltip="Edit"
+                    onClick={() => navigate(`/courses/update/${course.id}`)}
                   />
                   <TableActionButton
                     icon={<Trash2 className="size-4 text-destructive" />}

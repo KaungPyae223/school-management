@@ -17,6 +17,23 @@ const routes = [
     },
     ErrorBoundary: ErrorPage,
   },
+  {
+    path: "courses/update/:id",
+    lazy: async () => {
+      const module = await import("../pages/CourseUpdatePage");
+      return { Component: module.default };
+    },
+    loader: async ({ params }) => {
+      const course = await window.api.getCourse(Number(params.id));
+
+      if (course.error) {
+        throw new Error(course.error);
+      }
+
+      return course.data;
+    },
+    ErrorBoundary: ErrorPage,
+  },
 ];
 
 export default routes;

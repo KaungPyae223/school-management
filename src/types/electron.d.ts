@@ -10,7 +10,11 @@ declare global {
         sort?: string;
         order?: string;
       }) => Promise<ResponseDataType>;
+      getCourse: (id: number) => Promise<{ data?: any; error?: string }>;
       createCourse: (
+        data: any,
+      ) => Promise<{ success: boolean; data?: any; error?: string }>;
+      updateCourse: (
         data: any,
       ) => Promise<{ success: boolean; data?: any; error?: string }>;
       deleteCourse: (

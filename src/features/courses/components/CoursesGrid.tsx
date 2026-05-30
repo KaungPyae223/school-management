@@ -1,5 +1,5 @@
 import CoursesCard from "./CoursesCard";
-import CardSort from "../../../components/card-sort/CardSort";
+import CardSort from "../../../components/card-utils/CardSort";
 
 const CoursesGrid = ({ data }: any) => {
   const sortOptions = [

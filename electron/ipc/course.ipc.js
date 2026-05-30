@@ -69,6 +69,25 @@ export const courseIPCs = () => {
     }
   });
 
+  ipcMain.handle("course:show", async (_, id) => {
+    try {
+      const course = await prisma.course.findUnique({
+        where: { id },
+      });
+      if (!course) {
+        return { error: "Course not found" };
+      }
+      return {
+        data: {
+          ...course,
+          image: showImage(course.image),
+        },
+      };
+    } catch (error) {
+      return { error: error.message };
+    }
+  });
+
   ipcMain.handle("course:create", async (_, data) => {
     try {
       const { image, imageName, ...restData } = data;
@@ -79,6 +98,38 @@ export const courseIPCs = () => {
         data: {
           ...restData,
           image: imageUrl,
+        },
+      });
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  ipcMain.handle("course:update", async (_, data) => {
+    try {
+      const { id, image, imageName, ...restData } = data;
+
+     
+      let imageUrl = undefined;
+      if (image && imageName) {
+        const { image: oldImage } = await prisma.course.findUnique({
+          where: { id },
+          select: { image: true },
+        });
+
+        if (oldImage) {
+          await deleteImage(oldImage);
+        }
+
+        imageUrl = await saveImage(image, imageName);
+      }
+
+      const course = await prisma.course.update({
+        where: { id },
+        data: {
+          ...restData,
+          ...(imageUrl ? { image: imageUrl } : {}),
         },
       });
       return { success: true };

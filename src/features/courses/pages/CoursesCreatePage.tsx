@@ -20,6 +20,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useCreateCourse } from "../hooks/useCreateCourse";
+import { generateImageData } from "../../../utils/generate-image-data";
 
 const formSchema = z.object({
   image: z
@@ -74,14 +75,11 @@ const CoursesCreatePage = () => {
   const createCourse = async () => {
     try {
       const data = form.getValues();
-      const image = data.image;
-
-      const arrayBuffer = await image.arrayBuffer();
+      const imageData = await generateImageData(data.image);
 
       await mutateAsync({
         ...data,
-        image: arrayBuffer,
-        imageName: image.name,
+        ...imageData,
       });
 
       toast.success("Course created successfully");

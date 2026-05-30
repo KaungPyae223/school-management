@@ -32,9 +32,12 @@ import { formatDate } from "../../../utils/format-date";
 import { Separator } from "../../../components/ui/separator";
 import { useState } from "react";
 import CourseDeleteAlert from "./CourseDeleteAlert";
+import { useNavigate } from "react-router";
+import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 
 const CoursesCard = ({ course }: { course: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -58,7 +61,9 @@ const CoursesCard = ({ course }: { course: any }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => navigate(`/courses/update/${course.id}`)}
+                >
                   <Pencil className="mr-2 h-4 w-4" /> Edit
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -139,37 +144,10 @@ const CoursesCard = ({ course }: { course: any }) => {
           </div>
         </CardContent>
 
-        <CardContent>
-          <Separator className="mb-4" />
-          <div className="space-y-2">
-            {course.createdAt && (
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-xs  uppercase tracking-wide text-muted-foreground font-medium">
-                  <Calendar className="h-3 w-3" />
-                  Created Date
-                </span>
-                <Badge variant="secondary" className="text-xs font-medium">
-                  {formatDate(course.createdAt)}
-                </Badge>
-              </div>
-            )}
-
-            {course.updatedAt && course.updatedAt !== course.createdAt && (
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-muted-foreground font-medium">
-                  <CalendarClock className="h-3 w-3" />
-                  Last updated
-                </span>
-                <Badge
-                  variant="secondary"
-                  className="text-xs font-medium text-blue-700 dark:text-blue-300"
-                >
-                  {formatDate(course.updatedAt)}
-                </Badge>
-              </div>
-            )}
-          </div>
-        </CardContent>
+        <CardCretedUpdated
+          createdAt={course.createdAt}
+          updatedAt={course.updatedAt}
+        />
 
         <CardFooter>
           <Button variant="ghost" className="w-full justify-between">

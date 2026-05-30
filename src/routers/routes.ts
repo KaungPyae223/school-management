@@ -3,6 +3,7 @@ import dashboardRoutes from "../features/dashboard/routes/routes";
 import NotFound from "../components/errors/NotFound";
 import ErrorPage from "../components/errors/ErrorPage";
 import courceRoutes from "../features/courses/routes/routes";
+import studentRoutes from "../features/students/routes/routes";
 import Layout from "../layouts/Layout";
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
     children: [
       ...dashboardRoutes,
       ...courceRoutes,
+      ...studentRoutes,
       {
         path: "*",
         Component: NotFound,

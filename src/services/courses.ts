@@ -9,6 +9,16 @@ export const courseService = {
     return res;
   },
 
+  updateCourse: async (payload: any) => {
+    const res = await window.api.updateCourse(payload);
+
+    if (!res.success) {
+      throw new Error(res.error);
+    }
+
+    return res;
+  },
+
   getAllCourses: async (params: any) => {
     const data = await window.api.getAllCourses(params);
 
