@@ -18,9 +18,9 @@ const routes = [
     ErrorBoundary: ErrorPage,
   },
   {
-    path: "courses/update/:id",
+    path: "courses/edit/:id",
     lazy: async () => {
-      const module = await import("../pages/CourseUpdatePage");
+      const module = await import("../pages/CourseEditPage");
       return { Component: module.default };
     },
     loader: async ({ params }) => {

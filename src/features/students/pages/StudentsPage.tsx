@@ -6,13 +6,14 @@ import { Tabs } from "../../../components/ui/tabs";
 import StudentsHeader from "../components/StudentsHeader";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import { useAppQuery } from "../../../hooks/use-app-query";
-import { courseService } from "../../../services/courses";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
 import { LibraryBig } from "lucide-react";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
 import StudentsGrid from "../components/StudentsGrid";
+import StudentList from "../components/StudentsList";
+import { studentService } from "../../../services/students";
 
 const StudentsPage = () => {
   useAddBreadcrumb({
@@ -26,8 +27,8 @@ const StudentsPage = () => {
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading } = useAppQuery({
-    queryKey: ["courses", activeQueryParams],
-    queryFn: () => courseService.getAllCourses(activeQueryParams),
+    queryKey: ["students", activeQueryParams],
+    queryFn: () => studentService.getAllStudents(activeQueryParams),
   }) as { data: ResponseDataType; isLoading: boolean };
 
   return (
@@ -69,7 +70,9 @@ const StudentsPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-              ></m.div>
+              >
+                <StudentList data={data?.data} />
+              </m.div>
             )}
           </AnimatePresence>
           <Paginate meta={data?.meta} />

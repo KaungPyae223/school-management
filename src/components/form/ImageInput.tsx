@@ -27,9 +27,14 @@ const ImageInput = <T extends FieldValues = FieldValues>({
 }) => {
   const [isDragging, setIsDragging] = useState(false);
 
+  console.log("imageWatch", imageWatch);
+
   const selectedImage = imageWatch ? URL.createObjectURL(imageWatch) : null;
 
-  const handleImageUpload = (files: FileList | null) => {
+  const handleImageUpload = (
+    files: FileList | null,
+    onChange: (file: File | undefined) => void,
+  ) => {
     if (!files || files.length === 0) return;
 
     const file = files[0];
@@ -46,6 +51,8 @@ const ImageInput = <T extends FieldValues = FieldValues>({
     }
 
     form.setValue(imageInputName, file as PathValue<T, Path<T>>);
+
+    onChange(file);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -58,14 +65,20 @@ const ImageInput = <T extends FieldValues = FieldValues>({
     setIsDragging(false);
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (
+    e: React.DragEvent,
+    onChange: (file: File | undefined) => void,
+  ) => {
     e.preventDefault();
     setIsDragging(false);
-    handleImageUpload(e.dataTransfer.files);
+    handleImageUpload(e.dataTransfer.files, onChange);
   };
 
   const clearImage = () => {
-    form.setValue(imageInputName, undefined);
+    form.setValue(imageInputName, undefined, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
   };
 
   return (
@@ -85,7 +98,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
                 }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
+                onDrop={(e) => handleDrop(e, field.onChange)}
               >
                 {selectedImage ? (
                   <div className="relative">
@@ -140,7 +153,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) {
-                handleImageUpload(e.target.files);
+                handleImageUpload(e.target.files, field.onChange);
               }
             }}
             className="hidden"

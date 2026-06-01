@@ -92,9 +92,12 @@ export const courseIPCs = () => {
     try {
       const { image, imageName, ...restData } = data;
 
-      const imageUrl = await saveImage(image, imageName);
+      let imageUrl = undefined;
+      if (image && imageName) {
+        imageUrl = await saveImage(image, imageName);
+      }
 
-      const course = await prisma.course.create({
+      await prisma.course.create({
         data: {
           ...restData,
           image: imageUrl,
@@ -110,7 +113,6 @@ export const courseIPCs = () => {
     try {
       const { id, image, imageName, ...restData } = data;
 
-     
       let imageUrl = undefined;
       if (image && imageName) {
         const { image: oldImage } = await prisma.course.findUnique({
@@ -149,10 +151,10 @@ export const courseIPCs = () => {
         await deleteImage(image);
       }
 
-      const course = await prisma.course.delete({
+      await prisma.course.delete({
         where: { id },
       });
-      return { success: true, data: course };
+      return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
     }

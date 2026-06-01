@@ -19,9 +19,11 @@ import TableActionButton from "../../../components/table/TableActionButton";
 import { formatCurrency } from "../../../utils/format-currency";
 import { formatDate } from "../../../utils/format-date";
 import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
-import CourseDeleteAlert from "./CourseDeleteAlert";
+import CoursesDeleteAlert from "./CoursesDeleteAlert";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import TableIconContent from "../../../components/table/TableIconContent";
+import type { TableHeadType } from "../../../types/TableHeader";
 
 const CoursesList = ({ data }: { data: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -39,70 +41,54 @@ const CoursesList = ({ data }: { data: any }) => {
     setConfirmDialogOpen(true);
   };
 
+  const headers: TableHeadType[] = [
+    { title: "Name", key: "name", sortable: true, sortKey: "name" },
+    {
+      title: "Price",
+      key: "price",
+      align: "right",
+      sortable: true,
+      sortKey: "price",
+    },
+    {
+      title: "Description",
+      key: "description",
+      sortable: true,
+      sortKey: "description",
+    },
+    { title: "Students", key: "students", sortable: true, sortKey: "students" },
+    { title: "Teachers", key: "teachers", sortable: true, sortKey: "teachers" },
+    { title: "Classes", key: "classes", sortable: true, sortKey: "classes" },
+    { title: "Active", key: "active", sortable: true, sortKey: "active" },
+    {
+      title: "Created At",
+      key: "createdAt",
+      sortable: true,
+      sortKey: "createdAt",
+    },
+    {
+      title: "Updated At",
+      key: "updatedAt",
+      sortable: true,
+      sortKey: "updatedAt",
+    },
+  ];
+
   return (
     <>
       <Table>
         <TableHeader>
-          <TableHead
-            sortable={true}
-            sortKey={"name"}
-            hidden={!selectedColumns.includes("Name")}
-          >
-            Course Name
-          </TableHead>
-          <TableHead
-            sortable={true}
-            align={"right"}
-            sortKey={"price"}
-            hidden={!selectedColumns.includes("Price")}
-          >
-            Price
-          </TableHead>
-          <TableHead hidden={!selectedColumns.includes("Description")}>
-            Description
-          </TableHead>
-          <TableHead
-            sortable={true}
-            sortKey={"students"}
-            hidden={!selectedColumns.includes("Students")}
-          >
-            Students
-          </TableHead>
-          <TableHead
-            hidden={!selectedColumns.includes("Teachers")}
-            sortable={true}
-            sortKey={"teachers"}
-          >
-            Teachers
-          </TableHead>
-          <TableHead
-            sortable={true}
-            sortKey={"classes"}
-            hidden={!selectedColumns.includes("Classes")}
-          >
-            Classes
-          </TableHead>
-          <TableHead
-            sortable={true}
-            sortKey={"active"}
-            hidden={!selectedColumns.includes("Active")}
-          >
-            Active
-          </TableHead>
-          <TableHead
-            sortable={true}
-            sortKey={"createdAt"}
-            hidden={!selectedColumns.includes("Created At")}
-          >
-            Created At
-          </TableHead>
-          <TableHead
-            sortable={true}
-            sortKey={"updatedAt"}
-            hidden={!selectedColumns.includes("Updated At")}
-          >
-            Updated At
-          </TableHead>
+          {headers.map((header) => (
+            <TableHead
+              key={header.key}
+              align={header.align}
+              sortable={header.sortable}
+              sortKey={header.sortKey}
+              hidden={!selectedColumns.includes(header.title)}
+            >
+              {header.title}
+            </TableHead>
+          ))}
           <TableHead align="right">Actions</TableHead>
         </TableHeader>
         <TableBody>
@@ -110,11 +96,17 @@ const CoursesList = ({ data }: { data: any }) => {
             <TableRow key={course.id}>
               <TableCell hidden={!selectedColumns.includes("Name")}>
                 <div className="flex items-center gap-3">
-                  <img
-                    src={course.image}
-                    alt={course.name}
-                    className="h-10 w-10 rounded-lg object-cover"
-                  />
+                  {course.image ? (
+                    <img
+                      src={course.image}
+                      alt={course.name}
+                      className="h-10 w-10 rounded-lg object-cover"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 bg-foreground/50 rounded-lg backdrop-blur-sm flex items-center justify-center">
+                      <BookOpen size={20} className="text-background" />
+                    </div>
+                  )}
                   <p className="font-medium text-foreground">{course.name}</p>
                 </div>
               </TableCell>
@@ -135,28 +127,16 @@ const CoursesList = ({ data }: { data: any }) => {
                 </p>
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Students")}>
-                <div className="flex items-center gap-1.5">
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">24</span>
-                </div>
+                <TableIconContent icon={Users} value={10} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Teachers")}>
-                <div className="flex items-center gap-1.5">
-                  <UserPen className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">24</span>
-                </div>
+                <TableIconContent icon={UserPen} value={10} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Classes")}>
-                <div className="flex items-center gap-1.5">
-                  <BookOpen className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">24</span>
-                </div>
+                <TableIconContent icon={BookOpen} value={10} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Active")}>
-                <div className="flex items-center gap-1.5">
-                  <PlayCircle className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">24</span>
-                </div>
+                <TableIconContent icon={PlayCircle} value={10} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
                 {formatDate(course.createdAt)}
@@ -174,12 +154,13 @@ const CoursesList = ({ data }: { data: any }) => {
                   <TableActionButton
                     icon={<Pencil className="size-4" />}
                     tooltip="Edit"
-                    onClick={() => navigate(`/courses/update/${course.id}`)}
+                    onClick={() => navigate(`/courses/edit/${course.id}`)}
                   />
                   <TableActionButton
                     icon={<Trash2 className="size-4 text-destructive" />}
                     tooltip="Delete"
                     onClick={() => handleDelete(course.id)}
+                    variant="destructive"
                   />
                 </div>
               </TableCell>
@@ -187,7 +168,7 @@ const CoursesList = ({ data }: { data: any }) => {
           ))}
         </TableBody>
       </Table>
-      <CourseDeleteAlert
+      <CoursesDeleteAlert
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         id={courseId}

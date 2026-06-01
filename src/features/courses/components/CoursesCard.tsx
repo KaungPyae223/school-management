@@ -28,10 +28,8 @@ import {
   DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
 import { formatCurrency } from "../../../utils/format-currency";
-import { formatDate } from "../../../utils/format-date";
-import { Separator } from "../../../components/ui/separator";
 import { useState } from "react";
-import CourseDeleteAlert from "./CourseDeleteAlert";
+import CoursesDeleteAlert from "./CoursesDeleteAlert";
 import { useNavigate } from "react-router";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 
@@ -43,12 +41,20 @@ const CoursesCard = ({ course }: { course: any }) => {
     <>
       <Card className="shadow-sm hover:shadow-md pt-0 transition-shadow duration-200 group overflow-hidden">
         <div className="relative">
-          <img
-            src={course.image}
-            alt=""
-            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          <div className="absolute inset-0 bg-black/20 group-hover:scale-105 transition-transform duration-300"></div>
+          {course.image ? (
+            <>
+              <img
+                src={course.image}
+                alt=""
+                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-black/20 group-hover:scale-105 transition-transform duration-300"></div>
+            </>
+          ) : (
+            <div className="w-full h-48 bg-foreground/50 backdrop-blur-sm flex items-center justify-center">
+              <BookOpen size={48} className="text-background" />
+            </div>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -62,7 +68,7 @@ const CoursesCard = ({ course }: { course: any }) => {
             <DropdownMenuContent>
               <DropdownMenuGroup>
                 <DropdownMenuItem
-                  onClick={() => navigate(`/courses/update/${course.id}`)}
+                  onClick={() => navigate(`/courses/edit/${course.id}`)}
                 >
                   <Pencil className="mr-2 h-4 w-4" /> Edit
                 </DropdownMenuItem>
@@ -156,7 +162,7 @@ const CoursesCard = ({ course }: { course: any }) => {
           </Button>
         </CardFooter>
       </Card>
-      <CourseDeleteAlert
+      <CoursesDeleteAlert
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         id={course.id}

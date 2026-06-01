@@ -22,6 +22,7 @@ import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useLoaderData, useNavigate } from "react-router";
 import { useUpdateCourse } from "../hooks/useUpdateCourse";
 import { generateImageData } from "../../../utils/generate-image-data";
+import RequiredLabel from "../../../components/form/RequiredLabel";
 
 const formSchema = z.object({
   image: z
@@ -37,25 +38,28 @@ const formSchema = z.object({
     )
     .optional(),
   name: z.string().min(1, "Course name must be at least 1 characters."),
-  description: z.string().min(1, "Description must be at least 1 characters."),
+  description: z
+    .string()
+    .min(1, "Description must be at least 1 characters.")
+    .optional(),
   price: z.number().min(0, "Price must be at least 0"),
 });
 
-const CourseUpdatePage = () => {
+const CourseEditPage = () => {
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const course = useLoaderData();
 
   useAddBreadcrumb({
-    title: "Update Course",
+    title: "Edit Course",
     params: [
       {
         name: "Courses",
         link: "/courses",
       },
       {
-        name: "Update",
-        link: "/courses/update",
+        name: "Edit",
+        link: "/courses/edit",
       },
     ],
   });
@@ -65,7 +69,7 @@ const CourseUpdatePage = () => {
     defaultValues: {
       image: undefined,
       name: course.name,
-      description: course.description,
+      description: course.description ?? "",
       price: course.price,
     },
   });
@@ -76,7 +80,7 @@ const CourseUpdatePage = () => {
 
   const { mutateAsync, isPending } = useUpdateCourse();
 
-  const updateCourse = async () => {
+  const editCourse = async () => {
     try {
       const data = form.getValues();
       const imageData = await generateImageData(data.image);
@@ -87,7 +91,7 @@ const CourseUpdatePage = () => {
         id: course.id,
       });
 
-      toast.success("Course updated successfully");
+      toast.success("Course edited successfully");
       navigate("/courses");
     } catch (error: any) {
       toast.error(error.message);
@@ -98,9 +102,9 @@ const CourseUpdatePage = () => {
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title="Update Course" />
+      <FormHeader title="Edit Course" />
       <CardContent>
-        <form id="create-course-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="edit-course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <ImageInput
               label="Image"
@@ -114,12 +118,36 @@ const CourseUpdatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="name">Name</FieldLabel>
+                  <RequiredLabel id="name" title="Name" />
                   <Input
                     {...field}
                     id="name"
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter course name"
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              name="price"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <RequiredLabel id="price" title="Price" />
+                  <Input
+                    {...field}
+                    id="price"
+                    type="number"
+                    aria-invalid={fieldState.invalid}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      field.onChange(val === "" ? undefined : Number(val));
+                    }}
+                    placeholder="Enter course price"
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -147,48 +175,24 @@ const CourseUpdatePage = () => {
                 </Field>
               )}
             />
-            <Controller
-              name="price"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="price">Price</FieldLabel>
-                  <Input
-                    {...field}
-                    id="price"
-                    type="number"
-                    aria-invalid={fieldState.invalid}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      field.onChange(val === "" ? undefined : Number(val));
-                    }}
-                    placeholder="Enter course price"
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
           </FieldGroup>
         </form>
       </CardContent>
       <FormFooter
         form={form}
-        formID="create-course-form"
+        formID="edit-course-form"
         isSubmitting={isPending}
       />
 
       <ConfirmDialog
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
-        onConfirm={updateCourse}
-        title="Update this course?"
-        description="Please confirm that you want to update this course with the provided information. You can edit the course later if needed."
+        onConfirm={editCourse}
+        title="Edit this course?"
+        description="Please confirm that you want to edit this course with the provided information. You can edit the course later if needed."
       />
     </Card>
   );
 };
 
-export default CourseUpdatePage;
+export default CourseEditPage;

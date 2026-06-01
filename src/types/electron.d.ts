@@ -20,6 +20,24 @@ declare global {
       deleteCourse: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
+
+      getAllStudents: (data: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+      }) => Promise<ResponseDataType>;
+      getStudent: (id: number) => Promise<{ data?: any; error?: string }>;
+      createStudent: (
+        data: any,
+      ) => Promise<{ success: boolean; data?: any; error?: string }>;
+      updateStudent: (
+        data: any,
+      ) => Promise<{ success: boolean; data?: any; error?: string }>;
+      deleteStudent: (
+        id: number,
+      ) => Promise<{ success: boolean; error?: string }>;
     };
   }
 }

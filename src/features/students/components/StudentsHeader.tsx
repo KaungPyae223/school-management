@@ -34,17 +34,24 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
                 <ColumnSelector
                   columns={[
                     "Name",
-                    "Price",
-                    "Description",
-                    "Students",
-                    "Teachers",
-                    "Classes",
-                    "Active",
+                    "Phone",
+                    "Email",
+                    "Address",
+                    "Gender",
+                    "Date of Birth",
+                    "Total Classes",
                     "Created At",
                     "Updated At",
                   ]}
-                  alwaysSelectedColumns={["Name", "Price"]}
-                  defaultSelectedColumns={["Name", "Price", "Description"]}
+                  alwaysSelectedColumns={["Name", "Phone", "Email"]}
+                  defaultSelectedColumns={[
+                    "Name",
+                    "Phone",
+                    "Email",
+                    "Address",
+                    "Total Classes",
+                    "Created At",
+                  ]}
                 />
               </m.div>
             )}
@@ -64,9 +71,9 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
             <Download className="w-4 h-4 mr-0.5" /> Export CSV
           </Button>
 
-          <Link to="/courses/create">
+          <Link to="/students/create">
             <Button>
-              <Plus className="w-4 h-4 mr-0.5" /> Add Course
+              <Plus className="w-4 h-4 mr-0.5" /> Add Student
             </Button>
           </Link>
         </div>
