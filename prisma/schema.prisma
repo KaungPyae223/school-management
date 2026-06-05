@@ -27,8 +27,8 @@ model Course {
 model Teacher {
   id        Int      @id @default(autoincrement())
   name      String
-  phone     String
-  email     String
+  phone     String   @unique
+  email     String   @unique
   address   String
   nrc       String?
   image     String?
@@ -46,8 +46,8 @@ enum Gender {
 model Student {
   id        Int       @id @default(autoincrement())
   name      String
-  phone     String
-  email     String?
+  phone     String    @unique 
+  email     String?   @unique
   address   String?
   dob       DateTime?
   gender    Gender?

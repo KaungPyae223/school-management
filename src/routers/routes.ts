@@ -4,6 +4,7 @@ import NotFound from "../components/errors/NotFound";
 import ErrorPage from "../components/errors/ErrorPage";
 import courceRoutes from "../features/courses/routes/routes";
 import studentRoutes from "../features/students/routes/routes";
+import teacherRoutes from "../features/teachers/routes/routes";
 import Layout from "../layouts/Layout";
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
       ...dashboardRoutes,
       ...courceRoutes,
       ...studentRoutes,
+      ...teacherRoutes,
       {
         path: "*",
         Component: NotFound,

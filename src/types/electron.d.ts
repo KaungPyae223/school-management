@@ -38,6 +38,24 @@ declare global {
       deleteStudent: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
+
+      getAllTeachers: (data: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+      }) => Promise<ResponseDataType>;
+      getTeacher: (id: number) => Promise<{ data?: any; error?: string }>;
+      createTeacher: (
+        data: any,
+      ) => Promise<{ success: boolean; data?: any; error?: string }>;
+      updateTeacher: (
+        data: any,
+      ) => Promise<{ success: boolean; data?: any; error?: string }>;
+      deleteTeacher: (
+        id: number,
+      ) => Promise<{ success: boolean; error?: string }>;
     };
   }
 }

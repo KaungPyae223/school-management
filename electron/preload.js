@@ -14,4 +14,11 @@ contextBridge.exposeInMainWorld("api", {
   createStudent: (data) => ipcRenderer.invoke("student:create", data),
   updateStudent: (data) => ipcRenderer.invoke("student:update", data),
   deleteStudent: (id) => ipcRenderer.invoke("student:delete", id),
+
+  // Teacher
+  getAllTeachers: (data) => ipcRenderer.invoke("teacher:index", data),
+  getTeacher: (id) => ipcRenderer.invoke("teacher:show", id),
+  createTeacher: (data) => ipcRenderer.invoke("teacher:create", data),
+  updateTeacher: (data) => ipcRenderer.invoke("teacher:update", data),
+  deleteTeacher: (id) => ipcRenderer.invoke("teacher:delete", id),
 });

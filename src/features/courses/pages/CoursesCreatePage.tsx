@@ -37,11 +37,7 @@ const formSchema = z.object({
     )
     .optional(),
   name: z.string().min(1, "Course name must be at least 1 characters."),
-  description: z
-    .string()
-    .min(1, "Description must be at least 1 characters.")
-    .or(z.literal(""))
-    .optional(),
+  description: z.string().optional(),
   price: z.number().min(0, "Price must be at least 0"),
 });
 

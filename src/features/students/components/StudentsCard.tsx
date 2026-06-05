@@ -2,16 +2,14 @@ import {
   ArrowRight,
   BookOpen,
   Calendar,
-  CalendarClock,
-  Clock,
   EllipsisVertical,
+  GraduationCap,
   Mail,
   MapPin,
   Mars,
   Pencil,
   Phone,
   Trash2,
-  User,
   Venus,
   VenusAndMars,
 } from "lucide-react";
@@ -20,7 +18,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
-import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import {
   Card,
@@ -42,6 +39,7 @@ import {
 import { useNavigate } from "react-router";
 import StudentDeleteAlert from "./StudentsDeleteAlert";
 import { useState } from "react";
+import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 
 const StudentCard = ({ student }: { student: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -58,13 +56,13 @@ const StudentCard = ({ student }: { student: any }) => {
   );
   return (
     <>
-      <Card className="shadow-sm hover:shadow-md relative transition-shadow duration-200 group overflow-hidden">
+      <Card className="shadow-sm hover:shadow-md  relative transition-shadow duration-200 group overflow-hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               size="icon-sm"
               variant="secondary"
-              className="absolute top3 right-3 hover:bg-black/10 transition-colors duration-300"
+              className="absolute top-3 right-3 hover:bg-black/10 transition-colors duration-300"
             >
               <EllipsisVertical />
             </Button>
@@ -86,11 +84,14 @@ const StudentCard = ({ student }: { student: any }) => {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
+
         <CardHeader className="mb-1.5">
           <div className="flex flex-col items-center gap-2">
             <Avatar className="size-32">
               <AvatarImage src={student.image} />
-              <AvatarFallback>{student.name}</AvatarFallback>
+              <AvatarFallback>
+                {generateImageFallBack(student.name)}
+              </AvatarFallback>
             </Avatar>
             <CardTitle className="text-lg mt-3">{student.name}</CardTitle>
           </div>

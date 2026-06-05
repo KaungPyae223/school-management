@@ -57,11 +57,7 @@ const formSchema = z.object({
   name: z.string().min(1, "Name must be at least 1 characters."),
   phone: z.string().min(1, "Phone number must be at least 1 characters."),
   email: z.string().email("Invalid email address").or(z.literal("")).optional(),
-  address: z
-    .string()
-    .min(1, "Address must be at least 1 characters.")
-    .or(z.literal(""))
-    .optional(),
+  address: z.string().optional(),
   dob: z.date().optional(),
   gender: z.enum(["MALE", "FEMALE"]).optional(),
 });

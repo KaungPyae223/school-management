@@ -31,6 +31,7 @@ import { formatDate } from "../../../utils/format-date";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import StudentDeleteAlert from "./StudentsDeleteAlert";
+import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 
 const StudentsList = ({ data }: { data: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -105,7 +106,9 @@ const StudentsList = ({ data }: { data: any }) => {
                 <div className="flex items-center gap-3">
                   <Avatar className="size-9">
                     <AvatarImage src={student.image} />
-                    <AvatarFallback>{student.name}</AvatarFallback>
+                    <AvatarFallback>
+                      {generateImageFallBack(student.name)}
+                    </AvatarFallback>
                   </Avatar>
                   <p className="font-medium text-foreground">{student.name}</p>
                 </div>

@@ -8,7 +8,7 @@ import LoadingComponent from "../../../components/loading/LoadingComponent";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
-import { LibraryBig } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
 import StudentsGrid from "../components/StudentsGrid";
@@ -46,7 +46,7 @@ const StudentsPage = () => {
           }}
           description="There are no students available at the moment. Please add a student to get started!"
           title="No Students"
-          icon={LibraryBig}
+          icon={GraduationCap}
         />
       ) : (
         <>
