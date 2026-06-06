@@ -10,7 +10,6 @@ import {
   Trash2,
   Venus,
   VenusAndMars,
-  type LucideIcon,
 } from "lucide-react";
 import Table from "../../../components/table/Table";
 import TableActionButton from "../../../components/table/TableActionButton";
@@ -32,6 +31,8 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import StudentDeleteAlert from "./StudentsDeleteAlert";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
+import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
 
 const StudentsList = ({ data }: { data: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -65,40 +66,19 @@ const StudentsList = ({ data }: { data: any }) => {
       sortable: true,
       sortKey: "totalClasses",
     },
-    {
-      title: "Created At",
-      key: "createdAt",
-      sortable: true,
-      sortKey: "createdAt",
-    },
-    {
-      title: "Updated At",
-      key: "updatedAt",
-      sortable: true,
-      sortKey: "updatedAt",
-    },
   ];
 
-  const generateGenderIcon = (gender: any) => {
+  const generateGenderIcon = (gender: string) => {
     return gender ? (gender === "FEMALE" ? Venus : Mars) : VenusAndMars;
   };
 
   return (
     <>
       <Table>
-        <TableHeader>
-          {headers.map((header) => (
-            <TableHead
-              key={header.key}
-              sortable={header.sortable}
-              sortKey={header.sortKey}
-              hidden={!selectedColumns.includes(header.title)}
-            >
-              {header.title}
-            </TableHead>
-          ))}
-          <TableHead align="right">Actions</TableHead>
-        </TableHeader>
+        <TableHeaderGenerator
+          headers={headers}
+          selectedColumns={selectedColumns}
+        />
         <TableBody>
           {data.map((student: any) => (
             <TableRow key={student.id}>
@@ -144,23 +124,11 @@ const StudentsList = ({ data }: { data: any }) => {
                 {formatDate(student.updatedAt)}
               </TableCell>
               <TableCell className="py-4 pl-3 pr-6 text-right">
-                <div className="flex items-center justify-end gap-1">
-                  <TableActionButton
-                    icon={<Eye className="size-4" />}
-                    tooltip="View"
-                  />
-                  <TableActionButton
-                    onClick={() => navigate(`/students/edit/${student.id}`)}
-                    icon={<Pencil className="size-4" />}
-                    tooltip="Edit"
-                  />
-                  <TableActionButton
-                    onClick={() => handleDelete(student.id)}
-                    icon={<Trash2 className="size-4 text-destructive" />}
-                    tooltip="Delete"
-                    variant="destructive"
-                  />
-                </div>
+                <TableActionButtonsContainer
+                  onView={() => navigate(`/students/${student.id}`)}
+                  onEdit={() => navigate(`/students/edit/${student.id}`)}
+                  onDelete={() => handleDelete(student.id)}
+                />
               </TableCell>
             </TableRow>
           ))}

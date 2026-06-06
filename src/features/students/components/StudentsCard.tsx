@@ -3,7 +3,6 @@ import {
   BookOpen,
   Calendar,
   EllipsisVertical,
-  GraduationCap,
   Mail,
   MapPin,
   Mars,
@@ -40,6 +39,7 @@ import { useNavigate } from "react-router";
 import StudentDeleteAlert from "./StudentsDeleteAlert";
 import { useState } from "react";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import CardMenu from "../../../components/card-utils/CardMenu";
 
 const StudentCard = ({ student }: { student: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -57,33 +57,10 @@ const StudentCard = ({ student }: { student: any }) => {
   return (
     <>
       <Card className="shadow-sm hover:shadow-md  relative transition-shadow duration-200 group overflow-hidden">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              size="icon-sm"
-              variant="secondary"
-              className="absolute top-3 right-3 hover:bg-black/10 transition-colors duration-300"
-            >
-              <EllipsisVertical />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuGroup>
-              <DropdownMenuItem
-                onClick={() => navigate(`/students/edit/${student.id}`)}
-              >
-                <Pencil className="mr-2 h-4 w-4" /> Edit
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => setConfirmDialogOpen(true)}
-                className="text-destructive"
-              >
-                <Trash2 className="mr-2 h-4 w-4" /> Delete
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <CardMenu
+          onEdit={() => navigate(`/students/edit/${student.id}`)}
+          onDelete={() => setConfirmDialogOpen(true)}
+        />
 
         <CardHeader className="mb-1.5">
           <div className="flex flex-col items-center gap-2">

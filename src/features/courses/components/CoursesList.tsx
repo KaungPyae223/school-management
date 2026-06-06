@@ -24,6 +24,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import TableIconContent from "../../../components/table/TableIconContent";
 import type { TableHeadType } from "../../../types/TableHeader";
+import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
+import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 
 const CoursesList = ({ data }: { data: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -60,37 +62,15 @@ const CoursesList = ({ data }: { data: any }) => {
     { title: "Teachers", key: "teachers", sortable: true, sortKey: "teachers" },
     { title: "Classes", key: "classes", sortable: true, sortKey: "classes" },
     { title: "Active", key: "active", sortable: true, sortKey: "active" },
-    {
-      title: "Created At",
-      key: "createdAt",
-      sortable: true,
-      sortKey: "createdAt",
-    },
-    {
-      title: "Updated At",
-      key: "updatedAt",
-      sortable: true,
-      sortKey: "updatedAt",
-    },
   ];
 
   return (
     <>
       <Table>
-        <TableHeader>
-          {headers.map((header) => (
-            <TableHead
-              key={header.key}
-              align={header.align}
-              sortable={header.sortable}
-              sortKey={header.sortKey}
-              hidden={!selectedColumns.includes(header.title)}
-            >
-              {header.title}
-            </TableHead>
-          ))}
-          <TableHead align="right">Actions</TableHead>
-        </TableHeader>
+        <TableHeaderGenerator
+          headers={headers}
+          selectedColumns={selectedColumns}
+        />
         <TableBody>
           {data.map((course) => (
             <TableRow key={course.id}>
@@ -146,23 +126,11 @@ const CoursesList = ({ data }: { data: any }) => {
               </TableCell>
 
               <TableCell className="py-4 pl-3 pr-6 text-right">
-                <div className="flex items-center justify-end gap-1">
-                  <TableActionButton
-                    icon={<Eye className="size-4" />}
-                    tooltip="View"
-                  />
-                  <TableActionButton
-                    icon={<Pencil className="size-4" />}
-                    tooltip="Edit"
-                    onClick={() => navigate(`/courses/edit/${course.id}`)}
-                  />
-                  <TableActionButton
-                    icon={<Trash2 className="size-4 text-destructive" />}
-                    tooltip="Delete"
-                    onClick={() => handleDelete(course.id)}
-                    variant="destructive"
-                  />
-                </div>
+                <TableActionButtonsContainer
+                  onView={() => navigate(`/courses/${course.id}`)}
+                  onEdit={() => navigate(`/courses/edit/${course.id}`)}
+                  onDelete={() => handleDelete(course.id)}
+                />
               </TableCell>
             </TableRow>
           ))}

@@ -9,8 +9,7 @@ const CoursesGrid = ({ data }: any) => {
     { field: "teachers", label: "Teachers" },
     { field: "classes", label: "Classes" },
     { field: "active", label: "Active" },
-    { field: "createdAt", label: "Created Date" },
-    { field: "updatedAt", label: "Last Updated" },
+   
   ];
 
   return (

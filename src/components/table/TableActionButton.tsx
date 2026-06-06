@@ -6,16 +6,18 @@ const TableActionButton = ({
   tooltip,
   onClick,
   variant = "outline",
+  className,
 }: {
   icon: React.ReactNode;
   tooltip: string;
   onClick?: () => void;
-  variant?: "outline" | "destructive";
+  variant?: "outline" | "destructive" | "default";
+  className?: string;
 }) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant={variant} size="icon" onClick={onClick}>
+        <Button variant={variant} size="icon" onClick={onClick} className={className}>
           {icon}
         </Button>
       </TooltipTrigger>

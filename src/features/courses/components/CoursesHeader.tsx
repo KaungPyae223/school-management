@@ -1,15 +1,24 @@
-import { Download, Grid2X2Icon, List, Plus, Search } from "lucide-react";
+import {
+  Download,
+  Grid2X2Icon,
+  List,
+  Plus,
+  Search,
+  Trash2,
+  Archive,
+} from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
 import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "../../../components/ui/input-group";
-import ColumnSelector from "../../../components/column-selector/ColumnSelector";
+import ColumnSelector from "../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
+import ChangeTrashView from "../../../components/header/ChangeTrashView";
 
 const CoursesHeader = ({ tab }: { tab: string }) => {
   return (
@@ -40,8 +49,7 @@ const CoursesHeader = ({ tab }: { tab: string }) => {
                     "Teachers",
                     "Classes",
                     "Active",
-                    "Created At",
-                    "Updated At",
+                   
                   ]}
                   alwaysSelectedColumns={["Name", "Price"]}
                   defaultSelectedColumns={["Name", "Price", "Description"]}
@@ -52,6 +60,8 @@ const CoursesHeader = ({ tab }: { tab: string }) => {
         </div>
 
         <div className="flex gap-2">
+          <ChangeTrashView />
+
           <TabsList>
             <TabsTrigger value="grid">
               <Grid2X2Icon className="w-4 h-4 mr-1" /> Grid

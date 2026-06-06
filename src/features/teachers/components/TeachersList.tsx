@@ -1,18 +1,13 @@
 import {
   BookOpen,
-  Calendar,
   Eye,
   GraduationCap,
   IdCard,
   Mail,
   MapPin,
-  Mars,
   Pencil,
   Phone,
   Trash2,
-  Venus,
-  VenusAndMars,
-  type LucideIcon,
 } from "lucide-react";
 import Table from "../../../components/table/Table";
 import TableActionButton from "../../../components/table/TableActionButton";
@@ -30,14 +25,17 @@ import {
 import TableIconContent from "../../../components/table/TableIconContent";
 import type { TableHeadType } from "../../../types/TableHeader";
 import { formatDate } from "../../../utils/format-date";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useState } from "react";
 import TeacherDeleteAlert from "./TeachersDeleteAlert";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
+import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 
 const TeachersList = ({ data }: { data: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [teacherId, setTeacherId] = useState<number>(0);
+
   const navigate = useNavigate();
 
   const handleDelete = (id: number) => {
@@ -55,53 +53,32 @@ const TeachersList = ({ data }: { data: any }) => {
   ]);
 
   const headers: TableHeadType[] = [
-    { title: "Name", key: "name", sortable: true, sortKey: "name" },
-    { title: "Phone", key: "phone", sortable: true, sortKey: "phone" },
-    { title: "Email", key: "email", sortable: true, sortKey: "email" },
-    { title: "Address", key: "address", sortable: true, sortKey: "address" },
-    { title: "NRC", key: "nrc", sortable: true, sortKey: "nrc" },
+    { title: "Name", key: "Name", sortable: true, sortKey: "name" },
+    { title: "Phone", key: "Phone", sortable: true, sortKey: "phone" },
+    { title: "Email", key: "Email", sortable: true, sortKey: "email" },
+    { title: "Address", key: "Address", sortable: true, sortKey: "address" },
+    { title: "NRC", key: "NRC", sortable: true, sortKey: "nrc" },
     {
       title: "Total Classes",
-      key: "totalClasses",
+      key: "Total Classes",
       sortable: true,
       sortKey: "totalClasses",
     },
     {
       title: "Total Students",
-      key: "totalStudents",
+      key: "Total Students",
       sortable: true,
       sortKey: "totalStudents",
-    },
-    {
-      title: "Created At",
-      key: "createdAt",
-      sortable: true,
-      sortKey: "createdAt",
-    },
-    {
-      title: "Updated At",
-      key: "updatedAt",
-      sortable: true,
-      sortKey: "updatedAt",
     },
   ];
 
   return (
     <>
       <Table>
-        <TableHeader>
-          {headers.map((header) => (
-            <TableHead
-              key={header.key}
-              sortable={header.sortable}
-              sortKey={header.sortKey}
-              hidden={!selectedColumns.includes(header.title)}
-            >
-              {header.title}
-            </TableHead>
-          ))}
-          <TableHead align="right">Actions</TableHead>
-        </TableHeader>
+        <TableHeaderGenerator
+          headers={headers}
+          selectedColumns={selectedColumns}
+        />
         <TableBody>
           {data.map((teacher: any) => (
             <TableRow key={teacher.id}>
@@ -141,23 +118,11 @@ const TeachersList = ({ data }: { data: any }) => {
                 {formatDate(teacher.updatedAt)}
               </TableCell>
               <TableCell className="py-4 pl-3 pr-6 text-right">
-                <div className="flex items-center justify-end gap-1">
-                  <TableActionButton
-                    icon={<Eye className="size-4" />}
-                    tooltip="View"
-                  />
-                  <TableActionButton
-                    onClick={() => navigate(`/teachers/edit/${teacher.id}`)}
-                    icon={<Pencil className="size-4" />}
-                    tooltip="Edit"
-                  />
-                  <TableActionButton
-                    onClick={() => handleDelete(teacher.id)}
-                    icon={<Trash2 className="size-4 text-destructive" />}
-                    tooltip="Delete"
-                    variant="destructive"
-                  />
-                </div>
+                <TableActionButtonsContainer
+                  onView={() => navigate(`/teachers/${teacher.id}`)}
+                  onEdit={() => navigate(`/teachers/edit/${teacher.id}`)}
+                  onDelete={() => handleDelete(teacher.id)}
+                />
               </TableCell>
             </TableRow>
           ))}

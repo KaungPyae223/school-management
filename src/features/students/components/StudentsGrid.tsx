@@ -9,8 +9,6 @@ const StudentsGrid = ({ data }: any) => {
     { field: "class", label: "Class" },
     { field: "admissionNo", label: "Admission No" },
     { field: "dateOfBirth", label: "Date of Birth" },
-    { field: "createdAt", label: "Created Date" },
-    { field: "updatedAt", label: "Last Updated" },
   ];
 
   return (

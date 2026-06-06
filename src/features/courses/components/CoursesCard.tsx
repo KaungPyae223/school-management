@@ -1,4 +1,5 @@
 import {
+  ArchiveRestore,
   ArrowRight,
   BookOpen,
   Calendar,
@@ -19,19 +20,13 @@ import {
   CardTitle,
 } from "../../../components/ui/card";
 import { Badge } from "../../../components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
+
 import { formatCurrency } from "../../../utils/format-currency";
 import { useState } from "react";
 import CoursesDeleteAlert from "./CoursesDeleteAlert";
 import { useNavigate } from "react-router";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
+import CardMenu from "../../../components/card-utils/CardMenu";
 
 const CoursesCard = ({ course }: { course: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -55,34 +50,10 @@ const CoursesCard = ({ course }: { course: any }) => {
               <BookOpen size={48} className="text-background" />
             </div>
           )}
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                size="icon-sm"
-                className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/30"
-              >
-                <EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  onClick={() => navigate(`/courses/edit/${course.id}`)}
-                >
-                  <Pencil className="mr-2 h-4 w-4" /> Edit
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="text-destructive"
-                  onClick={() => setConfirmDialogOpen(true)}
-                >
-                  <Trash2 className="mr-2 h-4 w-4" /> Delete
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
+          <CardMenu
+            onEdit={() => navigate(`/courses/edit/${course.id}`)}
+            onDelete={() => setConfirmDialogOpen(true)}
+          />
           <div className="absolute bottom-3 left-3">
             <Badge
               variant="secondary"

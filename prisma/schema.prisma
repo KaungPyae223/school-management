@@ -18,8 +18,10 @@ model Course {
   description String?
   price       Int?
   image       String?
+  deleted     Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  classes     Class[]
 
   @@map("courses")
 }
@@ -32,8 +34,10 @@ model Teacher {
   address   String
   nrc       String?
   image     String?
+  deleted   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  classes   Class[]
 
   @@map("teachers")
 }
@@ -44,16 +48,47 @@ enum Gender {
 }
 
 model Student {
-  id        Int       @id @default(autoincrement())
-  name      String
-  phone     String    @unique 
-  email     String?   @unique
-  address   String?
-  dob       DateTime?
-  gender    Gender?
-  image     String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          Int          @id @default(autoincrement())
+  name        String
+  phone       String       @unique
+  email       String?      @unique
+  address     String?
+  dob         DateTime?
+  gender      Gender?
+  image       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  enrollments Enrollment[]
 
   @@map("students")
+}
+
+model Class {
+  id          Int       @id @default(autoincrement())
+  batch       Int
+  teacherId   Int
+  courseId    Int
+  startDate   DateTime
+  endDate     DateTime?
+  description String?
+  price       Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  enrollments Enrollment[]
+  course      Course       @relation(fields: [courseId], references: [id])
+  teacher     Teacher      @relation(fields: [teacherId], references: [id])
+
+  @@map("classes")
+}
+
+model Enrollment {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  classId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@map("enrollments")
 }

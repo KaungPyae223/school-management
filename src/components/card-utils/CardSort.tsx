@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { Button } from "../ui/button";
 import { ArrowDown, ArrowUp } from "lucide-react";
+import { useEffect } from "react";
 
 type SortOption = {
   field: string;
@@ -10,6 +11,7 @@ type SortOption = {
 
 const CardSort = ({ sortOptions }: { sortOptions: SortOption[] }) => {
   const [searchParams] = useSearchParams();
+  const isTrashView = searchParams.get("trash") === "true";
 
   const updateQueryParams = useSetQueryParams();
 
@@ -67,6 +69,24 @@ const CardSort = ({ sortOptions }: { sortOptions: SortOption[] }) => {
               {label}
             </Button>
           ))}
+
+          <Button
+            key="createdAt"
+            variant={sort === "createdAt" ? "default" : "outline"}
+            size="sm"
+            onClick={() => handleSortKeyChange("createdAt")}
+          >
+            Created Date
+          </Button>
+
+          <Button
+            key="updatedAt"
+            variant={sort === "updatedAt" ? "default" : "outline"}
+            size="sm"
+            onClick={() => handleSortKeyChange("updatedAt")}
+          >
+            {isTrashView ? "Deleted Date" : "Last Updated"}
+          </Button>
         </div>
 
         <Button variant="outline" onClick={handleSortDirectionChange}>

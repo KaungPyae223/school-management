@@ -24,7 +24,6 @@ import {
   Card,
   CardContent,
   CardFooter,
-  CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
 import { formatDate } from "../../../utils/format-date";
@@ -41,51 +40,20 @@ import { useNavigate } from "react-router";
 import TeacherDeleteAlert from "./TeachersDeleteAlert";
 import { useState } from "react";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import CardMenu from "../../../components/card-utils/CardMenu";
 
 const TeacherCard = ({ teacher }: { teacher: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const genderIcon = teacher.gender ? (
-    teacher.gender === "FEMALE" ? (
-      <Venus className="size-4" />
-    ) : (
-      <Mars className="size-4" />
-    )
-  ) : (
-    <VenusAndMars className="size-4" />
-  );
   return (
     <>
       <Card className="shadow-sm flex flex-row hover:shadow-md pt-0 gap-0  transition-shadow duration-200 group overflow-hidden">
         <div className="relative w-72 bg-linear-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20 flex flex-col items-center p-6 border-r">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                size="icon-sm"
-                variant="outline"
-                className="absolute top-3 right-3 hover:bg-black/10 transition-colors duration-300"
-              >
-                <EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  onClick={() => navigate(`/teachers/edit/${teacher.id}`)}
-                >
-                  <Pencil className="mr-2 h-4 w-4" /> Edit
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => setConfirmDialogOpen(true)}
-                  className="text-destructive"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" /> Delete
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <CardMenu
+            onEdit={() => navigate(`/teachers/edit/${teacher.id}`)}
+            onDelete={() => setConfirmDialogOpen(true)}
+          />
           <div className="flex-1 flex flex-col items-center justify-center">
             <Avatar className="size-32">
               <AvatarImage src={teacher.image} />

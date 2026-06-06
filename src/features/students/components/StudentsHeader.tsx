@@ -8,7 +8,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../../../components/ui/input-group";
-import ColumnSelector from "../../../components/column-selector/ColumnSelector";
+import ColumnSelector from "../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
 
 const StudentsHeader = ({ tab }: { tab: string }) => {
@@ -40,8 +40,7 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
                     "Gender",
                     "Date of Birth",
                     "Total Classes",
-                    "Created At",
-                    "Updated At",
+                  
                   ]}
                   alwaysSelectedColumns={["Name", "Phone", "Email"]}
                   defaultSelectedColumns={[

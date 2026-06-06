@@ -8,8 +8,9 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../../../components/ui/input-group";
-import ColumnSelector from "../../../components/column-selector/ColumnSelector";
+import ColumnSelector from "../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
+import ChangeTrashView from "../../../components/header/ChangeTrashView";
 
 const TeachersHeader = ({ tab }: { tab: string }) => {
   return (
@@ -40,8 +41,6 @@ const TeachersHeader = ({ tab }: { tab: string }) => {
                     "NRC",
                     "Total Classes",
                     "Total Students",
-                    "Created At",
-                    "Updated At",
                   ]}
                   alwaysSelectedColumns={["Name", "Phone", "Email"]}
                   defaultSelectedColumns={[
@@ -59,6 +58,8 @@ const TeachersHeader = ({ tab }: { tab: string }) => {
         </div>
 
         <div className="flex gap-2">
+          <ChangeTrashView />
+
           <TabsList>
             <TabsTrigger value="grid">
               <Grid2X2Icon className="w-4 h-4 mr-1" /> Grid

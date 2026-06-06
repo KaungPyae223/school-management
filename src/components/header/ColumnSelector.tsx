@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import { Columns } from "lucide-react";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { useGetSelectedColumns } from "../../hooks/use-get-selected-columns";
+import { useSearchParams } from "react-router";
 
 interface Props {
   columns: string[];
@@ -23,6 +24,9 @@ const ColumnSelector: React.FC<Props> = ({
   alwaysSelectedColumns,
   defaultSelectedColumns,
 }) => {
+  const [searchParams] = useSearchParams();
+  const isTrashView = searchParams.get("trash") === "true";
+
   const updateQueryParams = useSetQueryParams();
 
   const selectedColumns = useGetSelectedColumns(defaultSelectedColumns);
@@ -69,6 +73,20 @@ const ColumnSelector: React.FC<Props> = ({
             {column}
           </DropdownMenuCheckboxItem>
         ))}
+        <DropdownMenuCheckboxItem
+          checked={selectedColumns.includes("Created At")}
+          onCheckedChange={() => toggleColumn("Created At")}
+          disabled={alwaysSelectedColumns.includes("Created At")}
+        >
+          Created At
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={selectedColumns.includes("Updated At")}
+          onCheckedChange={() => toggleColumn("Updated At")}
+          disabled={alwaysSelectedColumns.includes("Updated At")}
+        >
+          {isTrashView ? "Deleted At" : "Updated At"}
+        </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={selectAllColumns}>
           Select All

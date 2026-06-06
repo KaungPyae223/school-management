@@ -8,24 +8,24 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import {
+  BookOpen,
   CalendarDays,
   CreditCard,
   GraduationCap,
   LayoutDashboard,
   LibraryBig,
   UserRoundPen,
-  Users,
 } from "lucide-react";
 
 const Content = () => {
   const items = [
     { title: "Dashboard", url: "/", icon: LayoutDashboard },
-    { title: "Timetable", url: "/timetable", icon: CalendarDays },
-    { title: "Courses", url: "/courses", icon: LibraryBig },
-    { title: "Classes", url: "/classes", icon: Users },
     { title: "Students", url: "/students", icon: GraduationCap },
     { title: "Teachers", url: "/teachers", icon: UserRoundPen },
+    { title: "Courses", url: "/courses", icon: LibraryBig },
+    { title: "Classes", url: "/classes", icon: BookOpen },
     { title: "Payments", url: "/payments", icon: CreditCard },
+    { title: "Timetable", url: "/timetable", icon: CalendarDays },
   ];
 
   return (
