@@ -54,17 +54,17 @@ const StudentsList = ({ data }: { data: any }) => {
   ]);
 
   const headers: TableHeadType[] = [
-    { title: "Name", key: "name", sortable: true, sortKey: "name" },
-    { title: "Phone", key: "phone", sortable: true, sortKey: "phone" },
-    { title: "Email", key: "email", sortable: true, sortKey: "email" },
-    { title: "Address", key: "address", sortable: true, sortKey: "address" },
-    { title: "Gender", key: "gender", sortable: true, sortKey: "gender" },
-    { title: "Date of Birth", key: "dob", sortable: true, sortKey: "dob" },
+    { title: "Name", key: "name", sortable: true, sortKey: "s.name" },
+    { title: "Phone", key: "phone", sortable: true, sortKey: "s.phone" },
+    { title: "Email", key: "email", sortable: true, sortKey: "s.email" },
+    { title: "Address", key: "address", sortable: true, sortKey: "s.address" },
+    { title: "Gender", key: "gender", sortable: true, sortKey: "s.gender" },
+    { title: "Date of Birth", key: "dob", sortable: true, sortKey: "s.dob" },
     {
       title: "Total Classes",
       key: "totalClasses",
       sortable: true,
-      sortKey: "totalClasses",
+      sortKey: "total_classes",
     },
   ];
 
@@ -78,6 +78,7 @@ const StudentsList = ({ data }: { data: any }) => {
         <TableHeaderGenerator
           headers={headers}
           selectedColumns={selectedColumns}
+          prefix="s."
         />
         <TableBody>
           {data.map((student: any) => (
@@ -115,7 +116,10 @@ const StudentsList = ({ data }: { data: any }) => {
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Total Classes")}>
-                <TableIconContent icon={BookOpen} value="24" />
+                <TableIconContent
+                  icon={BookOpen}
+                  value={student.total_classes}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
                 {formatDate(student.createdAt)}

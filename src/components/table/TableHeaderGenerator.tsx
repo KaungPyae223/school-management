@@ -6,12 +6,14 @@ import { useSearchParams } from "react-router";
 const TableHeaderGenerator = ({
   headers,
   selectedColumns = [],
+  prefix = "",
 }: {
   headers: TableHeadType[];
   selectedColumns: string[];
+  prefix?: string;
 }) => {
   const [searchParams] = useSearchParams();
-  const isTrashView = searchParams.get("trash") === "true";
+  const isTrashView = searchParams.get("trash");
 
   return (
     <TableHeader>
@@ -28,16 +30,16 @@ const TableHeaderGenerator = ({
       ))}
       <TableHead
         key="created-at"
-        sortable={false}
-        sortKey="createdAt"
+        sortable={true}
+        sortKey={`${prefix}createdAt`}
         hidden={!selectedColumns.includes("Created At")}
       >
         Created At
       </TableHead>
       <TableHead
         key="updated-at"
-        sortable={false}
-        sortKey="updatedAt"
+        sortable={true}
+        sortKey={`${prefix}updatedAt`}
         hidden={!selectedColumns.includes("Updated At")}
       >
         {isTrashView ? "Deleted At" : "Updated At"}

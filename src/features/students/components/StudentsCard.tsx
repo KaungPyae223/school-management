@@ -109,7 +109,7 @@ const StudentCard = ({ student }: { student: any }) => {
                 Total classes
               </span>
             </div>
-            <span className="text-sm font-medium">5</span>
+            <span className="text-sm font-medium">{student.total_classes}</span>
           </div>
         </CardContent>
         <CardCretedUpdated

@@ -1,18 +1,11 @@
 import {
   ArrowRight,
   BookOpen,
-  Calendar,
-  EllipsisVertical,
   GraduationCap,
   IdCard,
   Mail,
   MapPin,
-  Mars,
-  Pencil,
   Phone,
-  Trash2,
-  Venus,
-  VenusAndMars,
 } from "lucide-react";
 import {
   Avatar,
@@ -28,14 +21,7 @@ import {
 } from "../../../components/ui/card";
 import { formatDate } from "../../../utils/format-date";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
+
 import { useNavigate } from "react-router";
 import TeacherDeleteAlert from "./TeachersDeleteAlert";
 import { useState } from "react";
@@ -76,11 +62,13 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
                   Total classes
                 </span>
               </div>
-              <span className="text-sm font-medium">5</span>
+              <span className="text-sm font-medium">
+                {teacher.total_classes}
+              </span>
             </div>
             <div className="flex items-center w-full justify-between bg-muted rounded-lg px-3 py-2">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-md bg-green-100 dark:bg-green -900/30">
+                <div className="p-1.5 rounded-md bg-green-100 dark:bg-green-900/30">
                   <GraduationCap
                     size={14}
                     className="text-green-600 dark:text-green-400"
@@ -90,7 +78,9 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
                   Total Students
                 </span>
               </div>
-              <span className="text-sm font-medium">50</span>
+              <span className="text-sm font-medium">
+                {teacher.total_students}
+              </span>
             </div>
           </div>
         </div>
@@ -98,22 +88,22 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
         <div className="flex flex-1 flex-col  justify-between gap-3">
           <CardContent className="pt-4 flex-1 space-y-3.5">
             <InfoRow
-              icon={<Phone className="size-4" />}
+              icon={<Phone size={15} />}
               label="Phone"
               value={teacher.phone}
             />
             <InfoRow
-              icon={<Mail className="size-4" />}
+              icon={<Mail size={15} />}
               label="Email"
               value={teacher.email}
             />
             <InfoRow
-              icon={<MapPin className="size-4" />}
+              icon={<MapPin size={15} />}
               label="Address"
               value={teacher.address}
             />
             <InfoRow
-              icon={<IdCard className="size-4" />}
+              icon={<IdCard size={15} />}
               label="NRC"
               value={teacher.dob && formatDate(teacher.dob)}
             />

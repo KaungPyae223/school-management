@@ -2,16 +2,21 @@ import { useSearchParams } from "react-router";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { Button } from "../ui/button";
 import { ArrowDown, ArrowUp } from "lucide-react";
-import { useEffect } from "react";
 
 type SortOption = {
   field: string;
   label: string;
 };
 
-const CardSort = ({ sortOptions }: { sortOptions: SortOption[] }) => {
+const CardSort = ({
+  sortOptions,
+  prefix = "",
+}: {
+  sortOptions: SortOption[];
+  prefix?: string;
+}) => {
   const [searchParams] = useSearchParams();
-  const isTrashView = searchParams.get("trash") === "true";
+  const isTrashView = searchParams.get("trash");
 
   const updateQueryParams = useSetQueryParams();
 
@@ -72,18 +77,18 @@ const CardSort = ({ sortOptions }: { sortOptions: SortOption[] }) => {
 
           <Button
             key="createdAt"
-            variant={sort === "createdAt" ? "default" : "outline"}
+            variant={sort === `${prefix}createdAt` ? "default" : "outline"}
             size="sm"
-            onClick={() => handleSortKeyChange("createdAt")}
+            onClick={() => handleSortKeyChange(`${prefix}createdAt`)}
           >
             Created Date
           </Button>
 
           <Button
             key="updatedAt"
-            variant={sort === "updatedAt" ? "default" : "outline"}
+            variant={sort === `${prefix}updatedAt` ? "default" : "outline"}
             size="sm"
-            onClick={() => handleSortKeyChange("updatedAt")}
+            onClick={() => handleSortKeyChange(`${prefix}updatedAt`)}
           >
             {isTrashView ? "Deleted Date" : "Last Updated"}
           </Button>

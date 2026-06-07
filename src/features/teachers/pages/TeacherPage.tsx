@@ -31,6 +31,8 @@ const TeachersPage = () => {
     queryFn: () => teacherService.getAllTeachers(activeQueryParams),
   }) as { data: ResponseDataType; isLoading: boolean };
 
+  console.log(data);
+
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">
       <TeachersHeader tab={view} />

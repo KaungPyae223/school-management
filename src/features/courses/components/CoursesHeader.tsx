@@ -1,16 +1,8 @@
-import {
-  Download,
-  Grid2X2Icon,
-  List,
-  Plus,
-  Search,
-  Trash2,
-  Archive,
-} from "lucide-react";
+import { Download, Grid2X2Icon, List, Plus, Search } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
 import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
-import { Link, useSearchParams } from "react-router";
+import { Link } from "react-router";
 import {
   InputGroup,
   InputGroupAddon,
@@ -45,14 +37,18 @@ const CoursesHeader = ({ tab }: { tab: string }) => {
                     "Name",
                     "Price",
                     "Description",
-                    "Students",
+                    "Enrollments",
                     "Teachers",
                     "Classes",
                     "Active",
-                   
                   ]}
                   alwaysSelectedColumns={["Name", "Price"]}
-                  defaultSelectedColumns={["Name", "Price", "Description"]}
+                  defaultSelectedColumns={[
+                    "Name",
+                    "Price",
+                    "Description",
+                    "Created At",
+                  ]}
                 />
               </m.div>
             )}

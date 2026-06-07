@@ -6,14 +6,14 @@ import { Archive, Trash2 } from "lucide-react";
 const ChangeTrashView = () => {
   const [searchParams] = useSearchParams();
 
-  const isTrashView = searchParams.get("trash") === "true";
+  const isTrashView = searchParams.get("trash");
   const updateParams = useSetQueryParams();
 
   const toggleTrashView = () => {
     if (isTrashView) {
       updateParams({ trash: null });
     } else {
-      updateParams({ trash: "true" });
+      updateParams({ trash: true });
     }
   };
 

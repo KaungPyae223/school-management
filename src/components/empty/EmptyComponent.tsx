@@ -8,6 +8,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "../ui/empty";
+import { useSearchParams } from "react-router";
 
 const EmptyComponent = ({
   title = "No courses yet",
@@ -20,6 +21,10 @@ const EmptyComponent = ({
   action?: { label: string; onClick: () => void };
   icon: LucideIcon;
 }) => {
+  const [searchParams] = useSearchParams();
+
+  const trash = searchParams.get("trash");
+
   return (
     <Empty className="border border-dashed py-16 shadow-sm">
       <EmptyHeader>
@@ -29,7 +34,7 @@ const EmptyComponent = ({
         <EmptyTitle className="text-xl">{title}</EmptyTitle>
         <EmptyDescription className="max-w-sm">{description}</EmptyDescription>
       </EmptyHeader>
-      {action && (
+      {action && !trash && (
         <EmptyContent>
           <Button size="sm" onClick={action.onClick}>
             {action.label}

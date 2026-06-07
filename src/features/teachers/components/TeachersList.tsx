@@ -53,22 +53,22 @@ const TeachersList = ({ data }: { data: any }) => {
   ]);
 
   const headers: TableHeadType[] = [
-    { title: "Name", key: "Name", sortable: true, sortKey: "name" },
-    { title: "Phone", key: "Phone", sortable: true, sortKey: "phone" },
-    { title: "Email", key: "Email", sortable: true, sortKey: "email" },
-    { title: "Address", key: "Address", sortable: true, sortKey: "address" },
-    { title: "NRC", key: "NRC", sortable: true, sortKey: "nrc" },
+    { title: "Name", key: "Name", sortable: true, sortKey: "t.name" },
+    { title: "Phone", key: "Phone", sortable: true, sortKey: "t.phone" },
+    { title: "Email", key: "Email", sortable: true, sortKey: "t.email" },
+    { title: "Address", key: "Address", sortable: false, sortKey: "t.address" },
+    { title: "NRC", key: "NRC", sortable: true, sortKey: "t.nrc" },
     {
       title: "Total Classes",
       key: "Total Classes",
       sortable: true,
-      sortKey: "totalClasses",
+      sortKey: "total_classes",
     },
     {
       title: "Total Students",
       key: "Total Students",
       sortable: true,
-      sortKey: "totalStudents",
+      sortKey: "total_students",
     },
   ];
 
@@ -78,6 +78,7 @@ const TeachersList = ({ data }: { data: any }) => {
         <TableHeaderGenerator
           headers={headers}
           selectedColumns={selectedColumns}
+          prefix="t."
         />
         <TableBody>
           {data.map((teacher: any) => (
@@ -106,10 +107,10 @@ const TeachersList = ({ data }: { data: any }) => {
                 <TableIconContent icon={IdCard} value={teacher.nrc} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Total Classes")}>
-                <TableIconContent icon={BookOpen} value="24" />
+                <TableIconContent icon={BookOpen} value={teacher.total_classes} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Total Students")}>
-                <TableIconContent icon={GraduationCap} value="24" />
+                <TableIconContent icon={GraduationCap} value={teacher.total_students} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
                 {formatDate(teacher.createdAt)}

@@ -25,7 +25,7 @@ const ColumnSelector: React.FC<Props> = ({
   defaultSelectedColumns,
 }) => {
   const [searchParams] = useSearchParams();
-  const isTrashView = searchParams.get("trash") === "true";
+  const isTrashView = searchParams.get("trash");
 
   const updateQueryParams = useSetQueryParams();
 

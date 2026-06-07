@@ -4,6 +4,7 @@ import {
   BookOpen,
   Calendar,
   CalendarClock,
+  ClipboardList,
   EllipsisVertical,
   Pencil,
   PlayCircle,
@@ -76,11 +77,14 @@ const CoursesCard = ({ course }: { course: any }) => {
           <div className="grid grid-cols-2 gap-3">
             <CourseStatsCard
               icon={
-                <Users size={14} className="text-blue-600 dark:text-blue-400" />
+                <ClipboardList
+                  size={14}
+                  className="text-blue-600 dark:text-blue-400"
+                />
               }
               iconBg="bg-blue-100 dark:bg-blue-900/30"
-              label="Students"
-              value="10"
+              label="Enrollments"
+              value={course.total_enrollments}
             />
 
             <CourseStatsCard
@@ -92,7 +96,7 @@ const CoursesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-purple-100 dark:bg-purple-900/30"
               label="Teachers"
-              value="10"
+              value={course.total_teachers}
             />
 
             <CourseStatsCard
@@ -104,7 +108,7 @@ const CoursesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label="Classes"
-              value="20"
+              value={course.total_classes}
             />
 
             <CourseStatsCard
@@ -116,7 +120,7 @@ const CoursesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label="Active"
-              value="5"
+              value={course.total_active_classes}
             />
           </div>
         </CardContent>

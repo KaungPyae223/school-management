@@ -1,21 +1,10 @@
-import {
-  BookOpen,
-  Eye,
-  Pencil,
-  PlayCircle,
-  Trash2,
-  UserPen,
-  Users,
-} from "lucide-react";
+import { BookOpen, ClipboardList, PlayCircle, UserPen } from "lucide-react";
 
 import Table from "../../../components/table/Table";
-import TableHead from "../../../components/table/TableHead";
-import TableHeader from "../../../components/table/TableHeader";
 import TableBody from "../../../components/table/TableBody";
 import TableRow from "../../../components/table/TableRow";
 import TableCell from "../../../components/table/TableCell";
 
-import TableActionButton from "../../../components/table/TableActionButton";
 import { formatCurrency } from "../../../utils/format-currency";
 import { formatDate } from "../../../utils/format-date";
 import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
@@ -36,6 +25,7 @@ const CoursesList = ({ data }: { data: any }) => {
     "Name",
     "Price",
     "Description",
+    "Created At",
   ]);
 
   const handleDelete = (id: number) => {
@@ -44,24 +34,43 @@ const CoursesList = ({ data }: { data: any }) => {
   };
 
   const headers: TableHeadType[] = [
-    { title: "Name", key: "name", sortable: true, sortKey: "name" },
+    { title: "Name", key: "name", sortable: true, sortKey: "c.name" },
     {
       title: "Price",
       key: "price",
       align: "right",
       sortable: true,
-      sortKey: "price",
+      sortKey: "c.price",
     },
     {
       title: "Description",
       key: "description",
-      sortable: true,
-      sortKey: "description",
+      sortKey: "c.description",
     },
-    { title: "Students", key: "students", sortable: true, sortKey: "students" },
-    { title: "Teachers", key: "teachers", sortable: true, sortKey: "teachers" },
-    { title: "Classes", key: "classes", sortable: true, sortKey: "classes" },
-    { title: "Active", key: "active", sortable: true, sortKey: "active" },
+    {
+      title: "Enrollments",
+      key: "enrollments",
+      sortable: true,
+      sortKey: "total_enrollments",
+    },
+    {
+      title: "Teachers",
+      key: "teachers",
+      sortable: true,
+      sortKey: "total_teachers",
+    },
+    {
+      title: "Classes",
+      key: "classes",
+      sortable: true,
+      sortKey: "total_classes",
+    },
+    {
+      title: "Active",
+      key: "active",
+      sortable: true,
+      sortKey: "total_active_classes",
+    },
   ];
 
   return (
@@ -70,6 +79,7 @@ const CoursesList = ({ data }: { data: any }) => {
         <TableHeaderGenerator
           headers={headers}
           selectedColumns={selectedColumns}
+          prefix={"c."}
         />
         <TableBody>
           {data.map((course) => (
@@ -106,17 +116,29 @@ const CoursesList = ({ data }: { data: any }) => {
                   {course.description}
                 </p>
               </TableCell>
-              <TableCell hidden={!selectedColumns.includes("Students")}>
-                <TableIconContent icon={Users} value={10} />
+              <TableCell hidden={!selectedColumns.includes("Enrollments")}>
+                <TableIconContent
+                  icon={ClipboardList}
+                  value={course.total_enrollments}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Teachers")}>
-                <TableIconContent icon={UserPen} value={10} />
+                <TableIconContent
+                  icon={UserPen}
+                  value={course.total_teachers}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Classes")}>
-                <TableIconContent icon={BookOpen} value={10} />
+                <TableIconContent
+                  icon={BookOpen}
+                  value={course.total_classes}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Active")}>
-                <TableIconContent icon={PlayCircle} value={10} />
+                <TableIconContent
+                  icon={PlayCircle}
+                  value={course.total_active_classes}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
                 {formatDate(course.createdAt)}

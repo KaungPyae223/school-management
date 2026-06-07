@@ -9,6 +9,7 @@ declare global {
         search?: string;
         sort?: string;
         order?: string;
+        trash?: string;
       }) => Promise<ResponseDataType>;
       getCourse: (id: number) => Promise<{ data?: any; error?: string }>;
       createCourse: (
@@ -45,6 +46,7 @@ declare global {
         search?: string;
         sort?: string;
         order?: string;
+        trash?: string;
       }) => Promise<ResponseDataType>;
       getTeacher: (id: number) => Promise<{ data?: any; error?: string }>;
       createTeacher: (

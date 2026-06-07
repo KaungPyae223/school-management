@@ -14,7 +14,7 @@ const TableActionButtonsContainer = ({
   onRestore?: () => void;
 }) => {
   const [searchParams] = useSearchParams();
-  const isTrashView = searchParams.get("trash") === "true";
+  const isTrashView = searchParams.get("trash");
 
   return (
     <div className="flex items-center justify-end gap-1">

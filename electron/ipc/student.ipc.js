@@ -3,6 +3,7 @@ import { prisma } from "../../db/prisma.js";
 import { saveImage } from "../utils/saveImage.js";
 import { showImage } from "../utils/showImage.js";
 import { deleteImage } from "../utils/deleteImage.js";
+import { Prisma } from "../../generated/prisma/index.js";
 
 export const studentIPCs = () => {
   ipcMain.handle("student:index", async (_, data) => {
@@ -15,46 +16,50 @@ export const studentIPCs = () => {
     } = data;
 
     const avilableSort = new Set([
-      "createdAt",
-      "updatedAt",
-      "name",
-      "phone",
-      "email",
-      "address",
-      "dob",
-      "gender",
+      "s.createdAt",
+      "s.updatedAt",
+      "s.name",
+      "s.phone",
+      "s.email",
+      "s.address",
+      "s.dob",
+      "s.gender",
+      "total_classes",
     ]);
     const avilableSortDirection = new Set(["asc", "desc"]);
 
-    const finalSort = avilableSort.has(sort) ? sort : "createdAt";
+    const finalSort = avilableSort.has(sort) ? sort : "s.createdAt";
     const finalSortDirection = avilableSortDirection.has(sortDirection)
       ? sortDirection
       : "asc";
 
     const skip = Number(page - 1) * Number(limit);
 
-    const where = search
-      ? {
-          OR: [
-            { name: { contains: search, mode: "insensitive" } },
-            { phone: { contains: search, mode: "insensitive" } },
-            { email: { contains: search, mode: "insensitive" } },
-            { address: { contains: search, mode: "insensitive" } },
-          ],
-        }
-      : {};
-
     try {
       const [students, totalData] = await Promise.all([
-        prisma.student.findMany({
-          where,
-          skip,
-          take: limit,
-          orderBy: {
-            [finalSort]: finalSortDirection,
+        prisma.$queryRaw`
+          SELECT 
+            s.*,
+            COUNT(DISTINCT e.classId) as total_classes
+          FROM students s
+          LEFT JOIN enrollments e ON s.id = e.studentID
+          ${search ? Prisma.sql`WHERE (s.name LIKE LOWER(${`%${search}%`}) OR s.phone LIKE LOWER(${`%${search}%`}) OR s.email LIKE LOWER(${`%${search}%`}) OR s.address LIKE LOWER(${`%${search}%`}))` : Prisma.empty}
+          GROUP BY s.id
+          ORDER BY ${Prisma.raw(`${finalSort} ${finalSortDirection}`)}
+          LIMIT ${limit} OFFSET ${skip}
+        `,
+        prisma.student.count({
+          where: {
+            ...(search && {
+              OR: [
+                { name: { contains: search, mode: "insensitive" } },
+                { phone: { contains: search, mode: "insensitive" } },
+                { email: { contains: search, mode: "insensitive" } },
+                { address: { contains: search, mode: "insensitive" } },
+              ],
+            }),
           },
         }),
-        prisma.student.count({ where }),
       ]);
 
       const total_pages = Math.ceil(Number(totalData) / Number(limit));
@@ -153,6 +158,20 @@ export const studentIPCs = () => {
 
   ipcMain.handle("student:delete", async (_, id) => {
     try {
+      const hasLinkedEnrollment = await prisma.enrollment.findFirst({
+        where: {
+          studentId: id,
+        },
+        select: { id: true },
+      });
+
+      if (hasLinkedEnrollment) {
+        return {
+          success: false,
+          error: "Student has linked enrollment. Cannot delete",
+        };
+      }
+
       const { image } = await prisma.student.findUnique({
         where: { id },
         select: { image: true },

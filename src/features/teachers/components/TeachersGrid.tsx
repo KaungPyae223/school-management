@@ -1,14 +1,15 @@
 import CardSort from "../../../components/card-utils/CardSort";
 import TeachersCard from "./TeachersCard";
 
-const TeachersGrid = ({ data }: any) => {
+const TeachersGrid = ({ data }: { data: any[] }) => {
   const sortOptions = [
-    { field: "name", label: "Name" },
-    { field: "age", label: "Age" },
-    { field: "gender", label: "Gender" },
-    { field: "class", label: "Class" },
-    { field: "admissionNo", label: "Admission No" },
-    { field: "dateOfBirth", label: "Date of Birth" },
+    { field: "t.name", label: "Name" },
+    { field: "t.phone", label: "Phone" },
+    { field: "t.email", label: "Email" },
+    { field: "t.address", label: "Address" },
+    { field: "t.nrc", label: "NRC" },
+    { field: "total_classes", label: "Total Classes" },
+    { field: "total_students", label: "Total Students" },
   ];
 
   return (

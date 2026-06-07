@@ -3,6 +3,7 @@ import { prisma } from "../../db/prisma.js";
 import { saveImage } from "../utils/saveImage.js";
 import { showImage } from "../utils/showImage.js";
 import { deleteImage } from "../utils/deleteImage.js";
+import { Prisma } from "../../generated/prisma/index.js";
 
 export const courseIPCs = () => {
   ipcMain.handle("course:index", async (_, data) => {
@@ -12,41 +13,62 @@ export const courseIPCs = () => {
       search = "",
       sort = "createdAt",
       sortDirection = "asc",
+      trash = null,
     } = data;
 
-    const avilableSort = new Set(["createdAt", "updatedAt", "name", "price"]);
+    const avilableSort = new Set([
+      "c.name",
+      "c.price",
+      "c.createdAt",
+      "c.updatedAt",
+      "total_classes",
+      "total_active_classes",
+      "total_enrollments",
+      "total_teachers",
+    ]);
     const avilableSortDirection = new Set(["asc", "desc"]);
 
-    const finalSort = avilableSort.has(sort) ? sort : "createdAt";
+    const finalSort = avilableSort.has(sort) ? sort : "c.createdAt";
     const finalSortDirection = avilableSortDirection.has(sortDirection)
       ? sortDirection
       : "asc";
 
     const skip = Number(page - 1) * Number(limit);
 
-    const where = search
-      ? {
-          OR: [
-            { name: { contains: search, mode: "insensitive" } },
-            { description: { contains: search, mode: "insensitive" } },
-          ],
-        }
-      : {};
-
     try {
       const [courses, totalData] = await Promise.all([
-        prisma.course.findMany({
-          where,
-          skip,
-          take: limit,
-          orderBy: {
-            [finalSort]: finalSortDirection,
+        prisma.$queryRaw`
+          SELECT 
+            c.*,
+            COUNT(DISTINCT cl.id) as total_classes,
+            COUNT(DISTINCT CASE WHEN cl.startDate >= datetime('now') AND cl.endDate IS NULL THEN cl.id END) as total_active_classes,
+            COUNT(DISTINCT e.id) as total_enrollments,
+            COUNT(DISTINCT t.id) as total_teachers
+          FROM courses c
+          LEFT JOIN classes cl ON c.id = cl.courseId 
+          LEFT JOIN enrollments e ON cl.id = e.classId 
+          LEFT JOIN teachers t ON cl.teacherId = t.id 
+          WHERE c.deleted = ${!!trash}
+          ${search ? Prisma.sql`AND (c.name LIKE LOWER(${`%${search}%`}) OR c.description LIKE LOWER(${`%${search}%`}))` : Prisma.empty}
+          GROUP BY c.id
+          ORDER BY ${Prisma.raw(`${finalSort} ${finalSortDirection}`)}
+          LIMIT ${limit} OFFSET ${skip}
+        `,
+        prisma.course.count({
+          where: {
+            ...(search && {
+              OR: [
+                { name: { contains: search, mode: "insensitive" } },
+                { description: { contains: search, mode: "insensitive" } },
+              ],
+            }),
+            deleted: !!trash,
           },
         }),
-        prisma.course.count({ where }),
       ]);
 
       const total_pages = Math.ceil(Number(totalData) / Number(limit));
+
       return {
         error: null,
         data: courses.map((course) => ({
@@ -113,21 +135,25 @@ export const courseIPCs = () => {
     try {
       const { id, image, imageName, ...restData } = data;
 
+      const existingCourse = await prisma.course.findUnique({
+        where: { id },
+        select: { deleted: true, image: true },
+      });
+
+      if (existingCourse.deleted) {
+        return { success: false, error: "Deleted course cannot be updated" };
+      }
+
       let imageUrl = undefined;
       if (image && imageName) {
-        const { image: oldImage } = await prisma.course.findUnique({
-          where: { id },
-          select: { image: true },
-        });
-
-        if (oldImage) {
-          await deleteImage(oldImage);
+        if (existingCourse.image) {
+          await deleteImage(existingCourse.image);
         }
 
         imageUrl = await saveImage(image, imageName);
       }
 
-      const course = await prisma.course.update({
+      await prisma.course.update({
         where: { id },
         data: {
           ...restData,
@@ -142,13 +168,32 @@ export const courseIPCs = () => {
 
   ipcMain.handle("course:delete", async (_, id) => {
     try {
-      const { image } = await prisma.course.findUnique({
+      const hasLinkedClasses = await prisma.class.findFirst({
+        where: { courseId: id },
+        select: { id: true },
+      });
+
+      if (hasLinkedClasses) {
+        await prisma.course.update({
+          where: { id },
+          data: {
+            deleted: true,
+          },
+        });
+        return { success: true };
+      }
+
+      const course = await prisma.course.findUnique({
         where: { id },
         select: { image: true },
       });
 
-      if (image) {
-        await deleteImage(image);
+      if (!course) {
+        return { success: false, error: "Course not found." };
+      }
+
+      if (course.image) {
+        await deleteImage(course.image);
       }
 
       await prisma.course.delete({

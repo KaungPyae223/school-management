@@ -13,7 +13,7 @@ const CardCretedUpdated = ({
   updatedAt?: Date;
 }) => {
   const [searchParams] = useSearchParams();
-  const isTrashView = searchParams.get("trash") === "true";
+  const isTrashView = searchParams.get("trash");
 
   return (
     <CardContent>
