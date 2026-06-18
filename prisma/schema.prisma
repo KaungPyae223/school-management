@@ -13,16 +13,15 @@ datasource db {
 }
 
 model Course {
-  id             Int      @id @default(autoincrement())
-  name           String
-  description    String?
-  price          Int?
-  image          String?
-  deleted        Boolean  @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  classes        Class[]  @relation("CourseClasses")
-  active_classes Class[]  @relation("CourseActiveClasses")
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  price       Int?
+  image       String?
+  deleted     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  classes     Class[]
 
   @@map("courses")
 }
@@ -65,20 +64,19 @@ model Student {
 }
 
 model Class {
-  id            Int          @id @default(autoincrement())
-  batch         Int
-  teacherId     Int
-  courseId      Int
-  startDate     DateTime
-  endDate       DateTime?
-  description   String?
-  price         Int?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  enrollments   Enrollment[]
-  course        Course       @relation("CourseClasses", fields: [courseId], references: [id])
-  course_active Course?      @relation("CourseActiveClasses", fields: [courseId], references: [id])
-  teacher       Teacher      @relation(fields: [teacherId], references: [id])
+  id          Int          @id @default(autoincrement())
+  batch       Int
+  teacherId   Int
+  courseId    Int
+  startDate   DateTime
+  endDate     DateTime?
+  description String?
+  price       Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  enrollments Enrollment[]
+  course      Course       @relation(fields: [courseId], references: [id])
+  teacher     Teacher      @relation(fields: [teacherId], references: [id])
 
   @@map("classes")
 }
