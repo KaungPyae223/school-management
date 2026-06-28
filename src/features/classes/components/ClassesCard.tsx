@@ -6,6 +6,7 @@ import {
   CalendarCheck2,
   CalendarClock,
   CalendarOff,
+  Check,
   CheckCircle2,
   Circle,
   ClipboardList,
@@ -15,7 +16,9 @@ import {
   Pencil,
   PlayCircle,
   Trash2,
+  UserCheck,
   UserPen,
+  UserPlus,
   Users,
 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
@@ -45,7 +48,6 @@ import {
   AvatarImage,
 } from "../../../components/ui/avatar";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-
 
 const statusConfig = {
   not_started: {
@@ -91,6 +93,19 @@ const ClassesCard = ({ course }: { course: any }) => {
               <BookOpen size={48} className="text-background" />
             </div>
           )}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon-sm"
+                className="absolute bottom-3 right-3 text-white/80 bg-green-600 hover:bg-green-700"
+              >
+                <UserPlus className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Add Student</p>
+            </TooltipContent>
+          </Tooltip>
           <CardMenu
             onEdit={() => navigate(`/courses/edit/${course.id}`)}
             onDelete={() => setConfirmDialogOpen(true)}
@@ -123,10 +138,94 @@ const ClassesCard = ({ course }: { course: any }) => {
               </TooltipContent>
             </Tooltip>
           </div>
+          <p className="text-sm text-muted-foreground mt-1 line-clamp-3">
+            Hello world my name is kaung pyae aung
+          </p>
         </CardHeader>
 
         <CardContent>
-          <div className="grid grid-cols-2 gap-3 gap-y-4.5">
+          <div className="grid grid-cols-2 gap-3 ">
+            <CourseStatsCard
+              icon={
+                <CalendarClock
+                  size={14}
+                  className="text-purple-600 dark:text-purple-400"
+                />
+              }
+              iconBg="bg-purple-100 dark:bg-purple-900/30"
+              label="Start Time"
+              value={"9:00 pm"}
+            />
+
+            <CourseStatsCard
+              icon={
+                <CalendarClock
+                  size={14}
+                  className="text-orange-600 dark:text-orange-400"
+                />
+              }
+              iconBg="bg-orange-100 dark:bg-orange-900/30"
+              label="End Time"
+              value={"12:00 pm"}
+            />
+            <div className="col-span-2 w-full border border-border rounded-lg  px-3 py-2">
+              <div className="text-muted-foreground text-xs flex items-center gap-1.5">
+                <Calendar className="size-3" /> Schedule Days
+                <Badge variant="secondary" className="ms-auto">
+                  {["monday", "tuesday"].length} days
+                </Badge>
+              </div>
+              <div className="flex items-center gap-1.5 mt-2.5">
+                {["monday", "tuesday"].map((day) => (
+                  <Badge variant="outline" className="bg-white" key={day}>
+                    {day.slice(0, 3)}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center col-span-2 justify-between rounded-lg border border-border  px-3 py-2">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-10 w-10">
+                  {/* <AvatarImage
+                    src={course.teacher.image}
+                    alt={course.teacher.name}
+                  /> */}
+                  <AvatarFallback>
+                    {generateImageFallBack("Ko Ko AUng")}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="text-xs text-gray-500">Teacher</p>
+                  <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                    Ko Ko AUng
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center col-span-2 w-full justify-between rounded-lg border border-border px-3 py-2 ">
+              <div className="flex items-center gap-3">
+                <div className="p-1.5 rounded-md bg-green-100 dark:bg-green-900/30">
+                  <GraduationCap
+                    size={16}
+                    className="text-green-600 dark:text-green-400"
+                  />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">
+                    Total Students
+                  </p>
+                  <p className="text-xs text-muted-foreground/60">Enrolled</p>
+                </div>
+              </div>
+              <Badge
+                variant="secondary"
+                className="font-medium text-foreground"
+              >
+                {100}
+              </Badge>
+            </div>
             <CourseStatsCard
               icon={
                 <CalendarCheck2
@@ -150,41 +249,6 @@ const ClassesCard = ({ course }: { course: any }) => {
               label="End Date"
               value={formatDate(course.createdAt)}
             />
-
-            <div className="flex items-center col-span-2 w-full justify-between bg-muted rounded-lg px-3 py-2">
-              <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-md bg-green-100 dark:bg-green-900/30">
-                  <GraduationCap
-                    size={14}
-                    className="text-green-600 dark:text-green-400"
-                  />
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  Total Students
-                </span>
-              </div>
-              <span className="text-sm font-medium">{100}</span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8 ring-2 ring-white shadow-sm">
-                  {/* <AvatarImage
-                    src={course.teacher.image}
-                    alt={course.teacher.name}
-                  /> */}
-                  <AvatarFallback>
-                    {generateImageFallBack("Ko Ko AUng")}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-xs text-gray-500">Instructor</p>
-                  <p className="text-sm font-medium text-gray-900 line-clamp-1">
-                    Ko Ko AUng
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </CardContent>
 

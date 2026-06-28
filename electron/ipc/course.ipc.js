@@ -58,8 +58,8 @@ export const courseIPCs = () => {
           where: {
             ...(search && {
               OR: [
-                { name: { contains: search, mode: "insensitive" } },
-                { description: { contains: search, mode: "insensitive" } },
+                { name: { contains: search } },
+                { description: { contains: search } },
               ],
             }),
             deleted: !!trash,
@@ -88,6 +88,28 @@ export const courseIPCs = () => {
           limit: 0,
         },
       };
+    }
+  });
+
+  ipcMain.handle("course:search-all-active", async (_, data) => {
+    try {
+      const courses = await prisma.course.findMany({
+        where: {
+          deleted: false,
+          ...(data.search && {
+            name: { contains: data.search },
+          }),
+        },
+        select: { id: true, name: true, image: true },
+      });
+      return {
+        data: courses.map((course) => ({
+          ...course,
+          image: showImage(course.image),
+        })),
+      };
+    } catch (error) {
+      return { error: error.message };
     }
   });
 

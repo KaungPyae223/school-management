@@ -11,6 +11,9 @@ declare global {
         order?: string;
         trash?: string;
       }) => Promise<ResponseDataType>;
+      searchAllCourses: (data: {
+        search?: string;
+      }) => Promise<{ data?: any; error?: string }>;
       getCourse: (id: number) => Promise<{ data?: any; error?: string }>;
       createCourse: (
         data: any,
@@ -48,6 +51,9 @@ declare global {
         order?: string;
         trash?: string;
       }) => Promise<ResponseDataType>;
+      searchAllTeachers: (data: {
+        search?: string;
+      }) => Promise<{ data?: any; error?: string }>;
       getTeacher: (id: number) => Promise<{ data?: any; error?: string }>;
       createTeacher: (
         data: any,

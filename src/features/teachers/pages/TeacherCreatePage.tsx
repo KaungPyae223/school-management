@@ -115,7 +115,7 @@ const TeachersCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"name"} title={"Name"} />
+                  <RequiredLabel id={"name"}>Name</RequiredLabel>
                   <Input
                     {...field}
                     id="name"
@@ -134,7 +134,7 @@ const TeachersCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"phone"} title={"Phone"} />
+                  <RequiredLabel id={"phone"}>Phone</RequiredLabel>
 
                   <Input
                     {...field}
@@ -154,7 +154,7 @@ const TeachersCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"email"} title={"Email"} />
+                  <RequiredLabel id={"email"}>Email</RequiredLabel>
                   <Input
                     {...field}
                     id="email"
@@ -173,7 +173,7 @@ const TeachersCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"address"} title={"Address"} />
+                  <RequiredLabel id={"address"}>Address</RequiredLabel>
                   <Textarea
                     {...field}
                     id="address"

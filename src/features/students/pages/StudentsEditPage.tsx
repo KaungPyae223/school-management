@@ -21,15 +21,6 @@ import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { generateImageData } from "../../../utils/generate-image-data";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../../../components/ui/popover";
-import { Button } from "../../../components/ui/button";
-import { CalendarIcon } from "lucide-react";
-import { formatDate } from "../../../utils/format-date";
-import { Calendar } from "../../../components/ui/calendar";
-import {
   Select,
   SelectContent,
   SelectGroup,
@@ -41,6 +32,7 @@ import {
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import { useLoaderData, useNavigate } from "react-router";
 import { useUpdateStudent } from "../hooks/useUpdateStudent";
+import DateInput from "../../../components/form/DateInput";
 
 const formSchema = z.object({
   image: z
@@ -139,7 +131,7 @@ const StudentEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"name"} title={"Name"} />
+                  <RequiredLabel id={"name"}>Name</RequiredLabel>
                   <Input
                     {...field}
                     id="name"
@@ -158,7 +150,7 @@ const StudentEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"phone"} title={"Phone"} />
+                  <RequiredLabel id={"phone"}>Phone</RequiredLabel>
 
                   <Input
                     {...field}
@@ -218,32 +210,12 @@ const StudentEdit = () => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="dob">Date of Birth</FieldLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          data-empty={!field.value}
-                          className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
-                        >
-                          {field.value ? (
-                            formatDate(field.value)
-                          ) : (
-                            <span>Pick a Date of Birth</span>
-                          )}
-                          <CalendarIcon />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          defaultMonth={field.value}
-                          captionLayout="dropdown"
-                          disabled={(date) => date >= new Date()}
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <DateInput
+                      ariaInvalid={fieldState.invalid}
+                      field={field}
+                      label="Pick a Date of Birth"
+                      disabledDate={(date) => date >= new Date()}
+                    />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
                     )}

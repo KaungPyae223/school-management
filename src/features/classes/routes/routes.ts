@@ -9,6 +9,14 @@ const routes = [
     },
     ErrorBoundary: ErrorPage,
   },
+  {
+    path: "classes/create",
+    lazy: async () => {
+      const module = await import("../pages/ClassesCreatePage");
+      return { Component: module.default };
+    },
+    ErrorBoundary: ErrorPage,
+  },
 ];
 
 export default routes;

@@ -90,6 +90,28 @@ export const teacherIPCs = () => {
     }
   });
 
+  ipcMain.handle("teacher:search-all-active", async (_, data) => {
+    try {
+      const teachers = await prisma.teacher.findMany({
+        where: {
+          deleted: false,
+          ...(data.search && {
+            name: { contains: data.search },
+          }),
+        },
+        select: { id: true, name: true, image: true },
+      });
+      return {
+        data: teachers.map((teacher) => ({
+          ...teacher,
+          image: showImage(teacher.image),
+        })),
+      };
+    } catch (error) {
+      return { error: error.message };
+    }
+  });
+
   ipcMain.handle("teacher:show", async (_, id) => {
     try {
       const teacher = await prisma.teacher.findUnique({

@@ -93,8 +93,6 @@ const CoursesCreatePage = () => {
     }
   };
 
-  console.log(form.watch("image"));
-
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
       <FormHeader title="Create Course" />
@@ -112,7 +110,7 @@ const CoursesCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="name" title="Name" />
+                  <RequiredLabel id="name">Name</RequiredLabel>
                   <Input
                     {...field}
                     id="name"
@@ -131,7 +129,7 @@ const CoursesCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="price" title="Price" />
+                  <RequiredLabel id="price">Price</RequiredLabel>
                   <Input
                     {...field}
                     id="price"
