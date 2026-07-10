@@ -1,16 +1,9 @@
 import {
-  ArchiveRestore,
   ArrowRight,
   BookOpen,
-  Calendar,
-  CalendarClock,
   ClipboardList,
-  EllipsisVertical,
-  Pencil,
   PlayCircle,
-  Trash2,
   UserPen,
-  Users,
 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import {
@@ -32,8 +25,6 @@ import CardMenu from "../../../components/card-utils/CardMenu";
 const CoursesCard = ({ course }: { course: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-
-
 
   return (
     <>

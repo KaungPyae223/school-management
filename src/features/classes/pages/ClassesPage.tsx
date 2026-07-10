@@ -6,14 +6,13 @@ import { Tabs } from "../../../components/ui/tabs";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
-import { courseService } from "../../../services/courses";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
 import { BookOpen } from "lucide-react";
-import CoursesList from "../../courses/components/CoursesList";
 import Paginate from "../../../components/paginate/Paginate";
 import { AnimatePresence, m } from "framer-motion";
 import ClassesHeader from "../components/ClassesHeader";
 import ClassesGrid from "../components/ClassesGrid";
+import { classesService } from "../../../services/classes";
 
 const ClassesPage = () => {
   useAddBreadcrumb({
@@ -27,13 +26,15 @@ const ClassesPage = () => {
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading } = useAppQuery({
-    queryKey: ["courses", activeQueryParams],
-    queryFn: () => courseService.getAllCourses(activeQueryParams),
+    queryKey: ["classes", activeQueryParams],
+    queryFn: () => classesService.getAllClasses(activeQueryParams),
   }) as { data: ResponseDataType; isLoading: boolean };
+
+  console.log(data);
 
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">
-      <ClassesHeader tab={view} />
+      <ClassesHeader tab={view} isTrashView={false} />
       {isLoading ? (
         <LoadingComponent />
       ) : data?.data.length === 0 ? (
@@ -45,7 +46,7 @@ const ClassesPage = () => {
             },
           }}
           description="There are no classes available at the moment. Please add a class to get started!"
-          title="No Courses"
+          title="No Classes"
           icon={BookOpen}
         />
       ) : (
@@ -70,9 +71,7 @@ const ClassesPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-              >
-                <CoursesList data={data?.data} />
-              </m.div>
+              ></m.div>
             )}
           </AnimatePresence>
           <Paginate meta={data?.meta} />

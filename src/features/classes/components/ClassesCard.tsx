@@ -1,25 +1,16 @@
 import {
-  ArchiveRestore,
   ArrowRight,
   BookOpen,
   Calendar,
   CalendarCheck2,
   CalendarClock,
   CalendarOff,
-  Check,
   CheckCircle2,
   Circle,
-  ClipboardList,
-  EllipsisVertical,
   GraduationCap,
   Layers,
-  Pencil,
   PlayCircle,
-  Trash2,
-  UserCheck,
-  UserPen,
   UserPlus,
-  Users,
 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import {
@@ -48,6 +39,7 @@ import {
   AvatarImage,
 } from "../../../components/ui/avatar";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import ClassesDeleteAlert from "./ClassesDeleteAlert";
 
 const statusConfig = {
   not_started: {
@@ -69,20 +61,30 @@ const statusConfig = {
   },
 };
 
-const ClassesCard = ({ course }: { course: any }) => {
+const ClassesCard = ({ classData }: { classData: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const status = statusConfig["ongoing"];
 
+  const openingDays = classData.days.split(",");
+
+  const changeTime = (date: Date) => {
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
   return (
     <>
       <Card className="shadow-sm hover:shadow-md pt-0 transition-shadow duration-200 group overflow-hidden">
         <div className="relative">
-          {course.image ? (
+          {classData.course_image ? (
             <>
               <img
-                src={course.image}
+                src={classData.course_image}
                 alt=""
                 className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -107,12 +109,12 @@ const ClassesCard = ({ course }: { course: any }) => {
             </TooltipContent>
           </Tooltip>
           <CardMenu
-            onEdit={() => navigate(`/courses/edit/${course.id}`)}
+            onEdit={() => navigate(`/classes/edit/${classData.id}`)}
             onDelete={() => setConfirmDialogOpen(true)}
           />
           <div className="absolute bottom-3 left-3">
             <Badge variant="secondary" className="text-sm shadow-sm ">
-              {formatCurrency(course.price)}
+              {formatCurrency(classData.price)}
             </Badge>
           </div>
           <div className="absolute top-3 left-3">
@@ -123,27 +125,29 @@ const ClassesCard = ({ course }: { course: any }) => {
         </div>
         <CardHeader>
           <div className="flex items-center justify-between gap-2">
-            <CardTitle className="text-lg">{course.name}</CardTitle>
+            <CardTitle className="text-lg">{classData.course_name}</CardTitle>
             <Tooltip>
               <TooltipTrigger>
                 <Badge
                   variant="secondary"
                   className="px-2 py-1 text-sm flex items-center gap-2"
                 >
-                  <Layers /> 50
+                  <Layers /> {classData.batch}
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>
-                <p>50 Bath</p>
+                <p>{classData.batch} batches</p>
               </TooltipContent>
             </Tooltip>
           </div>
-          <p className="text-sm text-muted-foreground mt-1 line-clamp-3">
-            Hello world my name is kaung pyae aung
-          </p>
+          {classData.description && (
+            <p className="text-sm text-muted-foreground mt-1 line-clamp-3">
+              {classData.description}
+            </p>
+          )}
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="mt-auto">
           <div className="grid grid-cols-2 gap-3 ">
             <CourseStatsCard
               icon={
@@ -154,7 +158,7 @@ const ClassesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-purple-100 dark:bg-purple-900/30"
               label="Start Time"
-              value={"9:00 pm"}
+              value={changeTime(classData.startTime)}
             />
 
             <CourseStatsCard
@@ -166,17 +170,17 @@ const ClassesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label="End Time"
-              value={"12:00 pm"}
+              value={changeTime(classData.endTime)}
             />
             <div className="col-span-2 w-full border border-border rounded-lg  px-3 py-2">
               <div className="text-muted-foreground text-xs flex items-center gap-1.5">
                 <Calendar className="size-3" /> Schedule Days
                 <Badge variant="secondary" className="ms-auto">
-                  {["monday", "tuesday"].length} days
+                  {openingDays.length} days
                 </Badge>
               </div>
               <div className="flex items-center gap-1.5 mt-2.5">
-                {["monday", "tuesday"].map((day) => (
+                {openingDays.map((day) => (
                   <Badge variant="outline" className="bg-white" key={day}>
                     {day.slice(0, 3)}
                   </Badge>
@@ -187,18 +191,18 @@ const ClassesCard = ({ course }: { course: any }) => {
             <div className="flex items-center col-span-2 justify-between rounded-lg border border-border  px-3 py-2">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
-                  {/* <AvatarImage
-                    src={course.teacher.image}
-                    alt={course.teacher.name}
-                  /> */}
+                  <AvatarImage
+                    src={classData.teacher_image}
+                    alt={classData.teacher_name}
+                  />
                   <AvatarFallback>
-                    {generateImageFallBack("Ko Ko AUng")}
+                    {generateImageFallBack(classData.teacher_name)}
                   </AvatarFallback>
                 </Avatar>
                 <div>
                   <p className="text-xs text-gray-500">Teacher</p>
                   <p className="text-sm font-medium text-gray-900 line-clamp-1">
-                    Ko Ko AUng
+                    {classData.teacher_name}
                   </p>
                 </div>
               </div>
@@ -223,7 +227,7 @@ const ClassesCard = ({ course }: { course: any }) => {
                 variant="secondary"
                 className="font-medium text-foreground"
               >
-                {100}
+                {classData.total_students}
               </Badge>
             </div>
             <CourseStatsCard
@@ -235,7 +239,7 @@ const ClassesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-blue-100 dark:bg-blue-900/30"
               label="Start Date"
-              value={formatDate(course.createdAt)}
+              value={formatDate(classData.startDate)}
             />
 
             <CourseStatsCard
@@ -247,14 +251,14 @@ const ClassesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-red-100 dark:bg-red-900/30"
               label="End Date"
-              value={formatDate(course.createdAt)}
+              value={classData.endDate ? formatDate(classData.endDate) : "TBA"}
             />
           </div>
         </CardContent>
 
         <CardCretedUpdated
-          createdAt={course.createdAt}
-          updatedAt={course.updatedAt}
+          createdAt={classData.createdAt}
+          updatedAt={classData.updatedAt}
         />
 
         <CardFooter>
@@ -264,6 +268,11 @@ const ClassesCard = ({ course }: { course: any }) => {
           </Button>
         </CardFooter>
       </Card>
+      <ClassesDeleteAlert
+        confirmDialogOpen={confirmDialogOpen}
+        setConfirmDialogOpen={setConfirmDialogOpen}
+        id={classData.id}
+      />
     </>
   );
 };

@@ -15,8 +15,8 @@ const ClassesGrid = ({ data }: { data: any[] }) => {
     <div>
       <CardSort sortOptions={sortOptions} prefix={"c."} />
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {data?.map((course: any) => (
-          <ClassesCard key={course.id} course={course} />
+        {data?.map((classData: any) => (
+          <ClassesCard key={classData.id} classData={classData} />
         ))}
       </div>
     </div>

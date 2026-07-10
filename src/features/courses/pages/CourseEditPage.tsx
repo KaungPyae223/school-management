@@ -103,12 +103,19 @@ const CourseEditPage = () => {
       <CardContent>
         <form id="edit-course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-            <ImageInput
-              label="Image"
-              form={form}
-              imageInputName="image"
-              imageWatch={form.watch("image")}
-              oldImageURL={course.image}
+            <Controller
+              control={form.control}
+              name={"image"}
+              render={({ field, fieldState }) => (
+                <ImageInput
+                  required
+                  label="Image"
+                  id="image"
+                  field={field}
+                  fieldState={fieldState}
+                  oldImageURL={course.image}
+                />
+              )}
             />
             <Controller
               name="name"

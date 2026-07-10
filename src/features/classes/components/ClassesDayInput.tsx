@@ -1,16 +1,17 @@
-import { useState } from "react";
 import { Button } from "../../../components/ui/button";
+import type {
+  ControllerRenderProps,
+  ControllerFieldState,
+} from "react-hook-form";
 
 const ClassesDayInput = ({
   field,
   fieldState,
 }: {
-  field: any;
-  fieldState: any;
+  field: ControllerRenderProps<any, "days">;
+  fieldState: ControllerFieldState;
 }) => {
-  const [selectedDays, setSelectedDays] = useState<string[]>(
-    field?.value?.split(",") ?? [],
-  );
+   const selectedDays = field.value?.split(",") ?? [];
 
   const days = [
     "Monday",
@@ -33,30 +34,32 @@ const ClassesDayInput = ({
   };
 
   const toggleDay = (day: string) => {
-    const newSelectedDays = selectedDays.includes(day)
-      ? selectedDays.filter((d) => d !== day)
-      : [...selectedDays, day];
+    const newSelectedDays = (
+      selectedDays.includes(day)
+        ? selectedDays.filter((d: string) => d !== day)
+        : [...selectedDays, day]
+    ).filter((d: string) => d !== "");
 
     const sortedDays = newSelectedDays.sort(
-      (a, b) =>
+      (a: string, b: string) =>
         dayOrder[a as keyof typeof dayOrder] -
         dayOrder[b as keyof typeof dayOrder],
     );
 
-    setSelectedDays(sortedDays);
     field.onChange(sortedDays.join(","));
   };
 
   return (
     <div
       aria-invalid={fieldState.invalid}
-      className="p-3 rounded-lg border border-border aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20  dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 flex flex-wrap items-center gap-2"
+      className="p-3 rounded-lg border border-border aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20  dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 grid grid-cols-4 items-center gap-2"
     >
       {days.map((day) => (
         <Button
           type="button"
           key={day}
           size="sm"
+          className="w-full"
           variant={selectedDays.includes(day) ? "default" : "outline"}
           onClick={() => toggleDay(day)}
         >

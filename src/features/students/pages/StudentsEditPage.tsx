@@ -119,12 +119,18 @@ const StudentEdit = () => {
       <CardContent>
         <form id="edit-student-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-            <ImageInput
-              label="Image"
-              form={form}
-              oldImageURL={student.image}
-              imageInputName="image"
-              imageWatch={form.watch("image")}
+            <Controller
+              control={form.control}
+              name={"image"}
+              render={({ field, fieldState }) => (
+                <ImageInput
+                  label="Image"
+                  id="image"
+                  field={field}
+                  fieldState={fieldState}
+                  oldImageURL={student.image}
+                />
+              )}
             />
             <Controller
               name="name"

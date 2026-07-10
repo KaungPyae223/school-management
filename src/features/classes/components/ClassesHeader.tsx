@@ -12,7 +12,13 @@ import ColumnSelector from "../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
 import ChangeTrashView from "../../../components/header/ChangeTrashView";
 
-const ClassesHeader = ({ tab }: { tab: string }) => {
+const ClassesHeader = ({
+  tab,
+  isTrashView = true,
+}: {
+  tab: string;
+  isTrashView?: boolean;
+}) => {
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-row gap-3 justify-between">
@@ -56,7 +62,7 @@ const ClassesHeader = ({ tab }: { tab: string }) => {
         </div>
 
         <div className="flex gap-2">
-          <ChangeTrashView />
+          {isTrashView && <ChangeTrashView />}
 
           <TabsList>
             <TabsTrigger value="grid">

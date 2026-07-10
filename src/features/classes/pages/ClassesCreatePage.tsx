@@ -17,41 +17,43 @@ import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useState } from "react";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import RequiredLabel from "../../../components/form/RequiredLabel";
-import { useCreateCourse } from "../../courses/hooks/useCreateCourse";
 import TimeInput from "../../../components/form/TimeInput";
 import DateInput from "../../../components/form/DateInput";
 import ClassesCourseInput from "../components/ClassesCourseInput";
 import ClassesTeacherInput from "../components/ClassesTeacherInput";
 import ClassesDayInput from "../components/ClassesDayInput";
+import { useCreateClass } from "../hooks/useCreateClass";
+import { toast } from "sonner";
 
 const formSchema = z
   .object({
-    teacherID: z.number().min(1, "Teacher is required"),
-    courseID: z.number().min(1, "Course is required"),
+    teacherId: z.number().min(1, "Teacher is required"),
+    courseId: z.number().min(1, "Course is required"),
     startDate: z
       .date({
         message: "Start date is required",
       })
-      .refine((date) => date > new Date(), {
-        message: "Start date must be greater than today",
+      .refine((date) => date >= new Date(), {
+        message: "Start date must be greater than or equal to today",
       }),
     startTime: z.date({ message: "Start time is required" }),
     endTime: z.date({ message: "End time is required" }),
     days: z.string().min(1, "Day is required"),
     description: z.string().optional(),
+    price: z.number().min(1, "Price is required"),
   })
-  .refine(
-    (data) => {
-      return data.startTime < data.endTime;
-    },
-    {
-      message: "Start time must be before end time",
-      path: ["startTime", "endTime"],
-    },
-  );
+  .refine((data) => data.startTime < data.endTime, {
+    message: "Start time must be before end time",
+    path: ["endTime"],
+  })
+  .refine((data) => data.startTime < data.endTime, {
+    message: "End time must be after start time",
+    path: ["startTime"],
+  });
 
 const ClassesCratePage = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
     title: "Create Class",
@@ -72,8 +74,8 @@ const ClassesCratePage = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      teacherID: 0,
-      courseID: 0,
+      teacherId: 0,
+      courseId: 0,
       startDate: undefined,
       startTime: undefined,
       endTime: undefined,
@@ -86,9 +88,24 @@ const ClassesCratePage = () => {
     setConfirmDialogOpen(true);
   };
 
-  const { mutateAsync, isPending } = useCreateCourse();
+  const { mutateAsync, isPending } = useCreateClass();
 
-  const createCourse = async () => {};
+  const createClass = async () => {
+    try {
+      const data = form.getValues();
+
+      await mutateAsync(data);
+
+      toast.success("Class created successfully");
+      form.reset();
+    } catch (error: unknown) {
+      console.log(error);
+      toast.error((error as Error).message);
+      setErrorMessage((error as Error).message);
+    } finally {
+      setConfirmDialogOpen(false);
+    }
+  };
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
@@ -96,15 +113,27 @@ const ClassesCratePage = () => {
       <CardContent>
         <form id="create-course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
+            {errorMessage && (
+              <div
+                className={`border border-destructive bg-destructive/10 text-destructive rounded-md p-3 text-sm`}
+              >
+                {errorMessage}
+              </div>
+            )}
+
             <Controller
-              name="courseID"
+              name="courseId"
               control={form.control}
               render={({ field, fieldState }) => (
-                <ClassesCourseInput field={field} fieldState={fieldState} />
+                <ClassesCourseInput
+                  field={field}
+                  fieldState={fieldState}
+                  setValue={form.setValue}
+                />
               )}
             />
             <Controller
-              name="teacherID"
+              name="teacherId"
               control={form.control}
               render={({ field, fieldState }) => (
                 <ClassesTeacherInput field={field} fieldState={fieldState} />
@@ -209,9 +238,9 @@ const ClassesCratePage = () => {
       <ConfirmDialog
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
-        onConfirm={createCourse}
-        title="Create this course?"
-        description="Please confirm that you want to create this course with the provided information. You can edit the course later if needed."
+        onConfirm={createClass}
+        title="Create this class?"
+        description="Please confirm that you want to create this class with the provided information. You can edit the class later if needed."
       />
     </Card>
   );

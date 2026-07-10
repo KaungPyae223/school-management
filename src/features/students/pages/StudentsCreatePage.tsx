@@ -115,11 +115,17 @@ const StudentsCreatePage = () => {
       <CardContent>
         <form id="create-student-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-            <ImageInput
-              label="Image"
-              form={form}
-              imageInputName="image"
-              imageWatch={form.watch("image")}
+            <Controller
+              control={form.control}
+              name={"image"}
+              render={({ field, fieldState }) => (
+                <ImageInput
+                  label="Image"
+                  id="image"
+                  field={field}
+                  fieldState={fieldState}
+                />
+              )}
             />
             <Controller
               name="name"

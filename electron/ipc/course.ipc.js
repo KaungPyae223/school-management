@@ -38,16 +38,16 @@ export const courseIPCs = () => {
     try {
       const [courses, totalData] = await Promise.all([
         prisma.$queryRaw`
-          SELECT 
+          SELECT
             c.*,
             COUNT(DISTINCT cl.id) as total_classes,
             COUNT(DISTINCT CASE WHEN cl.startDate >= datetime('now') AND cl.endDate IS NULL THEN cl.id END) as total_active_classes,
             COUNT(DISTINCT e.id) as total_enrollments,
             COUNT(DISTINCT t.id) as total_teachers
           FROM courses c
-          LEFT JOIN classes cl ON c.id = cl.courseId 
-          LEFT JOIN enrollments e ON cl.id = e.classId 
-          LEFT JOIN teachers t ON cl.teacherId = t.id 
+          LEFT JOIN classes cl ON c.id = cl.courseId
+          LEFT JOIN enrollments e ON cl.id = e.classId
+          LEFT JOIN teachers t ON cl.teacherId = t.id
           WHERE c.deleted = ${!!trash}
           ${search ? Prisma.sql`AND (c.name LIKE LOWER(${`%${search}%`}) OR c.description LIKE LOWER(${`%${search}%`}))` : Prisma.empty}
           GROUP BY c.id
@@ -100,7 +100,7 @@ export const courseIPCs = () => {
             name: { contains: data.search },
           }),
         },
-        select: { id: true, name: true, image: true },
+        select: { id: true, name: true, price: true, image: true },
       });
       return {
         data: courses.map((course) => ({

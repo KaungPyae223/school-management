@@ -5,30 +5,37 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
 import { Trash } from "lucide-react";
 import { debounce } from "lodash";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import type {
+  ControllerRenderProps,
+  ControllerFieldState,
+} from "react-hook-form";
 
 const ClassesTeacherInput = ({
   field,
   fieldState,
   defaultSelectedTeacher,
 }: {
-  field: any;
-  fieldState: any;
-  defaultSelectedTeacher?: any;
+  field: ControllerRenderProps<any, "teacherId">;
+  fieldState: ControllerFieldState;
+  defaultSelectedTeacher?: unknown;
 }) => {
+
+  const teacherValue = field.value;
+  
   const [teacherName, setTeacherName] = useState<string>("");
   const [showTeacherDropDown, setShowTeacherDropDown] =
     useState<boolean>(false);
-  const [selectedTeacher, setSelectedTeacher] = useState<any>(
+  const [selectedTeacher, setSelectedTeacher] = useState<unknown>(
     defaultSelectedTeacher,
   );
-  const [teacherData, setTeacherData] = useState<any>([]);
+  const [teacherData, setTeacherData] = useState<unknown[]>([]);
 
   const debouncedUpdateParams = debounce((value: string) => {
     window.api
@@ -45,18 +52,18 @@ const ClassesTeacherInput = ({
       });
   }, 750);
 
-  useEffect(() => {
-    if (teacherName.length > 2) {
-      debouncedUpdateParams(teacherName);
-    } else {
+  const handleTeacherChange = (value: string) => {
+    setTeacherName(value);
+
+    if (value.length <= 2) {
       setShowTeacherDropDown(false);
       setTeacherData([]);
+      debouncedUpdateParams.cancel();
+      return;
     }
 
-    return () => {
-      debouncedUpdateParams.cancel();
-    };
-  }, [teacherName]);
+    debouncedUpdateParams(value);
+  };
 
   return (
     <Field data-invalid={fieldState.invalid}>
@@ -67,7 +74,7 @@ const ClassesTeacherInput = ({
           id="teacherID"
           value={teacherName}
           onChange={(e) => {
-            setTeacherName(e.target.value);
+            handleTeacherChange(e.target.value);
           }}
           onFocus={() => setShowTeacherDropDown(true)}
           onBlur={() => setShowTeacherDropDown(false)}
@@ -112,7 +119,7 @@ const ClassesTeacherInput = ({
 
       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 
-      {selectedTeacher && (
+      {selectedTeacher && teacherValue !== 0 && (
         <div className="mt-2 flex items-center justify-between rounded-lg border border-border  p-3 ">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10">
@@ -137,7 +144,7 @@ const ClassesTeacherInput = ({
             size="icon-sm"
             variant="outline"
             onClick={() => {
-              field.onChange(null);
+              field.onChange(0);
               setSelectedTeacher(null);
             }}
           >

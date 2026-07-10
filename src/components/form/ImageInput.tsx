@@ -1,35 +1,34 @@
-import { Controller } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "../ui/field";
 import { Button } from "../ui/button";
 import { Upload, X } from "lucide-react";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import type {
+  ControllerRenderProps,
+  ControllerFieldState,
   FieldValues,
-  Path,
-  PathValue,
-  UseFormReturn,
+  FieldPath,
 } from "react-hook-form";
 import { toast } from "sonner";
 
 const ImageInput = <T extends FieldValues = FieldValues>({
-  form,
+  required,
   label,
-  imageInputName,
+  id,
+  field,
+  fieldState,
   oldImageURL,
-  imageWatch,
 }: {
-  form: UseFormReturn<T>;
+  required?: boolean;
   label: string;
-  imageInputName: Path<T>;
+  id: string;
+  field: ControllerRenderProps<T, FieldPath<T>>;
+  fieldState: ControllerFieldState;
   oldImageURL?: string;
-  imageWatch: File | undefined;
 }) => {
   const [isDragging, setIsDragging] = useState(false);
 
-  console.log("imageWatch", imageWatch);
-
-  const selectedImage = imageWatch ? URL.createObjectURL(imageWatch) : null;
+  const selectedImage = field.value ? URL.createObjectURL(field.value) : null;
 
   const handleImageUpload = (
     files: FileList | null,
@@ -49,8 +48,6 @@ const ImageInput = <T extends FieldValues = FieldValues>({
       toast.error("File size must be less than 5MB");
       return;
     }
-
-    form.setValue(imageInputName, file as PathValue<T, Path<T>>);
 
     onChange(file);
   };
@@ -75,93 +72,86 @@ const ImageInput = <T extends FieldValues = FieldValues>({
   };
 
   const clearImage = () => {
-    form.setValue(imageInputName, undefined, {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
+    field.onChange(undefined);
   };
 
   return (
-    <Controller
-      control={form.control}
-      name={imageInputName}
-      render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor="image">
-            <div className="w-full">
-              {label}
-              <div
-                className={`border-2 mb-2 mt-3 border-dashed rounded-xl p-6 text-center w-full transition-all cursor-pointer ${
-                  isDragging
-                    ? "border-blue-400 bg-blue-50"
-                    : "border-gray-300 hover:border-gray-400 hover:bg-gray-50"
-                }`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, field.onChange)}
-              >
-                {selectedImage ? (
-                  <div className="relative">
-                    <img
-                      src={selectedImage}
-                      alt="Project cover"
-                      className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-sm"
-                    />
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="sm"
-                      className="absolute -top-2 -right-2 h-8 w-8 p-0 rounded-full shadow-lg"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        clearImage();
-                      }}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ) : oldImageURL ? (
-                  <img
-                    src={oldImageURL}
-                    alt="Project cover"
-                    className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-sm"
-                  />
-                ) : (
-                  <div>
-                    <Upload
-                      className={`h-8 w-8 my-6 mx-auto transition-colors duration-200 ${
-                        isDragging ? "text-indigo-500" : "text-gray-400 "
-                      }`}
-                    />
-                    <p className="text-sm text-gray-600 my-2">
-                      Drag and drop or click to upload cover image
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      PNG, JPG, WebP (Max 5MB)
-                    </p>
-                  </div>
-                )}
+    <Field data-invalid={fieldState.invalid}>
+      <FieldLabel htmlFor={id}>
+        <div className="w-full">
+          <div className="flex flex-row justify-between items-center">
+            {label}
+            {required && (
+              <span className="text-muted-foreground text-xs">Required</span>
+            )}
+          </div>
+          <div
+            className={`border-2 mb-2 mt-3 border-dashed rounded-xl p-6 text-center w-full transition-all cursor-pointer ${
+              isDragging
+                ? "border-blue-400 bg-blue-50"
+                : "border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+            }`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={(e) => handleDrop(e, field.onChange)}
+          >
+            {selectedImage ? (
+              <div className="relative">
+                <img
+                  src={selectedImage}
+                  alt="Project cover"
+                  className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-sm"
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  className="absolute -top-2 -right-2 h-8 w-8 p-0 rounded-full shadow-lg"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    clearImage();
+                  }}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
-            </div>
-          </FieldLabel>
-          <Input
-            id="image"
-            name={field.name}
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                handleImageUpload(e.target.files, field.onChange);
-              }
-            }}
-            className="hidden"
-          />
-          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-        </Field>
-      )}
-    />
+            ) : oldImageURL ? (
+              <img
+                src={oldImageURL}
+                alt="Project cover"
+                className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-sm"
+              />
+            ) : (
+              <div>
+                <Upload
+                  className={`h-8 w-8 my-6 mx-auto transition-colors duration-200 ${
+                    isDragging ? "text-indigo-500" : "text-gray-400 "
+                  }`}
+                />
+                <p className="text-sm text-gray-600 my-2">
+                  Drag and drop or click to upload cover image
+                </p>
+                <p className="text-xs text-gray-500">
+                  PNG, JPG, WebP (Max 5MB)
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </FieldLabel>
+      <Input
+        id={id}
+        name={field.name}
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+          handleImageUpload(e.target.files, field.onChange);
+        }}
+        className="hidden"
+      />
+      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+    </Field>
   );
 };
 
