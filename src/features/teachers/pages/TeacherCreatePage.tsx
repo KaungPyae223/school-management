@@ -23,6 +23,7 @@ import { generateImageData } from "../../../utils/generate-image-data";
 import { useCreateTeacher } from "../hooks/useCreateTeacher";
 
 import RequiredLabel from "../../../components/form/RequiredLabel";
+import FormError from "../../../components/form/FormError";
 
 const formSchema = z.object({
   image: z
@@ -46,6 +47,7 @@ const formSchema = z.object({
 
 const TeachersCreatePage = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
     title: "Create Teacher",
@@ -80,6 +82,7 @@ const TeachersCreatePage = () => {
   const { mutateAsync, isPending } = useCreateTeacher();
 
   const createTeacher = async () => {
+    setErrorMessage("");
     try {
       const data = form.getValues();
       const imageData = await generateImageData(data.image);
@@ -93,9 +96,15 @@ const TeachersCreatePage = () => {
       form.reset();
     } catch (error: any) {
       toast.error(error.message);
+      setErrorMessage(error.message);
     } finally {
       setConfirmDialogOpen(false);
     }
+  };
+
+  const resetForm = () => {
+    form.reset();
+    setErrorMessage("");
   };
 
   return (
@@ -104,6 +113,7 @@ const TeachersCreatePage = () => {
       <CardContent>
         <form id="create-teacher-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
+            <FormError errorMessage={errorMessage} />
             <Controller
               control={form.control}
               name={"image"}
@@ -217,7 +227,7 @@ const TeachersCreatePage = () => {
         </form>
       </CardContent>
       <FormFooter
-        form={form}
+        resetForm={resetForm}
         formID="create-teacher-form"
         isSubmitting={isPending}
       />

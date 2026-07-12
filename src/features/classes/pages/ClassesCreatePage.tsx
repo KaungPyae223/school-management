@@ -24,6 +24,7 @@ import ClassesTeacherInput from "../components/ClassesTeacherInput";
 import ClassesDayInput from "../components/ClassesDayInput";
 import { useCreateClass } from "../hooks/useCreateClass";
 import { toast } from "sonner";
+import FormError from "../../../components/form/FormError";
 
 const formSchema = z
   .object({
@@ -91,6 +92,7 @@ const ClassesCratePage = () => {
   const { mutateAsync, isPending } = useCreateClass();
 
   const createClass = async () => {
+    setErrorMessage("");
     try {
       const data = form.getValues();
 
@@ -107,19 +109,18 @@ const ClassesCratePage = () => {
     }
   };
 
+  const resetForm = () => {
+    form.reset();
+    setErrorMessage("");
+  };
+
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
       <FormHeader title="Create Class" />
       <CardContent>
-        <form id="create-course-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="create-class-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-            {errorMessage && (
-              <div
-                className={`border border-destructive bg-destructive/10 text-destructive rounded-md p-3 text-sm`}
-              >
-                {errorMessage}
-              </div>
-            )}
+            <FormError errorMessage={errorMessage} />
 
             <Controller
               name="courseId"
@@ -212,12 +213,14 @@ const ClassesCratePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="description">Description</FieldLabel>
+                  <FieldLabel htmlFor="classDescription">
+                    Description
+                  </FieldLabel>
                   <Textarea
                     {...field}
-                    id="description"
+                    id="classDescription"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter course description"
+                    placeholder="Enter class description"
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -230,9 +233,9 @@ const ClassesCratePage = () => {
         </form>
       </CardContent>
       <FormFooter
-        form={form}
-        formID="create-course-form"
+        formID="create-class-form"
         isSubmitting={isPending}
+        resetForm={resetForm}
       />
 
       <ConfirmDialog

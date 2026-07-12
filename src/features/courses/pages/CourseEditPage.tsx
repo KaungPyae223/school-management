@@ -23,6 +23,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import { useUpdateCourse } from "../hooks/useUpdateCourse";
 import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
+import FormError from "../../../components/form/FormError";
 
 const formSchema = z.object({
   image: z
@@ -45,6 +46,7 @@ const formSchema = z.object({
 const CourseEditPage = () => {
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const course = useLoaderData();
 
   useAddBreadcrumb({
@@ -78,6 +80,7 @@ const CourseEditPage = () => {
   const { mutateAsync, isPending } = useUpdateCourse();
 
   const editCourse = async () => {
+    setErrorMessage("");
     try {
       const data = form.getValues();
       const imageData = await generateImageData(data.image);
@@ -92,9 +95,15 @@ const CourseEditPage = () => {
       navigate("/courses");
     } catch (error: any) {
       toast.error(error.message);
+      setErrorMessage(error.message);
     } finally {
       setConfirmDialogOpen(false);
     }
+  };
+
+  const resetForm = () => {
+    form.reset();
+    setErrorMessage("");
   };
 
   return (
@@ -103,6 +112,7 @@ const CourseEditPage = () => {
       <CardContent>
         <form id="edit-course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
+            <FormError errorMessage={errorMessage} />
             <Controller
               control={form.control}
               name={"image"}
@@ -183,9 +193,9 @@ const CourseEditPage = () => {
         </form>
       </CardContent>
       <FormFooter
-        form={form}
         formID="edit-course-form"
         isSubmitting={isPending}
+        resetForm={resetForm}
       />
 
       <ConfirmDialog

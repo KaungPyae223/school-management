@@ -1,16 +1,15 @@
 import { CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
-import type { FieldValues, UseFormReturn } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
 
-const FormFooter = <T extends FieldValues>({
-  form,
+const FormFooter = ({
   formID,
   isSubmitting,
+  resetForm,
 }: {
-  form: UseFormReturn<T>;
   formID: string;
   isSubmitting: boolean;
+  resetForm: () => void;
 }) => {
   return (
     <CardFooter className="flex gap-2">
@@ -18,7 +17,7 @@ const FormFooter = <T extends FieldValues>({
         className="ms-auto"
         type="button"
         variant="outline"
-        onClick={() => form.reset()}
+        onClick={resetForm}
       >
         Reset
       </Button>

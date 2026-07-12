@@ -22,6 +22,7 @@ import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useCreateCourse } from "../hooks/useCreateCourse";
 import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
+import FormError from "../../../components/form/FormError";
 
 const formSchema = z.object({
   image: z
@@ -43,6 +44,7 @@ const formSchema = z.object({
 
 const CoursesCreatePage = () => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
     title: "Create Course",
@@ -75,6 +77,7 @@ const CoursesCreatePage = () => {
   const { mutateAsync, isPending } = useCreateCourse();
 
   const createCourse = async () => {
+    setErrorMessage("");
     try {
       const data = form.getValues();
       const imageData = await generateImageData(data.image);
@@ -88,9 +91,15 @@ const CoursesCreatePage = () => {
       form.reset();
     } catch (error: any) {
       toast.error(error.message);
+      setErrorMessage(error.message);
     } finally {
       setConfirmDialogOpen(false);
     }
+  };
+
+  const resetForm = () => {
+    form.reset();
+    setErrorMessage("");
   };
 
   return (
@@ -99,6 +108,8 @@ const CoursesCreatePage = () => {
       <CardContent>
         <form id="create-course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
+            <FormError errorMessage={errorMessage} />
+
             <Controller
               control={form.control}
               name={"image"}
@@ -178,9 +189,9 @@ const CoursesCreatePage = () => {
         </form>
       </CardContent>
       <FormFooter
-        form={form}
         formID="create-course-form"
         isSubmitting={isPending}
+        resetForm={resetForm}
       />
 
       <ConfirmDialog
