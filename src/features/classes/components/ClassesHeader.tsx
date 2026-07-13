@@ -41,19 +41,24 @@ const ClassesHeader = ({
                 <ColumnSelector
                   columns={[
                     "Name",
+                    "Teacher",
+                    "Total Students",
+                    "Days",
                     "Price",
-                    "Description",
-                    "Enrollments",
-                    "Teachers",
-                    "Classes",
-                    "Active",
+                    "Status",
+                    "Time",
+                    "Start Date",
+                    "End Date",
                   ]}
-                  alwaysSelectedColumns={["Name", "Price"]}
+                  alwaysSelectedColumns={["Name", "Teacher"]}
                   defaultSelectedColumns={[
                     "Name",
+                    "Teacher",
+                    "Total Students",
+                    "Days",
                     "Price",
-                    "Description",
-                    "Created At",
+                    "Status",
+                    "Time",
                   ]}
                 />
               </m.div>

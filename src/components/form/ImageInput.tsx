@@ -132,7 +132,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
                 <p className="text-sm text-gray-600 my-2">
                   Drag and drop or click to upload cover image
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   PNG, JPG, WebP (Max 5MB)
                 </p>
               </div>

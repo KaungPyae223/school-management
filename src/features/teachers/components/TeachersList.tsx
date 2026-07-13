@@ -10,11 +10,8 @@ import {
   Trash2,
 } from "lucide-react";
 import Table from "../../../components/table/Table";
-import TableActionButton from "../../../components/table/TableActionButton";
 import TableBody from "../../../components/table/TableBody";
 import TableCell from "../../../components/table/TableCell";
-import TableHead from "../../../components/table/TableHead";
-import TableHeader from "../../../components/table/TableHeader";
 import TableRow from "../../../components/table/TableRow";
 import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
 import {
@@ -25,7 +22,7 @@ import {
 import TableIconContent from "../../../components/table/TableIconContent";
 import type { TableHeadType } from "../../../types/TableHeader";
 import { formatDate } from "../../../utils/format-date";
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useState } from "react";
 import TeacherDeleteAlert from "./TeachersDeleteAlert";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";

@@ -17,6 +17,23 @@ const routes = [
     },
     ErrorBoundary: ErrorPage,
   },
+  {
+    path: "classes/edit/:id",
+    lazy: async () => {
+      const module = await import("../pages/ClassesEditPage");
+      return { Component: module.default };
+    },
+    loader: async ({ params }) => {
+      const result = await window.api.getClass(Number(params.id));
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      return result.data;
+    },
+    ErrorBoundary: ErrorPage,
+  },
 ];
 
 export default routes;

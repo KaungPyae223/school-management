@@ -40,6 +40,7 @@ import {
 } from "../../../components/ui/avatar";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import ClassesDeleteAlert from "./ClassesDeleteAlert";
+import { useChangeTime } from "../hooks/useChangeTime";
 
 const statusConfig = {
   not_started: {
@@ -65,17 +66,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const status = statusConfig["ongoing"];
-
   const openingDays = classData.days.split(",");
-
-  const changeTime = (date: Date) => {
-    return date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
 
   return (
     <>
@@ -118,8 +109,9 @@ const ClassesCard = ({ classData }: { classData: any }) => {
             </Badge>
           </div>
           <div className="absolute top-3 left-3">
-            <Badge className={` ${status.className}`}>
-              {status.icon} {status.label}
+            <Badge className={` ${statusConfig[classData.status].className}`}>
+              {statusConfig[classData.status].icon}{" "}
+              {statusConfig[classData.status].label}
             </Badge>
           </div>
         </div>
@@ -158,7 +150,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               }
               iconBg="bg-purple-100 dark:bg-purple-900/30"
               label="Start Time"
-              value={changeTime(classData.startTime)}
+              value={useChangeTime(classData.startTime)}
             />
 
             <CourseStatsCard
@@ -170,7 +162,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label="End Time"
-              value={changeTime(classData.endTime)}
+              value={useChangeTime(classData.endTime)}
             />
             <div className="col-span-2 w-full border border-border rounded-lg  px-3 py-2">
               <div className="text-muted-foreground text-xs flex items-center gap-1.5">
@@ -200,8 +192,8 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-xs text-gray-500">Teacher</p>
-                  <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                  <p className="text-xs text-muted-foreground">Teacher</p>
+                  <p className="text-sm font-medium  line-clamp-1">
                     {classData.teacher_name}
                   </p>
                 </div>

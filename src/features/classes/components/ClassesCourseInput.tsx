@@ -5,7 +5,7 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
 import { Trash } from "lucide-react";
 import { debounce } from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   ControllerRenderProps,
   ControllerFieldState,
@@ -26,10 +26,14 @@ const ClassesCourseInput = ({
 
   const [courseName, setCourseName] = useState<string>("");
   const [showCourseDropDown, setShowCourseDropDown] = useState<boolean>(false);
-  const [selectedCourse, setSelectedCourse] = useState<unknown>(
-    defaultSelectedCourse,
-  );
+  const [selectedCourse, setSelectedCourse] = useState<unknown>(null);
   const [courseData, setCourseData] = useState<unknown[]>([]);
+
+  useEffect(() => {
+    if (defaultSelectedCourse) {
+      setSelectedCourse(defaultSelectedCourse);
+    }
+  }, [defaultSelectedCourse]);
 
   const debouncedUpdateParams = debounce((value: string) => {
     window.api
@@ -98,7 +102,7 @@ const ClassesCourseInput = ({
                       className="h-10 w-10 object-cover items-center rounded-md"
                     />
                     <div>
-                      <p className="text-xs text-gray-500">Course</p>
+                      <p className="text-xs text-muted-foreground">Course</p>
                       <p className="text-sm font-medium text-gray-900 line-clamp-1">
                         {data.name}
                       </p>
@@ -124,7 +128,7 @@ const ClassesCourseInput = ({
               className="h-10 w-10 object-cover items-center rounded-md"
             />
             <div>
-              <p className="text-xs text-gray-500">Course</p>
+              <p className="text-xs text-muted-foreground">Course</p>
               <p className="text-sm font-medium text-gray-900 line-clamp-1">
                 {selectedCourse.name}
               </p>

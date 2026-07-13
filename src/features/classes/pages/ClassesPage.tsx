@@ -13,6 +13,7 @@ import { AnimatePresence, m } from "framer-motion";
 import ClassesHeader from "../components/ClassesHeader";
 import ClassesGrid from "../components/ClassesGrid";
 import { classesService } from "../../../services/classes";
+import ClassesList from "../components/ClassesList";
 
 const ClassesPage = () => {
   useAddBreadcrumb({
@@ -71,7 +72,9 @@ const ClassesPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-              ></m.div>
+              >
+                <ClassesList data={data?.data} />
+              </m.div>
             )}
           </AnimatePresence>
           <Paginate meta={data?.meta} />

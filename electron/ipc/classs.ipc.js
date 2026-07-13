@@ -4,6 +4,46 @@ import { showImage } from "../utils/showImage.js";
 import { Prisma } from "../../generated/prisma/index.js";
 import { formatTime } from "../utils/formatTime.js";
 
+const isTeacherBusy = async (
+  teacherId,
+  days,
+  startTime,
+  endTime,
+  classId = null,
+) => {
+  const daysArray = days.split(",").map((d) => d.trim());
+
+  const daysCondition = Prisma.join(
+    daysArray.map((day) => Prisma.sql`days LIKE ${"%" + day + "%"}`),
+    " OR ",
+  );
+
+  const checkTeacherBusy = await prisma.$queryRaw`
+        SELECT startTime, endTime, days, id 
+        FROM classes 
+        WHERE teacherId = ${teacherId}
+        AND (endDate IS NULL OR endDate > ${startTime})
+        AND (
+          (
+            time(startTime) < time(${startTime})
+            AND
+            time(endTime) > time(${startTime})
+          ) OR (
+            time(startTime) < time(${endTime})
+            AND
+            time(endTime) > time(${endTime})
+          )
+        )
+        AND (
+          ${daysCondition}
+        )
+        ${classId && Prisma.sql`AND id <> ${classId}`}
+        LIMIT 1
+      `;
+
+  return checkTeacherBusy;
+};
+
 export const classesIPCs = () => {
   ipcMain.handle("class:index", async (_, data) => {
     const {
@@ -35,6 +75,19 @@ export const classesIPCs = () => {
 
     const skip = Number(page - 1) * Number(limit);
 
+    const generateStatus = (startDate, endDate) => {
+      const today = new Date();
+      const start = new Date(startDate);
+      const end = endDate ? new Date(endDate) : null;
+      if (today < start) {
+        return "not_started";
+      } else if (end && today > end) {
+        return "complete";
+      } else {
+        return "ongoing";
+      }
+    };
+
     try {
       const [classes, totalData] = await Promise.all([
         prisma.$queryRaw`
@@ -42,6 +95,7 @@ export const classesIPCs = () => {
             cl.*,
             COUNT(DISTINCT e.id) as total_students,
             t.name as teacher_name,
+            t.email as teacher_email,
             t.image as teacher_image,
             c.name as course_name,
             c.image as course_image
@@ -76,6 +130,7 @@ export const classesIPCs = () => {
           ...classData,
           course_image: showImage(classData.course_image),
           teacher_image: showImage(classData.teacher_image),
+          status: generateStatus(classData.startDate, classData.endDate),
         })),
         meta: { total_data: totalData, total_pages, page, limit },
       };
@@ -150,6 +205,7 @@ export const classesIPCs = () => {
           endTime: true,
           days: true,
           price: true,
+          description: true,
           course: {
             select: {
               id: true,
@@ -192,34 +248,12 @@ export const classesIPCs = () => {
         },
       });
 
-      const daysArray = data.days.split(",").map((d) => d.trim());
-
-      const daysCondition = Prisma.join(
-        daysArray.map((day) => Prisma.sql`days LIKE ${"%" + day + "%"}`),
-        " OR ",
+      const checkTeacherBusy = await isTeacherBusy(
+        data.teacherId,
+        data.days,
+        data.startTime,
+        data.endTime,
       );
-
-      const checkTeacherBusy = await prisma.$queryRaw`
-        SELECT startTime, endTime, days, id 
-        FROM classes 
-        WHERE teacherId = ${data.teacherId}
-        AND (endDate IS NULL OR endDate > ${data.startDate})
-        AND (
-          (
-            time(startTime) < time(${data.startTime})
-            AND
-            time(endTime) > time(${data.startTime})
-          ) OR (
-            time(startTime) < time(${data.endTime})
-            AND
-            time(endTime) > time(${data.endTime})
-          )
-        )
-        AND (
-          ${daysCondition}
-        )
-        LIMIT 1
-      `;
 
       if (checkTeacherBusy.length > 0) {
         throw new Error(
@@ -242,6 +276,22 @@ export const classesIPCs = () => {
   ipcMain.handle("class:update", async (_, data) => {
     try {
       const { id, ...restData } = data;
+
+      if (restData.teacherId) {
+        const checkTeacherBusy = await isTeacherBusy(
+          restData.teacherId,
+          restData.days,
+          restData.startTime,
+          restData.endTime,
+          id,
+        );
+
+        if (checkTeacherBusy.length > 0) {
+          throw new Error(
+            `Teacher has a schedule conflict on ${checkTeacherBusy[0].days} at ${formatTime(checkTeacherBusy[0].startTime)} to ${formatTime(checkTeacherBusy[0].endTime)}. Please choose another day or time.`,
+          );
+        }
+      }
 
       await prisma.class.update({
         where: { id },

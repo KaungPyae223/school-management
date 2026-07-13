@@ -60,7 +60,7 @@ const StudentEdit = () => {
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const student = useLoaderData();
+  const data = useLoaderData();
 
   useAddBreadcrumb({
     title: "Edit Student",
@@ -80,12 +80,12 @@ const StudentEdit = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       image: undefined,
-      name: student.name,
-      address: student.address ?? "",
-      email: student.email ?? "",
-      phone: student.phone,
-      dob: student.dob ?? undefined,
-      gender: student.gender ?? undefined,
+      name: data.name,
+      address: data.address ?? "",
+      email: data.email ?? "",
+      phone: data.phone,
+      dob: data.dob ?? undefined,
+      gender: data.gender ?? undefined,
     },
   });
 
@@ -104,7 +104,7 @@ const StudentEdit = () => {
       await mutateAsync({
         ...data,
         ...imageData,
-        id: student.id,
+        id: data.id,
       });
 
       toast.success("Student edited successfully");
@@ -138,7 +138,7 @@ const StudentEdit = () => {
                   id="image"
                   field={field}
                   fieldState={fieldState}
-                  oldImageURL={student.image}
+                  oldImageURL={data.image}
                 />
               )}
             />

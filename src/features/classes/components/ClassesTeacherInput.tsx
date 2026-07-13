@@ -5,7 +5,7 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
 import { Trash } from "lucide-react";
 import { debounce } from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -26,16 +26,19 @@ const ClassesTeacherInput = ({
   fieldState: ControllerFieldState;
   defaultSelectedTeacher?: unknown;
 }) => {
-
   const teacherValue = field.value;
-  
+
   const [teacherName, setTeacherName] = useState<string>("");
   const [showTeacherDropDown, setShowTeacherDropDown] =
     useState<boolean>(false);
-  const [selectedTeacher, setSelectedTeacher] = useState<unknown>(
-    defaultSelectedTeacher,
-  );
+  const [selectedTeacher, setSelectedTeacher] = useState<unknown>(null);
   const [teacherData, setTeacherData] = useState<unknown[]>([]);
+
+  useEffect(() => {
+    if (defaultSelectedTeacher) {
+      setSelectedTeacher(defaultSelectedTeacher);
+    }
+  }, [defaultSelectedTeacher]);
 
   const debouncedUpdateParams = debounce((value: string) => {
     window.api
@@ -105,7 +108,7 @@ const ClassesTeacherInput = ({
                   </Avatar>
 
                   <div>
-                    <p className="text-xs text-gray-500">Teacher</p>
+                    <p className="text-xs text-muted-foreground">Teacher</p>
                     <p className="text-sm font-medium text-gray-900 line-clamp-1">
                       {data.name}
                     </p>
@@ -132,7 +135,7 @@ const ClassesTeacherInput = ({
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-xs text-gray-500">Teacher</p>
+              <p className="text-xs text-muted-foreground">Teacher</p>
               <p className="text-sm font-medium text-gray-900 line-clamp-1">
                 {selectedTeacher.name}
               </p>
