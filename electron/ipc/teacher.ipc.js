@@ -35,20 +35,40 @@ export const teacherIPCs = () => {
 
     const skip = Number(page - 1) * Number(limit);
 
+    const searchFilter = search
+      ? Prisma.sql`AND (
+      LOWER(t.name) LIKE LOWER(${`%${search}%`}) OR
+      LOWER(t.phone) LIKE LOWER(${`%${search}%`}) OR
+      LOWER(t.email) LIKE LOWER(${`%${search}%`}) OR
+      LOWER(t.address) LIKE LOWER(${`%${search}%`}) OR
+      LOWER(t.nrc) LIKE LOWER(${`%${search}%`})
+    )`
+      : Prisma.empty;
+
     try {
       const [teachers, totalData] = await Promise.all([
         prisma.$queryRaw`
-          SELECT 
+           WITH class_counts AS (
+            SELECT teacherId, COUNT(*) AS total_classes
+            FROM classes
+            GROUP BY teacherId
+          ),
+          student_counts AS (
+            SELECT c.teacherId, COUNT(DISTINCT e.studentID) AS total_students
+            FROM classes c
+            JOIN enrollments e ON e.classId = c.id
+            GROUP BY c.teacherId
+          )
+          SELECT
             t.*,
-            COUNT(DISTINCT c.id) as total_classes,
-            COUNT(DISTINCT e.studentID) as total_students
-          FROM teachers as t
-          LEFT JOIN classes as c ON t.id = c.teacherId
-          LEFT JOIN enrollments as e ON c.id = e.classId
+            COALESCE(cc.total_classes, 0) AS total_classes,
+            COALESCE(sc.total_students, 0) AS total_students
+          FROM teachers t
+          LEFT JOIN class_counts cc ON cc.teacherId = t.id
+          LEFT JOIN student_counts sc ON sc.teacherId = t.id
           WHERE t.deleted = ${!!trash}
-          ${search ? Prisma.sql`AND (t.name LIKE LOWER(${`%${search}%`}) OR t.phone LIKE LOWER(${`%${search}%`}) OR t.email LIKE LOWER(${`%${search}%`}) OR t.address LIKE LOWER(${`%${search}%`}) OR t.nrc LIKE LOWER(${`%${search}%`}))` : Prisma.empty}
-          GROUP BY t.id
-          ORDER BY ${Prisma.raw(`${finalSort} ${finalSortDirection}`)}
+          ${searchFilter}
+          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,
         prisma.teacher.count({

@@ -35,6 +35,13 @@ export const studentIPCs = () => {
 
     const skip = Number(page - 1) * Number(limit);
 
+    const searchFilter = search
+      ? Prisma.sql`WHERE 
+        LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR 
+        LOWER(s.phone) LIKE LOWER(${`%${search}%`}) OR 
+        LOWER(s.address) LIKE LOWER(${`%${search}%`}))`
+      : Prisma.empty;
+
     try {
       const [students, totalData] = await Promise.all([
         prisma.$queryRaw`
@@ -43,9 +50,9 @@ export const studentIPCs = () => {
             COUNT(DISTINCT e.classId) as total_classes
           FROM students s
           LEFT JOIN enrollments e ON s.id = e.studentID
-          ${search ? Prisma.sql`WHERE (s.name LIKE LOWER(${`%${search}%`}) OR s.phone LIKE LOWER(${`%${search}%`}) OR s.email LIKE LOWER(${`%${search}%`}) OR s.address LIKE LOWER(${`%${search}%`}))` : Prisma.empty}
+          ${searchFilter}
           GROUP BY s.id
-          ORDER BY ${Prisma.raw(`${finalSort} ${finalSortDirection}`)}
+          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,
         prisma.student.count({

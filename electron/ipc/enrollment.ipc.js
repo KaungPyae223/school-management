@@ -93,6 +93,13 @@ export const enrollmentIPCs = () => {
 
     const skip = Number(page - 1) * Number(limit);
 
+    const searchFilter = search
+      ? Prisma.sql`AND (
+      LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR
+      LOWER(s.email) LIKE LOWER(${`%${search}%`})
+    )`
+      : Prisma.empty;
+
     try {
       const [enrollments, totalData] = await Promise.all([
         prisma.$queryRaw`
@@ -105,19 +112,11 @@ export const enrollmentIPCs = () => {
             s.email as studentEmail
           FROM enrollments e
           LEFT JOIN payments p ON e.id = p.enrollmentId
-          JOIN students s ON e.studentId = s.id
-          JOIN classes cl ON e.classId = cl.id
+           JOIN students s ON e.studentId = s.id
           WHERE e.classId = ${classId}
-          ${
-            search
-              ? Prisma.sql`AND (
-                  LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR
-                  LOWER(s.email) LIKE LOWER(${`%${search}%`})
-                )`
-              : Prisma.empty
-          }
+          ${searchFilter}
           GROUP BY e.id
-          ORDER BY ${Prisma.raw(`${sort} ${sortDirection}`)}
+          ORDER BY ${Prisma.raw(sort)} ${Prisma.raw(sortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,
         prisma.enrollment.count(),

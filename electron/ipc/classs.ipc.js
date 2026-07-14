@@ -88,6 +88,14 @@ export const classesIPCs = () => {
       }
     };
 
+    const searchFilter = search
+      ? Prisma.sql`WHERE (
+        LOWER(cl.description) LIKE LOWER(${`%${search}%`}) OR
+        LOWER(t.name) LIKE LOWER(${`%${search}%`}) OR
+        LOWER(c.name) LIKE LOWER(${`%${search}%`})
+      )`
+      : Prisma.empty;
+
     try {
       const [classes, totalData] = await Promise.all([
         prisma.$queryRaw`
@@ -103,17 +111,9 @@ export const classesIPCs = () => {
           LEFT JOIN enrollments e ON cl.id = e.classId 
           LEFT JOIN teachers t ON cl.teacherId = t.id 
           LEFT JOIN courses c ON cl.courseId = c.id 
-          ${
-            search
-              ? Prisma.sql`WHERE (
-                  LOWER(cl.description) LIKE LOWER(${`%${search}%`}) OR
-                  LOWER(t.name) LIKE LOWER(${`%${search}%`}) OR
-                  LOWER(c.name) LIKE LOWER(${`%${search}%`})
-                )`
-              : Prisma.empty
-          }
+          ${searchFilter}
           GROUP BY cl.id
-          ORDER BY ${Prisma.raw(`${finalSort} ${finalSortDirection}`)}
+          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,
         prisma.class.count({

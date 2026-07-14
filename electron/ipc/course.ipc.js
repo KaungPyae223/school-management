@@ -35,31 +35,41 @@ export const courseIPCs = () => {
 
     const skip = Number(page - 1) * Number(limit);
 
+    const searchFilter = search
+      ? Prisma.sql`AND (LOWER(c.name) LIKE LOWER(${`%${search}%`}) OR LOWER(c.description) LIKE LOWER(${`%${search}%`}))`
+      : Prisma.empty;
+
     try {
       const [courses, totalData] = await Promise.all([
         prisma.$queryRaw`
+          WITH class_counts AS (
+            SELECT
+              cl.courseId,
+              COUNT(cl.id) AS total_classes,
+              COUNT(CASE WHEN cl.startDate <= datetime('now') AND cl.endDate IS NULL THEN cl.id END) AS total_active_classes,
+              COUNT(DISTINCT cl.teacherId) AS total_teachers
+            FROM classes cl
+            GROUP BY cl.courseId
+          ),
+          enrollment_counts AS (
+            SELECT cl.courseId, COUNT(e.id) AS total_enrollments
+            FROM enrollments e
+            JOIN classes cl ON cl.id = e.classId
+            GROUP BY cl.courseId
+          )
           SELECT
             c.*,
-            COUNT(DISTINCT cl.id) as total_classes,
-            COUNT(DISTINCT CASE WHEN cl.startDate >= datetime('now') AND cl.endDate IS NULL THEN cl.id END) as total_active_classes,
-            COUNT(DISTINCT e.id) as total_enrollments,
-            COUNT(DISTINCT t.id) as total_teachers
+            COALESCE(cc.total_classes, 0) AS total_classes,
+            COALESCE(cc.total_active_classes, 0) AS total_active_classes,
+            COALESCE(ec.total_enrollments, 0) AS total_enrollments,
+            COALESCE(cc.total_teachers, 0) AS total_teachers
           FROM courses c
-          LEFT JOIN classes cl ON c.id = cl.courseId
-          LEFT JOIN enrollments e ON cl.id = e.classId
-          LEFT JOIN teachers t ON cl.teacherId = t.id
+          LEFT JOIN class_counts cc ON cc.courseId = c.id
+          LEFT JOIN enrollment_counts ec ON ec.courseId = c.id
           WHERE c.deleted = ${!!trash}
-          ${
-            search
-              ? Prisma.sql`AND (  
-                LOWER(c.name) LIKE LOWER(${`%${search}%`}) OR
-                LOWER(c.description) LIKE LOWER(${`%${search}%`})
-              )`
-              : Prisma.empty
-          }
-          GROUP BY c.id
-          ORDER BY ${Prisma.raw(`${finalSort} ${finalSortDirection}`)}
-          LIMIT ${limit} OFFSET ${skip}
+          ${searchFilter}
+          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
+          LIMIT ${limit} OFFSET ${skip} 
         `,
         prisma.course.count({
           where: {
