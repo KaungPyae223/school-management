@@ -49,7 +49,7 @@ const TeacherEdit = () => {
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  
+
   const teacher = useLoaderData();
 
   useAddBreadcrumb({
@@ -74,7 +74,7 @@ const TeacherEdit = () => {
       address: teacher.address ?? "",
       email: teacher.email ?? "",
       phone: teacher.phone,
-      nrc: teacher.nrc? "",
+      nrc: teacher.nrc ?? "",
     },
   });
 
@@ -117,8 +117,8 @@ const TeacherEdit = () => {
       <CardContent>
         <form id="edit-teacher-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-           <FormError errorMessage={errorMessage} />
-           <Controller
+            <FormError errorMessage={errorMessage} />
+            <Controller
               control={form.control}
               name={"image"}
               render={({ field, fieldState }) => (
@@ -209,7 +209,7 @@ const TeacherEdit = () => {
                 </Field>
               )}
             />
-           <Controller
+            <Controller
               name="nrc"
               control={form.control}
               render={({ field, fieldState }) => (

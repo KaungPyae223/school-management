@@ -88,10 +88,25 @@ model Enrollment {
   id        Int      @id @default(autoincrement())
   studentId Int
   classId   Int
+  price     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
   class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  payments  Payment[]
 
   @@map("enrollments")
 }
+
+model Payment {
+  id            Int      @id @default(autoincrement())
+  enrollmentId  Int
+  amount        Int
+  image         String?
+  description   String?
+  createdAt     DateTime @default(now())
+  enrollment    Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+  

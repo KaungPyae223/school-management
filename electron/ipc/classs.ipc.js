@@ -103,8 +103,15 @@ export const classesIPCs = () => {
           LEFT JOIN enrollments e ON cl.id = e.classId 
           LEFT JOIN teachers t ON cl.teacherId = t.id 
           LEFT JOIN courses c ON cl.courseId = c.id 
-           
-          ${search ? Prisma.sql`WHERE (cl.description LIKE LOWER(${`%${search}%`}) OR t.name LIKE LOWER(${`%${search}%`}) OR c.name LIKE LOWER(${`%${search}%`}))` : Prisma.empty}
+          ${
+            search
+              ? Prisma.sql`WHERE (
+                  LOWER(cl.description) LIKE LOWER(${`%${search}%`}) OR
+                  LOWER(t.name) LIKE LOWER(${`%${search}%`}) OR
+                  LOWER(c.name) LIKE LOWER(${`%${search}%`})
+                )`
+              : Prisma.empty
+          }
           GROUP BY cl.id
           ORDER BY ${Prisma.raw(`${finalSort} ${finalSortDirection}`)}
           LIMIT ${limit} OFFSET ${skip}

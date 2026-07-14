@@ -3,12 +3,13 @@ import ClassesCard from "./ClassesCard";
 
 const ClassesGrid = ({ data }: { data: any[] }) => {
   const sortOptions = [
-    { field: "c.name", label: "Name" },
-    { field: "c.price", label: "Price" },
-    { field: "total_enrollments", label: "Enrollments" },
-    { field: "total_teachers", label: "Teachers" },
-    { field: "total_classes", label: "Classes" },
-    { field: "total_active_classes", label: "Active" },
+    { field: "course_name", label: "Name" },
+    { field: "teacher_name", label: "Teacher" },
+    { field: "cl.price", label: "Price" },
+    { field: "total_students", label: "Total Students" },
+    { field: "cl.startTime", label: "Time" },
+    { field: "cl.startDate", label: "Start Date" },
+    { field: "cl.endDate", label: "End Date" },
   ];
 
   return (

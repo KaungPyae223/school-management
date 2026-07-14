@@ -49,7 +49,14 @@ export const courseIPCs = () => {
           LEFT JOIN enrollments e ON cl.id = e.classId
           LEFT JOIN teachers t ON cl.teacherId = t.id
           WHERE c.deleted = ${!!trash}
-          ${search ? Prisma.sql`AND (c.name LIKE LOWER(${`%${search}%`}) OR c.description LIKE LOWER(${`%${search}%`}))` : Prisma.empty}
+          ${
+            search
+              ? Prisma.sql`AND (  
+                LOWER(c.name) LIKE LOWER(${`%${search}%`}) OR
+                LOWER(c.description) LIKE LOWER(${`%${search}%`})
+              )`
+              : Prisma.empty
+          }
           GROUP BY c.id
           ORDER BY ${Prisma.raw(`${finalSort} ${finalSortDirection}`)}
           LIMIT ${limit} OFFSET ${skip}
