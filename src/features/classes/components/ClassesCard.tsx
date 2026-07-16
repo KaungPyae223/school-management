@@ -5,11 +5,8 @@ import {
   CalendarCheck2,
   CalendarClock,
   CalendarOff,
-  CheckCircle2,
-  Circle,
   GraduationCap,
   Layers,
-  PlayCircle,
   UserPlus,
 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
@@ -33,34 +30,10 @@ import {
   TooltipTrigger,
 } from "../../../components/ui/tooltip";
 import { formatDate } from "../../../utils/format-date";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../../components/ui/avatar";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import ClassesDeleteAlert from "./ClassesDeleteAlert";
 import { useChangeTime } from "../hooks/useChangeTime";
-
-const statusConfig = {
-  not_started: {
-    label: "Not started",
-    icon: <Circle size={12} />,
-    className:
-      "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200",
-  },
-  ongoing: {
-    label: "Ongoing",
-    icon: <PlayCircle size={12} />,
-    className:
-      "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200",
-  },
-  complete: {
-    label: "Complete",
-    icon: <CheckCircle2 size={12} />,
-    className: "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300",
-  },
-};
+import ClassesStatus from "./ClassesStatus";
+import ClassesTeacherCard from "./ClassesTeacherCard";
 
 const ClassesCard = ({ classData }: { classData: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -110,10 +83,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
             </Badge>
           </div>
           <div className="absolute top-3 left-3">
-            <Badge className={` ${statusConfig[classData.status].className}`}>
-              {statusConfig[classData.status].icon}{" "}
-              {statusConfig[classData.status].label}
-            </Badge>
+            <ClassesStatus status={classData.status} />
           </div>
         </div>
         <CardHeader>
@@ -129,7 +99,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{classData.batch} batches</p>
+                <p>Batch {classData.batch}</p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -181,25 +151,11 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               </div>
             </div>
 
-            <div className="flex items-center col-span-2 justify-between rounded-lg border border-border  px-3 py-2">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage
-                    src={classData.teacher_image}
-                    alt={classData.teacher_name}
-                  />
-                  <AvatarFallback>
-                    {generateImageFallBack(classData.teacher_name)}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-xs text-muted-foreground">Teacher</p>
-                  <p className="text-sm font-medium  line-clamp-1">
-                    {classData.teacher_name}
-                  </p>
-                </div>
-              </div>
-            </div>
+            <ClassesTeacherCard
+              image={classData.teacher_image}
+              name={classData.teacher_name}
+              className="rounded-lg col-span-2 px-2"
+            />
 
             <div className="flex items-center col-span-2 w-full justify-between rounded-lg border border-border px-3 py-2 ">
               <div className="flex items-center gap-3">
@@ -255,7 +211,11 @@ const ClassesCard = ({ classData }: { classData: any }) => {
         />
 
         <CardFooter>
-          <Button variant="ghost" className="w-full justify-between">
+          <Button
+            variant="ghost"
+            className="w-full justify-between"
+            onClick={() => navigate(`/classes/details/${classData.id}`)}
+          >
             View Course Details
             <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
           </Button>

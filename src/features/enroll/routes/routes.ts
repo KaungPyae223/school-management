@@ -8,7 +8,7 @@ const routes = [
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const result = await window.api.getClass(Number(params.classId));
+      const result = await window.api.getClassDetails(Number(params.classId));
 
       if (result.error) {
         throw new Error(result.error);

@@ -30,7 +30,7 @@ contextBridge.exposeInMainWorld("api", {
 
   // Class
   getAllClasses: (data) => ipcRenderer.invoke("class:index", data),
-  getClass: (id) => ipcRenderer.invoke("class:show", id),
+  getClassDetails: (id) => ipcRenderer.invoke("class:show", id),
   createClass: (data) => ipcRenderer.invoke("class:create", data),
   updateClass: (data) => ipcRenderer.invoke("class:update", data),
   deleteClass: (id) => ipcRenderer.invoke("class:delete", id),

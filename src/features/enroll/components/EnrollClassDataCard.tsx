@@ -42,7 +42,7 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-xs text-muted-foreground">Instructor</p>
+              <p className="text-xs text-muted-foreground">Teacher</p>
               <p className="text-sm font-medium">{data.teacher.name}</p>
             </div>
           </div>

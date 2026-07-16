@@ -44,6 +44,19 @@ const isTeacherBusy = async (
   return checkTeacherBusy;
 };
 
+const generateStatus = (startDate, endDate) => {
+  const today = new Date();
+  const start = new Date(startDate);
+  const end = endDate ? new Date(endDate) : null;
+  if (today < start) {
+    return "not_started";
+  } else if (end && today > end) {
+    return "complete";
+  } else {
+    return "ongoing";
+  }
+};
+
 export const classesIPCs = () => {
   ipcMain.handle("class:index", async (_, data) => {
     const {
@@ -74,19 +87,6 @@ export const classesIPCs = () => {
       : "asc";
 
     const skip = Number(page - 1) * Number(limit);
-
-    const generateStatus = (startDate, endDate) => {
-      const today = new Date();
-      const start = new Date(startDate);
-      const end = endDate ? new Date(endDate) : null;
-      if (today < start) {
-        return "not_started";
-      } else if (end && today > end) {
-        return "complete";
-      } else {
-        return "ongoing";
-      }
-    };
 
     const searchFilter = search
       ? Prisma.sql`WHERE (
@@ -168,6 +168,8 @@ export const classesIPCs = () => {
           days: true,
           price: true,
           description: true,
+          createdAt: true,
+          updatedAt: true,
           course: {
             select: {
               id: true,
@@ -192,6 +194,7 @@ export const classesIPCs = () => {
           ...classes,
           course_image: showImage(classes.course.image),
           teacher_image: showImage(classes.teacher.image),
+          status: generateStatus(classes.startDate, classes.endDate),
         },
       };
     } catch (error) {

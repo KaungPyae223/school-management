@@ -30,6 +30,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import ClassesDeleteAlert from "./ClassesDeleteAlert";
 import TableActionButton from "../../../components/table/TableActionButton";
+import ClassesStatus from "./ClassesStatus";
 
 const ClassesList = ({ data }: { data: any[] }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -103,27 +104,6 @@ const ClassesList = ({ data }: { data: any[] }) => {
       sortKey: "cl.endDate",
     },
   ];
-
-  const statusConfig = {
-    not_started: {
-      label: "Not started",
-      icon: <Circle size={12} />,
-      className:
-        "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200",
-    },
-    ongoing: {
-      label: "Ongoing",
-      icon: <PlayCircle size={12} />,
-      className:
-        "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200",
-    },
-    complete: {
-      label: "Complete",
-      icon: <CheckCircle2 size={12} />,
-      className:
-        "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300",
-    },
-  };
 
   const handleDelete = (id: number) => {
     setClassId(id);
@@ -208,13 +188,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 {formatCurrency(classData.price)}
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Status")}>
-                <Badge
-                  variant="default"
-                  className={`flex items-center gap-2 ${statusConfig[classData.status].className}`}
-                >
-                  {statusConfig[classData.status].icon}
-                  {statusConfig[classData.status].label}
-                </Badge>
+                <ClassesStatus status={classData.status} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Time")}>
                 <div className="flex items-center gap-2">
@@ -251,7 +225,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
               </TableCell>
               <TableCell>
                 <TableActionButtonsContainer
-                  onView={() => navigate(`/classes/${classData.id}`)}
+                  onView={() => navigate(`/classes/details/${classData.id}`)}
                   onEdit={() => navigate(`/classes/edit/${classData.id}`)}
                   onDelete={() => handleDelete(classData.id)}
                 >
