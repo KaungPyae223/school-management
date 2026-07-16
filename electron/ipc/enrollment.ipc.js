@@ -49,27 +49,6 @@ export const enrollmentIPCs = () => {
 
   ipcMain.handle("enrollment:delete", async (_, id) => {
     try {
-      // find payments related to this enrollment and delete their image if exist
-      const payments = await prisma.payment.findMany({
-        where: {
-          enrollmentId: id,
-        },
-      });
-
-      for (const payment of payments) {
-        if (payment.image) {
-          await deleteImage(payment.image);
-        }
-      }
-
-      // delete payments related to this enrollment
-      await prisma.payment.deleteMany({
-        where: {
-          enrollmentId: id,
-        },
-      });
-
-      // delete enrollment
       await prisma.enrollment.delete({
         where: {
           id,
@@ -112,7 +91,7 @@ export const enrollmentIPCs = () => {
             s.email as studentEmail
           FROM enrollments e
           LEFT JOIN payments p ON e.id = p.enrollmentId
-           JOIN students s ON e.studentId = s.id
+          LEFT JOIN students s ON e.studentId = s.id
           WHERE e.classId = ${classId}
           ${searchFilter}
           GROUP BY e.id

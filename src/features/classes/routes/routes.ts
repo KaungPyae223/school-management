@@ -18,13 +18,13 @@ const routes = [
     ErrorBoundary: ErrorPage,
   },
   {
-    path: "classes/edit/:id",
+    path: "classes/edit/:classId",
     lazy: async () => {
       const module = await import("../pages/ClassesEditPage");
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const result = await window.api.getClass(Number(params.id));
+      const result = await window.api.getClass(Number(params.classId));
 
       if (result.error) {
         throw new Error(result.error);

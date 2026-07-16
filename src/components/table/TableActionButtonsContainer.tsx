@@ -7,17 +7,20 @@ const TableActionButtonsContainer = ({
   onEdit,
   onDelete,
   onRestore,
+  children,
 }: {
   onView: () => void;
   onEdit: () => void;
   onDelete: () => void;
   onRestore?: () => void;
+  children?: React.ReactNode;
 }) => {
   const [searchParams] = useSearchParams();
   const isTrashView = searchParams.get("trash");
 
   return (
     <div className="flex items-center justify-end gap-1">
+      {children}
       <TableActionButton
         onClick={onView}
         icon={<Eye className="size-4" />}

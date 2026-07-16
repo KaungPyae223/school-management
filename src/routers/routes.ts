@@ -7,6 +7,7 @@ import studentRoutes from "../features/students/routes/routes";
 import teacherRoutes from "../features/teachers/routes/routes";
 import classesRoutes from "../features/classes/routes/routes";
 import timetableRoutes from "../features/timetable/routes/routes";
+import enrollRoutes from "../features/enroll/routes/routes";
 import Layout from "../layouts/Layout";
 
 const routes = [
@@ -20,6 +21,7 @@ const routes = [
       ...teacherRoutes,
       ...classesRoutes,
       ...timetableRoutes,
+      ...enrollRoutes,
       {
         path: "*",
         Component: NotFound,

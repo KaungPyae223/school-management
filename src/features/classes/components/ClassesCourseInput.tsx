@@ -39,7 +39,6 @@ const ClassesCourseInput = ({
     window.api
       .searchAllCourses({ search: value })
       .then((res) => {
-        console.log(res);
         if (res.data) {
           setShowCourseDropDown(true);
           setCourseData(res.data);

@@ -118,7 +118,6 @@ const CourseEditPage = () => {
               name={"image"}
               render={({ field, fieldState }) => (
                 <ImageInput
-                  required
                   label="Image"
                   id="image"
                   field={field}

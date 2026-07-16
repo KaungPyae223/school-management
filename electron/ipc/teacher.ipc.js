@@ -116,7 +116,12 @@ export const teacherIPCs = () => {
         where: {
           deleted: false,
           ...(data.search && {
-            name: { contains: data.search },
+            OR: [
+              { name: { contains: data.search } },
+              { phone: { contains: data.search } },
+              { email: { contains: data.search } },
+              { nrc: { contains: data.search } },
+            ],
           }),
         },
         select: { id: true, name: true, image: true },

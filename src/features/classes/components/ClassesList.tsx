@@ -6,6 +6,7 @@ import {
   Circle,
   Clock,
   PlayCircle,
+  UserPlus,
 } from "lucide-react";
 import Table from "../../../components/table/Table";
 import TableBody from "../../../components/table/TableBody";
@@ -28,6 +29,7 @@ import TableActionButtonsContainer from "../../../components/table/TableActionBu
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import ClassesDeleteAlert from "./ClassesDeleteAlert";
+import TableActionButton from "../../../components/table/TableActionButton";
 
 const ClassesList = ({ data }: { data: any[] }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -252,7 +254,14 @@ const ClassesList = ({ data }: { data: any[] }) => {
                   onView={() => navigate(`/classes/${classData.id}`)}
                   onEdit={() => navigate(`/classes/edit/${classData.id}`)}
                   onDelete={() => handleDelete(classData.id)}
-                />
+                >
+                  <TableActionButton
+                    onClick={() => navigate(`/enroll/${classData.id}`)}
+                    icon={<UserPlus />}
+                    tooltip="Add Student"
+                    className="text-white hover:text-white bg-green-600 hover:bg-green-700 "
+                  />
+                </TableActionButtonsContainer>
               </TableCell>
             </TableRow>
           ))}

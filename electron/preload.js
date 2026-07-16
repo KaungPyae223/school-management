@@ -12,6 +12,8 @@ contextBridge.exposeInMainWorld("api", {
 
   // Student
   getAllStudents: (data) => ipcRenderer.invoke("student:index", data),
+  searchAllStudents: (data) =>
+    ipcRenderer.invoke("student:search-all-active", data),
   getStudent: (id) => ipcRenderer.invoke("student:show", id),
   createStudent: (data) => ipcRenderer.invoke("student:create", data),
   updateStudent: (data) => ipcRenderer.invoke("student:update", data),
@@ -28,10 +30,14 @@ contextBridge.exposeInMainWorld("api", {
 
   // Class
   getAllClasses: (data) => ipcRenderer.invoke("class:index", data),
-  searchAllClasses: (data) =>
-    ipcRenderer.invoke("class:search-all-active", data),
   getClass: (id) => ipcRenderer.invoke("class:show", id),
   createClass: (data) => ipcRenderer.invoke("class:create", data),
   updateClass: (data) => ipcRenderer.invoke("class:update", data),
   deleteClass: (id) => ipcRenderer.invoke("class:delete", id),
+
+  // Enrollment
+  createEnrollment: (data) => ipcRenderer.invoke("enrollment:create", data),
+  deleteEnrollment: (id) => ipcRenderer.invoke("enrollment:delete", id),
+  getEnrollmentByClass: (data) =>
+    ipcRenderer.invoke("enrollment:getEnrollmentByClass", data),
 });

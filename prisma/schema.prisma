@@ -32,7 +32,7 @@ model Teacher {
   phone     String   @unique
   email     String   @unique
   address   String
-  nrc       String?
+  nrc       String?  @unique
   image     String?
   deleted   Boolean  @default(false)
   createdAt DateTime @default(now())

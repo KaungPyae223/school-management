@@ -18,19 +18,19 @@ const routes = [
     ErrorBoundary: ErrorPage,
   },
   {
-    path: "courses/edit/:id",
+    path: "courses/edit/:courseId",
     lazy: async () => {
       const module = await import("../pages/CourseEditPage");
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const course = await window.api.getCourse(Number(params.id));
+      const result = await window.api.getCourse(Number(params.courseId));
 
-      if (course.error) {
-        throw new Error(course.error);
+      if (result.error) {
+        throw new Error(result.error);
       }
 
-      return course.data;
+      return result.data;
     },
     ErrorBoundary: ErrorPage,
   },

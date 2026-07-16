@@ -33,6 +33,9 @@ declare global {
         order?: string;
       }) => Promise<ResponseDataType>;
       getStudent: (id: number) => Promise<{ data?: any; error?: string }>;
+      searchAllStudents: (data: {
+        search?: string;
+      }) => Promise<{ data?: any; error?: string }>;
       createStudent: (
         data: any,
       ) => Promise<{ success: boolean; data?: any; error?: string }>;
@@ -72,9 +75,6 @@ declare global {
         sort?: string;
         order?: string;
       }) => Promise<ResponseDataType>;
-      searchAllClasses: (data: {
-        search?: string;
-      }) => Promise<{ data?: any; error?: string }>;
       getClass: (id: number) => Promise<{ data?: any; error?: string }>;
       createClass: (
         data: any,
@@ -85,6 +85,21 @@ declare global {
       deleteClass: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
+
+      createEnrollment: (
+        data: any,
+      ) => Promise<{ success: boolean; error?: string }>;
+      deleteEnrollment: (
+        id: number,
+      ) => Promise<{ success: boolean; error?: string }>;
+      getEnrollmentByClass: (data: {
+        classId: number;
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+      }) => Promise<ResponseDataType>;
     };
   }
 }

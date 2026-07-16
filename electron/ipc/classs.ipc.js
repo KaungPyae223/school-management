@@ -37,7 +37,7 @@ const isTeacherBusy = async (
         AND (
           ${daysCondition}
         )
-        ${classId && Prisma.sql`AND id <> ${classId}`}
+        ${classId ? Prisma.sql`AND id <> ${classId}` : Prisma.empty}
         LIMIT 1
       `;
 
@@ -152,51 +152,6 @@ export const classesIPCs = () => {
           limit: 0,
         },
       };
-    }
-  });
-
-  ipcMain.handle("class:search-all-active", async (_, data) => {
-    try {
-      const classes = await prisma.class.findMany({
-        where: {
-          endDate: null,
-          ...(data.search && {
-            course: {
-              name: { contains: data.search },
-            },
-          }),
-        },
-        select: {
-          id: true,
-          batch: true,
-          startDate: true,
-          startTime: true,
-          endTime: true,
-          days: true,
-          price: true,
-          course: {
-            select: {
-              name: true,
-              image: true,
-            },
-          },
-          teacher: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      });
-      return {
-        data: classes.map((classData) => ({
-          ...classData,
-          image: showImage(classData.course.image),
-          teacher_name: classData.teacher.name,
-          course_name: classData.course.name,
-        })),
-      };
-    } catch (error) {
-      return { error: error.message };
     }
   });
 
@@ -323,7 +278,7 @@ export const classesIPCs = () => {
         return { success: false, error: "Class has linked students" };
       }
 
-      await prisma.course.delete({
+      await prisma.class.delete({
         where: { id },
       });
       return { success: true };

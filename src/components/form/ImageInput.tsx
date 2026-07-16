@@ -86,7 +86,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
             )}
           </div>
           <div
-            className={`border-2 mb-2 mt-3 border-dashed rounded-xl p-6 text-center w-full transition-all cursor-pointer ${
+            className={`border-2 mt-3 border-dashed rounded-xl p-6 text-center w-full transition-all cursor-pointer ${
               isDragging
                 ? "border-blue-400 bg-blue-50"
                 : "border-gray-300 hover:border-gray-400 hover:bg-gray-50"

@@ -47,7 +47,7 @@ export const studentIPCs = () => {
         prisma.$queryRaw`
           SELECT 
             s.*,
-            COUNT(DISTINCT e.classId) as total_classes
+            COUNT(e.id) as total_classes
           FROM students s
           LEFT JOIN enrollments e ON s.id = e.studentID
           ${searchFilter}
@@ -105,6 +105,32 @@ export const studentIPCs = () => {
           ...student,
           image: showImage(student.image),
         },
+      };
+    } catch (error) {
+      return { error: error.message };
+    }
+  });
+
+  ipcMain.handle("student:search-all-active", async (_, data) => {
+    try {
+      const students = await prisma.student.findMany({
+        where: {
+          ...(data.search && {
+            OR: [
+              { name: { contains: data.search } },
+              { phone: { contains: data.search } },
+              { email: { contains: data.search } },
+              { address: { contains: data.search } },
+            ],
+          }),
+        },
+        select: { id: true, name: true, image: true },
+      });
+      return {
+        data: students.map((student) => ({
+          ...student,
+          image: showImage(student.image),
+        })),
       };
     } catch (error) {
       return { error: error.message };
