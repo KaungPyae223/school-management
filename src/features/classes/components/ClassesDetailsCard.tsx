@@ -39,14 +39,14 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
           )}
         </div>
       </CardHeader>
-      <CardContent className="p-0 space-y-3">
+      <CardContent className=" space-y-3 w-full">
         <div className="flex items-center gap-2">
           <h3 className="text-2xl font-semibold line-clamp-1">
             {data.course.name}
           </h3>
           <Badge variant="outline">Batch {data.batch}</Badge>
         </div>
-        <p className="text-sm text-muted-foreground">{data.description}</p>
+        <p className="text-sm text-muted-foreground "> {data.description}</p>
 
         <ClassesTeacherCard
           image={data.teacher_image}

@@ -9,9 +9,9 @@ const TableActionButtonsContainer = ({
   onRestore,
   children,
 }: {
-  onView: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
+  onView?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
   onRestore?: () => void;
   children?: React.ReactNode;
 }) => {
@@ -21,32 +21,41 @@ const TableActionButtonsContainer = ({
   return (
     <div className="flex items-center justify-end gap-1">
       {children}
-      <TableActionButton
-        onClick={onView}
-        icon={<Eye className="size-4" />}
-        tooltip="View"
-      />
-      {isTrashView ? (
+      {onView && (
         <TableActionButton
-          variant="default"
-          className="bg-green-300 hover:bg-green-400"
-          onClick={onRestore}
-          icon={<ArchiveRestore className="size-4 text-green-800" />}
-          tooltip="Restore"
+          onClick={onView}
+          icon={<Eye className="size-4" />}
+          tooltip="View"
         />
+      )}
+
+      {isTrashView ? (
+        onRestore && (
+          <TableActionButton
+            variant="default"
+            className="bg-green-300 hover:bg-green-400"
+            onClick={onRestore}
+            icon={<ArchiveRestore className="size-4 text-green-800" />}
+            tooltip="Restore"
+          />
+        )
       ) : (
         <>
-          <TableActionButton
-            onClick={onEdit}
-            icon={<Pencil className="size-4" />}
-            tooltip="Edit"
-          />
-          <TableActionButton
-            onClick={onDelete}
-            icon={<Trash2 className="size-4 text-destructive" />}
-            tooltip="Delete"
-            variant="destructive"
-          />
+          {onEdit && (
+            <TableActionButton
+              onClick={onEdit}
+              icon={<Pencil className="size-4" />}
+              tooltip="Edit"
+            />
+          )}
+          {onDelete && (
+            <TableActionButton
+              onClick={onDelete}
+              icon={<Trash2 className="size-4 text-destructive" />}
+              tooltip="Delete"
+              variant="destructive"
+            />
+          )}
         </>
       )}
     </div>

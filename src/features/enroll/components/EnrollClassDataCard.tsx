@@ -16,36 +16,31 @@ import {
 import { useChangeTime } from "../../classes/hooks/useChangeTime";
 import { formatDate } from "../../../utils/format-date";
 import { formatCurrency } from "../../../utils/format-currency";
+import ClassesTeacherCard from "../../classes/components/ClassesTeacherCard";
+import { Separator } from "../../../components/ui/separator";
 
 const EnrollClassDataCard = ({ data }: { data: any }) => {
   return (
     <div className="overflow-hidden rounded-xl border border-border">
       {/* Top Section: Course & Teacher */}
-      <div className="flex items-start gap-4 p-4">
+      <div className="flex  items-center  ">
         <img
           src={data.course_image}
           alt={data.course.name}
-          className="h-20 w-20 shrink-0 border border-border  rounded-lg object-cover"
+          className="h-24 w-24 m-4 shrink-0 border border-border  rounded-lg object-cover"
         />
-        <div className="flex-1 space-y-3">
+        <Separator orientation="vertical" />
+        <div className="flex-1 space-y-3 m-4">
           <div className="flex items-center justify-between gap-2">
             <h3 className="text-lg font-semibold line-clamp-1">
               {data.course.name}
             </h3>
             <Badge variant="outline">Batch {data.batch}</Badge>
           </div>
-          <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10">
-              <AvatarImage src={data.teacher_image} alt={data.teacher.name} />
-              <AvatarFallback>
-                {generateImageFallBack(data.teacher.name)}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-xs text-muted-foreground">Teacher</p>
-              <p className="text-sm font-medium">{data.teacher.name}</p>
-            </div>
-          </div>
+          <ClassesTeacherCard
+            image={data.teacher_image}
+            name={data.teacher.name}
+          />
         </div>
       </div>
 

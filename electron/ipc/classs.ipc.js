@@ -184,6 +184,11 @@ export const classesIPCs = () => {
               image: true,
             },
           },
+          _count: {
+            select: {
+              enrollments: true,
+            },
+          },
         },
       });
       if (!classes) {

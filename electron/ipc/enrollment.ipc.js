@@ -3,6 +3,7 @@ import { prisma } from "../../db/prisma.js";
 import { saveImage } from "../utils/saveImage.js";
 import { deleteImage } from "../utils/deleteImage.js";
 import { Prisma } from "../../generated/prisma/index.js";
+import { showImage } from "../utils/showImage.js";
 
 export const enrollmentIPCs = () => {
   ipcMain.handle("enrollment:create", async (_, data) => {
@@ -65,7 +66,7 @@ export const enrollmentIPCs = () => {
       page = 1,
       limit = 10,
       search,
-      sort = "createdAt",
+      sort = "e.createdAt",
       sortDirection = "desc",
       classId,
     } = data;
@@ -88,7 +89,8 @@ export const enrollmentIPCs = () => {
             e.price - SUM(p.amount) as remainingAmount,
             s.name as studentName,
             s.phone as studentPhone,
-            s.email as studentEmail
+            s.email as studentEmail,
+            s.image as studentImage
           FROM enrollments e
           LEFT JOIN payments p ON e.id = p.enrollmentId
           LEFT JOIN students s ON e.studentId = s.id
@@ -105,7 +107,10 @@ export const enrollmentIPCs = () => {
 
       return {
         error: null,
-        data: enrollments,
+        data: enrollments.map((enrollment) => ({
+          ...enrollment,
+          image: showImage(enrollment.studentImage),
+        })),
         meta: { total_data: totalData, total_pages: totalPages, page, limit },
       };
     } catch (error) {

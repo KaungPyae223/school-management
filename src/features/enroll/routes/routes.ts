@@ -2,7 +2,7 @@ import ErrorPage from "../../../components/errors/ErrorPage";
 
 const routes = [
   {
-    path: "enroll/:classId",
+    path: "classes/enroll/:classId",
     lazy: async () => {
       const module = await import("../pages/EnrollPage");
       return { Component: module.default };

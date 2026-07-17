@@ -8,4 +8,23 @@ export const enrollmentService = {
 
     return res;
   },
+  getEnrollmentByClass: async (queryParams: any) => {
+    const data = await window.api.getEnrollmentByClass(queryParams);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+  
+  deleteEnrollment: async (id: number) => {
+    const res = await window.api.deleteEnrollment(id);
+
+    if (!res.success) {
+      throw new Error(res.error);
+    }
+
+    return res;
+  },
 };

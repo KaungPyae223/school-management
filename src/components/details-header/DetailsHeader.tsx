@@ -37,7 +37,7 @@ const DetailsHeader = ({
             </Button>
           ) : (
             <>
-              <Button variant="default" onClick={onUpdate}>
+              <Button variant="outline" onClick={onUpdate}>
                 <Pencil className="size-3.5" />
                 Edit
               </Button>

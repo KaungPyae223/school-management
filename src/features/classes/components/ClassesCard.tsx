@@ -63,7 +63,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
             <TooltipTrigger asChild>
               <Button
                 size="icon-sm"
-                onClick={() => navigate(`/enroll/${classData.id}`)}
+                onClick={() => navigate(`/classes/enroll/${classData.id}`)}
                 className="absolute bottom-3 right-3 text-white/80 bg-green-600 hover:bg-green-700 cursor-pointer"
               >
                 <UserPlus className="w-4 h-4" />

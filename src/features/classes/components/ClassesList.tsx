@@ -230,7 +230,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                   onDelete={() => handleDelete(classData.id)}
                 >
                   <TableActionButton
-                    onClick={() => navigate(`/enroll/${classData.id}`)}
+                    onClick={() => navigate(`/classes/enroll/${classData.id}`)}
                     icon={<UserPlus />}
                     tooltip="Add Student"
                     className="text-white hover:text-white bg-green-600 hover:bg-green-700 "
