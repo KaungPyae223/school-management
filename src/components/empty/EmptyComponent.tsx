@@ -9,6 +9,7 @@ import {
   EmptyTitle,
 } from "../ui/empty";
 import { useSearchParams } from "react-router";
+import { Card } from "../ui/card";
 
 const EmptyComponent = ({
   title = "No courses yet",
@@ -26,22 +27,26 @@ const EmptyComponent = ({
   const trash = searchParams.get("trash");
 
   return (
-    <Empty className="border border-dashed py-16 shadow-sm">
-      <EmptyHeader>
-        <EmptyMedia variant="icon" className="size-20">
-          <Icon className="size-10 text-muted-foreground" />
-        </EmptyMedia>
-        <EmptyTitle className="text-xl">{title}</EmptyTitle>
-        <EmptyDescription className="max-w-sm">{description}</EmptyDescription>
-      </EmptyHeader>
-      {action && !trash && (
-        <EmptyContent>
-          <Button size="sm" onClick={action.onClick}>
-            {action.label}
-          </Button>
-        </EmptyContent>
-      )}
-    </Empty>
+    <Card className="shadow-sm py-16">
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon" className="size-20">
+            <Icon className="size-10 text-muted-foreground" />
+          </EmptyMedia>
+          <EmptyTitle className="text-xl">{title}</EmptyTitle>
+          <EmptyDescription className="max-w-sm">
+            {description}
+          </EmptyDescription>
+        </EmptyHeader>
+        {action && !trash && (
+          <EmptyContent>
+            <Button size="sm" onClick={action.onClick}>
+              {action.label}
+            </Button>
+          </EmptyContent>
+        )}
+      </Empty>
+    </Card>
   );
 };
 

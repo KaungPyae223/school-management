@@ -7,7 +7,7 @@ import ClassesDetailsCard from "../components/ClassesDetailsCard";
 import ClassesDeleteAlert from "../components/ClassesDeleteAlert";
 import { useState } from "react";
 import { Button } from "../../../components/ui/button";
-import { Search, UserPlus, Users } from "lucide-react";
+import { GraduationCap, Search, UserPlus, Users } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import {
   InputGroup,
@@ -107,7 +107,7 @@ const ClassesDetailsPage = () => {
           }}
           description="There are no enrolled students available at the moment. Please add an enrolled student to get started!"
           title="No Enrolled Students"
-          icon={Users}
+          icon={GraduationCap}
         />
       ) : (
         <>

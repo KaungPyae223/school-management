@@ -1,4 +1,6 @@
+import { CreditCard } from "lucide-react";
 import Table from "../../../components/table/Table";
+import TableActionButton from "../../../components/table/TableActionButton";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import TableBody from "../../../components/table/TableBody";
 import TableCell from "../../../components/table/TableCell";
@@ -98,7 +100,9 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
               </TableCell>
               <TableCell>{enrollmentData.studentPhone}</TableCell>
               <TableCell>
-                {enrollmentData.studentEmail ? enrollmentData.studentEmail : "N/A"}
+                {enrollmentData.studentEmail
+                  ? enrollmentData.studentEmail
+                  : "N/A"}
               </TableCell>
               <TableCell align="right">
                 {formatCurrency(enrollmentData.paidAmount)}
@@ -110,7 +114,16 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
               <TableCell>
                 <TableActionButtonsContainer
                   onDelete={() => handleDelete(enrollmentData.id)}
-                />
+                >
+                  {enrollmentData.remainingAmount > 0 && (
+                    <TableActionButton
+                      onClick={() => {}}
+                      variant="default"
+                      icon={CreditCard}
+                      tooltip="Pay remaining amount"
+                    />
+                  )}
+                </TableActionButtonsContainer>
               </TableCell>
             </TableRow>
           ))}

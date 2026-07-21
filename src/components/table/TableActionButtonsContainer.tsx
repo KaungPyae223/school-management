@@ -22,36 +22,28 @@ const TableActionButtonsContainer = ({
     <div className="flex items-center justify-end gap-1">
       {children}
       {onView && (
-        <TableActionButton
-          onClick={onView}
-          icon={<Eye className="size-4" />}
-          tooltip="View"
-        />
+        <TableActionButton onClick={onView} icon={Eye} tooltip="View" />
       )}
 
       {isTrashView ? (
         onRestore && (
           <TableActionButton
             variant="default"
-            className="bg-green-300 hover:bg-green-400"
-            onClick={onRestore}
-            icon={<ArchiveRestore className="size-4 text-green-800" />}
+            className="bg-green-300 hover:bg-green-400 text-green-800"
+             onClick={onRestore}
+            icon={ArchiveRestore}
             tooltip="Restore"
           />
         )
       ) : (
         <>
           {onEdit && (
-            <TableActionButton
-              onClick={onEdit}
-              icon={<Pencil className="size-4" />}
-              tooltip="Edit"
-            />
+            <TableActionButton onClick={onEdit} icon={Pencil} tooltip="Edit" />
           )}
           {onDelete && (
             <TableActionButton
               onClick={onDelete}
-              icon={<Trash2 className="size-4 text-destructive" />}
+              icon={Trash2}
               tooltip="Delete"
               variant="destructive"
             />

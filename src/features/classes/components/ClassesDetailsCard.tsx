@@ -21,14 +21,14 @@ import ClassesTeacherCard from "./ClassesTeacherCard";
 const ClassesDetailsCard = ({ data }: { data: any }) => {
   return (
     <Card className="shadow-sm flex flex-row gap-1.5">
-      <CardHeader className="w-sm">
+      <CardHeader className="w-lg">
         <div className="relative rounded-md overflow-hidden">
           {data.course_image ? (
             <>
               <img
                 src={data.course_image}
                 alt={data.course.name}
-                className="w-full  object-cover"
+                className="w-full object-cover aspect-square"
               />
               <div className="absolute inset-0 bg-black/20"></div>
             </>

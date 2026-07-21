@@ -21,7 +21,7 @@ import { Badge } from "../../../components/ui/badge";
 
 import { formatCurrency } from "../../../utils/format-currency";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 import CardMenu from "../../../components/card-utils/CardMenu";
 import {
@@ -38,6 +38,9 @@ import ClassesTeacherCard from "./ClassesTeacherCard";
 const ClassesCard = ({ classData }: { classData: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const isTrashView = searchParams.get("trash");
 
   const openingDays = classData.days.split(",");
 
@@ -59,20 +62,23 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               <BookOpen size={48} className="text-background" />
             </div>
           )}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="icon-sm"
-                onClick={() => navigate(`/classes/enroll/${classData.id}`)}
-                className="absolute bottom-3 right-3 text-white/80 bg-green-600 hover:bg-green-700 cursor-pointer"
-              >
-                <UserPlus className="w-4 h-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Add Student</p>
-            </TooltipContent>
-          </Tooltip>
+          {!isTrashView && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon-sm"
+                  onClick={() => navigate(`/classes/enroll/${classData.id}`)}
+                  className="absolute bottom-3 right-3 text-white/80 bg-green-600 hover:bg-green-700 cursor-pointer"
+                >
+                  <UserPlus className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Enrolled Student</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+
           <CardMenu
             onEdit={() => navigate(`/classes/edit/${classData.id}`)}
             onDelete={() => setConfirmDialogOpen(true)}

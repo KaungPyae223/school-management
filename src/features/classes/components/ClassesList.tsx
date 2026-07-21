@@ -27,7 +27,7 @@ import { useChangeTime } from "../hooks/useChangeTime";
 import { formatDate } from "../../../utils/format-date";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import ClassesDeleteAlert from "./ClassesDeleteAlert";
 import TableActionButton from "../../../components/table/TableActionButton";
 import ClassesStatus from "./ClassesStatus";
@@ -109,6 +109,9 @@ const ClassesList = ({ data }: { data: any[] }) => {
     setClassId(id);
     setConfirmDialogOpen(true);
   };
+
+  const [searchParams] = useSearchParams();
+  const isTrashView = searchParams.get("trash");
 
   return (
     <>
@@ -229,12 +232,16 @@ const ClassesList = ({ data }: { data: any[] }) => {
                   onEdit={() => navigate(`/classes/edit/${classData.id}`)}
                   onDelete={() => handleDelete(classData.id)}
                 >
-                  <TableActionButton
-                    onClick={() => navigate(`/classes/enroll/${classData.id}`)}
-                    icon={<UserPlus />}
-                    tooltip="Add Student"
-                    className="text-white hover:text-white bg-green-600 hover:bg-green-700 "
-                  />
+                  {!isTrashView && (
+                    <TableActionButton
+                      onClick={() =>
+                        navigate(`/classes/enroll/${classData.id}`)
+                      }
+                      icon={UserPlus}
+                      tooltip="Enrolled Student"
+                      className="text-white hover:text-white bg-green-600 hover:bg-green-700 "
+                    />
+                  )}
                 </TableActionButtonsContainer>
               </TableCell>
             </TableRow>

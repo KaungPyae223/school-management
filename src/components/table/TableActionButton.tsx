@@ -1,14 +1,15 @@
+import type { LucideIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const TableActionButton = ({
-  icon,
+  icon: Icon,
   tooltip,
   onClick,
   variant = "outline",
   className,
 }: {
-  icon: React.ReactNode;
+  icon: LucideIcon;
   tooltip: string;
   onClick?: () => void;
   variant?: "outline" | "destructive" | "default";
@@ -17,8 +18,13 @@ const TableActionButton = ({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant={variant} size="icon" onClick={onClick} className={className}>
-          {icon}
+        <Button
+          variant={variant}
+          size="icon"
+          onClick={onClick}
+          className={className}
+        >
+          <Icon className="size-4" />
         </Button>
       </TooltipTrigger>
       <TooltipContent>
