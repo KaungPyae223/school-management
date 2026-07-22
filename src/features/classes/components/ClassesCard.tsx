@@ -21,7 +21,7 @@ import { Badge } from "../../../components/ui/badge";
 
 import { formatCurrency } from "../../../utils/format-currency";
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { replace, useNavigate, useSearchParams } from "react-router";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 import CardMenu from "../../../components/card-utils/CardMenu";
 import {

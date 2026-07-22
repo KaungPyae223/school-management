@@ -6,19 +6,24 @@ export const useSetQueryParams = () => {
   const updateQueryParams = (
     newParams: Record<string, string | number | boolean | null | undefined>,
   ) => {
-    setSearchParams((prev) => {
-      const updated = new URLSearchParams(prev);
+    setSearchParams(
+      (prev) => {
+        const updated = new URLSearchParams(prev);
 
-      Object.entries(newParams).forEach(([key, value]) => {
-        if (value === null || value === undefined || value === "") {
-          updated.delete(key);
-        } else {
-          updated.set(key, String(value));
-        }
-      });
+        Object.entries(newParams).forEach(([key, value]) => {
+          if (value === null || value === undefined || value === "") {
+            updated.delete(key);
+          } else {
+            updated.set(key, String(value));
+          }
+        });
 
-      return updated;
-    });
+        return updated;
+      },
+      {
+        replace: true,
+      },
+    );
   };
 
   return updateQueryParams;

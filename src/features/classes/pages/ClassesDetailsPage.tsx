@@ -64,7 +64,7 @@ const ClassesDetailsPage = () => {
           setConfirmDialogOpen(true);
         }}
         onUpdate={() => {
-          navigate(`classes/edit/${classData.id}`);
+          navigate(`/classes/edit/${classData.id}`);
         }}
         isTrashView={false}
       >
