@@ -1,4 +1,4 @@
-export const  useChangeTime = (date: Date) => {
+export const changeTime = (date: Date) => {
   return date.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",

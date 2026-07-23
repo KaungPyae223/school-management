@@ -74,6 +74,12 @@ declare global {
         search?: string;
         sort?: string;
         order?: string;
+        start_month?: string;
+        start_year?: string;
+        end_month?: string;
+        end_year?: string;
+        teacherId?: number;
+        courseId?: number;
       }) => Promise<ResponseDataType>;
       getClassDetails: (id: number) => Promise<{ data?: any; error?: string }>;
       createClass: (

@@ -43,8 +43,8 @@ const TEACHERS = [
   { id: "11", name: "Grace Hopper", avatar: "", initials: "GH" },
 ];
 
-const TimeTableTeacherSelect = () => {
-  const [selected, setSelected] = useState([]);
+const TimetableTeacherSelect = () => {
+  const [selected, setSelected] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const toggleColumn = (id: string) => {
@@ -83,7 +83,7 @@ const TimeTableTeacherSelect = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2">
           <UserPen className="h-4 w-4" />
-          <span>Columns</span>
+          <span>Teachers</span>
           <span className="ml-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
             {selected.length}
           </span>
@@ -173,4 +173,4 @@ const TimeTableTeacherSelect = () => {
   );
 };
 
-export default TimeTableTeacherSelect;
+export default TimetableTeacherSelect;

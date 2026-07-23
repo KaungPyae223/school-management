@@ -1,11 +1,6 @@
 import React from "react";
 import { Badge } from "../../../components/ui/badge";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../../components/ui/avatar";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+
 import {
   CalendarClock,
   CalendarDays,
@@ -13,11 +8,11 @@ import {
   DollarSign,
   type LucideIcon,
 } from "lucide-react";
-import { useChangeTime } from "../../classes/hooks/useChangeTime";
 import { formatDate } from "../../../utils/format-date";
 import { formatCurrency } from "../../../utils/format-currency";
 import ClassesTeacherCard from "../../classes/components/ClassesTeacherCard";
 import { Separator } from "../../../components/ui/separator";
+import { changeTime } from "../../../utils/change-time";
 
 const EnrollClassDataCard = ({ data }: { data: any }) => {
   return (
@@ -59,7 +54,7 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
 
           <ClassData icon={Clock} label="Time">
             <p className="font-medium">
-              {useChangeTime(data.startTime)} - {useChangeTime(data.endTime)}
+              {changeTime(data.startTime)} - {changeTime(data.endTime)}
             </p>
           </ClassData>
         </div>

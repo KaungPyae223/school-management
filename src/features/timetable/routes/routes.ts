@@ -4,7 +4,7 @@ const routes = [
   {
     path: "timetable",
     lazy: async () => {
-      const module = await import("../pages/TimeTablePage");
+      const module = await import("../pages/TimetablePage");
       return { Component: module.default };
     },
     ErrorBoundary: ErrorPage,

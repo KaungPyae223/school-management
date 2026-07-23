@@ -65,6 +65,12 @@ export const classesIPCs = () => {
       search = "",
       sort = "createdAt",
       sortDirection = "asc",
+      start_month = null,
+      start_year = null,
+      end_month = null,
+      end_year = null,
+      teacherId = null,
+      courseId = null,
     } = data;
 
     const avilableSort = new Set([
@@ -88,13 +94,49 @@ export const classesIPCs = () => {
 
     const skip = Number(page - 1) * Number(limit);
 
-    const searchFilter = search
-      ? Prisma.sql`WHERE (
+    const conditions = [];
+
+    if (start_month && start_year && end_month && end_year) {
+      conditions.push(Prisma.sql`
+      (
+        (
+          strftime('%Y', cl.startDate) < ${end_year.toString()}
+          OR (
+            strftime('%Y', cl.startDate) = ${end_year.toString()}
+            AND CAST(strftime('%m', cl.startDate) AS INTEGER) <= ${end_month}
+          )
+        )
+        AND
+        (
+          cl.endDate IS NULL
+          OR strftime('%Y', cl.endDate) > ${start_year.toString()}
+          OR (
+            strftime('%Y', cl.endDate) = ${start_year.toString()}
+            AND CAST(strftime('%m', cl.endDate) AS INTEGER) >= ${start_month}
+          )
+        )
+      )
+    `);
+    } else if (search) {
+      conditions.push(Prisma.sql`
         LOWER(cl.description) LIKE LOWER(${`%${search}%`}) OR
         LOWER(t.name) LIKE LOWER(${`%${search}%`}) OR
         LOWER(c.name) LIKE LOWER(${`%${search}%`})
-      )`
-      : Prisma.empty;
+      `);
+    }
+
+    if (teacherId) {
+      conditions.push(Prisma.sql`cl.teacherId = ${teacherId}`);
+    }
+
+    if (courseId) {
+      conditions.push(Prisma.sql`cl.courseId = ${courseId}`);
+    }
+
+    const searchQuery =
+      conditions.length > 0
+        ? Prisma.sql`WHERE ${Prisma.join(conditions, " AND ")}`
+        : Prisma.empty;
 
     try {
       const [classes, totalData] = await Promise.all([
@@ -111,10 +153,10 @@ export const classesIPCs = () => {
           LEFT JOIN enrollments e ON cl.id = e.classId 
           LEFT JOIN teachers t ON cl.teacherId = t.id 
           LEFT JOIN courses c ON cl.courseId = c.id 
-          ${searchFilter}
+          ${searchQuery}
           GROUP BY cl.id
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip}
+          ${start_month ? Prisma.sql`LIMIT ${limit} OFFSET ${skip}` : Prisma.empty}
         `,
         prisma.class.count({
           where: {
@@ -125,6 +167,8 @@ export const classesIPCs = () => {
                 { course: { name: { contains: search } } },
               ],
             }),
+            ...(teacherId && { teacherId }),
+            ...(courseId && { courseId }),
           },
         }),
       ]);

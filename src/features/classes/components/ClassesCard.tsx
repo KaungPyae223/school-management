@@ -21,7 +21,7 @@ import { Badge } from "../../../components/ui/badge";
 
 import { formatCurrency } from "../../../utils/format-currency";
 import { useState } from "react";
-import { replace, useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 import CardMenu from "../../../components/card-utils/CardMenu";
 import {
@@ -31,9 +31,9 @@ import {
 } from "../../../components/ui/tooltip";
 import { formatDate } from "../../../utils/format-date";
 import ClassesDeleteAlert from "./ClassesDeleteAlert";
-import { useChangeTime } from "../hooks/useChangeTime";
 import ClassesStatus from "./ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
+import { changeTime } from "../../../utils/change-time";
 
 const ClassesCard = ({ classData }: { classData: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -127,7 +127,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               }
               iconBg="bg-purple-100 dark:bg-purple-900/30"
               label="Start Time"
-              value={useChangeTime(classData.startTime)}
+              value={changeTime(classData.startTime)}
             />
 
             <CourseStatsCard
@@ -139,7 +139,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label="End Time"
-              value={useChangeTime(classData.endTime)}
+              value={changeTime(classData.endTime)}
             />
             <div className="col-span-2 w-full border border-border rounded-lg  px-3 py-2">
               <div className="text-muted-foreground text-xs flex items-center gap-1.5">
@@ -222,7 +222,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
             className="w-full justify-between"
             onClick={() => navigate(`/classes/details/${classData.id}`)}
           >
-            View Course Details
+            View Class Details
             <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
           </Button>
         </CardFooter>

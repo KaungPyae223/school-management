@@ -23,7 +23,6 @@ import {
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { Badge } from "../../../components/ui/badge";
 import { formatCurrency } from "../../../utils/format-currency";
-import { useChangeTime } from "../hooks/useChangeTime";
 import { formatDate } from "../../../utils/format-date";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import { useState } from "react";
@@ -31,6 +30,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import ClassesDeleteAlert from "./ClassesDeleteAlert";
 import TableActionButton from "../../../components/table/TableActionButton";
 import ClassesStatus from "./ClassesStatus";
+import { changeTime } from "../../../utils/change-time";
 
 const ClassesList = ({ data }: { data: any[] }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -197,8 +197,8 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 <div className="flex items-center gap-2">
                   <Clock size={14} />
                   <span>
-                    {useChangeTime(classData.startTime)} -{" "}
-                    {useChangeTime(classData.endTime)}
+                    {changeTime(classData.startTime)} -{" "}
+                    {changeTime(classData.endTime)}
                   </span>
                 </div>
               </TableCell>

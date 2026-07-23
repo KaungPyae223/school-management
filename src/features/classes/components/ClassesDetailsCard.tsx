@@ -11,12 +11,12 @@ import {
 import { Card, CardContent, CardHeader } from "../../../components/ui/card";
 import { Badge } from "../../../components/ui/badge";
 
-import { useChangeTime } from "../hooks/useChangeTime";
 import { formatCurrency } from "../../../utils/format-currency";
 import { formatDate } from "../../../utils/format-date";
 import { Separator } from "../../../components/ui/separator";
 import ClassesStatus from "./ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
+import { changeTime } from "../../../utils/change-time";
 
 const ClassesDetailsCard = ({ data }: { data: any }) => {
   return (
@@ -65,7 +65,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
           </ClassData>
           <ClassData icon={Clock} label={"Time"}>
             <p className="font-medium">
-              {useChangeTime(data.startTime)} - {useChangeTime(data.endTime)}
+              {changeTime(data.startTime)} - {changeTime(data.endTime)}
             </p>
           </ClassData>
           <ClassData icon={DollarSign} label={"Price"}>
