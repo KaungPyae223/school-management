@@ -111,20 +111,25 @@ export const teacherIPCs = () => {
   });
 
   ipcMain.handle("teacher:search-all-active", async (_, data) => {
+    const { search = "", page = 1, limit = 10 } = data;
+    const skip = Number(page - 1) * Number(limit);
+
     try {
       const teachers = await prisma.teacher.findMany({
+        select: { id: true, name: true, image: true },
         where: {
           deleted: false,
-          ...(data.search && {
+          ...(search && {
             OR: [
-              { name: { contains: data.search } },
-              { phone: { contains: data.search } },
-              { email: { contains: data.search } },
-              { nrc: { contains: data.search } },
+              { name: { contains: search } },
+              { phone: { contains: search } },
+              { email: { contains: search } },
+              { nrc: { contains: search } },
             ],
           }),
         },
-        select: { id: true, name: true, image: true },
+        take: 10,
+        skip: skip,
       });
       return {
         data: teachers.map((teacher) => ({

@@ -56,6 +56,8 @@ declare global {
       }) => Promise<ResponseDataType>;
       searchAllTeachers: (data: {
         search?: string;
+        page?: number;
+        limit?: number;
       }) => Promise<{ data?: any; error?: string }>;
       getTeacher: (id: number) => Promise<{ data?: any; error?: string }>;
       createTeacher: (

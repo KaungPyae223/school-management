@@ -21,8 +21,14 @@ export const useTimetableChange = () => {
       : today.getFullYear().toString(),
   };
 
+  const initialDate = activeQueryParams.initialDate
+    ? activeQueryParams.initialDate
+    : today.toISOString();
+
   const handleDatesSet = (dateInfo) => {
-    const { start, end } = dateInfo;
+    console.log(dateInfo);
+
+    const { start, end, startStr } = dateInfo;
 
     const startMonth = start.getMonth() + 1;
     const startYear = start.getFullYear();
@@ -35,8 +41,9 @@ export const useTimetableChange = () => {
       start_year: startYear.toString(),
       end_month: endMonth.toString(),
       end_year: endYear.toString(),
+      initialDate: startStr,
     });
   };
 
-  return { params, handleDatesSet };
+  return { params, handleDatesSet, initialDate };
 };

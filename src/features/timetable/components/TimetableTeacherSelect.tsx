@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { UserPen, Search } from "lucide-react";
 import {
   DropdownMenu,
@@ -16,66 +16,142 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
-import { Input } from "../../../components/ui/input"; // Make sure to import Input component
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "../../../components/ui/input-group";
+import { debounce } from "lodash";
+import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import { useSearchParams } from "react-router";
 
-// Mock data array
-const TEACHERS = [
-  {
-    id: "1",
-    name: "Kaung Pyae",
-    avatar: "https://github.com/shadcn.png",
-    initials: "KP",
-  },
-  { id: "2", name: "John Doe", avatar: "", initials: "JD" },
-  { id: "3", name: "Jane Smith", avatar: "", initials: "JS" },
-  { id: "4", name: "Alan Turing", avatar: "", initials: "AT" },
-  { id: "5", name: "Ada Lovelace", avatar: "", initials: "AL" },
-  { id: "6", name: "Grace Hopper", avatar: "", initials: "GH" },
-  { id: "7", name: "John Doe", avatar: "", initials: "JD" },
-  { id: "8", name: "Jane Smith", avatar: "", initials: "JS" },
-  { id: "9", name: "Alan Turing", avatar: "", initials: "AT" },
-  { id: "10", name: "Ada Lovelace", avatar: "", initials: "AL" },
-  { id: "11", name: "Grace Hopper", avatar: "", initials: "GH" },
-];
+import { useSetQueryParams } from "../../../hooks/use-set-query-params";
+
+interface Teacher {
+  id: string;
+  name: string;
+  image?: string;
+}
 
 const TimetableTeacherSelect = () => {
-  const [selected, setSelected] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchParam] = useSearchParams();
 
-  const toggleColumn = (id: string) => {
-    if (selected.includes(id)) {
-      setSelected(selected.filter((col) => col !== id));
-    } else {
-      setSelected([...selected, id]);
+  const selected = searchParam.get("selectedTeachers")
+    ? searchParam.get("selectedTeachers").split(",")
+    : [];
+
+  const deSelected = searchParam.get("deSelected");
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [teacherData, setTeacherData] = useState<Teacher[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const loadingRef = useRef<HTMLDivElement>(null);
+  const updateQueryParams = useSetQueryParams();
+
+  const fetchTeachers = async (value: string, append: boolean = true) => {
+    setIsLoading(true);
+    try {
+      const response = await window.api.searchAllTeachers({
+        search: value,
+        page: page,
+        limit: 20,
+      });
+      const results: Teacher[] = response?.data ?? [];
+      setTeacherData((prev) => (append ? [...prev, ...results] : results));
+      setHasMore(results.length === 20);
+      setPage(page + 1);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Filter teachers based on search term
-  const filteredTeachers = TEACHERS.filter((teacher) =>
-    teacher.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  useEffect(() => {
+    fetchTeachers("", false);
+  }, []);
 
-  // Select all filtered teachers
-  const selectAllFiltered = () => {
-    const filteredIds = filteredTeachers.map((teacher) => teacher.id);
-    const newSelected = [...selected];
-    filteredIds.forEach((id) => {
-      if (!newSelected.includes(id)) {
-        newSelected.push(id);
-      }
-    });
-    setSelected(newSelected);
+  useEffect(() => {
+    const currentLoadingRef = loadingRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        if (
+          firstEntry.isIntersecting &&
+          hasMore &&
+          !isLoading &&
+          teacherData.length > 0
+        ) {
+          fetchTeachers(searchTerm);
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" },
+    );
+
+    if (currentLoadingRef) {
+      observer.observe(currentLoadingRef);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasMore, isLoading, page, teacherData.length]);
+
+  const debouncedTeacherSearch = debounce((value: string) => {
+    setPage(1);
+    setHasMore(true);
+    fetchTeachers(value, false);
+  }, 750);
+
+  useEffect(() => {
+    debouncedTeacherSearch(searchTerm);
+
+    return () => {
+      debouncedTeacherSearch.cancel();
+    };
+  }, [searchTerm]);
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setPage(1);
   };
 
-  // Deselect all filtered teachers
+  const toggleColumn = (id: string) => {
+    const newSelect = selected.includes(id)
+      ? selected.filter((item) => item !== id)
+      : [...selected, id];
+
+    updateQueryParams({
+      selectedTeachers: newSelect.join(","),
+    });
+  };
+
+  const selectAllFiltered = () => {
+    updateQueryParams({
+      selectedTeachers: null,
+      deSelected: null,
+    });
+  };
+
   const deselectAllFiltered = () => {
-    const filteredIds = filteredTeachers.map((teacher) => teacher.id);
-    setSelected(selected.filter((id) => !filteredIds.includes(id)));
+    updateQueryParams({
+      deSelected: true,
+      selectedTeachers: null,
+    });
+  };
+
+  const checkSelect = (id: string): boolean => {
+    if (selected.length == 0 && !deSelected) {
+      return true;
+    } else if (deSelected) {
+      return selected.includes(id);
+    } else {
+      return !selected.includes(id);
+    }
   };
 
   return (
@@ -84,9 +160,6 @@ const TimetableTeacherSelect = () => {
         <Button variant="outline" className="gap-2">
           <UserPen className="h-4 w-4" />
           <span>Teachers</span>
-          <span className="ml-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-            {selected.length}
-          </span>
         </Button>
       </DropdownMenuTrigger>
 
@@ -101,7 +174,9 @@ const TimetableTeacherSelect = () => {
             <InputGroupInput
               placeholder="Search..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              onKeyDown={(e) => e.stopPropagation()}
+              onKeyUp={(e) => e.stopPropagation()}
             />
             <InputGroupAddon>
               <Search />
@@ -112,44 +187,47 @@ const TimetableTeacherSelect = () => {
         <DropdownMenuSeparator />
 
         <ScrollArea className="h-75 p-1">
-          {filteredTeachers.length === 0 ? (
+          {teacherData.length === 0 && !isLoading ? (
             <div className="text-center text-sm text-muted-foreground py-4">
               No teachers found
             </div>
           ) : (
-            filteredTeachers.map((teacher, index) => (
+            teacherData.map((teacher, index) => (
               <div key={teacher.id}>
                 <DropdownMenuCheckboxItem
                   className="flex items-center gap-3 p-2 cursor-pointer transition-colors"
-                  checked={selected.includes(teacher.id)}
-                  onCheckedChange={() => {
-                    toggleColumn(teacher.id);
-                  }}
+                  checked={checkSelect(teacher.id.toString())}
+                  onCheckedChange={() => toggleColumn(teacher.id.toString())}
+                  onSelect={(e) => e.preventDefault()}
                 >
                   <Avatar className="h-6 w-6">
-                    <AvatarImage
-                      src={teacher.avatar}
-                      alt={`@${teacher.name}`}
-                    />
+                    <AvatarImage src={teacher.image} alt={`@${teacher.name}`} />
                     <AvatarFallback className="text-[10px] bg-secondary">
-                      {teacher.initials}
+                      {generateImageFallBack(teacher.name)}
                     </AvatarFallback>
                   </Avatar>
                   <span className="font-medium text-sm truncate">
                     {teacher.name}
                   </span>
                 </DropdownMenuCheckboxItem>
-                {index < filteredTeachers.length - 1 && (
-                  <DropdownMenuSeparator />
-                )}
+                {index < teacherData.length - 1 && <DropdownMenuSeparator />}
               </div>
             ))
+          )}
+          {hasMore && (
+            <div ref={loadingRef} className="py-2 text-center">
+              {isLoading && (
+                <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                  <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
+                  Loading more...
+                </div>
+              )}
+            </div>
           )}
         </ScrollArea>
 
         <DropdownMenuSeparator />
 
-        {/* Select All / Deselect All Buttons */}
         <div className="p-2 flex gap-2">
           <Button
             variant="outline"

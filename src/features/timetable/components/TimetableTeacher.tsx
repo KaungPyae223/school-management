@@ -1,0 +1,70 @@
+import FullCalendar from "@fullcalendar/react";
+import themePlugin from "@fullcalendar/react/themes/monarch";
+import timeGridPlugin from "@fullcalendar/react/timegrid";
+import dayGridPlugin from "@fullcalendar/react/daygrid";
+import rrulePlugin from "@fullcalendar/rrule";
+import { changeTime } from "../../../utils/change-time";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../components/ui/avatar";
+import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import { useTimetableChange } from "../hooks/useTimetableChange";
+
+const TimetableTeacher = ({
+  data,
+  handleClassClick,
+}: {
+  data: any;
+  handleClassClick: (data: any) => void;
+}) => {
+  const { handleDatesSet, initialDate } = useTimetableChange();
+
+  return (
+    <FullCalendar
+      plugins={[themePlugin, dayGridPlugin, timeGridPlugin, rrulePlugin]}
+      initialView="timeGridWeek"
+      showNonCurrentDates={false}
+      initialDate={initialDate}
+      headerToolbar={{
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
+      }}
+      allDaySlot={false}
+      events={data}
+      datesSet={handleDatesSet}
+      eventDisplay="block"
+      eventClick={(eventInfo) => {
+        handleClassClick(eventInfo.event.extendedProps.classData);
+      }}
+      eventContent={(eventInfo) => (
+        <div className="flex items-center gap-1.5 px-1 py-0.5 overflow-hidden">
+          <Avatar className="h-7 w-7">
+            <AvatarImage
+              src={eventInfo.event.extendedProps.course_image}
+              alt={eventInfo.event.extendedProps.teacher}
+            />
+            <AvatarFallback>
+              {generateImageFallBack(eventInfo.event.extendedProps.teacher)}
+            </AvatarFallback>
+          </Avatar>
+
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-[11px] font-semibold leading-tight text-white">
+              {eventInfo.event.extendedProps.teacher}
+            </div>
+
+            <div className="truncate text-[10px] leading-tight text-white/80">
+              {changeTime(eventInfo.event.extendedProps.startTime)} -{" "}
+              {changeTime(eventInfo.event.extendedProps.endTime)}
+            </div>
+          </div>
+        </div>
+      )}
+    />
+  );
+};
+
+export default TimetableTeacher;
