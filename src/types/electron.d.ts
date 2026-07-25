@@ -13,6 +13,8 @@ declare global {
       }) => Promise<ResponseDataType>;
       searchAllCourses: (data: {
         search?: string;
+        page?: number;
+        limit?: number;
       }) => Promise<{ data?: any; error?: string }>;
       getCourse: (id: number) => Promise<{ data?: any; error?: string }>;
       createCourse: (

@@ -101,7 +101,6 @@ const ClassesCratePage = () => {
       toast.success("Class created successfully");
       form.reset();
     } catch (error: unknown) {
-      console.log(error);
       toast.error((error as Error).message);
       setErrorMessage((error as Error).message);
     } finally {

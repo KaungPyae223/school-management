@@ -5,6 +5,7 @@ import dayGridPlugin from "@fullcalendar/react/daygrid";
 import rrulePlugin from "@fullcalendar/rrule";
 import { changeTime } from "../../../utils/change-time";
 import { useTimetableChange } from "../hooks/useTimetableChange";
+import { useFilterData } from "../hooks/useFilterData";
 
 const TimetableCourse = ({
   data,
@@ -13,13 +14,19 @@ const TimetableCourse = ({
   data: any;
   handleClassClick: (data: any) => void;
 }) => {
-  const { handleDatesSet, initialDate } = useTimetableChange();
+  const { handleDatesSet, initialDate, initialView } =
+    useTimetableChange("dayGridMonth");
 
-  
+  const { filteredData } = useFilterData({
+    selectedParam: "selectedCourses",
+    deSelectedParam: "deSelectedCourses",
+    idField: "courseId",
+  });
+
   return (
     <FullCalendar
       plugins={[themePlugin, dayGridPlugin, timeGridPlugin, rrulePlugin]}
-      initialView={"dayGridMonth"}
+      initialView={initialView}
       initialDate={initialDate}
       showNonCurrentDates={false}
       headerToolbar={{
@@ -28,7 +35,7 @@ const TimetableCourse = ({
         right: "dayGridMonth,timeGridWeek,timeGridDay",
       }}
       allDaySlot={false}
-      events={data}
+      events={filteredData(data)}
       datesSet={handleDatesSet}
       eventDisplay="block"
       eventClick={(eventInfo) => {

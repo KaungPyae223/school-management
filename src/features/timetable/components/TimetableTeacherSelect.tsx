@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UserPen, Search } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -40,7 +39,7 @@ const TimetableTeacherSelect = () => {
     ? searchParam.get("selectedTeachers").split(",")
     : [];
 
-  const deSelected = searchParam.get("deSelected");
+  const deSelected = searchParam.get("deSelectedTeachers");
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [teacherData, setTeacherData] = useState<Teacher[]>([]);
@@ -133,13 +132,13 @@ const TimetableTeacherSelect = () => {
   const selectAllFiltered = () => {
     updateQueryParams({
       selectedTeachers: null,
-      deSelected: null,
+      deSelectedTeachers: null,
     });
   };
 
   const deselectAllFiltered = () => {
     updateQueryParams({
-      deSelected: true,
+      deSelectedTeachers: true,
       selectedTeachers: null,
     });
   };

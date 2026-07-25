@@ -2,6 +2,7 @@ import { Card, CardHeader } from "../../../components/ui/card";
 import { AnimatePresence, m } from "framer-motion";
 import TimetableTeacherSelect from "./TimetableTeacherSelect";
 import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
+import TimetableCourseSelect from "./TimetableCourseSelect";
 
 const TimetableHeader = ({ tab }: { tab: string }) => {
   return (
@@ -27,7 +28,7 @@ const TimetableHeader = ({ tab }: { tab: string }) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <TimetableTeacherSelect />
+              <TimetableCourseSelect />
             </m.div>
           )}
         </AnimatePresence>

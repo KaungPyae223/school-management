@@ -44,8 +44,7 @@ const ClassesTeacherInput = ({
     window.api
       .searchAllTeachers({ search: value })
       .then((res) => {
-        console.log(res);
-        if (res.data) {
+      if (res.data) {
           setShowTeacherDropDown(true);
           setTeacherData(res.data);
         }

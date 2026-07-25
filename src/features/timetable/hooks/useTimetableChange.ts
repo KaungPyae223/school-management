@@ -1,7 +1,7 @@
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { useSetQueryParams } from "../../../hooks/use-set-query-params";
 
-export const useTimetableChange = () => {
+export const useTimetableChange = (view: string) => {
   const { activeQueryParams } = useGetQueryParams();
   const updateQueryParams = useSetQueryParams();
 
@@ -25,10 +25,13 @@ export const useTimetableChange = () => {
     ? activeQueryParams.initialDate
     : today.toISOString();
 
-  const handleDatesSet = (dateInfo) => {
-    console.log(dateInfo);
+  const initialView = activeQueryParams.calendar_view
+    ? activeQueryParams.calendar_view
+    : view;
 
-    const { start, end, startStr } = dateInfo;
+
+  const handleDatesSet = (dateInfo) => {
+    const { start, end, startStr, view } = dateInfo;
 
     const startMonth = start.getMonth() + 1;
     const startYear = start.getFullYear();
@@ -42,8 +45,9 @@ export const useTimetableChange = () => {
       end_month: endMonth.toString(),
       end_year: endYear.toString(),
       initialDate: startStr,
+      calendar_view: view.type,
     });
   };
 
-  return { params, handleDatesSet, initialDate };
+  return { params, handleDatesSet, initialDate, initialView };
 };

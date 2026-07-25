@@ -6,10 +6,10 @@ export const useViewTabChange = (defaultView: string = "grid") => {
 
   const updateQueryParams = useSetQueryParams();
 
-  const view = searchParams.get("view") ?? defaultView;
+  const view = searchParams.get("tab") ?? defaultView;
 
-  const changeView = (view: string) => {
-    updateQueryParams({ view });
+  const changeView = (tab: string) => {
+    updateQueryParams({ tab });
   };
 
   return { view, changeView };

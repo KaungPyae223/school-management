@@ -109,15 +109,20 @@ export const courseIPCs = () => {
   });
 
   ipcMain.handle("course:search-all-active", async (_, data) => {
+    const { search = "", page = 1, limit = 10 } = data;
+    const skip = Number(page - 1) * Number(limit);
+
     try {
       const courses = await prisma.course.findMany({
         where: {
           deleted: false,
-          ...(data.search && {
-            name: { contains: data.search },
+          ...(search && {
+            name: { contains: search },
           }),
         },
         select: { id: true, name: true, price: true, image: true },
+        skip,
+        take: limit,
       });
       return {
         data: courses.map((course) => ({

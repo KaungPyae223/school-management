@@ -40,12 +40,10 @@ const EnrollStudentInput = ({
     }
   }, [defaultSelectedStudent]);
 
-  
   const debouncedUpdateParams = debounce((value: string) => {
     window.api
       .searchAllStudents({ search: value })
       .then((res) => {
-        console.log(res);
         if (res.data) {
           setShowStudentDropDown(true);
           setStudentData(res.data);

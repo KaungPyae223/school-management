@@ -11,6 +11,7 @@ import {
 } from "../../../components/ui/avatar";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { useTimetableChange } from "../hooks/useTimetableChange";
+import { useFilterData } from "../hooks/useFilterData";
 
 const TimetableTeacher = ({
   data,
@@ -19,12 +20,19 @@ const TimetableTeacher = ({
   data: any;
   handleClassClick: (data: any) => void;
 }) => {
-  const { handleDatesSet, initialDate } = useTimetableChange();
+  const { handleDatesSet, initialDate, initialView } =
+    useTimetableChange("timeGridWeek");
+
+  const { filteredData } = useFilterData({
+    selectedParam: "selectedTeachers",
+    deSelectedParam: "deSelectedTeachers",
+    idField: "teacherId",
+  });
 
   return (
     <FullCalendar
       plugins={[themePlugin, dayGridPlugin, timeGridPlugin, rrulePlugin]}
-      initialView="timeGridWeek"
+      initialView={initialView}
       showNonCurrentDates={false}
       initialDate={initialDate}
       headerToolbar={{
@@ -33,7 +41,7 @@ const TimetableTeacher = ({
         right: "dayGridMonth,timeGridWeek,timeGridDay",
       }}
       allDaySlot={false}
-      events={data}
+      events={filteredData(data)}
       datesSet={handleDatesSet}
       eventDisplay="block"
       eventClick={(eventInfo) => {
