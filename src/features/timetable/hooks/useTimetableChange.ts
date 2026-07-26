@@ -1,7 +1,7 @@
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { useSetQueryParams } from "../../../hooks/use-set-query-params";
 
-export const useTimetableChange = (view: string) => {
+export const useTimetableChange = (view?: string) => {
   const { activeQueryParams } = useGetQueryParams();
   const updateQueryParams = useSetQueryParams();
 

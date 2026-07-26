@@ -114,6 +114,7 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
               <TableCell>
                 <TableActionButtonsContainer
                   onDelete={() => handleDelete(enrollmentData.id)}
+                  onView={() => {}}
                 >
                   {enrollmentData.remainingAmount > 0 && (
                     <TableActionButton

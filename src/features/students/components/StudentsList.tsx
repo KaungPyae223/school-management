@@ -1,22 +1,16 @@
 import {
   BookOpen,
   Calendar,
-  Eye,
   Mail,
   MapPin,
   Mars,
-  Pencil,
   Phone,
-  Trash2,
   Venus,
   VenusAndMars,
 } from "lucide-react";
 import Table from "../../../components/table/Table";
-import TableActionButton from "../../../components/table/TableActionButton";
 import TableBody from "../../../components/table/TableBody";
 import TableCell from "../../../components/table/TableCell";
-import TableHead from "../../../components/table/TableHead";
-import TableHeader from "../../../components/table/TableHeader";
 import TableRow from "../../../components/table/TableRow";
 import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
 import {

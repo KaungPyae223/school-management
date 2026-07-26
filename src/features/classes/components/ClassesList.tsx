@@ -2,10 +2,7 @@ import {
   BookOpen,
   CalendarCheck2,
   CalendarOff,
-  CheckCircle2,
-  Circle,
   Clock,
-  PlayCircle,
   UserPlus,
 } from "lucide-react";
 import Table from "../../../components/table/Table";

@@ -110,6 +110,15 @@ declare global {
         sort?: string;
         order?: string;
       }) => Promise<ResponseDataType>;
+
+      // Payments
+      getAllPayments: (data: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+      }) => Promise<ResponseDataType>;
     };
   }
 }

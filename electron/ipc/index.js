@@ -3,6 +3,7 @@ import { studentIPCs } from "./student.ipc.js";
 import { teacherIPCs } from "./teacher.ipc.js";
 import { classesIPCs } from "./classs.ipc.js";
 import { enrollmentIPCs } from "./enrollment.ipc.js";
+import { paymentIPCs } from "./payment.ipc.js";
 
 export const registerIpcHandlers = () => {
   courseIPCs();
@@ -10,4 +11,5 @@ export const registerIpcHandlers = () => {
   teacherIPCs();
   classesIPCs();
   enrollmentIPCs();
+  paymentIPCs();
 };
