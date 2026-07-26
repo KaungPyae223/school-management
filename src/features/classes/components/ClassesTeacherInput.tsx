@@ -5,7 +5,7 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
 import { Trash } from "lucide-react";
 import { debounce } from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -17,6 +17,12 @@ import type {
   ControllerFieldState,
 } from "react-hook-form";
 
+interface Teacher {
+  id: string;
+  name: string;
+  image?: string;
+}
+
 const ClassesTeacherInput = ({
   field,
   fieldState,
@@ -24,47 +30,94 @@ const ClassesTeacherInput = ({
 }: {
   field: ControllerRenderProps<any, "teacherId">;
   fieldState: ControllerFieldState;
-  defaultSelectedTeacher?: unknown;
+  defaultSelectedTeacher?: Teacher;
 }) => {
   const teacherValue = field.value;
 
-  const [teacherName, setTeacherName] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [showTeacherDropDown, setShowTeacherDropDown] =
     useState<boolean>(false);
-  const [selectedTeacher, setSelectedTeacher] = useState<unknown>(null);
-  const [teacherData, setTeacherData] = useState<unknown[]>([]);
+  const [selectedTeacher, setSelectedTeacher] = useState<Teacher>(null);
+  const [teacherData, setTeacherData] = useState<Teacher[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const loadingRef = useRef<HTMLDivElement>(null);
+
+  const fetchTeachers = async (value: string, append: boolean = true) => {
+    setIsLoading(true);
+    try {
+      const response = await window.api.searchAllTeachers({
+        search: value,
+        page: page,
+        limit: 5,
+      });
+      const results: Teacher[] = response?.data ?? [];
+      setTeacherData((prev) => (append ? [...prev, ...results] : results));
+      setHasMore(results.length === 5);
+      setPage(page + 1);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (defaultSelectedTeacher) {
-      setSelectedTeacher(defaultSelectedTeacher);
-    }
-  }, [defaultSelectedTeacher]);
+    fetchTeachers("", false);
+  }, []);
 
-  const debouncedUpdateParams = debounce((value: string) => {
-    window.api
-      .searchAllTeachers({ search: value })
-      .then((res) => {
-      if (res.data) {
-          setShowTeacherDropDown(true);
-          setTeacherData(res.data);
+  useEffect(() => {
+    if (defaultSelectedTeacher && field.value == defaultSelectedTeacher.id) {
+       setSelectedTeacher(defaultSelectedTeacher);
+    }
+  }, [field.value]);
+
+  useEffect(() => {
+    const currentLoadingRef = loadingRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        if (
+          firstEntry.isIntersecting &&
+          hasMore &&
+          !isLoading &&
+          teacherData.length > 0
+        ) {
+          fetchTeachers(searchTerm);
         }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      },
+      { threshold: 0.1, rootMargin: "100px" },
+    );
+
+    if (currentLoadingRef) {
+      observer.observe(currentLoadingRef);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasMore]);
+
+  const debouncedCourseSearch = debounce((value: string) => {
+    setPage(1);
+    setHasMore(true);
+    fetchTeachers(value, false);
   }, 750);
 
-  const handleTeacherChange = (value: string) => {
-    setTeacherName(value);
+  useEffect(() => {
+    debouncedCourseSearch(searchTerm);
 
-    if (value.length <= 2) {
-      setShowTeacherDropDown(false);
-      setTeacherData([]);
-      debouncedUpdateParams.cancel();
-      return;
-    }
+    return () => {
+      debouncedCourseSearch.cancel();
+    };
+  }, [searchTerm]);
 
-    debouncedUpdateParams(value);
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setPage(1);
   };
 
   return (
@@ -74,9 +127,9 @@ const ClassesTeacherInput = ({
       <div className="relative">
         <Input
           id="teacherID"
-          value={teacherName}
+          value={searchTerm}
           onChange={(e) => {
-            handleTeacherChange(e.target.value);
+            handleSearchChange(e.target.value);
           }}
           onFocus={() => setShowTeacherDropDown(true)}
           onBlur={() => setShowTeacherDropDown(false)}
@@ -96,7 +149,7 @@ const ClassesTeacherInput = ({
                     field.onChange(data.id);
                     setSelectedTeacher(data);
                     setShowTeacherDropDown(false);
-                    setTeacherName("");
+                    setSearchTerm("");
                   }}
                 >
                   <Avatar className="h-10 w-10">

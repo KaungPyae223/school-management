@@ -98,7 +98,7 @@ const TimetableTeacherSelect = () => {
     return () => {
       observer.disconnect();
     };
-  }, [hasMore, isLoading, page, teacherData.length]);
+  }, [hasMore]);
 
   const debouncedTeacherSearch = debounce((value: string) => {
     setPage(1);

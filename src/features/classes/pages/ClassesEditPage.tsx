@@ -140,6 +140,7 @@ const ClassesEditPage = () => {
                   fieldState={fieldState}
                   setValue={form.setValue}
                   defaultSelectedCourse={{
+                    id: data.course.id,
                     image: data.course_image,
                     price: data.price,
                     name: data.course.name,
@@ -155,6 +156,7 @@ const ClassesEditPage = () => {
                   field={field}
                   fieldState={fieldState}
                   defaultSelectedTeacher={{
+                    id: data.id,
                     image: data.teacher_image,
                     name: data.teacher.name,
                   }}

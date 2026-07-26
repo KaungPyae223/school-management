@@ -5,11 +5,18 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
 import { Trash } from "lucide-react";
 import { debounce } from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   ControllerRenderProps,
   ControllerFieldState,
 } from "react-hook-form";
+
+interface Course {
+  id: string;
+  name: string;
+  image?: string;
+  price: number;
+}
 
 const ClassesCourseInput = ({
   field,
@@ -19,47 +26,94 @@ const ClassesCourseInput = ({
 }: {
   field: ControllerRenderProps<any, "courseId">;
   fieldState: ControllerFieldState;
-  defaultSelectedCourse?: unknown;
+  defaultSelectedCourse?: Course;
   setValue: any;
 }) => {
   const courseValue = field.value;
 
-  const [courseName, setCourseName] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [showCourseDropDown, setShowCourseDropDown] = useState<boolean>(false);
-  const [selectedCourse, setSelectedCourse] = useState<unknown>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course>(null);
   const [courseData, setCourseData] = useState<unknown[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const loadingRef = useRef<HTMLDivElement>(null);
+
+  const fetchCourses = async (value: string, append: boolean = true) => {
+    setIsLoading(true);
+    try {
+      const response = await window.api.searchAllCourses({
+        search: value,
+        page: page,
+        limit: 5,
+      });
+      const results = response?.data ?? [];
+      setCourseData((prev) => (append ? [...prev, ...results] : results));
+      setHasMore(results.length === 5);
+      setPage(page + 1);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (defaultSelectedCourse) {
+    fetchCourses("", false);
+  }, []);
+
+  useEffect(() => {
+    if (defaultSelectedCourse && field.value == defaultSelectedCourse.id) {
       setSelectedCourse(defaultSelectedCourse);
     }
-  }, [defaultSelectedCourse]);
+  }, [field.value]);
 
-  const debouncedUpdateParams = debounce((value: string) => {
-    window.api
-      .searchAllCourses({ search: value })
-      .then((res) => {
-        if (res.data) {
-          setShowCourseDropDown(true);
-          setCourseData(res.data);
+  useEffect(() => {
+    const currentLoadingRef = loadingRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        if (
+          firstEntry.isIntersecting &&
+          hasMore &&
+          !isLoading &&
+          courseData.length > 0
+        ) {
+          fetchCourses(searchTerm);
         }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, 750);
+      },
+      { threshold: 0.1, rootMargin: "100px" },
+    );
 
-  const handleCourseChange = (value: string) => {
-    setCourseName(value);
-
-    if (value.length <= 2) {
-      setShowCourseDropDown(false);
-      setCourseData([]);
-      debouncedUpdateParams.cancel();
-      return;
+    if (currentLoadingRef) {
+      observer.observe(currentLoadingRef);
     }
 
-    debouncedUpdateParams(value);
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasMore]);
+
+  const debouncedCourseSearch = debounce((value: string) => {
+    setPage(1);
+    setHasMore(true);
+    fetchCourses(value, false);
+  }, 750);
+
+  useEffect(() => {
+    debouncedCourseSearch(searchTerm);
+
+    return () => {
+      debouncedCourseSearch.cancel();
+    };
+  }, [searchTerm]);
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setPage(1);
   };
 
   return (
@@ -69,9 +123,9 @@ const ClassesCourseInput = ({
       <div className="relative">
         <Input
           id="courseID"
-          value={courseName}
+          value={searchTerm}
           onChange={(e) => {
-            handleCourseChange(e.target.value);
+            handleSearchChange(e.target.value);
           }}
           onFocus={() => setShowCourseDropDown(true)}
           onBlur={() => setShowCourseDropDown(false)}
@@ -83,7 +137,7 @@ const ClassesCourseInput = ({
         {showCourseDropDown && courseData.length > 0 && (
           <div className=" absolute w-full z-50 bg-white border divide-y rounded-lg mt-1">
             <ScrollArea className="max-h-72">
-              {courseData.map((data) => (
+              {courseData.map((data: Course) => (
                 <div
                   className="flex items-center justify-between  p-2 hover:bg-muted cursor-pointer"
                   key={data.id}
@@ -92,7 +146,7 @@ const ClassesCourseInput = ({
                     setSelectedCourse(data);
                     setValue("price", data.price);
                     setShowCourseDropDown(false);
-                    setCourseName("");
+                    setSearchTerm("");
                   }}
                 >
                   <div className="flex items-center gap-3">
@@ -112,6 +166,16 @@ const ClassesCourseInput = ({
                   </p>
                 </div>
               ))}
+              {hasMore && (
+                <div ref={loadingRef} className="py-2 text-center">
+                  {isLoading && (
+                    <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                      <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
+                      Loading more...
+                    </div>
+                  )}
+                </div>
+              )}
             </ScrollArea>
           </div>
         )}
@@ -146,7 +210,7 @@ const ClassesCourseInput = ({
                 field.onChange(0);
                 setSelectedCourse(null);
                 setValue("price", 0);
-                setCourseName("");
+                setSearchTerm("");
               }}
             >
               <Trash className="h-4 w-4" />

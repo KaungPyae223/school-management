@@ -21,7 +21,7 @@ import { useSearchParams } from "react-router";
 
 import { useSetQueryParams } from "../../../hooks/use-set-query-params";
 
-interface Teacher {
+interface Course {
   id: string;
   name: string;
   image?: string;
@@ -37,7 +37,7 @@ const TimetableCourseSelect = () => {
   const deSelected = searchParam.get("deSelectedCourses");
 
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [courseData, setTeacherData] = useState<Teacher[]>([]);
+  const [courseData, setCourseData] = useState<Course[]>([]);
   const [page, setPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -53,8 +53,8 @@ const TimetableCourseSelect = () => {
         page: page,
         limit: 20,
       });
-      const results: Teacher[] = response?.data ?? [];
-      setTeacherData((prev) => (append ? [...prev, ...results] : results));
+      const results: Course[] = response?.data ?? [];
+      setCourseData((prev) => (append ? [...prev, ...results] : results));
       setHasMore(results.length === 20);
       setPage(page + 1);
     } catch (error) {
@@ -93,19 +93,19 @@ const TimetableCourseSelect = () => {
     return () => {
       observer.disconnect();
     };
-  }, [hasMore, isLoading, page, courseData.length]);
+  }, [hasMore]);
 
-  const debouncedTeacherSearch = debounce((value: string) => {
+  const debouncedCourseSearch = debounce((value: string) => {
     setPage(1);
     setHasMore(true);
     fetchCourses(value, false);
   }, 750);
 
   useEffect(() => {
-    debouncedTeacherSearch(searchTerm);
+    debouncedCourseSearch(searchTerm);
 
     return () => {
-      debouncedTeacherSearch.cancel();
+      debouncedCourseSearch.cancel();
     };
   }, [searchTerm]);
 
