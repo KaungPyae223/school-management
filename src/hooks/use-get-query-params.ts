@@ -6,7 +6,7 @@ export const useGetQueryParams = () => {
   const params = new URLSearchParams(searchParams);
 
   const numberParams = ["page", "limit"];
-  const neglectParams = ["columns", "view"];
+  const neglectParams = ["columns", "tab"];
 
   return {
     activeParams: params.toString(),

@@ -12,6 +12,7 @@ import PaymentHeader from "../components/PaymentHeader";
 import { AnimatePresence, m } from "framer-motion";
 import PaymentList from "../components/PaymentList";
 import Paginate from "../../../components/paginate/Paginate";
+import PageDataShow from "../../../components/page/PageDataShow";
 
 const PaymentsPage = () => {
   useAddBreadcrumb({
@@ -23,11 +24,10 @@ const PaymentsPage = () => {
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading } = useAppQuery({
-    queryKey: ["payments", activeQueryParams],
-    queryFn: () => paymentService.getAllPayments(activeQueryParams),
+    queryKey: ["payments", { ...activeQueryParams, view }],
+    queryFn: () =>
+      paymentService.getAllPayments({ ...activeQueryParams, view }),
   }) as { data: ResponseDataType; isLoading: boolean };
-
-  console.log(data);
 
   return (
     <Tabs
@@ -37,44 +37,40 @@ const PaymentsPage = () => {
       className="space-y-4"
     >
       <PaymentHeader />
-      {isLoading ? (
-        <LoadingComponent />
-      ) : data?.data.length === 0 ? (
-        <EmptyComponent
-          description="There are no payments available at the moment. Please add a payment to get started!"
-          title="No Payments"
-          icon={CreditCardIcon}
-        />
-      ) : (
-        <>
-          <AnimatePresence mode="wait" initial={false}>
-            {view === "initial" && (
-              <m.div
-                key="initial"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <PaymentList data={data?.data} view="initial" />
-              </m.div>
-            )}
+      <PageDataShow
+        isLoading={isLoading}
+        dataLength={data?.data.length}
+        emptyDescription="There are no payments available at the moment. Please add a payment to get started!"
+        emptyTitle="No Payments"
+        emptyIcon={CreditCardIcon}
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          {view === "initial" && (
+            <m.div
+              key="initial"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <PaymentList data={data?.data} view="initial" />
+            </m.div>
+          )}
 
-            {view === "all" && (
-              <m.div
-                key="all"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <PaymentList data={data?.data} view="all" />
-              </m.div>
-            )}
-          </AnimatePresence>
-          <Paginate meta={data?.meta} />
-        </>
-      )}
+          {view === "all" && (
+            <m.div
+              key="all"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <PaymentList data={data?.data} view="all" />
+            </m.div>
+          )}
+        </AnimatePresence>
+        <Paginate meta={data?.meta} />
+      </PageDataShow>
     </Tabs>
   );
 };

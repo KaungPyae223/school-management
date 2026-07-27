@@ -11,6 +11,7 @@ export const paymentIPCs = () => {
       search = "",
       sort = "createdAt",
       sortDirection = "asc",
+      view = "initial",
     } = data;
 
     const avilableSort = new Set([
@@ -44,6 +45,11 @@ export const paymentIPCs = () => {
     )`
       : Prisma.empty;
 
+    const havingFilter =
+      view === "initial"
+        ? Prisma.sql`HAVING SUM(p.amount) IS NULL OR e.price - SUM(p.amount) > 0`
+        : Prisma.sql`HAVING SUM(p.amount) IS NOT NULL AND e.price - SUM(p.amount) = 0`;
+
     try {
       const [enrollments, totalData] = await Promise.all([
         prisma.$queryRaw`
@@ -67,6 +73,7 @@ export const paymentIPCs = () => {
           LEFT JOIN courses c ON cl.courseId = c.id
           ${searchFilter}
           GROUP BY e.id
+          ${havingFilter}
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,

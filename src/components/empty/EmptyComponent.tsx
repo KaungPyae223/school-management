@@ -8,7 +8,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "../ui/empty";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { Card } from "../ui/card";
 
 const EmptyComponent = ({
@@ -19,12 +19,14 @@ const EmptyComponent = ({
 }: {
   title?: string;
   description?: string;
-  action?: { label: string; onClick: () => void };
+  action?: { label: string; link: string };
   icon: LucideIcon;
 }) => {
   const [searchParams] = useSearchParams();
 
   const trash = searchParams.get("trash");
+
+  const navigate = useNavigate();
 
   return (
     <Card className="shadow-sm py-16">
@@ -40,7 +42,7 @@ const EmptyComponent = ({
         </EmptyHeader>
         {action && !trash && (
           <EmptyContent>
-            <Button size="sm" onClick={action.onClick}>
+            <Button size="sm" onClick={() => navigate(action.link)}>
               {action.label}
             </Button>
           </EmptyContent>
