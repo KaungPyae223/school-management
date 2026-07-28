@@ -2,7 +2,10 @@ import fs from "fs";
 import path from "path";
 import { app } from "electron";
 
-export const saveImage = async (image, originalFileName) => {
+export const saveImage = async (
+  image: ArrayBuffer | null | undefined,
+  originalFileName: string,
+) => {
   if (!image) return null;
 
   const imageBuffer = Buffer.from(new Uint8Array(image));

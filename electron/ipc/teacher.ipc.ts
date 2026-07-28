@@ -1,9 +1,9 @@
 import { ipcMain } from "electron";
-import { prisma } from "../../db/prisma.js";
-import { saveImage } from "../utils/saveImage.js";
-import { showImage } from "../utils/showImage.js";
-import { deleteImage } from "../utils/deleteImage.js";
-import { Prisma } from "../../generated/prisma/index.js";
+import { prisma } from "../../db/prisma";
+import { saveImage } from "../utils/saveImage";
+import { showImage } from "../utils/showImage";
+import { deleteImage } from "../utils/deleteImage";
+import { Prisma } from "../../generated/prisma/client";
 
 export const teacherIPCs = () => {
   ipcMain.handle("teacher:index", async (_, data) => {
@@ -47,7 +47,7 @@ export const teacherIPCs = () => {
 
     try {
       const [teachers, totalData] = await Promise.all([
-        prisma.$queryRaw`
+        prisma.$queryRaw<any[]>`
            WITH class_counts AS (
             SELECT teacherId, COUNT(*) AS total_classes
             FROM classes
@@ -96,7 +96,7 @@ export const teacherIPCs = () => {
         })),
         meta: { total_data: totalData, total_pages, page, limit },
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         error: error.message,
         data: [],
@@ -137,7 +137,7 @@ export const teacherIPCs = () => {
           image: showImage(teacher.image),
         })),
       };
-    } catch (error) {
+    } catch (error: any) {
       return { error: error.message };
     }
   });
@@ -156,7 +156,7 @@ export const teacherIPCs = () => {
           image: showImage(teacher.image),
         },
       };
-    } catch (error) {
+    } catch (error: any) {
       return { error: error.message };
     }
   });
@@ -177,7 +177,7 @@ export const teacherIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error:any) {
       return { success: false, error: error.message };
     }
   });
@@ -191,13 +191,13 @@ export const teacherIPCs = () => {
         select: { deleted: true, image: true },
       });
 
-      if (existingTeacher.deleted) {
+      if (existingTeacher?.deleted) {
         return { success: false, error: "Deleted teacher cannot be updated" };
       }
 
       let imageUrl = undefined;
       if (image && imageName) {
-        if (existingTeacher.image) {
+        if (existingTeacher?.image) {
           await deleteImage(existingTeacher.image);
         }
 
@@ -212,7 +212,7 @@ export const teacherIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error:any) {
       return { success: false, error: error.message };
     }
   });
@@ -234,20 +234,20 @@ export const teacherIPCs = () => {
         return { success: true };
       }
 
-      const { image } = await prisma.teacher.findUnique({
+      const teacherData = await prisma.teacher.findUnique({
         where: { id },
         select: { image: true },
       });
 
-      if (image) {
-        await deleteImage(image);
+      if (teacherData?.image) {
+        await deleteImage(teacherData.image);
       }
 
       await prisma.teacher.delete({
         where: { id },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error:any) {
       return { success: false, error: error.message };
     }
   });

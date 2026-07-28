@@ -1,9 +1,8 @@
 import { ipcMain } from "electron";
-import { prisma } from "../../db/prisma.js";
-import { saveImage } from "../utils/saveImage.js";
-import { deleteImage } from "../utils/deleteImage.js";
-import { Prisma } from "../../generated/prisma/index.js";
-import { showImage } from "../utils/showImage.js";
+import { prisma } from "../../db/prisma";
+import { saveImage } from "../utils/saveImage";
+import { Prisma } from "../../generated/prisma/client";
+import { showImage } from "../utils/showImage";
 
 export const enrollmentIPCs = () => {
   ipcMain.handle("enrollment:create", async (_, data) => {
@@ -43,7 +42,7 @@ export const enrollmentIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -56,7 +55,7 @@ export const enrollmentIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -82,7 +81,7 @@ export const enrollmentIPCs = () => {
 
     try {
       const [enrollments, totalData] = await Promise.all([
-        prisma.$queryRaw`
+        prisma.$queryRaw<any[]>`
           SELECT
             e.*,
             SUM(p.amount) as paidAmount,
@@ -113,7 +112,7 @@ export const enrollmentIPCs = () => {
         })),
         meta: { total_data: totalData, total_pages: totalPages, page, limit },
       };
-    } catch (error) {
+    } catch (error:any) {
       return {
         error: error.message,
         data: [],

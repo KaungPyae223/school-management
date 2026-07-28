@@ -1,9 +1,9 @@
 import { ipcMain } from "electron";
-import { prisma } from "../../db/prisma.js";
-import { saveImage } from "../utils/saveImage.js";
-import { showImage } from "../utils/showImage.js";
-import { deleteImage } from "../utils/deleteImage.js";
-import { Prisma } from "../../generated/prisma/index.js";
+import { prisma } from "../../db/prisma";
+import { saveImage } from "../utils/saveImage";
+import { showImage } from "../utils/showImage";
+import { deleteImage } from "../utils/deleteImage";
+import { Prisma } from "../../generated/prisma/client";
 
 export const studentIPCs = () => {
   ipcMain.handle("student:index", async (_, data) => {
@@ -44,7 +44,7 @@ export const studentIPCs = () => {
 
     try {
       const [students, totalData] = await Promise.all([
-        prisma.$queryRaw`
+        prisma.$queryRaw<any[]>`
           SELECT 
             s.*,
             COUNT(e.id) as total_classes
@@ -78,7 +78,7 @@ export const studentIPCs = () => {
         })),
         meta: { total_data: totalData, total_pages, page, limit },
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         error: error.message,
         data: [],
@@ -106,7 +106,7 @@ export const studentIPCs = () => {
           image: showImage(student.image),
         },
       };
-    } catch (error) {
+    } catch (error: any) {
       return { error: error.message };
     }
   });
@@ -132,7 +132,7 @@ export const studentIPCs = () => {
           image: showImage(student.image),
         })),
       };
-    } catch (error) {
+    } catch (error: any) {
       return { error: error.message };
     }
   });
@@ -153,7 +153,7 @@ export const studentIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -164,13 +164,17 @@ export const studentIPCs = () => {
 
       let imageUrl = undefined;
       if (image && imageName) {
-        const { image: oldImage } = await prisma.student.findUnique({
+        const existingStudent = await prisma.student.findUnique({
           where: { id },
           select: { image: true },
         });
 
-        if (oldImage) {
-          await deleteImage(oldImage);
+        if (existingStudent) {
+          const oldImage = existingStudent.image;
+
+          if (oldImage) {
+            await deleteImage(oldImage);
+          }
         }
 
         imageUrl = await saveImage(image, imageName);
@@ -184,7 +188,7 @@ export const studentIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -205,20 +209,20 @@ export const studentIPCs = () => {
         };
       }
 
-      const { image } = await prisma.student.findUnique({
+      const studentData = await prisma.student.findUnique({
         where: { id },
         select: { image: true },
       });
 
-      if (image) {
-        await deleteImage(image);
+      if (studentData?.image) {
+        await deleteImage(studentData.image);
       }
 
       await prisma.student.delete({
         where: { id },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });

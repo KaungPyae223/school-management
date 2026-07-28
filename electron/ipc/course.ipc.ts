@@ -1,9 +1,9 @@
 import { ipcMain } from "electron";
-import { prisma } from "../../db/prisma.js";
-import { saveImage } from "../utils/saveImage.js";
-import { showImage } from "../utils/showImage.js";
-import { deleteImage } from "../utils/deleteImage.js";
-import { Prisma } from "../../generated/prisma/index.js";
+import { prisma } from "../../db/prisma";
+import { saveImage } from "../utils/saveImage";
+import { showImage } from "../utils/showImage";
+import { deleteImage } from "../utils/deleteImage";
+import { Prisma } from "../../generated/prisma/client";
 
 export const courseIPCs = () => {
   ipcMain.handle("course:index", async (_, data) => {
@@ -41,7 +41,7 @@ export const courseIPCs = () => {
 
     try {
       const [courses, totalData] = await Promise.all([
-        prisma.$queryRaw`
+        prisma.$queryRaw<any[]>`
           WITH class_counts AS (
             SELECT
               cl.courseId,
@@ -88,13 +88,13 @@ export const courseIPCs = () => {
 
       return {
         error: null,
-        data: courses.map((course) => ({
+        data: courses.map((course: any) => ({
           ...course,
           image: showImage(course.image),
         })),
         meta: { total_data: totalData, total_pages, page, limit },
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         error: error.message,
         data: [],
@@ -130,7 +130,7 @@ export const courseIPCs = () => {
           image: showImage(course.image),
         })),
       };
-    } catch (error) {
+    } catch (error: any) {
       return { error: error.message };
     }
   });
@@ -149,7 +149,7 @@ export const courseIPCs = () => {
           image: showImage(course.image),
         },
       };
-    } catch (error) {
+    } catch (error: any) {
       return { error: error.message };
     }
   });
@@ -170,7 +170,7 @@ export const courseIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -184,13 +184,13 @@ export const courseIPCs = () => {
         select: { deleted: true, image: true },
       });
 
-      if (existingCourse.deleted) {
+      if (existingCourse?.deleted) {
         return { success: false, error: "Deleted course cannot be updated" };
       }
 
       let imageUrl = undefined;
       if (image && imageName) {
-        if (existingCourse.image) {
+        if (existingCourse?.image) {
           await deleteImage(existingCourse.image);
         }
 
@@ -205,7 +205,7 @@ export const courseIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -244,7 +244,7 @@ export const courseIPCs = () => {
         where: { id },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });

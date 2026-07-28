@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { app } from "electron";
 
-export const deleteImage = async (fileName) => {
+export const deleteImage = async (fileName: string | null | undefined) => {
   if (!fileName) return false;
 
   try {

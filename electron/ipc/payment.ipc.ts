@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
-import { prisma } from "../../db/prisma.js";
-import { showImage } from "../utils/showImage.js";
-import { Prisma } from "../../generated/prisma/index.js";
+import { prisma } from "../../db/prisma";
+import { showImage } from "../utils/showImage";
+import { Prisma } from "../../generated/prisma/client";
 
 export const paymentIPCs = () => {
   ipcMain.handle("payment:index", async (_, data) => {
@@ -52,7 +52,7 @@ export const paymentIPCs = () => {
 
     try {
       const [enrollments, totalData] = await Promise.all([
-        prisma.$queryRaw`
+        prisma.$queryRaw<any[]>`
           SELECT
             e.*,
             SUM(p.amount) as paidAmount,
@@ -91,7 +91,7 @@ export const paymentIPCs = () => {
         })),
         meta: { total_data: totalData, total_pages: totalPages, page, limit },
       };
-    } catch (error) {
+    } catch (error:any) {
       return {
         error: error.message,
         data: [],

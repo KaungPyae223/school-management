@@ -1,15 +1,15 @@
 import { ipcMain } from "electron";
-import { prisma } from "../../db/prisma.js";
-import { showImage } from "../utils/showImage.js";
-import { Prisma } from "../../generated/prisma/index.js";
-import { formatTime } from "../utils/formatTime.js";
+import { prisma } from "../../db/prisma";
+import { showImage } from "../utils/showImage";
+import { Prisma } from "../../generated/prisma/client";
+import { formatTime } from "../utils/formatTime";
 
 const isTeacherBusy = async (
-  teacherId,
-  days,
-  startTime,
-  endTime,
-  classId = null,
+  teacherId: number,
+  days: string,
+  startTime: string,
+  endTime: string,
+  classId: number | null = null,
 ) => {
   const daysArray = days.split(",").map((d) => d.trim());
 
@@ -18,7 +18,7 @@ const isTeacherBusy = async (
     " OR ",
   );
 
-  const checkTeacherBusy = await prisma.$queryRaw`
+  const checkTeacherBusy = await prisma.$queryRaw<any[]>`
         SELECT startTime, endTime, days, id 
         FROM classes 
         WHERE teacherId = ${teacherId}
@@ -44,7 +44,7 @@ const isTeacherBusy = async (
   return checkTeacherBusy;
 };
 
-const generateStatus = (startDate, endDate) => {
+const generateStatus = (startDate: Date, endDate: Date | null) => {
   const today = new Date();
   const start = new Date(startDate);
   const end = endDate ? new Date(endDate) : null;
@@ -140,7 +140,7 @@ export const classesIPCs = () => {
 
     try {
       const [classes, totalData] = await Promise.all([
-        prisma.$queryRaw`
+        prisma.$queryRaw<any[]>`
           SELECT 
             cl.*,
             COUNT(DISTINCT e.id) as total_students,
@@ -177,7 +177,7 @@ export const classesIPCs = () => {
 
       return {
         error: null,
-        data: classes.map((classData) => ({
+        data: classes.map((classData: any) => ({
           ...classData,
           course_image: showImage(classData.course_image),
           teacher_image: showImage(classData.teacher_image),
@@ -185,7 +185,7 @@ export const classesIPCs = () => {
         })),
         meta: { total_data: totalData, total_pages, page, limit },
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         error: error.message,
         data: [],
@@ -209,6 +209,7 @@ export const classesIPCs = () => {
           startDate: true,
           startTime: true,
           endTime: true,
+          endDate: true,
           days: true,
           price: true,
           description: true,
@@ -246,7 +247,7 @@ export const classesIPCs = () => {
           status: generateStatus(classes.startDate, classes.endDate),
         },
       };
-    } catch (error) {
+    } catch (error: any) {
       return { error: error.message };
     }
   });
@@ -262,7 +263,7 @@ export const classesIPCs = () => {
         },
       });
 
-      const checkTeacherBusy = await isTeacherBusy(
+      const checkTeacherBusy: any[] = await isTeacherBusy(
         data.teacherId,
         data.days,
         data.startTime,
@@ -282,7 +283,7 @@ export const classesIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -292,7 +293,7 @@ export const classesIPCs = () => {
       const { id, ...restData } = data;
 
       if (restData.teacherId) {
-        const checkTeacherBusy = await isTeacherBusy(
+        const checkTeacherBusy: any[] = await isTeacherBusy(
           restData.teacherId,
           restData.days,
           restData.startTime,
@@ -314,7 +315,7 @@ export const classesIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -334,7 +335,7 @@ export const classesIPCs = () => {
         where: { id },
       });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
