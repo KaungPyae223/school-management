@@ -23,6 +23,8 @@ function createWindow() {
   }
 }
 
+app.disableHardwareAcceleration();
+
 app.whenReady().then(async () => {
   if (app.isPackaged) {
     const dbPath = path.join(app.getPath("userData"), "app.db");

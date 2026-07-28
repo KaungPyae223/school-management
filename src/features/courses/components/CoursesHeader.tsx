@@ -1,28 +1,21 @@
-import { Download, Grid2X2Icon, List, Plus, Search } from "lucide-react";
+import { Download, Grid2X2Icon, List, Plus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
 import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import { Link } from "react-router";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "../../../components/ui/input-group";
+
 import ColumnSelector from "../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
 import ChangeTrashView from "../../../components/header/ChangeTrashView";
+
+import SearchInput from "../../../components/search-input/SearchInput";
 
 const CoursesHeader = ({ tab }: { tab: string }) => {
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-row gap-3 justify-between">
         <div className="flex gap-2">
-          <InputGroup className="max-w-xs">
-            <InputGroupInput placeholder="Search..." />
-            <InputGroupAddon>
-              <Search />
-            </InputGroupAddon>
-          </InputGroup>
+          <SearchInput />
           <AnimatePresence mode="wait" initial={false}>
             {tab === "list" && (
               <m.div

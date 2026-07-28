@@ -7,13 +7,9 @@ import ClassesDetailsCard from "../components/ClassesDetailsCard";
 import ClassesDeleteAlert from "../components/ClassesDeleteAlert";
 import { useState } from "react";
 import { Button } from "../../../components/ui/button";
-import { GraduationCap, Search, UserPlus, Users } from "lucide-react";
+import { GraduationCap,  UserPlus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "../../../components/ui/input-group";
+
 import { Badge } from "../../../components/ui/badge";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { useAppQuery } from "../../../hooks/use-app-query";
@@ -23,6 +19,7 @@ import ClassesEnrolledStudentsList from "../components/ClassesEnrolledStudentsLi
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
 import Paginate from "../../../components/paginate/Paginate";
+import SearchInput from "../../../components/search-input/SearchInput";
 
 const ClassesDetailsPage = () => {
   useAddBreadcrumb({
@@ -55,7 +52,6 @@ const ClassesDetailsPage = () => {
       }),
   }) as { data: ResponseDataType; isLoading: boolean };
 
-  
   return (
     <div className="space-y-6">
       <DetailsHeader
@@ -79,13 +75,7 @@ const ClassesDetailsPage = () => {
       <Separator />
       <Card className="shadow-sm">
         <CardContent className="flex flex-wrap items-center justify-between gap-4">
-          <InputGroup className="max-w-xs">
-            <InputGroupInput placeholder="Search..." />
-            <InputGroupAddon>
-              <Search />
-            </InputGroupAddon>
-          </InputGroup>
-
+          <SearchInput />
           <div className="flex items-center gap-2 whitespace-nowrap">
             <span className="text-sm font-medium text-muted-foreground">
               Total Students:
@@ -100,9 +90,7 @@ const ClassesDetailsPage = () => {
         <EmptyComponent
           action={{
             label: "Add Student",
-            onClick: () => {
-              navigate(`/classes/enroll/${classData.id}`);
-            },
+            link: `/classes/enroll/${classData.id}`,
           }}
           description="There are no enrolled students available at the moment. Please add an enrolled student to get started!"
           title="No Enrolled Students"

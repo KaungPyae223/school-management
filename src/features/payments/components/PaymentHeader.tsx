@@ -1,13 +1,9 @@
 import { Card, CardHeader } from "../../../components/ui/card";
 import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "../../../components/ui/input-group";
-import { Search } from "lucide-react";
+
 import ColumnSelector from "../../../components/header/ColumnSelector";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
+import SearchInput from "../../../components/search-input/SearchInput";
 
 const PaymentHeader = () => {
   const { view } = useViewTabChange("initial");
@@ -37,12 +33,7 @@ const PaymentHeader = () => {
     <Card className="shadow-sm ">
       <CardHeader className="flex flex-row items-center justify-between gap-3">
         <div className="flex flex-row items-center gap-3">
-          <InputGroup className="max-w-xs">
-            <InputGroupInput placeholder="Search..." />
-            <InputGroupAddon>
-              <Search />
-            </InputGroupAddon>
-          </InputGroup>
+          <SearchInput />
           <ColumnSelector
             columns={columns}
             alwaysSelectedColumns={["Name", "Course", "Price"]}
