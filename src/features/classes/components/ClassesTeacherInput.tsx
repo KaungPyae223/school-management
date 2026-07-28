@@ -5,7 +5,7 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
 import { Trash } from "lucide-react";
 import { debounce } from "lodash";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -70,7 +70,7 @@ const ClassesTeacherInput = ({
 
   useEffect(() => {
     if (defaultSelectedTeacher && field.value == defaultSelectedTeacher.id) {
-       setSelectedTeacher(defaultSelectedTeacher);
+      setSelectedTeacher(defaultSelectedTeacher);
     }
   }, [field.value]);
 
@@ -101,17 +101,21 @@ const ClassesTeacherInput = ({
     };
   }, [hasMore]);
 
-  const debouncedCourseSearch = debounce((value: string) => {
-    setPage(1);
-    setHasMore(true);
-    fetchTeachers(value, false);
-  }, 750);
+  const debouncedTeacherSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setPage(1);
+        setHasMore(true);
+        fetchTeachers(value, false);
+      }, 750),
+    [],
+  );
 
   useEffect(() => {
-    debouncedCourseSearch(searchTerm);
+    debouncedTeacherSearch(searchTerm);
 
     return () => {
-      debouncedCourseSearch.cancel();
+      debouncedTeacherSearch.cancel();
     };
   }, [searchTerm]);
 
@@ -167,6 +171,16 @@ const ClassesTeacherInput = ({
                   </div>
                 </div>
               ))}
+              {hasMore && (
+                <div ref={loadingRef} className="py-2 text-center">
+                  {isLoading && (
+                    <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                      <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
+                      Loading more...
+                    </div>
+                  )}
+                </div>
+              )}
             </ScrollArea>
           </div>
         )}

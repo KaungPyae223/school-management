@@ -6,7 +6,7 @@ import {
 } from "../ui/input-group";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { useSearchParams } from "react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { debounce } from "lodash";
 
 const SearchInput = ({
@@ -19,19 +19,25 @@ const SearchInput = ({
   const updateQueryParams = useSetQueryParams();
   const [searchParams] = useSearchParams();
 
-  const [searchTerm, setSearchTerm] = useState<string>(
-    searchParams.get(searchParam) || "",
+  const currentSearch = searchParams.get(searchParam) ?? "";
+
+  const [searchTerm, setSearchTerm] = useState<string>(currentSearch);
+
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        updateQueryParams({ [searchParam]: value });
+      }, 750),
+    [],
   );
 
-  const debouncedCourseSearch = debounce((value: string) => {
-    updateQueryParams({ [searchParam]: value });
-  }, 750);
-
   useEffect(() => {
-    debouncedCourseSearch(searchTerm);
+    if (currentSearch !== searchTerm) {
+      debouncedSearch(searchTerm);
+    }
 
     return () => {
-      debouncedCourseSearch.cancel();
+      debouncedSearch.cancel();
     };
   }, [searchTerm]);
 

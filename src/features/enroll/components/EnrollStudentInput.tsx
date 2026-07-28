@@ -5,7 +5,7 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
 import { Trash } from "lucide-react";
 import { debounce } from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -17,54 +17,103 @@ import type {
   ControllerFieldState,
 } from "react-hook-form";
 
+interface Student {
+  id: string;
+  name: string;
+  image?: string;
+}
+
 const EnrollStudentInput = ({
   field,
   fieldState,
-  defaultSelectedStudent,
 }: {
-  field: ControllerRenderProps<any, "studentID">;
+  field: ControllerRenderProps<any, "studentId">;
   fieldState: ControllerFieldState;
-  defaultSelectedStudent?: unknown;
 }) => {
   const studentValue = field.value;
 
-  const [studentName, setStudentName] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [showStudentDropDown, setShowStudentDropDown] =
     useState<boolean>(false);
-  const [selectedStudent, setSelectedStudent] = useState<unknown>(null);
-  const [studentData, setStudentData] = useState<unknown[]>([]);
+  const [selectedStudent, setSelectedStudent] = useState<Student>(null);
+  const [studentData, setStudentData] = useState<Student[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const loadingRef = useRef<HTMLDivElement>(null);
+
+  const fetchStudents = async (value: string, append: boolean = true) => {
+    setIsLoading(true);
+    try {
+      const response = await window.api.searchAllStudents({
+        search: value,
+        page: page,
+        limit: 5,
+      });
+      const results: Student[] = response?.data ?? [];
+      setStudentData((prev) => (append ? [...prev, ...results] : results));
+      setHasMore(results.length === 5);
+      setPage(page + 1);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (defaultSelectedStudent) {
-      setSelectedStudent(defaultSelectedStudent);
-    }
-  }, [defaultSelectedStudent]);
+    fetchStudents("", false);
+  }, []);
 
-  const debouncedUpdateParams = debounce((value: string) => {
-    window.api
-      .searchAllStudents({ search: value })
-      .then((res) => {
-        if (res.data) {
-          setShowStudentDropDown(true);
-          setStudentData(res.data);
+  useEffect(() => {
+    const currentLoadingRef = loadingRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        if (
+          firstEntry.isIntersecting &&
+          hasMore &&
+          !isLoading &&
+          studentData.length > 0
+        ) {
+          fetchStudents(searchTerm);
         }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, 750);
+      },
+      { threshold: 0.1, rootMargin: "100px" },
+    );
 
-  const handleStudentChange = (value: string) => {
-    setStudentName(value);
-
-    if (value.length <= 2) {
-      setShowStudentDropDown(false);
-      setStudentData([]);
-      debouncedUpdateParams.cancel();
-      return;
+    if (currentLoadingRef) {
+      observer.observe(currentLoadingRef);
     }
 
-    debouncedUpdateParams(value);
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasMore]);
+
+  const debouncedStudentSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setPage(1);
+        setHasMore(true);
+        fetchStudents(value, false);
+      }, 750),
+    [],
+  );
+
+  useEffect(() => {
+    debouncedStudentSearch(searchTerm);
+
+    return () => {
+      debouncedStudentSearch.cancel();
+    };
+  }, [searchTerm]);
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setPage(1);
   };
 
   return (
@@ -74,9 +123,9 @@ const EnrollStudentInput = ({
       <div className="relative">
         <Input
           id="studentID"
-          value={studentName}
+          value={searchTerm}
           onChange={(e) => {
-            handleStudentChange(e.target.value);
+            handleSearchChange(e.target.value);
           }}
           onFocus={() => setShowStudentDropDown(true)}
           onBlur={() => setShowStudentDropDown(false)}
@@ -96,7 +145,7 @@ const EnrollStudentInput = ({
                     field.onChange(data.id);
                     setSelectedStudent(data);
                     setShowStudentDropDown(false);
-                    setStudentName("");
+                    setSearchTerm("");
                   }}
                 >
                   <Avatar className="h-10 w-10">
@@ -114,6 +163,16 @@ const EnrollStudentInput = ({
                   </div>
                 </div>
               ))}
+              {hasMore && (
+                <div ref={loadingRef} className="py-2 text-center">
+                  {isLoading && (
+                    <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                      <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
+                      Loading more...
+                    </div>
+                  )}
+                </div>
+              )}
             </ScrollArea>
           </div>
         )}

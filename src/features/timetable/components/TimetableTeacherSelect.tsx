@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { UserPen, Search } from "lucide-react";
 import {
   DropdownMenu,
@@ -100,11 +100,15 @@ const TimetableTeacherSelect = () => {
     };
   }, [hasMore]);
 
-  const debouncedTeacherSearch = debounce((value: string) => {
-    setPage(1);
-    setHasMore(true);
-    fetchTeachers(value, false);
-  }, 750);
+  const debouncedTeacherSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setPage(1);
+        setHasMore(true);
+        fetchTeachers(value, false);
+      }, 750),
+    [],
+  );
 
   useEffect(() => {
     debouncedTeacherSearch(searchTerm);

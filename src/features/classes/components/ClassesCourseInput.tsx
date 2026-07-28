@@ -5,7 +5,7 @@ import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
 import { Trash } from "lucide-react";
 import { debounce } from "lodash";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   ControllerRenderProps,
   ControllerFieldState,
@@ -97,11 +97,15 @@ const ClassesCourseInput = ({
     };
   }, [hasMore]);
 
-  const debouncedCourseSearch = debounce((value: string) => {
-    setPage(1);
-    setHasMore(true);
-    fetchCourses(value, false);
-  }, 750);
+  const debouncedCourseSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setPage(1);
+        setHasMore(true);
+        fetchCourses(value, false);
+      }, 750),
+    [],
+  );
 
   useEffect(() => {
     debouncedCourseSearch(searchTerm);

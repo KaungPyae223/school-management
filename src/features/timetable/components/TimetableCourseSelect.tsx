@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, LibraryBig } from "lucide-react";
 import {
   DropdownMenu,
@@ -95,11 +95,15 @@ const TimetableCourseSelect = () => {
     };
   }, [hasMore]);
 
-  const debouncedCourseSearch = debounce((value: string) => {
-    setPage(1);
-    setHasMore(true);
-    fetchCourses(value, false);
-  }, 750);
+  const debouncedCourseSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setPage(1);
+        setHasMore(true);
+        fetchCourses(value, false);
+      }, 750),
+    [],
+  );
 
   useEffect(() => {
     debouncedCourseSearch(searchTerm);

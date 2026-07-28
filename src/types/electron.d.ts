@@ -37,6 +37,8 @@ declare global {
       getStudent: (id: number) => Promise<{ data?: any; error?: string }>;
       searchAllStudents: (data: {
         search?: string;
+        page?: number;
+        limit?: number;
       }) => Promise<{ data?: any; error?: string }>;
       createStudent: (
         data: any,
