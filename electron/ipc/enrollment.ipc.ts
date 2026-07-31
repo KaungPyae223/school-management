@@ -112,7 +112,7 @@ export const enrollmentIPCs = () => {
         })),
         meta: { total_data: totalData, total_pages: totalPages, page, limit },
       };
-    } catch (error:any) {
+    } catch (error: any) {
       return {
         error: error.message,
         data: [],

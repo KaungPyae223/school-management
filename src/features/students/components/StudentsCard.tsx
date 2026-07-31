@@ -2,13 +2,10 @@ import {
   ArrowRight,
   BookOpen,
   Calendar,
-  EllipsisVertical,
   Mail,
   MapPin,
   Mars,
-  Pencil,
   Phone,
-  Trash2,
   Venus,
   VenusAndMars,
 } from "lucide-react";
@@ -27,14 +24,7 @@ import {
 } from "../../../components/ui/card";
 import { formatDate } from "../../../utils/format-date";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
+
 import { useNavigate } from "react-router";
 import StudentDeleteAlert from "./StudentsDeleteAlert";
 import { useState } from "react";
@@ -117,7 +107,11 @@ const StudentCard = ({ student }: { student: any }) => {
           updatedAt={student.updatedAt}
         />
         <CardFooter>
-          <Button variant="ghost" className="w-full justify-between">
+          <Button
+            variant="ghost"
+            className="w-full justify-between cursor-pointer"
+            onClick={() => navigate(`/students/details/${student.id}`)}
+          >
             View Student Details
             <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
           </Button>

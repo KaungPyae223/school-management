@@ -56,7 +56,7 @@ export const teacherIPCs = () => {
           student_counts AS (
             SELECT c.teacherId, COUNT(DISTINCT e.studentID) AS total_students
             FROM classes c
-            JOIN enrollments e ON e.classId = c.id
+            LEFT JOIN enrollments e ON e.classId = c.id
             GROUP BY c.teacherId
           )
           SELECT
@@ -177,7 +177,7 @@ export const teacherIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error:any) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -212,7 +212,7 @@ export const teacherIPCs = () => {
         },
       });
       return { success: true };
-    } catch (error:any) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });
@@ -247,7 +247,7 @@ export const teacherIPCs = () => {
         where: { id },
       });
       return { success: true };
-    } catch (error:any) {
+    } catch (error: any) {
       return { success: false, error: error.message };
     }
   });

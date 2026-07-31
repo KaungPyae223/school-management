@@ -28,6 +28,7 @@ import ClassesDeleteAlert from "./ClassesDeleteAlert";
 import TableActionButton from "../../../components/table/TableActionButton";
 import ClassesStatus from "./ClassesStatus";
 import { changeTime } from "../../../utils/change-time";
+import TableIconContent from "../../../components/table/TableIconContent";
 
 const ClassesList = ({ data }: { data: any[] }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -191,31 +192,30 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 <ClassesStatus status={classData.status} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Time")}>
-                <div className="flex items-center gap-2">
-                  <Clock size={14} />
-                  <span>
-                    {changeTime(classData.startTime)} -{" "}
-                    {changeTime(classData.endTime)}
-                  </span>
-                </div>
+                <TableIconContent
+                  icon={Clock}
+                  value={
+                    changeTime(classData.startTime) +
+                    " - " +
+                    changeTime(classData.endTime)
+                  }
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Start Date")}>
-                <div className="flex items-center gap-2">
-                  <CalendarCheck2
-                    size={14}
-                    className="text-blue-600 dark:text-blue-400"
-                  />
-                  {formatDate(classData.startDate)}
-                </div>
+                <TableIconContent
+                  icon={CalendarCheck2}
+                  value={formatDate(classData.startDate)}
+                  iconClassName="text-blue-600 dark:text-blue-400"
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("End Date")}>
-                <div className="flex items-center gap-2">
-                  <CalendarOff
-                    size={14}
-                    className="text-red-600 dark:text-red-400"
-                  />
-                  {classData.endDate ? formatDate(classData.endDate) : "TBA"}
-                </div>
+                <TableIconContent
+                  icon={CalendarOff}
+                  value={
+                    classData.endDate ? formatDate(classData.endDate) : "TBA"
+                  }
+                  iconClassName="text-red-600 dark:text-red-400"
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
                 {formatDate(classData.createdAt)}

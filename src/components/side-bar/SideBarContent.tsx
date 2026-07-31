@@ -10,6 +10,7 @@ import {
 import {
   BookOpen,
   CalendarDays,
+  ChartNoAxesCombined,
   CreditCard,
   GraduationCap,
   LayoutDashboard,
@@ -26,6 +27,7 @@ const Content = () => {
     { title: "Classes", url: "/classes", icon: BookOpen },
     { title: "Payments", url: "/payments", icon: CreditCard },
     { title: "Timetable", url: "/timetable", icon: CalendarDays },
+    { title: "Analysis", url: "/analysis", icon: ChartNoAxesCombined },
   ];
 
   return (

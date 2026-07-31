@@ -17,6 +17,7 @@ import { formatDate } from "../../../utils/format-date";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import ClassesEnrollmentDeleteAlert from "./ClassesEnrollmentDeleteAlert";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
   const [enrolledID, setEnrolledID] = useState<number>(0);
@@ -61,6 +62,8 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
     setEnrolledID(id);
     setConfirmDialogOpen(true);
   };
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -114,16 +117,16 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
               <TableCell>
                 <TableActionButtonsContainer
                   onDelete={() => handleDelete(enrollmentData.id)}
-                  onView={() => {}}
+                  onView={() => {
+                    navigate(`/students/details/${enrollmentData.studentId}`);
+                  }}
                 >
-                  {enrollmentData.remainingAmount > 0 && (
-                    <TableActionButton
-                      onClick={() => {}}
-                      variant="default"
-                      icon={CreditCard}
-                      tooltip="Pay remaining amount"
-                    />
-                  )}
+                  <TableActionButton
+                    onClick={() => {}}
+                    variant="default"
+                    icon={CreditCard}
+                    tooltip="Payment History"
+                  />
                 </TableActionButtonsContainer>
               </TableCell>
             </TableRow>

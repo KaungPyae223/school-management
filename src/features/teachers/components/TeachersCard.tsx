@@ -114,7 +114,10 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
               updatedAt={teacher.updatedAt}
             />
             <CardFooter className="mt-3">
-              <Button variant="ghost" className="w-full justify-between">
+              <Button
+                variant="ghost"
+                className="w-full justify-between cursor-pointer"
+              >
                 View Teacher Details
                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
               </Button>

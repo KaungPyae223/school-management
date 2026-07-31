@@ -39,7 +39,7 @@ export const studentIPCs = () => {
       ? Prisma.sql`WHERE 
         LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR 
         LOWER(s.phone) LIKE LOWER(${`%${search}%`}) OR 
-        LOWER(s.address) LIKE LOWER(${`%${search}%`}))`
+        LOWER(s.address) LIKE LOWER(${`%${search}%`})`
       : Prisma.empty;
 
     try {
@@ -233,6 +233,115 @@ export const studentIPCs = () => {
       return { success: true };
     } catch (error: any) {
       return { success: false, error: error.message };
+    }
+  });
+
+  ipcMain.handle("student:get-attended-classes", async (_, data) => {
+    const {
+      id = 0,
+      page = 1,
+      limit = 10,
+      search = "",
+      sort = "createdAt",
+      sortDirection = "asc",
+    } = data;
+
+    const avilableSort = new Set([
+      "cl.startDate",
+      "cl.price",
+      "cl.createdAt",
+      "teacher_name",
+      "course_name",
+      "remainingAmount",
+    ]);
+    const avilableSortDirection = new Set(["asc", "desc"]);
+
+    const finalSort = avilableSort.has(sort) ? sort : "cl.createdAt";
+    const finalSortDirection = avilableSortDirection.has(sortDirection)
+      ? sortDirection
+      : "asc";
+
+    const skip = Number(page - 1) * Number(limit);
+
+    const conditions = [];
+
+    if (search) {
+      conditions.push(
+        Prisma.sql` LOWER(cl.description) LIKE LOWER(${`%${search}%`}) OR
+        LOWER(t.name) LIKE LOWER(${`%${search}%`}) OR
+        LOWER(c.name) LIKE LOWER(${`%${search}%`}) `,
+      );
+    }
+
+    conditions.push(Prisma.sql` e.studentId = ${id}`);
+
+    const searchQuery =
+      conditions.length > 0
+        ? Prisma.sql`WHERE (${Prisma.join(conditions, " AND ")})`
+        : Prisma.empty;
+
+    try {
+      const [classes, totalData] = await Promise.all([
+        prisma.$queryRaw<any[]>`
+          SELECT 
+            cl.*,
+            t.name as teacher_name,
+            t.email as teacher_email,
+            t.image as teacher_image,
+            c.name as course_name,
+            c.id as class_id,
+            c.image as course_image,
+            e.price - SUM(p.amount) as remainingAmount
+          FROM enrollments e
+          LEFT JOIN payments p ON e.id = p.enrollmentId
+          LEFT JOIN classes cl ON e.classId = cl.id
+          LEFT JOIN teachers t ON cl.teacherId = t.id 
+          LEFT JOIN courses c ON cl.courseId = c.id 
+          ${searchQuery}
+          GROUP BY cl.id
+          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
+          LIMIT ${limit} OFFSET ${skip}
+        `,
+        prisma.class.count({
+          where: {
+            ...(search && {
+              OR: [
+                { description: { contains: search } },
+                { teacher: { name: { contains: search } } },
+                { course: { name: { contains: search } } },
+              ],
+            }),
+            enrollments: {
+              some: {
+                studentId: id,
+              },
+            },
+          },
+        }),
+      ]);
+
+      const total_pages = Math.ceil(Number(totalData) / Number(limit));
+
+      return {
+        error: null,
+        data: classes.map((item: any) => ({
+          ...item,
+          teacher_image: showImage(item.teacher_image),
+          course_image: showImage(item.course_image),
+        })),
+        meta: { total_data: totalData, total_pages, page, limit },
+      };
+    } catch (error: any) {
+      return {
+        error: error.message,
+        data: [],
+        meta: {
+          total_data: 0,
+          total_pages: 0,
+          page: 0,
+          limit: 0,
+        },
+      };
     }
   });
 };

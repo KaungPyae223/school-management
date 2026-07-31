@@ -6,7 +6,6 @@ import {
   CalendarOff,
   Clock,
   DollarSign,
-  type LucideIcon,
 } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../../../components/ui/card";
 import { Badge } from "../../../components/ui/badge";
@@ -17,6 +16,7 @@ import { Separator } from "../../../components/ui/separator";
 import ClassesStatus from "./ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
 import { changeTime } from "../../../utils/change-time";
+import DetailsData from "../../../components/details/DetailsData";
 
 const ClassesDetailsCard = ({ data }: { data: any }) => {
   return (
@@ -54,7 +54,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
         />
 
         <div className="grid grid-cols-3 gap-3">
-          <ClassData icon={CalendarDays} label={"Opening Days"}>
+          <DetailsData icon={CalendarDays} label={"Opening Days"}>
             <div className="space-x-1 space-y-1">
               {data.days.split(",").map((day) => (
                 <Badge variant="outline" className="bg-white" key={day}>
@@ -62,26 +62,26 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
                 </Badge>
               ))}
             </div>
-          </ClassData>
-          <ClassData icon={Clock} label={"Time"}>
+          </DetailsData>
+          <DetailsData icon={Clock} label={"Time"}>
             <p className="font-medium">
               {changeTime(data.startTime)} - {changeTime(data.endTime)}
             </p>
-          </ClassData>
-          <ClassData icon={DollarSign} label={"Price"}>
+          </DetailsData>
+          <DetailsData icon={DollarSign} label={"Price"}>
             <p className="font-medium">{formatCurrency(data.price)}</p>
-          </ClassData>
-          <ClassData icon={BadgeCheck} label={"Status"}>
+          </DetailsData>
+          <DetailsData icon={BadgeCheck} label={"Status"}>
             <ClassesStatus status={data.status} />
-          </ClassData>
-          <ClassData icon={CalendarCheck2} label={"Start Date"}>
+          </DetailsData>
+          <DetailsData icon={CalendarCheck2} label={"Start Date"}>
             <p className="font-medium">{formatDate(data.startDate)}</p>
-          </ClassData>
-          <ClassData icon={CalendarOff} label={"End Date"}>
+          </DetailsData>
+          <DetailsData icon={CalendarOff} label={"End Date"}>
             <p className="font-medium">
               {data.endDate ? formatDate(data.endDate) : "TBA"}
             </p>
-          </ClassData>
+          </DetailsData>
         </div>
         <Separator />
         <div className=" flex items-center justify-between text-xs text-muted-foreground">
@@ -105,26 +105,6 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
         </div>
       </CardContent>
     </Card>
-  );
-};
-
-const ClassData = ({
-  icon: Icon,
-  label,
-  children,
-}: {
-  icon: LucideIcon;
-  label: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <div className="space-y-2 p-3 border rounded-md">
-      <div className="flex items-center text-sm gap-1.5 text-muted-foreground">
-        <Icon size={13} />
-        {label}
-      </div>
-      {children}
-    </div>
   );
 };
 

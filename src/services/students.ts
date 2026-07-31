@@ -38,4 +38,14 @@ export const studentService = {
 
     return res;
   },
+
+  getStudentAttendedClasses: async (params: any) => {
+    const data = await window.api.getStudentAttendedClasses(params);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
 };

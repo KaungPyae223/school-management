@@ -34,6 +34,23 @@ const routes = [
     },
     ErrorBoundary: ErrorPage,
   },
+  {
+    path: "students/details/:studentId",
+    lazy: async () => {
+      const module = await import("../pages/StudentsDetailsPage");
+      return { Component: module.default };
+    },
+    loader: async ({ params }) => {
+      const result = await window.api.getStudent(Number(params.studentId));
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      return result.data;
+    },
+    ErrorBoundary: ErrorPage,
+  },
 ];
 
 export default routes;

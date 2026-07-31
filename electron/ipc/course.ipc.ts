@@ -54,7 +54,7 @@ export const courseIPCs = () => {
           enrollment_counts AS (
             SELECT cl.courseId, COUNT(e.id) AS total_enrollments
             FROM enrollments e
-            LEFT JOIN classes cl ON cl.id = e.classId
+             JOIN classes cl ON cl.id = e.classId
             GROUP BY cl.courseId
           )
           SELECT
