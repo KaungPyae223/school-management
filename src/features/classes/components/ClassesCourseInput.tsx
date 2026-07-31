@@ -10,6 +10,7 @@ import type {
   ControllerRenderProps,
   ControllerFieldState,
 } from "react-hook-form";
+import { cn } from "../../../lib/utils";
 
 interface Course {
   id: string;
@@ -136,7 +137,7 @@ const ClassesCourseInput = ({
           aria-invalid={fieldState.invalid}
           placeholder="Search for a course..."
           autoComplete="off"
-          className={fieldState.invalid ? "border-destructive" : ""}
+          className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
         {showCourseDropDown && courseData.length > 0 && (
           <div className=" absolute w-full z-50 bg-white border divide-y rounded-lg mt-1">

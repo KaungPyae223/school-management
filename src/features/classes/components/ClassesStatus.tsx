@@ -1,5 +1,6 @@
 import { CheckCircle2, Circle, PlayCircle } from "lucide-react";
 import { Badge } from "../../../components/ui/badge";
+import { cn } from "../../../lib/utils";
 
 const ClassesStatus = ({ status }: { status: string }) => {
   const statusConfig = {
@@ -23,7 +24,7 @@ const ClassesStatus = ({ status }: { status: string }) => {
     },
   };
   return (
-    <Badge className={` ${statusConfig[status].className}`}>
+    <Badge className={cn(statusConfig[status].className)}>
       {statusConfig[status].icon} {statusConfig[status].label}
     </Badge>
   );

@@ -34,6 +34,7 @@ import ClassesDeleteAlert from "./ClassesDeleteAlert";
 import ClassesStatus from "./ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
 import { changeTime } from "../../../utils/change-time";
+import { cn } from "../../../lib/utils";
 
 const ClassesCard = ({ classData }: { classData: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -249,7 +250,7 @@ const CourseStatsCard = ({
 }) => {
   return (
     <div className="flex items-center gap-2.5 p-2 rounded-lg bg-muted/50">
-      <div className={`p-1.5 rounded-md ${iconBg}`}>{icon}</div>
+      <div className={cn("p-1.5 rounded-md", iconBg)}>{icon}</div>
       <div>
         <p className="text-xs text-muted-foreground">{label}</p>
         <p className="text-xs font-medium">{value}</p>

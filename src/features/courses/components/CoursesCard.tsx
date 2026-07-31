@@ -21,6 +21,7 @@ import CoursesDeleteAlert from "./CoursesDeleteAlert";
 import { useNavigate } from "react-router";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 import CardMenu from "../../../components/card-utils/CardMenu";
+import { cn } from "../../../lib/utils";
 
 const CoursesCard = ({ course }: { course: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -152,7 +153,7 @@ const CourseStatsCard = ({
 }) => {
   return (
     <div className="flex items-center gap-2.5 p-2 rounded-lg bg-muted/50">
-      <div className={`p-1.5 rounded-md ${iconBg}`}>{icon}</div>
+      <div className={cn(" p-1.5 rounded-md ", iconBg)}>{icon}</div>
       <div>
         <p className="text-xs text-muted-foreground">{label}</p>
         <p className="text-sm font-medium">{value}</p>

@@ -26,6 +26,7 @@ import ClassesTeacherCard from "../../classes/components/ClassesTeacherCard";
 import { formatDate } from "../../../utils/format-date";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../../utils/format-currency";
+import { cn } from "../../../lib/utils";
 
 const TimetableDetailsContent = ({ classData }: { classData: any }) => {
   if (!classData) {
@@ -212,7 +213,7 @@ const CourseStatsCard = ({
 }) => {
   return (
     <div className="flex items-center gap-2.5 p-2 rounded-lg border border-border">
-      <div className={`p-1.5 rounded-md ${iconBg}`}>{icon}</div>
+      <div className={cn("p-1.5 rounded-md", iconBg)}>{icon}</div>
       <div>
         <p className="text-xs text-muted-foreground">{label}</p>
         <p className="text-xs font-medium">{value}</p>

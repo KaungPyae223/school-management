@@ -3,6 +3,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
+import { cn } from "../../../lib/utils";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 
 const ClassesTeacherCard = ({
@@ -16,7 +17,10 @@ const ClassesTeacherCard = ({
 }) => {
   return (
     <div
-      className={`flex items-center gap-3 border rounded-md p-3 ${className}`}
+      className={cn(
+        " flex items-center gap-3 border rounded-md p-3",
+        className,
+      )}
     >
       <Avatar className="h-10 w-10">
         <AvatarImage src={image} alt={name} />

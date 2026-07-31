@@ -1,4 +1,5 @@
 import { AnimatePresence, m } from "framer-motion";
+import { cn } from "../../lib/utils";
 
 interface TableCellProps {
   children: React.ReactNode;
@@ -22,7 +23,11 @@ const TableCell = ({
     <AnimatePresence mode="sync" initial={false}>
       {!hidden && (
         <m.td
-          className={`first:pl-6 last:pr-6 px-3 py-4 transition-colors ${alignmentClass} ${className}`}
+          className={cn(
+            "first:pl-6 last:pr-6 px-3 py-4 transition-colors",
+            alignmentClass,
+            className,
+          )}
           {...props}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

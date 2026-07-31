@@ -2,6 +2,7 @@ import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { useSearchParams } from "react-router";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { AnimatePresence, m } from "framer-motion";
+import { cn } from "../../lib/utils";
 
 interface TableHeadProps {
   className?: string;
@@ -62,7 +63,11 @@ const TableHead = ({
     <AnimatePresence mode="sync" initial={false}>
       {!hidden && (
         <m.th
-          className={`first:pl-6 last:pr-6 lg:table-cell px-3 py-3.5 ${alignmentClass} font-semibold text-muted-foreground ${className} `}
+          className={cn(
+            "first:pl-6 last:pr-6 lg:table-cell px-3 py-3.5 font-semibold text-muted-foreground",
+            alignmentClass,
+            className,
+          )}
           {...props}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -71,7 +76,11 @@ const TableHead = ({
         >
           <div
             onClick={() => sortable && handleSort()}
-            className={`flex items-center gap-2 ${alignmentClass} ${sortable ? "cursor-pointer" : ""}`}
+            className={cn(
+              "flex items-center gap-2",
+              alignmentClass,
+              sortable ? "cursor-pointer" : "",
+            )}
           >
             {children}
             {sortable && sortIcon}

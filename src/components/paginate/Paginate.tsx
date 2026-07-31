@@ -18,6 +18,7 @@ import {
 import type { ResponseDataType } from "../../types/ResponseTypes";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { Card, CardContent } from "../ui/card";
+import { cn } from "../../lib/utils";
 
 interface Props {
   meta: ResponseDataType["meta"];
@@ -116,11 +117,11 @@ const Paginate: React.FC<Props> = ({ meta }) => {
                     key={page}
                     onClick={() => changePage(page)}
                     isActive={meta?.page === page}
-                    className={
+                    className={cn(
                       page === meta?.page
                         ? "bg-primary hover:bg-primary/80 hover:text-primary-foreground text-primary-foreground"
-                        : "hover:bg-primary/10 cursor-pointer"
-                    }
+                        : "hover:bg-primary/10 cursor-pointer",
+                    )}
                   >
                     {page}
                   </PaginationLink>

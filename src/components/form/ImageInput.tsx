@@ -10,6 +10,7 @@ import type {
   FieldPath,
 } from "react-hook-form";
 import { toast } from "sonner";
+import { cn } from "../../lib/utils";
 
 const ImageInput = <T extends FieldValues = FieldValues>({
   required,
@@ -86,11 +87,12 @@ const ImageInput = <T extends FieldValues = FieldValues>({
             )}
           </div>
           <div
-            className={`border-2 mt-3 border-dashed rounded-xl p-6 text-center w-full transition-all cursor-pointer ${
+            className={cn(
+              "border-2 mt-3 border-dashed rounded-xl p-6 text-center w-full transition-all cursor-pointer",
               isDragging
                 ? "border-blue-400 bg-blue-50"
-                : "border-gray-300 hover:border-gray-400 hover:bg-gray-50"
-            }`}
+                : "border-gray-300 hover:border-gray-400 hover:bg-gray-50",
+            )}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={(e) => handleDrop(e, field.onChange)}
@@ -125,9 +127,10 @@ const ImageInput = <T extends FieldValues = FieldValues>({
             ) : (
               <div>
                 <Upload
-                  className={`h-8 w-8 my-6 mx-auto transition-colors duration-200 ${
-                    isDragging ? "text-indigo-500" : "text-gray-400 "
-                  }`}
+                  className={cn(
+                    "h-8 w-8 my-6 mx-auto transition-colors duration-200",
+                    isDragging ? "text-indigo-500" : "text-gray-400",
+                  )}
                 />
                 <p className="text-sm text-gray-600 my-2">
                   Drag and drop or click to upload cover image

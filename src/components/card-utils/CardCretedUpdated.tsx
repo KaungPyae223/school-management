@@ -4,6 +4,7 @@ import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
 import { formatDate } from "../../utils/format-date";
 import { useSearchParams } from "react-router";
+import { cn } from "../../lib/utils";
 
 const CardCretedUpdated = ({
   createdAt,
@@ -32,9 +33,10 @@ const CardCretedUpdated = ({
         {updatedAt && (
           <div className="flex items-center justify-between">
             <span
-              className={`flex items-center gap-1.5 text-xs uppercase tracking-wide ${
-                isTrashView ? "text-red-600" : "text-muted-foreground"
-              } font-medium`}
+              className={cn(
+                "flex items-center gap-1.5 text-xs uppercase tracking-wide font-medium",
+                isTrashView ? "text-red-600" : "text-muted-foreground",
+              )}
             >
               {isTrashView ? (
                 <Trash2 className="h-3 w-3" />
@@ -45,11 +47,12 @@ const CardCretedUpdated = ({
             </span>
             <Badge
               variant="secondary"
-              className={`text-xs font-medium ${
+              className={cn(
+                "text-xs font-medium",
                 isTrashView
                   ? "text-red-600 dark:text-red-400"
-                  : "text-blue-700 dark:text-blue-300"
-              }`}
+                  : "text-blue-700 dark:text-blue-300",
+              )}
             >
               {formatDate(updatedAt)}
             </Badge>

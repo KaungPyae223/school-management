@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { cn } from "../../lib/utils";
 
 const TableActionButton = ({
   icon: Icon,
@@ -22,7 +23,7 @@ const TableActionButton = ({
           variant={variant}
           size="icon"
           onClick={onClick}
-          className={className}
+          className={cn(className)}
         >
           <Icon className="size-4" />
         </Button>
