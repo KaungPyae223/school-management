@@ -21,7 +21,7 @@ import CoursesDeleteAlert from "./CoursesDeleteAlert";
 import { useNavigate } from "react-router";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 import CardMenu from "../../../components/card-utils/CardMenu";
-import { cn } from "../../../lib/utils";
+import CardData from "../../../components/card-utils/CardData";
 
 const CoursesCard = ({ course }: { course: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -69,7 +69,7 @@ const CoursesCard = ({ course }: { course: any }) => {
 
         <CardContent className="pb-3">
           <div className="grid grid-cols-2 gap-3">
-            <CourseStatsCard
+            <CardData
               icon={
                 <ClipboardList
                   size={14}
@@ -79,9 +79,10 @@ const CoursesCard = ({ course }: { course: any }) => {
               iconBg="bg-blue-100 dark:bg-blue-900/30"
               label="Enrollments"
               value={course.total_enrollments}
+              border
             />
 
-            <CourseStatsCard
+            <CardData
               icon={
                 <UserPen
                   size={14}
@@ -91,9 +92,10 @@ const CoursesCard = ({ course }: { course: any }) => {
               iconBg="bg-purple-100 dark:bg-purple-900/30"
               label="Teachers"
               value={course.total_teachers}
+              border
             />
 
-            <CourseStatsCard
+            <CardData
               icon={
                 <BookOpen
                   size={14}
@@ -103,9 +105,10 @@ const CoursesCard = ({ course }: { course: any }) => {
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label="Classes"
               value={course.total_classes}
+              border
             />
 
-            <CourseStatsCard
+            <CardData
               icon={
                 <PlayCircle
                   size={14}
@@ -115,6 +118,7 @@ const CoursesCard = ({ course }: { course: any }) => {
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label="Active"
               value={course.total_active_classes}
+              border
             />
           </div>
         </CardContent>
@@ -137,28 +141,6 @@ const CoursesCard = ({ course }: { course: any }) => {
         id={course.id}
       />
     </>
-  );
-};
-
-const CourseStatsCard = ({
-  icon,
-  label,
-  value,
-  iconBg,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  iconBg: string;
-}) => {
-  return (
-    <div className="flex items-center gap-2.5 p-2 rounded-lg bg-muted/50">
-      <div className={cn(" p-1.5 rounded-md ", iconBg)}>{icon}</div>
-      <div>
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="text-sm font-medium">{value}</p>
-      </div>
-    </div>
   );
 };
 

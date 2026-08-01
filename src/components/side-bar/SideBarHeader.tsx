@@ -12,8 +12,8 @@ const Header = () => {
       <SidebarMenu className="border-b border-b-gray-300 pb-1.5">
         <SidebarMenuItem>
           <SidebarMenuButton size="lg" asChild>
-            <a href="#">
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+            <a href="/">
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-emerald-600 dark:bg-emerald-500 text-white">
                 <GraduationCap className="size-5" />
               </div>
               <div className="flex gap-0.5 ms-1.5 leading-none">

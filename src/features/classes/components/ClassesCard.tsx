@@ -34,7 +34,7 @@ import ClassesDeleteAlert from "./ClassesDeleteAlert";
 import ClassesStatus from "./ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
 import { changeTime } from "../../../utils/change-time";
-import { cn } from "../../../lib/utils";
+import CardData from "../../../components/card-utils/CardData";
 
 const ClassesCard = ({ classData }: { classData: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -119,7 +119,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
 
         <CardContent className="mt-auto">
           <div className="grid grid-cols-2 gap-3 ">
-            <CourseStatsCard
+            <CardData
               icon={
                 <CalendarClock
                   size={14}
@@ -131,7 +131,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               value={changeTime(classData.startTime)}
             />
 
-            <CourseStatsCard
+            <CardData
               icon={
                 <CalendarClock
                   size={14}
@@ -186,7 +186,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 {classData.total_students}
               </Badge>
             </div>
-            <CourseStatsCard
+            <CardData
               icon={
                 <CalendarCheck2
                   size={14}
@@ -198,7 +198,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               value={formatDate(classData.startDate)}
             />
 
-            <CourseStatsCard
+            <CardData
               icon={
                 <CalendarOff
                   size={14}
@@ -234,28 +234,6 @@ const ClassesCard = ({ classData }: { classData: any }) => {
         id={classData.id}
       />
     </>
-  );
-};
-
-const CourseStatsCard = ({
-  icon,
-  label,
-  value,
-  iconBg,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  iconBg: string;
-}) => {
-  return (
-    <div className="flex items-center gap-2.5 p-2 rounded-lg bg-muted/50">
-      <div className={cn("p-1.5 rounded-md", iconBg)}>{icon}</div>
-      <div>
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="text-xs font-medium">{value}</p>
-      </div>
-    </div>
   );
 };
 

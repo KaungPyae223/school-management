@@ -72,6 +72,8 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
 
   const navigate = useNavigate();
 
+  console.log(data);
+
   return (
     <>
       <Table>
@@ -177,9 +179,9 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
 
               <TableCell>
                 <TableActionButtonsContainer
-                  onDelete={() => handleDelete(enrollmentData.id)}
+                  onDelete={() => handleDelete(enrollmentData.enrollment_id)}
                   onView={() => {
-                    navigate(`/classes/details/${enrollmentData.class_id}`);
+                    navigate(`/classes/details/${enrollmentData.id}`);
                   }}
                 >
                   <TableActionButton

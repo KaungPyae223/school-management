@@ -79,7 +79,7 @@ const TableHead = ({
             className={cn(
               "flex items-center gap-2",
               alignmentClass,
-              sortable ? "cursor-pointer" : "",
+              sortable && "cursor-pointer",
             )}
           >
             {children}

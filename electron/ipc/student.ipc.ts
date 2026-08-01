@@ -289,7 +289,7 @@ export const studentIPCs = () => {
             t.email as teacher_email,
             t.image as teacher_image,
             c.name as course_name,
-            c.id as class_id,
+            e.id as enrollment_id,
             c.image as course_image,
             e.price - SUM(p.amount) as remainingAmount
           FROM enrollments e

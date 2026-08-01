@@ -1,16 +1,4 @@
-import {
-  Calendar,
-  CalendarCheck2,
-  CalendarDays,
-  CalendarOff,
-  Clock,
-  DollarSign,
-  Mail,
-  Map,
-  MapPin,
-  Phone,
-  type LucideIcon,
-} from "lucide-react";
+import { Calendar, CalendarDays, Mail, MapPin, Phone } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../../../components/ui/card";
 
 import { formatDate } from "../../../utils/format-date";
@@ -55,16 +43,16 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
             </p>
           </DetailsData>
           <DetailsData icon={MapPin} label={"Address"}>
-            <p className="font-medium">{data.address}</p>
+            <p className="font-medium">{data.address || "N/A"}</p>
           </DetailsData>
           <DetailsData icon={genderIcon} label={"Gender"}>
             <p className="font-medium">{data.gender || "N/A"}</p>
           </DetailsData>
           <DetailsData icon={Mail} label={"Email"}>
-            <p className="font-medium">{data.email}</p>
+            <p className="font-medium">{data.email || "N/A"}</p>
           </DetailsData>
           <DetailsData icon={Phone} label={"Phone"}>
-            <p className="font-medium">{data.phone}</p>
+            <p className="font-medium">{data.phone || "N/A"}</p>
           </DetailsData>
         </div>
         <Separator />

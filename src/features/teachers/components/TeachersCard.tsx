@@ -27,6 +27,8 @@ import TeacherDeleteAlert from "./TeachersDeleteAlert";
 import { useState } from "react";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import CardMenu from "../../../components/card-utils/CardMenu";
+import CardInfo from "../../../components/card-utils/CardInfo";
+import CardMeta from "../../../components/card-utils/CardMeta";
 
 const TeacherCard = ({ teacher }: { teacher: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -50,60 +52,28 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
             <CardTitle className="text-lg mt-3">{teacher.name}</CardTitle>
           </div>
           <div className="w-full space-y-1.5">
-            <div className="flex items-center w-full justify-between bg-muted rounded-lg px-3 py-2">
-              <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-md bg-blue-100 dark:bg-blue-900/30">
-                  <BookOpen
-                    size={14}
-                    className="text-blue-600 dark:text-blue-400"
-                  />
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  Total classes
-                </span>
-              </div>
-              <span className="text-sm font-medium">
-                {teacher.total_classes}
-              </span>
-            </div>
-            <div className="flex items-center w-full justify-between bg-muted rounded-lg px-3 py-2">
-              <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-md bg-green-100 dark:bg-green-900/30">
-                  <GraduationCap
-                    size={14}
-                    className="text-green-600 dark:text-green-400"
-                  />
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  Total Students
-                </span>
-              </div>
-              <span className="text-sm font-medium">
-                {teacher.total_students}
-              </span>
-            </div>
+            <CardMeta
+              icon={BookOpen}
+              title="Total classes"
+              value={teacher.total_classes}
+              className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+            />
+            <CardMeta
+              icon={GraduationCap}
+              title="Total Students"
+              value={teacher.total_students}
+              className="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
+            />
           </div>
         </div>
 
         <div className="flex flex-1 flex-col  justify-between gap-3">
           <CardContent className="pt-4 flex-1 space-y-3.5">
-            <InfoRow
-              icon={<Phone size={15} />}
-              label="Phone"
-              value={teacher.phone}
-            />
-            <InfoRow
-              icon={<Mail size={15} />}
-              label="Email"
-              value={teacher.email}
-            />
-            <InfoRow
-              icon={<MapPin size={15} />}
-              label="Address"
-              value={teacher.address}
-            />
-            <InfoRow
-              icon={<IdCard size={15} />}
+            <CardInfo icon={Phone} label="Phone" value={teacher.phone} />
+            <CardInfo icon={Mail} label="Email" value={teacher.email} />
+            <CardInfo icon={MapPin} label="Address" value={teacher.address} />
+            <CardInfo
+              icon={IdCard}
               label="NRC"
               value={teacher.dob && formatDate(teacher.dob)}
             />
@@ -132,32 +102,6 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
         id={teacher.id}
       />
     </>
-  );
-};
-
-const InfoRow = ({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) => {
-  return (
-    <div className="flex items-center gap-3 group">
-      <div className="p-2 text-muted-foreground rounded-md bg-muted flex items-center justify-center shrink-0">
-        {icon}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-0.5">
-          {label}
-        </p>
-        <p className="text-sm font-medium text-foreground truncate">
-          {value || "N/A"}
-        </p>
-      </div>
-    </div>
   );
 };
 

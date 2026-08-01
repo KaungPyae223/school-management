@@ -30,20 +30,18 @@ import StudentDeleteAlert from "./StudentsDeleteAlert";
 import { useState } from "react";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import CardMenu from "../../../components/card-utils/CardMenu";
+import CardInfo from "../../../components/card-utils/CardInfo";
+import CardMeta from "../../../components/card-utils/CardMeta";
 
 const StudentCard = ({ student }: { student: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const genderIcon = student.gender ? (
-    student.gender === "FEMALE" ? (
-      <Venus className="size-4" />
-    ) : (
-      <Mars className="size-4" />
-    )
-  ) : (
-    <VenusAndMars className="size-4" />
-  );
+  const genderIcon = student.gender
+    ? student.gender === "FEMALE"
+      ? Venus
+      : Mars
+    : VenusAndMars;
   return (
     <>
       <Card className="shadow-sm hover:shadow-md  relative transition-shadow duration-200 group overflow-hidden">
@@ -64,43 +62,23 @@ const StudentCard = ({ student }: { student: any }) => {
           </div>
         </CardHeader>
         <CardContent className="pb-3 flex-1 space-y-3.5">
-          <InfoRow
-            icon={<Phone className="size-4" />}
-            label="Phone"
-            value={student.phone}
-          />
-          <InfoRow
-            icon={<Mail className="size-4" />}
-            label="Email"
-            value={student.email}
-          />
-          <InfoRow
-            icon={<MapPin className="size-4" />}
-            label="Address"
-            value={student.address}
-          />
-          <InfoRow
-            icon={<Calendar className="size-4" />}
+          <CardInfo icon={Phone} label="Phone" value={student.phone} />
+          <CardInfo icon={Mail} label="Email" value={student.email} />
+          <CardInfo icon={MapPin} label="Address" value={student.address} />
+          <CardInfo
+            icon={Calendar}
             label="Date of Birth"
             value={student.dob && formatDate(student.dob)}
           />
-          <InfoRow icon={genderIcon} label="Gender" value={student.gender} />
+          <CardInfo icon={genderIcon} label="Gender" value={student.gender} />
         </CardContent>
         <CardContent>
-          <div className="flex items-center justify-between bg-muted/50 rounded-lg px-3 py-2">
-            <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-md bg-blue-100 dark:bg-blue-900/30">
-                <BookOpen
-                  size={14}
-                  className="text-blue-600 dark:text-blue-400"
-                />
-              </div>
-              <span className="text-sm text-muted-foreground">
-                Total classes
-              </span>
-            </div>
-            <span className="text-sm font-medium">{student.total_classes}</span>
-          </div>
+          <CardMeta
+            icon={BookOpen}
+            title="Total classes"
+            value={student.total_classes}
+            className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+          />
         </CardContent>
         <CardCretedUpdated
           createdAt={student.createdAt}
@@ -124,32 +102,6 @@ const StudentCard = ({ student }: { student: any }) => {
         id={student.id}
       />
     </>
-  );
-};
-
-const InfoRow = ({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) => {
-  return (
-    <div className="flex items-center gap-3 group">
-      <div className="p-2 text-muted-foreground rounded-md bg-muted flex items-center justify-center shrink-0">
-        {icon}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-0.5">
-          {label}
-        </p>
-        <p className="text-sm font-medium text-foreground truncate">
-          {value || "N/A"}
-        </p>
-      </div>
-    </div>
   );
 };
 
