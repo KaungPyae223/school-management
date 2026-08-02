@@ -1,9 +1,9 @@
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { useDeleteTeacher } from "../hooks/usseDeleteTeacher";
+import { useDeleteTeacher } from "../hooks/useDeleteTeacher";
 import { useNavigate } from "react-router";
 
-const TeacherDeleteAlert = ({
+const TeachersDeleteAlert = ({
   id,
   confirmDialogOpen,
   setConfirmDialogOpen,
@@ -45,4 +45,4 @@ const TeacherDeleteAlert = ({
   );
 };
 
-export default TeacherDeleteAlert;
+export default TeachersDeleteAlert;

@@ -251,4 +251,18 @@ export const teacherIPCs = () => {
       return { success: false, error: error.message };
     }
   });
+
+  ipcMain.handle("teacher:restore", async (_, id) => {
+    try {
+      await prisma.teacher.update({
+        where: { id },
+        data: {
+          deleted: false,
+        },
+      });
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  });
 };

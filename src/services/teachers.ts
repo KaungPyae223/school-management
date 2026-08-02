@@ -38,4 +38,14 @@ export const teacherService = {
 
     return res;
   },
+
+  restoreTeacher: async (id: number) => {
+    const res = await window.api.restoreTeacher(id);
+
+    if (!res.success) {
+      throw new Error(res.error);
+    }
+
+    return res;
+  },
 };

@@ -23,15 +23,19 @@ import { formatDate } from "../../../utils/format-date";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 
 import { useNavigate } from "react-router";
-import TeacherDeleteAlert from "./TeachersDeleteAlert";
+import TeachersDeleteAlert from "./TeachersDeleteAlert";
 import { useState } from "react";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import CardMenu from "../../../components/card-utils/CardMenu";
 import CardInfo from "../../../components/card-utils/CardInfo";
 import CardMeta from "../../../components/card-utils/CardMeta";
+import TeachersRestoreAlert from "./TeachersRestoreAlert";
 
 const TeacherCard = ({ teacher }: { teacher: any }) => {
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
+    useState<boolean>(false);
+  const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
+    useState<boolean>(false);
   const navigate = useNavigate();
 
   return (
@@ -40,7 +44,8 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
         <div className="relative w-72 bg-linear-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20 flex flex-col items-center p-6 border-r">
           <CardMenu
             onEdit={() => navigate(`/teachers/edit/${teacher.id}`)}
-            onDelete={() => setConfirmDialogOpen(true)}
+            onDelete={() => setDeleteConfirmDialogOpen(true)}
+            onRestore={() => setRestoreConfirmDialogOpen(true)}
           />
           <div className="flex-1 flex flex-col items-center justify-center">
             <Avatar className="size-32">
@@ -97,9 +102,15 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
         </div>
       </Card>
 
-      <TeacherDeleteAlert
-        confirmDialogOpen={confirmDialogOpen}
-        setConfirmDialogOpen={setConfirmDialogOpen}
+      <TeachersDeleteAlert
+        confirmDialogOpen={deleteConfirmDialogOpen}
+        setConfirmDialogOpen={setDeleteConfirmDialogOpen}
+        id={teacher.id}
+      />
+
+      <TeachersRestoreAlert
+        confirmDialogOpen={restoreConfirmDialogOpen}
+        setConfirmDialogOpen={setRestoreConfirmDialogOpen}
         id={teacher.id}
       />
     </>

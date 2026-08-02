@@ -7,13 +7,13 @@ const DetailsHeader = ({
   onUpdate,
   onDelete,
   onRestore,
-  isTrashView = false,
+  isDeleted = false,
   children,
 }: {
   onUpdate: () => void;
   onDelete: () => void;
   onRestore?: () => void;
-  isTrashView?: boolean;
+  isDeleted?: boolean;
   children?: React.ReactNode;
 }) => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const DetailsHeader = ({
         </Button>
         <div className="flex items-center gap-3">
           {children}
-          {isTrashView ? (
+          {isDeleted ? (
             <Button
               variant="default"
               className="bg-green-200 hover:bg-green-300 text-green-800"

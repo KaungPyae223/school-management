@@ -81,6 +81,9 @@ declare global {
       deleteTeacher: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
+      restoreTeacher: (
+        id: number,
+      ) => Promise<{ success: boolean; error?: string }>;
 
       getAllClasses: (data: {
         page?: number;

@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { useDeleteStudent } from "../hooks/usseDeleteStudent";
+import { useDeleteStudent } from "../hooks/useDeleteStudent";
 import { useNavigate } from "react-router";
 
 const StudentDeleteAlert = ({

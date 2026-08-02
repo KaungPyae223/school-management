@@ -25,7 +25,9 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
       <CardHeader className="w-lg items-center justify-center h-full">
         <Avatar className="size-56">
           <AvatarImage src={data.image} />
-          <AvatarFallback>{generateImageFallBack(data.name)}</AvatarFallback>
+          <AvatarFallback className="text-5xl">
+            {generateImageFallBack(data.name)}
+          </AvatarFallback>
         </Avatar>
       </CardHeader>
       <CardContent className=" space-y-3 w-full">
@@ -34,7 +36,7 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          <DetailsData icon={CalendarDays} label={"Phone Number"}>
+          <DetailsData icon={Phone} label={"Phone Number"}>
             <p className="font-medium">{data.phone}</p>
           </DetailsData>
           <DetailsData icon={Calendar} label={"Date of Birth"}>

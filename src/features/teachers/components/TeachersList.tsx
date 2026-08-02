@@ -1,13 +1,10 @@
 import {
   BookOpen,
-  Eye,
   GraduationCap,
   IdCard,
   Mail,
   MapPin,
-  Pencil,
   Phone,
-  Trash2,
 } from "lucide-react";
 import Table from "../../../components/table/Table";
 import TableBody from "../../../components/table/TableBody";
@@ -24,20 +21,29 @@ import type { TableHeadType } from "../../../types/TableHeader";
 import { formatDate } from "../../../utils/format-date";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import TeacherDeleteAlert from "./TeachersDeleteAlert";
+import TeachersDeleteAlert from "./TeachersDeleteAlert";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
+import TeachersRestoreAlert from "./TeachersRestoreAlert";
 
 const TeachersList = ({ data }: { data: any }) => {
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
+    useState<boolean>(false);
+  const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
+    useState<boolean>(false);
   const [teacherId, setTeacherId] = useState<number>(0);
 
   const navigate = useNavigate();
 
   const handleDelete = (id: number) => {
     setTeacherId(id);
-    setConfirmDialogOpen(true);
+    setDeleteConfirmDialogOpen(true);
+  };
+
+  const handleRestore = (id: number) => {
+    setTeacherId(id);
+    setRestoreConfirmDialogOpen(true);
   };
 
   const selectedColumns = useGetSelectedColumns([
@@ -104,10 +110,16 @@ const TeachersList = ({ data }: { data: any }) => {
                 <TableIconContent icon={IdCard} value={teacher.nrc} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Total Classes")}>
-                <TableIconContent icon={BookOpen} value={teacher.total_classes} />
+                <TableIconContent
+                  icon={BookOpen}
+                  value={teacher.total_classes}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Total Students")}>
-                <TableIconContent icon={GraduationCap} value={teacher.total_students} />
+                <TableIconContent
+                  icon={GraduationCap}
+                  value={teacher.total_students}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
                 {formatDate(teacher.createdAt)}
@@ -120,15 +132,21 @@ const TeachersList = ({ data }: { data: any }) => {
                   onView={() => navigate(`/teachers/details/${teacher.id}`)}
                   onEdit={() => navigate(`/teachers/edit/${teacher.id}`)}
                   onDelete={() => handleDelete(teacher.id)}
+                  onRestore={() => handleRestore(teacher.id)}
                 />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <TeacherDeleteAlert
-        confirmDialogOpen={confirmDialogOpen}
-        setConfirmDialogOpen={setConfirmDialogOpen}
+      <TeachersDeleteAlert
+        confirmDialogOpen={deleteConfirmDialogOpen}
+        setConfirmDialogOpen={setDeleteConfirmDialogOpen}
+        id={teacherId}
+      />
+      <TeachersRestoreAlert
+        confirmDialogOpen={restoreConfirmDialogOpen}
+        setConfirmDialogOpen={setRestoreConfirmDialogOpen}
         id={teacherId}
       />
     </>

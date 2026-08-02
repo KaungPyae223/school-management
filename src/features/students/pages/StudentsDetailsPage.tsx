@@ -60,7 +60,7 @@ const StudentsDetailsPage = () => {
           onUpdate={() => {
             navigate(`/students/edit/${studentData.id}`);
           }}
-          isTrashView={false}
+          isDeleted={false}
         />
         <StudentsDetailsCard data={studentData} />
         <Separator />
