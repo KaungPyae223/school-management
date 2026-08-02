@@ -200,7 +200,6 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
         id={enrolledID}
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
-        back={true}
       />
     </>
   );

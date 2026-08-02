@@ -123,7 +123,7 @@ const StudentsList = ({ data }: { data: any }) => {
               </TableCell>
               <TableCell className="py-4 pl-3 pr-6 text-right">
                 <TableActionButtonsContainer
-                  onView={() => navigate(`/students/${student.id}`)}
+                  onView={() => navigate(`/students/details/${student.id}`)}
                   onEdit={() => navigate(`/students/edit/${student.id}`)}
                   onDelete={() => handleDelete(student.id)}
                 />

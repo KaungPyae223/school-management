@@ -87,6 +87,7 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
               <Button
                 variant="ghost"
                 className="w-full justify-between cursor-pointer"
+                onClick={() => navigate(`/teachers/details/${teacher.id}`)}
               >
                 View Teacher Details
                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />

@@ -41,7 +41,7 @@ const StudentsDetailsPage = () => {
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading } = useAppQuery({
-    queryKey: ["enrollments", studentData.id, activeQueryParams],
+    queryKey: ["students_enrollments", studentData.id, activeQueryParams],
     queryFn: () =>
       studentService.getStudentAttendedClasses({
         ...activeQueryParams,
@@ -49,8 +49,7 @@ const StudentsDetailsPage = () => {
       }),
   }) as { data: ResponseDataType; isLoading: boolean };
 
-  console.log(data);
-
+  
   return (
     <>
       <div className="space-y-6">

@@ -6,7 +6,16 @@ export const useDeleteEnrollment = (id: number) => {
   return useMutation({
     mutationFn: enrollmentService.deleteEnrollment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["enrollments", id] });
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["classes"] }),
+        queryClient.invalidateQueries({
+          queryKey: ["enrollments", id],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["classes_enrollments", id],
+        }),
+        queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
+      ]);
     },
   });
 };

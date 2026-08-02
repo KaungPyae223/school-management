@@ -253,10 +253,11 @@ export const studentIPCs = () => {
       "teacher_name",
       "course_name",
       "remainingAmount",
+      "e.createdAt",
     ]);
     const avilableSortDirection = new Set(["asc", "desc"]);
 
-    const finalSort = avilableSort.has(sort) ? sort : "cl.createdAt";
+    const finalSort = avilableSort.has(sort) ? sort : "e.createdAt";
     const finalSortDirection = avilableSortDirection.has(sortDirection)
       ? sortDirection
       : "asc";

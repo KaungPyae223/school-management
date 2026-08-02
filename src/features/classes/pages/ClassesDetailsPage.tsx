@@ -44,7 +44,7 @@ const ClassesDetailsPage = () => {
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading } = useAppQuery({
-    queryKey: ["enrollments", classData.id, activeQueryParams],
+    queryKey: ["classes_enrollments", classData.id, activeQueryParams],
     queryFn: () =>
       enrollmentService.getEnrollmentByClass({
         ...activeQueryParams,

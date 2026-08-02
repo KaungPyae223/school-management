@@ -1,22 +1,30 @@
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useDeleteTeacher } from "../hooks/usseDeleteTeacher";
+import { useNavigate } from "react-router";
 
 const TeacherDeleteAlert = ({
   id,
   confirmDialogOpen,
   setConfirmDialogOpen,
+  back,
 }: {
   id: number;
   confirmDialogOpen: boolean;
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  back?: boolean;
 }) => {
   const { mutateAsync, isPending } = useDeleteTeacher();
+
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
       await mutateAsync(id);
       toast.success("teacher deleted successfully");
+      if (back) {
+        navigate(-1);
+      }
     } catch (error: any) {
       toast.error(error.message);
     } finally {

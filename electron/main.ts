@@ -1,4 +1,4 @@
-import { app, BrowserWindow, protocol } from "electron";
+import { app, BrowserWindow, Menu, protocol } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
 import { registerIpcHandlers } from "./ipc/index";
@@ -17,13 +17,18 @@ function createWindow() {
     },
   });
 
-  win.maximize();
+  // Menu.setApplicationMenu(null);
 
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL);
   } else {
     win.loadFile(path.join(__dirname, "../dist/index.html"));
   }
+
+  win.once("ready-to-show", () => {
+    win.maximize();
+    win.show();
+  });
 }
 
 app.disableHardwareAcceleration();

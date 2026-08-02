@@ -6,13 +6,16 @@ export const useEnrollClass = (id: number) => {
   return useMutation({
     mutationFn: enrollmentService.createEnrollment,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["classes"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["enrollments", id],
-        exact: false,
-      });
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["classes"] }),
+        queryClient.invalidateQueries({
+          queryKey: ["enrollments", id],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["classes_enrollments", id],
+        }),
+        queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
+      ]);
     },
   });
 };

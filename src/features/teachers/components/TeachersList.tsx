@@ -117,7 +117,7 @@ const TeachersList = ({ data }: { data: any }) => {
               </TableCell>
               <TableCell className="py-4 pl-3 pr-6 text-right">
                 <TableActionButtonsContainer
-                  onView={() => navigate(`/teachers/${teacher.id}`)}
+                  onView={() => navigate(`/teachers/details/${teacher.id}`)}
                   onEdit={() => navigate(`/teachers/edit/${teacher.id}`)}
                   onDelete={() => handleDelete(teacher.id)}
                 />
