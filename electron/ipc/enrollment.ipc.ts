@@ -70,12 +70,28 @@ export const enrollmentIPCs = () => {
       classId,
     } = data;
 
+    const avilableSort = new Set([
+      "studentName",
+      "studentPhone",
+      "studentEmail",
+      "paidAmount",
+      "remainingAmount",
+      "e.createdAt",
+    ]);
+    const avilableSortDirection = new Set(["asc", "desc"]);
+
+    const finalSort = avilableSort.has(sort) ? sort : "e.createdAt";
+    const finalSortDirection = avilableSortDirection.has(sortDirection)
+      ? sortDirection
+      : "asc";
+
     const skip = Number(page - 1) * Number(limit);
 
     const searchFilter = search
       ? Prisma.sql`AND (
       LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR
-      LOWER(s.email) LIKE LOWER(${`%${search}%`})
+      LOWER(s.email) LIKE LOWER(${`%${search}%`}) OR
+      LOWER(s.phone) LIKE LOWER(${`%${search}%`})
     )`
       : Prisma.empty;
 
@@ -96,10 +112,23 @@ export const enrollmentIPCs = () => {
           WHERE e.classId = ${classId}
           ${searchFilter}
           GROUP BY e.id
-          ORDER BY ${Prisma.raw(sort)} ${Prisma.raw(sortDirection)}
+          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,
-        prisma.enrollment.count(),
+        prisma.enrollment.count({
+          where: {
+            classId,
+            ...(search && {
+              student: {
+                OR: [
+                  { name: { contains: search } },
+                  { email: { contains: search } },
+                  { phone: { contains: search } },
+                ],
+              },
+            }),
+          },
+        }),
       ]);
 
       const totalPages = Math.ceil(Number(totalData) / Number(limit));

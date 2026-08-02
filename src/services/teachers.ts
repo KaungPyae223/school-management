@@ -48,4 +48,14 @@ export const teacherService = {
 
     return res;
   },
+
+  getTeacherClasses: async (params: any) => {
+    const data = await window.api.getTeacherClasses(params);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
 };

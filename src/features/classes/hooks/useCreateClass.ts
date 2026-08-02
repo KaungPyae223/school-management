@@ -7,6 +7,7 @@ export const useCreateClass = () => {
     mutationFn: classesService.createClass,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classes"] });
+      queryClient.invalidateQueries({ queryKey: ["teachers_classes"] });
     },
   });
 };

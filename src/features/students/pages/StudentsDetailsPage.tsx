@@ -17,6 +17,7 @@ import Paginate from "../../../components/paginate/Paginate";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import StudentsEnrolledClassesLists from "../components/StudentsEnrolledClassesLists";
+import PageDataShow from "../../../components/page/PageDataShow";
 
 const StudentsDetailsPage = () => {
   useAddBreadcrumb({
@@ -49,7 +50,6 @@ const StudentsDetailsPage = () => {
       }),
   }) as { data: ResponseDataType; isLoading: boolean };
 
-  
   return (
     <>
       <div className="space-y-6">
@@ -69,20 +69,16 @@ const StudentsDetailsPage = () => {
             <SearchInput />
           </CardContent>
         </Card>
-        {isLoading ? (
-          <LoadingComponent />
-        ) : data?.data.length === 0 ? (
-          <EmptyComponent
-            description="There are no attended classes available at the moment. Please add an attended class to get started!"
-            title="No Attended Classes"
-            icon={BookOpen}
-          />
-        ) : (
-          <>
-            <StudentsEnrolledClassesLists data={data?.data} />
-            <Paginate meta={data?.meta} />
-          </>
-        )}
+        <PageDataShow
+          isLoading={isLoading}
+          dataLength={data?.data.length}
+          emptyDescription="There are no attended classes available at the moment. Please add an attended class to get started!"
+          emptyTitle="No Attended Classes"
+          emptyIcon={BookOpen}
+        >
+          <StudentsEnrolledClassesLists data={data?.data} />
+          <Paginate meta={data?.meta} />
+        </PageDataShow>
       </div>
       <StudentDeleteAlert
         confirmDialogOpen={confirmDialogOpen}

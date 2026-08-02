@@ -5,7 +5,7 @@ import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator
 import TableBody from "../../../components/table/TableBody";
 import TableRow from "../../../components/table/TableRow";
 import TableCell from "../../../components/table/TableCell";
-import { BookOpen, CreditCard } from "lucide-react";
+import { BookOpen, CreditCard, DollarSign } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -19,6 +19,7 @@ import TableActionButtonsContainer from "../../../components/table/TableActionBu
 import TableActionButton from "../../../components/table/TableActionButton";
 import { useNavigate } from "react-router";
 import StudentsEnrolledClassesDeleteAlert from "./StudentsEnrolledClassesDeleteAlert";
+import TableIconContent from "../../../components/table/TableIconContent";
 
 const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
   const [enrolledID, setEnrolledID] = useState<number>(0);
@@ -57,7 +58,7 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
       sortKey: "startTime",
     },
     {
-      title: "Remaining Amount",
+      title: "Remaining",
       key: "remainingAmount",
       sortable: true,
       sortKey: "remainingAmount",
@@ -72,8 +73,6 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
 
   const navigate = useNavigate();
 
-  console.log(data);
-
   return (
     <>
       <Table>
@@ -85,7 +84,7 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
             "Price",
             "Period",
             "Time",
-            "Remaining Amount",
+            "Remaining",
             "Created At",
           ]}
           prefix="e."
@@ -138,7 +137,11 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                 </div>
               </TableCell>
               <TableCell align="right">
-                {formatCurrency(enrollmentData.price)}
+                <TableIconContent
+                  icon={DollarSign}
+                  value={formatCurrency(enrollmentData.price)}
+                  align="right"
+                />
               </TableCell>
               <TableCell>
                 <div className="flex flex-col gap-1">

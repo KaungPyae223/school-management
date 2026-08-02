@@ -84,6 +84,14 @@ declare global {
       restoreTeacher: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
+      getTeacherClasses: (data: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+        teacherId: number;
+      }) => Promise<ResponseDataType>;
 
       getAllClasses: (data: {
         page?: number;

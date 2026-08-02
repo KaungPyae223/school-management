@@ -7,6 +7,7 @@ export const useEditClass = () => {
     mutationFn: classesService.updateClass,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classes"] });
+      queryClient.invalidateQueries({ queryKey: ["teachers_classes"] });
     },
   });
 };

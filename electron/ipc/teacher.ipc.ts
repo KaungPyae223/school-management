@@ -5,6 +5,19 @@ import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";
 import { Prisma } from "../../generated/prisma/client";
 
+const generateStatus = (startDate: Date, endDate: Date | null) => {
+  const today = new Date();
+  const start = new Date(startDate);
+  const end = endDate ? new Date(endDate) : null;
+  if (today < start) {
+    return "not_started";
+  } else if (end && today >= end) {
+    return "complete";
+  } else {
+    return "ongoing";
+  }
+};
+
 export const teacherIPCs = () => {
   ipcMain.handle("teacher:index", async (_, data) => {
     const {
@@ -93,6 +106,91 @@ export const teacherIPCs = () => {
         data: teachers.map((teacher) => ({
           ...teacher,
           image: showImage(teacher.image),
+        })),
+        meta: { total_data: totalData, total_pages, page, limit },
+      };
+    } catch (error: any) {
+      return {
+        error: error.message,
+        data: [],
+        meta: {
+          total_data: 0,
+          total_pages: 0,
+          page: 0,
+          limit: 0,
+        },
+      };
+    }
+  });
+
+  ipcMain.handle("teacher:get-teacher-classes", async (_, data) => {
+    const {
+      id,
+      page = 1,
+      limit = 10,
+      search = "",
+      sort = "createdAt",
+      sortDirection = "asc",
+    } = data;
+
+    const avilableSort = new Set([
+      "cl.createdAt",
+      "cl.updatedAt",
+      "course_name",
+      "cl.price",
+      "cl.startDate",
+      "cl.startTime",
+      "total_students",
+    ]);
+    const avilableSortDirection = new Set(["asc", "desc"]);
+
+    const finalSort = avilableSort.has(sort) ? sort : "cl.createdAt";
+    const finalSortDirection = avilableSortDirection.has(sortDirection)
+      ? sortDirection
+      : "asc";
+
+    const skip = Number(page - 1) * Number(limit);
+
+    const searchFilter = search
+      ? Prisma.sql`AND (
+      LOWER(c.name) LIKE LOWER(${`%${search}%`}) 
+    )`
+      : Prisma.empty;
+
+    try {
+      const [classes, totalData] = await Promise.all([
+        prisma.$queryRaw<any[]>`
+          SELECT
+          cl.*,
+          c.name as course_name,
+          c.image as course_image,
+          COUNT(DISTINCT e.studentID) AS total_students
+          FROM classes cl
+          LEFT JOIN courses c ON c.id = cl.courseId
+          LEFT JOIN enrollments e ON e.classId = cl.id
+          WHERE cl.teacherId = ${id}
+          ${searchFilter}
+          GROUP BY cl.id
+          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
+          LIMIT ${limit} OFFSET ${skip}
+        `,
+        prisma.class.count({
+          where: {
+            teacherId: id,
+            ...(search && {
+              course: { name: { contains: search } },
+            }),
+          },
+        }),
+      ]);
+
+      const total_pages = Math.ceil(Number(totalData) / Number(limit));
+      return {
+        error: null,
+        data: classes.map((classData) => ({
+          ...classData,
+          image: showImage(classData.course_image),
+          status: generateStatus(classData.startDate, classData.endDate),
         })),
         meta: { total_data: totalData, total_pages, page, limit },
       };

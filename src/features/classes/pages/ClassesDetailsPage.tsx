@@ -20,6 +20,7 @@ import LoadingComponent from "../../../components/loading/LoadingComponent";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
 import Paginate from "../../../components/paginate/Paginate";
 import SearchInput from "../../../components/search-input/SearchInput";
+import PageDataShow from "../../../components/page/PageDataShow";
 
 const ClassesDetailsPage = () => {
   useAddBreadcrumb({
@@ -62,7 +63,7 @@ const ClassesDetailsPage = () => {
           onUpdate={() => {
             navigate(`/classes/edit/${classData.id}`);
           }}
-          isTrashView={false}
+          isDeleted={false}
         >
           <Button
             variant="default"
@@ -85,25 +86,21 @@ const ClassesDetailsPage = () => {
             </div>
           </CardContent>
         </Card>
-        {isLoading ? (
-          <LoadingComponent />
-        ) : data?.data.length === 0 ? (
-          <EmptyComponent
-            action={{
-              label: "Add Student",
-              link: `/classes/enroll/${classData.id}`,
-            }}
-            description="There are no enrolled students available at the moment. Please add an enrolled student to get started!"
-            title="No Enrolled Students"
-            icon={GraduationCap}
-          />
-        ) : (
-          <>
-            <ClassesEnrolledStudentsList data={data?.data} />
+        <PageDataShow
+          isLoading={isLoading}
+          dataLength={data?.data.length}
+          emptyDescription="There are no enrolled students available at the moment. Please add an enrolled student to get started!"
+          emptyTitle="No Enrolled Students"
+          emptyIcon={GraduationCap}
+          action={{
+            label: "Add Student",
+            link: `/classes/enroll/${classData.id}`,
+          }}
+        >
+          <ClassesEnrolledStudentsList data={data?.data} />
 
-            <Paginate meta={data?.meta} />
-          </>
-        )}
+          <Paginate meta={data?.meta} />
+        </PageDataShow>
       </div>
 
       <ClassesDeleteAlert

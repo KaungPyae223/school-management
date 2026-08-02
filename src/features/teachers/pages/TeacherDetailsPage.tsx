@@ -10,14 +10,8 @@ import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import { Tabs } from "../../../components/ui/tabs";
 import { AnimatePresence, m } from "framer-motion";
 import TeachersDetailsHeader from "../components/TeachersDetailsHeader";
-import TimetableCourse from "../../timetable/components/TimetableCourse";
-import { classesService } from "../../../services/classes";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
-import { useTimetableChange } from "../../timetable/hooks/useTimetableChange";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { useFormatData } from "../../timetable/hooks/useFormatData";
-import { Drawer } from "../../../components/ui/drawer";
-import TimetableDetailsContent from "../../timetable/components/TimetableDetailsContent";
+import TeachersClassesTab from "../components/TeachersClassesTab";
+import TeachersTimetableTab from "../components/TeachersTimetableTab";
 
 const TeacherDetailsPage = () => {
   useAddBreadcrumb({
@@ -43,85 +37,60 @@ const TeacherDetailsPage = () => {
   const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
     useState<boolean>(false);
 
-  const [open, setOpen] = useState(false);
-  const [classData, setClassData] = useState<any>(null);
-
   const { view, changeView } = useViewTabChange("classes");
-
-  const { params: timetableParams } = useTimetableChange();
-
-  const { data: timetableData } = useAppQuery({
-    queryKey: ["classes", { ...timetableParams, teacherId: teacherData.id }],
-    queryFn: () =>
-      classesService.getAllClasses({
-        ...timetableParams,
-        teacherId: teacherData.id,
-      }),
-  }) as { data: ResponseDataType };
-
-  const formattedData = timetableData?.data?.map(useFormatData);
-
-  const handleClassClick = (classData: any) => {
-    setClassData(classData);
-    setOpen(true);
-  };
 
   return (
     <>
-      <Drawer open={open} onOpenChange={setOpen} direction="right">
-        <div className="space-y-6">
-          <DetailsHeader
-            onDelete={() => {
-              setDeleteConfirmDialogOpen(true);
-            }}
-            onUpdate={() => {
-              navigate(`/teachers/edit/${teacherData.id}`);
-            }}
-            onRestore={() => {
-              setRestoreConfirmDialogOpen(true);
-            }}
-            isDeleted={teacherData.deleted}
-          />
-          <TeachersDetailsCard data={teacherData} />
-          <Separator />
-          <Tabs
-            value={view}
-            onValueChange={changeView}
-            defaultValue="classes"
-            className="space-y-6"
-          >
-            <TeachersDetailsHeader tab={view} />
-            <AnimatePresence mode="wait" initial={false}>
-              {view === "classes" && (
-                <m.div
-                  key="classes"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div></div>
-                </m.div>
-              )}
-              {view === "timetable" && (
-                <m.div
-                  key="timetable"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <TimetableCourse
-                    data={formattedData}
-                    handleClassClick={handleClassClick}
-                  />
-                </m.div>
-              )}
-            </AnimatePresence>
-          </Tabs>
-        </div>
-        <TimetableDetailsContent classData={classData} />
-      </Drawer>
+      <div className="space-y-6">
+        <DetailsHeader
+          onDelete={() => {
+            setDeleteConfirmDialogOpen(true);
+          }}
+          onUpdate={() => {
+            navigate(`/teachers/edit/${teacherData.id}`);
+          }}
+          onRestore={() => {
+            setRestoreConfirmDialogOpen(true);
+          }}
+          isDeleted={teacherData.deleted}
+        />
+        <TeachersDetailsCard data={teacherData} />
+        <Separator />
+        <Tabs
+          value={view}
+          onValueChange={changeView}
+          defaultValue="classes"
+          className="space-y-6"
+        >
+          <TeachersDetailsHeader tab={view} />
+          <AnimatePresence mode="wait" initial={false}>
+            {view === "classes" && (
+              <m.div
+                key="classes"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-6"
+              >
+                <TeachersClassesTab id={teacherData.id} />
+              </m.div>
+            )}
+            {view === "timetable" && (
+              <m.div
+                key="timetable"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <TeachersTimetableTab id={teacherData.id} />
+              </m.div>
+            )}
+          </AnimatePresence>
+        </Tabs>
+      </div>
+
       <TeachersDeleteAlert
         confirmDialogOpen={deleteConfirmDialogOpen}
         setConfirmDialogOpen={setDeleteConfirmDialogOpen}
