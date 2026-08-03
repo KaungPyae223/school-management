@@ -150,9 +150,14 @@ const PaymentList = ({
                     <BookOpen size={20} className="text-background" />
                   </div>
                 )}
-                <p className="font-medium text-foreground">
-                  {payment.courseName}
-                </p>
+                <div className="space-y-0.5">
+                  <p className="font-medium text-foreground">
+                    {payment.courseName}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Batch {payment.batch}
+                  </p>
+                </div>
               </div>
             </TableCell>
             <TableCell hidden={!selectedColumns.includes("Email")}>

@@ -6,7 +6,6 @@ import CoursesList from "../components/CoursesList";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
 
-import { useNavigate } from "react-router";
 import { LibraryBig } from "lucide-react";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { courseService } from "../../../services/courses";

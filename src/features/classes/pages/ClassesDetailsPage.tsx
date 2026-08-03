@@ -16,8 +16,6 @@ import { useAppQuery } from "../../../hooks/use-app-query";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { enrollmentService } from "../../../services/enrollment";
 import ClassesEnrolledStudentsList from "../components/ClassesEnrolledStudentsList";
-import LoadingComponent from "../../../components/loading/LoadingComponent";
-import EmptyComponent from "../../../components/empty/EmptyComponent";
 import Paginate from "../../../components/paginate/Paginate";
 import SearchInput from "../../../components/search-input/SearchInput";
 import PageDataShow from "../../../components/page/PageDataShow";

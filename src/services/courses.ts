@@ -29,8 +29,38 @@ export const courseService = {
     return data;
   },
 
+  getCourseDetail: async (id: number) => {
+    const data = await window.api.getCourseDetail(id);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
+  getCourseClasses: async (params: any) => {
+    const data = await window.api.getCourseClasses(params);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
   deleteCourse: async (id: number) => {
     const res = await window.api.deleteCourse(id);
+
+    if (!res.success) {
+      throw new Error(res.error);
+    }
+
+    return res;
+  },
+
+  restoreCourse: async (id: number) => {
+    const res = await window.api.restoreCourse(id);
 
     if (!res.success) {
       throw new Error(res.error);

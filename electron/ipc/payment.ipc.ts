@@ -65,7 +65,8 @@ export const paymentIPCs = () => {
             s.email as studentEmail,
             s.image as studentImage,
             c.name as courseName,
-            c.image as courseImage
+            c.image as courseImage,
+            cl.batch as batch
           FROM enrollments e
           LEFT JOIN payments p ON e.id = p.enrollmentId
           LEFT JOIN students s ON e.studentId = s.id

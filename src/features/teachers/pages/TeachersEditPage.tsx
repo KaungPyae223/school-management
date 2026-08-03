@@ -22,7 +22,7 @@ import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import { useLoaderData, useNavigate } from "react-router";
-import { useUpdateTeacher } from "../hooks/useUpdateTeacher";
+import { useEditTeacher } from "../hooks/useEditTeacher";
 import FormError from "../../../components/form/FormError";
 
 const formSchema = z.object({
@@ -45,7 +45,7 @@ const formSchema = z.object({
   nrc: z.string().optional(),
 });
 
-const TeacherEdit = () => {
+const TeachersEdit = () => {
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -82,7 +82,7 @@ const TeacherEdit = () => {
     setConfirmDialogOpen(true);
   };
 
-  const { mutateAsync, isPending } = useUpdateTeacher();
+  const { mutateAsync, isPending } = useEditTeacher();
 
   const editTeacher = async () => {
     setErrorMessage("");
@@ -247,4 +247,4 @@ const TeacherEdit = () => {
   );
 };
 
-export default TeacherEdit;
+export default TeachersEdit;

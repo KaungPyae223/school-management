@@ -20,7 +20,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useLoaderData, useNavigate } from "react-router";
-import { useUpdateCourse } from "../hooks/useUpdateCourse";
+import { useEditCourse } from "../hooks/useEditCourse";
 import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
@@ -77,7 +77,7 @@ const CourseEditPage = () => {
     setConfirmDialogOpen(true);
   };
 
-  const { mutateAsync, isPending } = useUpdateCourse();
+  const { mutateAsync, isPending } = useEditCourse();
 
   const editCourse = async () => {
     setErrorMessage("");

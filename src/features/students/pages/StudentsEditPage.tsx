@@ -31,7 +31,7 @@ import {
 } from "../../../components/ui/select";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import { useLoaderData, useNavigate } from "react-router";
-import { useUpdateStudent } from "../hooks/useUpdateStudent";
+import { useEditStudent } from "../hooks/useEditStudent";
 import DateInput from "../../../components/form/DateInput";
 import FormError from "../../../components/form/FormError";
 
@@ -60,7 +60,7 @@ const StudentEdit = () => {
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const data = useLoaderData();
+  const student = useLoaderData();
 
   useAddBreadcrumb({
     title: "Edit Student",
@@ -80,12 +80,12 @@ const StudentEdit = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       image: undefined,
-      name: data.name,
-      address: data.address ?? "",
-      email: data.email ?? "",
-      phone: data.phone,
-      dob: data.dob ?? undefined,
-      gender: data.gender ?? undefined,
+      name: student.name,
+      address: student.address ?? "",
+      email: student.email ?? "",
+      phone: student.phone,
+      dob: student.dob ?? undefined,
+      gender: student.gender ?? undefined,
     },
   });
 
@@ -93,7 +93,7 @@ const StudentEdit = () => {
     setConfirmDialogOpen(true);
   };
 
-  const { mutateAsync, isPending } = useUpdateStudent();
+  const { mutateAsync, isPending } = useEditStudent();
 
   const editStudent = async () => {
     setErrorMessage("");
@@ -104,7 +104,7 @@ const StudentEdit = () => {
       await mutateAsync({
         ...data,
         ...imageData,
-        id: data.id,
+        id: student.id,
       });
 
       toast.success("Student edited successfully");

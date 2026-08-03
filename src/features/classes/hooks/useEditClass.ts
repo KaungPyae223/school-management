@@ -6,8 +6,11 @@ export const useEditClass = () => {
   return useMutation({
     mutationFn: classesService.updateClass,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["classes"] });
-      queryClient.invalidateQueries({ queryKey: ["teachers_classes"] });
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["classes"] }),
+        queryClient.invalidateQueries({ queryKey: ["teachers_classes"] }),
+        queryClient.invalidateQueries({ queryKey: ["courses_classes"] }),
+      ]);
     },
   });
 };

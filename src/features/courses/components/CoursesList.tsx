@@ -15,9 +15,13 @@ import TableIconContent from "../../../components/table/TableIconContent";
 import type { TableHeadType } from "../../../types/TableHeader";
 import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
+import CoursesRestoreAlert from "./CoursesRestoreAlert";
 
 const CoursesList = ({ data }: { data: any }) => {
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
+    useState<boolean>(false);
+  const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
+    useState<boolean>(false);
   const [courseId, setCourseId] = useState<number>(0);
   const navigate = useNavigate();
 
@@ -30,7 +34,12 @@ const CoursesList = ({ data }: { data: any }) => {
 
   const handleDelete = (id: number) => {
     setCourseId(id);
-    setConfirmDialogOpen(true);
+    setDeleteConfirmDialogOpen(true);
+  };
+
+  const handleRestore = (id: number) => {
+    setCourseId(id);
+    setRestoreConfirmDialogOpen(true);
   };
 
   const headers: TableHeadType[] = [
@@ -149,9 +158,10 @@ const CoursesList = ({ data }: { data: any }) => {
 
               <TableCell className="py-4 pl-3 pr-6 text-right">
                 <TableActionButtonsContainer
-                  onView={() => navigate(`/courses/${course.id}`)}
+                  onView={() => navigate(`/courses/detail/${course.id}`)}
                   onEdit={() => navigate(`/courses/edit/${course.id}`)}
                   onDelete={() => handleDelete(course.id)}
+                  onRestore={() => handleRestore(course.id)}
                 />
               </TableCell>
             </TableRow>
@@ -159,8 +169,13 @@ const CoursesList = ({ data }: { data: any }) => {
         </TableBody>
       </Table>
       <CoursesDeleteAlert
-        confirmDialogOpen={confirmDialogOpen}
-        setConfirmDialogOpen={setConfirmDialogOpen}
+        confirmDialogOpen={deleteConfirmDialogOpen}
+        setConfirmDialogOpen={setDeleteConfirmDialogOpen}
+        id={courseId}
+      />
+      <CoursesRestoreAlert
+        confirmDialogOpen={restoreConfirmDialogOpen}
+        setConfirmDialogOpen={setRestoreConfirmDialogOpen}
         id={courseId}
       />
     </>

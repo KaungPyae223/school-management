@@ -22,9 +22,13 @@ import { useNavigate } from "react-router";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 import CardMenu from "../../../components/card-utils/CardMenu";
 import CardData from "../../../components/card-utils/CardData";
+import CoursesRestoreAlert from "./CoursesRestoreAlert";
 
 const CoursesCard = ({ course }: { course: any }) => {
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
+    useState<boolean>(false);
+  const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
+    useState<boolean>(false);
   const navigate = useNavigate();
 
   return (
@@ -47,7 +51,8 @@ const CoursesCard = ({ course }: { course: any }) => {
           )}
           <CardMenu
             onEdit={() => navigate(`/courses/edit/${course.id}`)}
-            onDelete={() => setConfirmDialogOpen(true)}
+            onDelete={() => setDeleteConfirmDialogOpen(true)}
+            onRestore={() => setRestoreConfirmDialogOpen(true)}
           />
           <div className="absolute bottom-3 left-3">
             <Badge
@@ -129,15 +134,24 @@ const CoursesCard = ({ course }: { course: any }) => {
         />
 
         <CardFooter>
-          <Button variant="ghost" className="w-full justify-between">
+          <Button
+            onClick={() => navigate(`/courses/detail/${course.id}`)}
+            variant="ghost"
+            className="w-full justify-between"
+          >
             View Course Details
             <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
           </Button>
         </CardFooter>
       </Card>
       <CoursesDeleteAlert
-        confirmDialogOpen={confirmDialogOpen}
-        setConfirmDialogOpen={setConfirmDialogOpen}
+        confirmDialogOpen={deleteConfirmDialogOpen}
+        setConfirmDialogOpen={setDeleteConfirmDialogOpen}
+        id={course.id}
+      />
+      <CoursesRestoreAlert
+        confirmDialogOpen={restoreConfirmDialogOpen}
+        setConfirmDialogOpen={setRestoreConfirmDialogOpen}
         id={course.id}
       />
     </>

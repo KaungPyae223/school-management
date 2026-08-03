@@ -13,7 +13,7 @@ import TeachersDetailsHeader from "../components/TeachersDetailsHeader";
 import TeachersClassesTab from "../components/TeachersClassesTab";
 import TeachersTimetableTab from "../components/TeachersTimetableTab";
 
-const TeacherDetailsPage = () => {
+const TeachersDetailsPage = () => {
   useAddBreadcrumb({
     title: "Teacher Details",
     params: [
@@ -107,4 +107,4 @@ const TeacherDetailsPage = () => {
   );
 };
 
-export default TeacherDetailsPage;
+export default TeachersDetailsPage;
