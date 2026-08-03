@@ -8,4 +8,14 @@ export const paymentService = {
 
     return res;
   },
+
+  getAllPaymentsByEnrollment: async (id: number) => {
+    const res = await window.api.getAllPaymentsByEnrollment(id);
+
+    if (res.error) {
+      throw new Error(res.error);
+    }
+
+    return res;
+  },
 };

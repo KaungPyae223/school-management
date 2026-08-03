@@ -105,4 +105,25 @@ export const paymentIPCs = () => {
       };
     }
   });
+
+  ipcMain.handle("payment:get-by-enrollment", async (_, id) => {
+    try {
+      const payments = await prisma.payment.findMany({
+        where: { enrollmentId: id },
+        orderBy: { createdAt: "desc" },
+      });
+      if (!payments) {
+        return { error: "Payment not found", data: [] };
+      }
+      return {
+        error: null,
+        data: payments.map((payment) => ({
+          ...payment,
+          image: showImage(payment.image),
+        })),
+      };
+    } catch (error: any) {
+      return { error: error.message, data: null };
+    }
+  });
 };

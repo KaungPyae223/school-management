@@ -64,6 +64,33 @@ export const enrollmentIPCs = () => {
     }
   });
 
+  ipcMain.handle("enrollment:show", async (_, id) => {
+    try {
+      const enrollment = await prisma.enrollment.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          student: true,
+          class: {
+            include: {
+              course: true,
+            },
+          },
+        },
+      });
+      return {
+        data: {
+          ...enrollment,
+          courseImage: showImage(enrollment?.class?.course.image),
+          studentImage: showImage(enrollment?.student.image),
+        },
+      };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  });
+
   ipcMain.handle("enrollment:delete", async (_, id) => {
     try {
       await prisma.enrollment.delete({

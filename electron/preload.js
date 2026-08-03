@@ -50,7 +50,10 @@ contextBridge.exposeInMainWorld("api", {
   deleteEnrollment: (id) => ipcRenderer.invoke("enrollment:delete", id),
   getEnrollmentByClass: (data) =>
     ipcRenderer.invoke("enrollment:getEnrollmentByClass", data),
+  getEnrollment: (id) => ipcRenderer.invoke("enrollment:show", id),
 
   // Payment
   getAllPayments: (data) => ipcRenderer.invoke("payment:index", data),
+  getAllPaymentsByEnrollment: (id) =>
+    ipcRenderer.invoke("payment:get-by-enrollment", id),
 });

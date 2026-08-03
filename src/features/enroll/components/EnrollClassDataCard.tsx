@@ -13,6 +13,7 @@ import { formatCurrency } from "../../../utils/format-currency";
 import ClassesTeacherCard from "../../classes/components/ClassesTeacherCard";
 import { Separator } from "../../../components/ui/separator";
 import { changeTime } from "../../../utils/change-time";
+import DetailsData from "../../../components/details/DetailsData";
 
 const EnrollClassDataCard = ({ data }: { data: any }) => {
   return (
@@ -42,7 +43,12 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
       {/* Bottom Section: Schedule Grid */}
       <div className=" divide-y divide-border  border-t border-border  text-sm">
         <div className="divide-x divide-border grid grid-cols-2">
-          <ClassData icon={CalendarDays} label="Opening Days">
+          <DetailsData
+            className="rounded-none"
+            icon={CalendarDays}
+            label="Opening Days"
+            border={false}
+          >
             <div className="space-x-1 space-y-1">
               {data.days.split(",").map((day) => (
                 <Badge variant="outline" className="bg-white" key={day}>
@@ -50,44 +56,39 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
                 </Badge>
               ))}
             </div>
-          </ClassData>
+          </DetailsData>
 
-          <ClassData icon={Clock} label="Time">
+          <DetailsData
+            className="rounded-none"
+            icon={Clock}
+            label="Time"
+            border={false}
+          >
             <p className="font-medium">
               {changeTime(data.startTime)} - {changeTime(data.endTime)}
             </p>
-          </ClassData>
+          </DetailsData>
         </div>
         <div className="divide-x divide-border grid grid-cols-2">
-          <ClassData icon={CalendarClock} label="Start Date">
+          <DetailsData
+            className="rounded-none"
+            icon={CalendarClock}
+            label="Start Date"
+            border={false}
+          >
             <p className="font-medium">{formatDate(data.startDate)}</p>
-          </ClassData>
+          </DetailsData>
 
-          <ClassData icon={DollarSign} label="Price">
+          <DetailsData
+            className="rounded-none"
+            icon={DollarSign}
+            label="Price"
+            border={false}
+          >
             <p className="font-medium">{formatCurrency(data.price)}</p>
-          </ClassData>
+          </DetailsData>
         </div>
       </div>
-    </div>
-  );
-};
-
-const ClassData = ({
-  icon: Icon,
-  label,
-  children,
-}: {
-  icon: LucideIcon;
-  label: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <div className="space-y-2 p-3">
-      <div className="flex items-center text-sm gap-1.5 text-muted-foreground">
-        <Icon size={13} />
-        {label}
-      </div>
-      {children}
     </div>
   );
 };

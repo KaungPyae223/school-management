@@ -146,6 +146,7 @@ declare global {
         sort?: string;
         order?: string;
       }) => Promise<ResponseDataType>;
+      getEnrollment: (id: number) => Promise<{ data?: any; error?: string }>;
 
       // Payments
       getAllPayments: (data: {
@@ -155,6 +156,9 @@ declare global {
         sort?: string;
         order?: string;
       }) => Promise<ResponseDataType>;
+      getAllPaymentsByEnrollment: (
+        id: number,
+      ) => Promise<{ data?: any[]; error?: string }>;
     };
   }
 }

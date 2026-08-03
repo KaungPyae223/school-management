@@ -25,8 +25,9 @@ import { formatCurrency } from "../../../utils/format-currency";
 import { formatDate } from "../../../utils/format-date";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import TableActionButton from "../../../components/table/TableActionButton";
+import { useNavigate } from "react-router";
 
-const PaymentList = ({
+const PaymentsList = ({
   data,
   view,
 }: {
@@ -113,6 +114,8 @@ const PaymentList = ({
       align: "right",
     },
   ];
+
+  const navigate = useNavigate();
 
   return (
     <Table>
@@ -223,14 +226,14 @@ const PaymentList = ({
             </TableCell>
             <TableCell>
               <TableActionButtonsContainer onView={() => {}}>
-                {payment.remainingAmount > 0 && (
-                  <TableActionButton
-                    onClick={() => {}}
-                    variant="default"
-                    icon={CreditCard}
-                    tooltip="Pay remaining amount"
-                  />
-                )}
+                <TableActionButton
+                  onClick={() => {
+                    navigate(`/payments/${payment.id}`);
+                  }}
+                  variant={payment.remainingAmount > 0 ? "default" : "outline"}
+                  icon={CreditCard}
+                  tooltip="View payment details"
+                />
               </TableActionButtonsContainer>
             </TableCell>
           </TableRow>
@@ -240,4 +243,4 @@ const PaymentList = ({
   );
 };
 
-export default PaymentList;
+export default PaymentsList;

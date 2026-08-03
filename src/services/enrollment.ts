@@ -17,7 +17,17 @@ export const enrollmentService = {
 
     return data;
   },
-  
+
+  getEnrollment: async (id: number) => {
+    const data = await window.api.getEnrollment(id);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
   deleteEnrollment: async (id: number) => {
     const res = await window.api.deleteEnrollment(id);
 

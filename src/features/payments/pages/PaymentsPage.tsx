@@ -1,6 +1,4 @@
 import { CreditCardIcon } from "lucide-react";
-import EmptyComponent from "../../../components/empty/EmptyComponent";
-import LoadingComponent from "../../../components/loading/LoadingComponent";
 import { Tabs } from "../../../components/ui/tabs";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useAppQuery } from "../../../hooks/use-app-query";
@@ -8,9 +6,9 @@ import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import { paymentService } from "../../../services/payments";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
-import PaymentHeader from "../components/PaymentHeader";
+import PaymentsHeader from "../components/PaymentsHeader";
 import { AnimatePresence, m } from "framer-motion";
-import PaymentList from "../components/PaymentList";
+import PaymentsList from "../components/PaymentsList";
 import Paginate from "../../../components/paginate/Paginate";
 import PageDataShow from "../../../components/page/PageDataShow";
 
@@ -36,7 +34,7 @@ const PaymentsPage = () => {
       defaultValue="initial"
       className="space-y-4"
     >
-      <PaymentHeader />
+      <PaymentsHeader />
       <PageDataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
@@ -53,7 +51,7 @@ const PaymentsPage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <PaymentList data={data?.data} view="initial" />
+              <PaymentsList data={data?.data} view="initial" />
             </m.div>
           )}
 
@@ -65,7 +63,7 @@ const PaymentsPage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <PaymentList data={data?.data} view="all" />
+              <PaymentsList data={data?.data} view="all" />
             </m.div>
           )}
         </AnimatePresence>

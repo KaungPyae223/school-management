@@ -5,7 +5,7 @@ import ColumnSelector from "../../../components/header/ColumnSelector";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import SearchInput from "../../../components/search-input/SearchInput";
 
-const PaymentHeader = () => {
+const PaymentsHeader = () => {
   const { view } = useViewTabChange("initial");
 
   const columns = [
@@ -50,4 +50,4 @@ const PaymentHeader = () => {
   );
 };
 
-export default PaymentHeader;
+export default PaymentsHeader;
