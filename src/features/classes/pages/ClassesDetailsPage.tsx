@@ -19,6 +19,7 @@ import ClassesEnrolledStudentsList from "../components/ClassesEnrolledStudentsLi
 import Paginate from "../../../components/paginate/Paginate";
 import SearchInput from "../../../components/search-input/SearchInput";
 import PageDataShow from "../../../components/page/PageDataShow";
+import ClassesCompleteAlert from "../components/ClassesCompleteAlert";
 
 const ClassesDetailsPage = () => {
   useAddBreadcrumb({
@@ -36,7 +37,10 @@ const ClassesDetailsPage = () => {
   });
 
   const classData = useLoaderData();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
+    useState<boolean>(false);
+  const [completeConfirmDialogOpen, setCompleteConfirmDialogOpen] =
+    useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -56,20 +60,31 @@ const ClassesDetailsPage = () => {
       <div className="space-y-6">
         <DetailsHeader
           onDelete={() => {
-            setConfirmDialogOpen(true);
+            setDeleteConfirmDialogOpen(true);
           }}
           onUpdate={() => {
             navigate(`/classes/edit/${classData.id}`);
           }}
           isDeleted={false}
         >
-          <Button
-            variant="default"
-            onClick={() => navigate(`/classes/enroll/${classData.id}`)}
-          >
-            <UserPlus className="size-3.5" />
-            Enrolled Student
-          </Button>
+          {classData.status == "ongoing" && (
+            <Button
+              variant="outline"
+              onClick={() => setCompleteConfirmDialogOpen(true)}
+            >
+              <GraduationCap className="size-3.5" />
+              Complete Class
+            </Button>
+          )}
+          {classData.status != "complete" && (
+            <Button
+              variant="default"
+              onClick={() => navigate(`/classes/enroll/${classData.id}`)}
+            >
+              <UserPlus className="size-3.5" />
+              Enrolled Student
+            </Button>
+          )}
         </DetailsHeader>
         <ClassesDetailsCard data={classData} />
         <Separator />
@@ -102,8 +117,14 @@ const ClassesDetailsPage = () => {
       </div>
 
       <ClassesDeleteAlert
-        confirmDialogOpen={confirmDialogOpen}
-        setConfirmDialogOpen={setConfirmDialogOpen}
+        confirmDialogOpen={deleteConfirmDialogOpen}
+        setConfirmDialogOpen={setDeleteConfirmDialogOpen}
+        id={classData.id}
+        back
+      />
+      <ClassesCompleteAlert
+        confirmDialogOpen={completeConfirmDialogOpen}
+        setConfirmDialogOpen={setCompleteConfirmDialogOpen}
         id={classData.id}
         back
       />

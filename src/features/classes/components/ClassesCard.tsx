@@ -63,7 +63,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               <BookOpen size={48} className="text-background" />
             </div>
           )}
-          {!isTrashView && (
+          {!isTrashView && classData.status != "complete" && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

@@ -3,6 +3,7 @@ import { prisma } from "../../db/prisma";
 import { showImage } from "../utils/showImage";
 import { Prisma } from "../../generated/prisma/client";
 import { formatTime } from "../utils/formatTime";
+import { generateStatus } from "../utils/generateStatus";
 
 const isTeacherBusy = async (
   teacherId: number,
@@ -42,19 +43,6 @@ const isTeacherBusy = async (
       `;
 
   return checkTeacherBusy;
-};
-
-const generateStatus = (startDate: Date, endDate: Date | null) => {
-  const today = new Date();
-  const start = new Date(startDate);
-  const end = endDate ? new Date(endDate) : null;
-  if (today < start) {
-    return "not_started";
-  } else if (end && today >= end) {
-    return "complete";
-  } else {
-    return "ongoing";
-  }
 };
 
 export const classesIPCs = () => {
@@ -333,6 +321,20 @@ export const classesIPCs = () => {
 
       await prisma.class.delete({
         where: { id },
+      });
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  ipcMain.handle("class:complete", async (_, id) => {
+    try {
+      await prisma.class.update({
+        where: { id },
+        data: {
+          endDate: new Date().toISOString(),
+        },
       });
       return { success: true };
     } catch (error: any) {

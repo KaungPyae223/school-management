@@ -36,4 +36,11 @@ export const classesService = {
     }
     return res;
   },
+  completeClass: async (id: number) => {
+    const res = await window.api.completeClass(id);
+    if (!res.success) {
+      throw new Error(res.error);
+    }
+    return res;
+  },
 };

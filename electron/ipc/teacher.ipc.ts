@@ -4,19 +4,8 @@ import { saveImage } from "../utils/saveImage";
 import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";
 import { Prisma } from "../../generated/prisma/client";
+import { generateStatus } from "../utils/generateStatus";
 
-const generateStatus = (startDate: Date, endDate: Date | null) => {
-  const today = new Date();
-  const start = new Date(startDate);
-  const end = endDate ? new Date(endDate) : null;
-  if (today < start) {
-    return "not_started";
-  } else if (end && today >= end) {
-    return "complete";
-  } else {
-    return "ongoing";
-  }
-};
 
 export const teacherIPCs = () => {
   ipcMain.handle("teacher:index", async (_, data) => {

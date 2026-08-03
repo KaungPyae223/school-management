@@ -3,6 +3,7 @@ import { prisma } from "../../db/prisma";
 import { saveImage } from "../utils/saveImage";
 import { Prisma } from "../../generated/prisma/client";
 import { showImage } from "../utils/showImage";
+import { generateStatus } from "../utils/generateStatus";
 
 export const enrollmentIPCs = () => {
   ipcMain.handle("enrollment:create", async (_, data) => {
@@ -18,6 +19,22 @@ export const enrollmentIPCs = () => {
 
       if (checkExistingEnrollment) {
         return { success: false, error: "Enrollment already exists" };
+      }
+
+      const checkClass = await prisma.class.findUnique({
+        where: {
+          id: restData.classId,
+        },
+      });
+
+      if (!checkClass) {
+        return { success: false, error: "Class not found" };
+      }
+
+      if (
+        generateStatus(checkClass.startDate, checkClass.endDate) === "complete"
+      ) {
+        return { success: false, error: "Class is finished" };
       }
 
       let imageUrl = undefined;

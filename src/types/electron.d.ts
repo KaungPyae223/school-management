@@ -128,6 +128,9 @@ declare global {
       deleteClass: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
+      completeClass: (
+        id: number,
+      ) => Promise<{ success: boolean; error?: string }>;
 
       createEnrollment: (
         data: any,

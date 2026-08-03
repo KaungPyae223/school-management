@@ -229,7 +229,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                   onEdit={() => navigate(`/classes/edit/${classData.id}`)}
                   onDelete={() => handleDelete(classData.id)}
                 >
-                  {!isTrashView && (
+                  {!isTrashView && classData.status != "complete" && (
                     <TableActionButton
                       onClick={() =>
                         navigate(`/classes/enroll/${classData.id}`)

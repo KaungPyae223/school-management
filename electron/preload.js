@@ -43,6 +43,7 @@ contextBridge.exposeInMainWorld("api", {
   createClass: (data) => ipcRenderer.invoke("class:create", data),
   updateClass: (data) => ipcRenderer.invoke("class:update", data),
   deleteClass: (id) => ipcRenderer.invoke("class:delete", id),
+  completeClass: (id) => ipcRenderer.invoke("class:complete", id),
 
   // Enrollment
   createEnrollment: (data) => ipcRenderer.invoke("enrollment:create", data),
