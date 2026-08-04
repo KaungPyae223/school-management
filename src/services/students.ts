@@ -1,22 +1,22 @@
 export const studentService = {
   createStudent: async (payload: any) => {
-    const res = await window.api.createStudent(payload);
+    const data = await window.api.createStudent(payload);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
   updateStudent: async (payload: any) => {
-    const res = await window.api.updateStudent(payload);
+    const data = await window.api.updateStudent(payload);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
   getAllStudents: async (params: any) => {
@@ -30,17 +30,27 @@ export const studentService = {
   },
 
   deleteStudent: async (id: number) => {
-    const res = await window.api.deleteStudent(id);
+    const data = await window.api.deleteStudent(id);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
   getStudentAttendedClasses: async (params: any) => {
     const data = await window.api.getStudentAttendedClasses(params);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
+  getStudent: async (id: number) => {
+    const data = await window.api.getStudent(id);
 
     if (data.error) {
       throw new Error(data.error);

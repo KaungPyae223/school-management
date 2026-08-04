@@ -2,6 +2,8 @@ import { ipcMain } from "electron";
 import { prisma } from "../../db/prisma";
 import { showImage } from "../utils/showImage";
 import { Prisma } from "../../generated/prisma/client";
+import { deleteImage } from "../utils/deleteImage";
+import { saveImage } from "../utils/saveImage";
 
 export const paymentIPCs = () => {
   ipcMain.handle("payment:index", async (_, data) => {
@@ -124,6 +126,51 @@ export const paymentIPCs = () => {
       };
     } catch (error: any) {
       return { error: error.message, data: null };
+    }
+  });
+
+  ipcMain.handle("payment:delete", async (_, id) => {
+    try {
+      const payment = await prisma.payment.findUnique({
+        where: { id },
+        select: { image: true },
+      });
+
+      if (!payment) {
+        return { error: "Payment not found", data: null };
+      }
+
+      if (payment.image) {
+        await deleteImage(payment.image);
+      }
+
+      await prisma.payment.delete({ where: { id } });
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  ipcMain.handle("payment:create", async (_, data) => {
+    try {
+      const { image, imageName, ...restData } = data;
+
+      let imageUrl = undefined;
+      if (image && imageName) {
+        imageUrl = await saveImage(image, imageName);
+      }
+
+      await prisma.payment.create({
+        data: {
+          enrollmentId: restData.enrollmentId,
+          amount: Number(restData.amount),
+          image: imageUrl,
+          description: restData.description,
+        },
+      });
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message };
     }
   });
 };

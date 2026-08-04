@@ -14,11 +14,11 @@ import DetailsData from "../../../components/details/DetailsData";
 
 const PaymentsDetailsInfoCard = ({
   enrollment,
-  payments,
+  paymentsTimes,
   totalPaid,
 }: {
   enrollment: any;
-  payments: any;
+  paymentsTimes: number;
   totalPaid: number;
 }) => {
   return (
@@ -80,7 +80,7 @@ const PaymentsDetailsInfoCard = ({
                 className="rounded-none"
                 border={false}
               >
-                <p className="font-medium">{payments.length}</p>
+                <p className="font-medium">{paymentsTimes}</p>
               </DetailsData>
             </div>
 

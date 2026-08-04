@@ -17,7 +17,6 @@ import {
   AvatarImage,
 } from "../../../components/ui/avatar";
 import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
-import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import type { TableHeadType } from "../../../types/TableHeader";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import TableIconContent from "../../../components/table/TableIconContent";
@@ -225,7 +224,7 @@ const PaymentsList = ({
               {formatDate(payment.updatedAt)}
             </TableCell>
             <TableCell>
-              <TableActionButtonsContainer onView={() => {}}>
+              <TableActionButtonsContainer>
                 <TableActionButton
                   onClick={() => {
                     navigate(`/payments/${payment.id}`);

@@ -10,17 +10,20 @@ import {
 } from "../ui/empty";
 import { useNavigate, useSearchParams } from "react-router";
 import { Card } from "../ui/card";
+import { cn } from "../../lib/utils";
 
 const EmptyComponent = ({
   title = "No courses yet",
   description = "There are no courses available at the moment. Please add a course to get started!",
   action,
   icon: Icon,
+  className,
 }: {
   title?: string;
   description?: string;
   action?: { label: string; link: string };
   icon: LucideIcon;
+  className?: string;
 }) => {
   const [searchParams] = useSearchParams();
 
@@ -29,7 +32,7 @@ const EmptyComponent = ({
   const navigate = useNavigate();
 
   return (
-    <Card className="shadow-sm py-16">
+    <Card className={cn("shadow-sm py-16", className)}>
       <Empty>
         <EmptyHeader>
           <EmptyMedia variant="icon" className="size-20">

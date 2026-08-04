@@ -56,7 +56,7 @@ const formSchema = z
   });
 
 const ClassesEditPage = () => {
-  const data = useLoaderData();
+  const classData = useLoaderData();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -79,13 +79,13 @@ const ClassesEditPage = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      teacherId: data.teacher.id,
-      courseId: data.course.id,
-      startDate: data.startDate,
-      startTime: data.startTime,
-      endTime: data.endTime,
-      days: data.days,
-      description: data.description ?? "",
+      teacherId: classData.teacher.id,
+      courseId: classData.course.id,
+      startDate: classData.startDate,
+      startTime: classData.startTime,
+      endTime: classData.endTime,
+      days: classData.days,
+      description: classData.description ?? "",
     },
   });
 
@@ -128,7 +128,7 @@ const ClassesEditPage = () => {
             <Field>
               <Label>Batch</Label>
 
-              <Input value={data.batch} readOnly />
+              <Input value={classData.batch} readOnly />
             </Field>
 
             <Controller
@@ -140,10 +140,10 @@ const ClassesEditPage = () => {
                   fieldState={fieldState}
                   setValue={form.setValue}
                   defaultSelectedCourse={{
-                    id: data.course.id,
-                    image: data.course_image,
-                    price: data.price,
-                    name: data.course.name,
+                    id: classData.course.id,
+                    image: classData.course_image,
+                    price: classData.price,
+                    name: classData.course.name,
                   }}
                 />
               )}
@@ -156,9 +156,9 @@ const ClassesEditPage = () => {
                   field={field}
                   fieldState={fieldState}
                   defaultSelectedTeacher={{
-                    id: data.id,
-                    image: data.teacher_image,
-                    name: data.teacher.name,
+                    id: classData.teacher.id,
+                    image: classData.teacher_image,
+                    name: classData.teacher.name,
                   }}
                 />
               )}

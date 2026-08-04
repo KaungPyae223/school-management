@@ -12,10 +12,13 @@ export const useDeleteEnrollment = (id: number) => {
           queryKey: ["enrollments", id],
         }),
         queryClient.invalidateQueries({
+          queryKey: ["payments"],
+        }),
+        queryClient.invalidateQueries({
           queryKey: ["classes_enrollments", id],
         }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
-       ]);
+      ]);
     },
   });
 };

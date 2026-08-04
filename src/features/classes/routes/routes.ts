@@ -1,4 +1,5 @@
 import ErrorPage from "../../../components/errors/ErrorPage";
+import { classService } from "../../../services/classes";
 
 const routes = [
   {
@@ -16,7 +17,7 @@ const routes = [
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const result = await window.api.getClassDetails(Number(params.classId));
+      const result = await classService.getClassDetails(Number(params.classId));
 
       if (result.error) {
         throw new Error(result.error);
@@ -41,7 +42,7 @@ const routes = [
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const result = await window.api.getClassDetails(Number(params.classId));
+      const result = await classService.getClassDetails(Number(params.classId));
 
       if (result.error) {
         throw new Error(result.error);

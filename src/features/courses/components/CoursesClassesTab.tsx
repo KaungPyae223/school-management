@@ -7,7 +7,7 @@ import Paginate from "../../../components/paginate/Paginate";
 import { courseService } from "../../../services/courses";
 import CoursesClassesList from "./CoursesClassesList";
 
-const Courses = ({ id }: { id: number }) => {
+const CoursesClassesTab = ({ id }: { id: number }) => {
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading } = useAppQuery({
@@ -33,4 +33,4 @@ const Courses = ({ id }: { id: number }) => {
   );
 };
 
-export default Courses;
+export default CoursesClassesTab;

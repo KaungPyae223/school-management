@@ -1,21 +1,41 @@
 export const paymentService = {
-  getAllPayments: async (data: any) => {
-    const res = await window.api.getAllPayments(data);
+  createPayment: async (payload: any) => {
+    const data = await window.api.createPayment(payload);
 
-    if (res.error) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
+  },
+
+  getAllPayments: async (payload: any) => {
+    const data = await window.api.getAllPayments(payload);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
   },
 
   getAllPaymentsByEnrollment: async (id: number) => {
-    const res = await window.api.getAllPaymentsByEnrollment(id);
+    const data = await window.api.getAllPaymentsByEnrollment(id);
 
-    if (res.error) {
-      throw new Error(res.error);
+    if (data.error) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
+  },
+
+  deletePayment: async (id: number) => {
+    const data = await window.api.deletePayment(id);
+
+    if (!data.success) {
+      throw new Error(data.error);
+    }
+
+    return data;
   },
 };

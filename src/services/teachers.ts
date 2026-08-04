@@ -1,22 +1,22 @@
 export const teacherService = {
   createTeacher: async (payload: any) => {
-    const res = await window.api.createTeacher(payload);
+    const data = await window.api.createTeacher(payload);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
   updateTeacher: async (payload: any) => {
-    const res = await window.api.updateTeacher(payload);
+    const data = await window.api.updateTeacher(payload);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
   getAllTeachers: async (params: any) => {
@@ -29,24 +29,34 @@ export const teacherService = {
     return data;
   },
 
-  deleteTeacher: async (id: number) => {
-    const res = await window.api.deleteTeacher(id);
+  getTeacher: async (id: number) => {
+    const data = await window.api.getTeacher(id);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (data.error) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
-  restoreTeacher: async (id: number) => {
-    const res = await window.api.restoreTeacher(id);
+  deleteTeacher: async (id: number) => {
+    const data = await window.api.deleteTeacher(id);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
+  },
+
+  datatoreTeacher: async (id: number) => {
+    const data = await window.api.datatoreTeacher(id);
+
+    if (!data.success) {
+      throw new Error(data.error);
+    }
+
+    return data;
   },
 
   getTeacherClasses: async (params: any) => {

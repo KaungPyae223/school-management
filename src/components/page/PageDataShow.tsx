@@ -10,6 +10,7 @@ const PageDataShow = ({
   emptyTitle,
   emptyIcon,
   action,
+  className,
 }: {
   isLoading: boolean;
   dataLength: number;
@@ -18,8 +19,9 @@ const PageDataShow = ({
   emptyTitle: string;
   emptyIcon: LucideIcon;
   action?: { label: string; link: string };
+  className?: string;
 }) => {
-  if (isLoading) return <LoadingComponent />;
+  if (isLoading) return <LoadingComponent className={className} />;
 
   if (dataLength === 0)
     return (
@@ -28,6 +30,7 @@ const PageDataShow = ({
         title={emptyTitle}
         icon={emptyIcon}
         action={action}
+        className={className}
       />
     );
 

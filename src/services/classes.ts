@@ -1,46 +1,47 @@
-export const classesService = {
+export const classService = {
   createClass: async (payload: any) => {
-    const res = await window.api.createClass(payload);
+    const data = await window.api.createClass(payload);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
   getAllClasses: async (payload: any) => {
-    const res = await window.api.getAllClasses(payload);
-    if (res.error) {
-      throw new Error(res.error);
+    const data = await window.api.getAllClasses(payload);
+    if (data.error) {
+      throw new Error(data.error);
     }
-    return res;
+    return data;
   },
   updateClass: async (payload: any) => {
-    const res = await window.api.updateClass(payload);
-    if (!res.success) {
-      throw new Error(res.error);
+    const data = await window.api.updateClass(payload);
+    if (!data.success) {
+      throw new Error(data.error);
     }
-    return res;
+    return data;
   },
   deleteClass: async (id: number) => {
-    const res = await window.api.deleteClass(id);
-    if (!res.success) {
-      throw new Error(res.error);
+    const data = await window.api.deleteClass(id);
+    if (!data.success) {
+      throw new Error(data.error);
     }
-    return res;
+    return data;
   },
-  getClass: async (id: number) => {
-    const res = await window.api.getClass(id);
-    if (res.error) {
-      throw new Error(res.error);
+
+  getClassDetails: async (id: number) => {
+    const data = await window.api.getClassDetails(id);
+    if (data.error) {
+      throw new Error(data.error);
     }
-    return res;
+    return data;
   },
   completeClass: async (id: number) => {
-    const res = await window.api.completeClass(id);
-    if (!res.success) {
-      throw new Error(res.error);
+    const data = await window.api.completeClass(id);
+    if (!data.success) {
+      throw new Error(data.error);
     }
-    return res;
+    return data;
   },
 };

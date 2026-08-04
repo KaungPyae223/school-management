@@ -9,7 +9,7 @@ import Paginate from "../../../components/paginate/Paginate";
 import { AnimatePresence, m } from "framer-motion";
 import ClassesHeader from "../components/ClassesHeader";
 import ClassesGrid from "../components/ClassesGrid";
-import { classesService } from "../../../services/classes";
+import { classService } from "../../../services/classes";
 import ClassesList from "../components/ClassesList";
 import PageDataShow from "../../../components/page/PageDataShow";
 
@@ -24,7 +24,7 @@ const ClassesPage = () => {
 
   const { data, isLoading } = useAppQuery({
     queryKey: ["classes", activeQueryParams],
-    queryFn: () => classesService.getAllClasses(activeQueryParams),
+    queryFn: () => classService.getAllClasses(activeQueryParams),
   }) as { data: ResponseDataType; isLoading: boolean };
 
   return (

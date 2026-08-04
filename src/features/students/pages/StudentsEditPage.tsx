@@ -138,7 +138,7 @@ const StudentEdit = () => {
                   id="image"
                   field={field}
                   fieldState={fieldState}
-                  oldImageURL={data.image}
+                  oldImageURL={student.image}
                 />
               )}
             />

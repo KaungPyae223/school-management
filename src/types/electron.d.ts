@@ -149,6 +149,9 @@ declare global {
       getEnrollment: (id: number) => Promise<{ data?: any; error?: string }>;
 
       // Payments
+      createPayment: (
+        data: any,
+      ) => Promise<{ success: boolean; error?: string }>;
       getAllPayments: (data: {
         page?: number;
         limit?: number;
@@ -159,6 +162,9 @@ declare global {
       getAllPaymentsByEnrollment: (
         id: number,
       ) => Promise<{ data?: any[]; error?: string }>;
+      deletePayment: (
+        id: number,
+      ) => Promise<{ success: boolean; error?: string }>;
     };
   }
 }

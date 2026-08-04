@@ -87,10 +87,15 @@ const EnrollPage = () => {
     setConfirmDialogOpen(true);
   };
 
-  const editClass = async () => {
+  const enrollClass = async () => {
     setErrorMessage("");
     try {
       const data = form.getValues();
+
+      if (data.price < data.amount) {
+        toast.error("You pay exceed the price");
+        return;
+      }
 
       const imageData = await generateImageData(data.image);
 
@@ -206,7 +211,7 @@ const EnrollPage = () => {
       <ConfirmDialog
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
-        onConfirm={editClass}
+        onConfirm={enrollClass}
         title="Enroll in this class?"
         description="Please confirm that you want to enroll in this class with the provided information. You can edit the class later if needed."
       />

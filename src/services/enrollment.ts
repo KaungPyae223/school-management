@@ -1,12 +1,12 @@
 export const enrollmentService = {
   createEnrollment: async (payload: any) => {
-    const res = await window.api.createEnrollment(payload);
+    const data = await window.api.createEnrollment(payload);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
   getEnrollmentByClass: async (queryParams: any) => {
     const data = await window.api.getEnrollmentByClass(queryParams);
@@ -29,12 +29,12 @@ export const enrollmentService = {
   },
 
   deleteEnrollment: async (id: number) => {
-    const res = await window.api.deleteEnrollment(id);
+    const data = await window.api.deleteEnrollment(id);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 };

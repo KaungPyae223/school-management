@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { classesService } from "../../../services/classes";
+import { classService } from "../../../services/classes";
 
 export const useCreateClass = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: classesService.createClass,
+    mutationFn: classService.createClass,
     onSuccess: () => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["classes"] }),

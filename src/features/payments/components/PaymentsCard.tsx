@@ -3,6 +3,7 @@ import {
   WalletCards,
   CreditCard,
   StickyNote,
+  Trash2,
 } from "lucide-react";
 import {
   Card,
@@ -15,83 +16,104 @@ import { formatCurrency } from "../../../utils/format-currency";
 import { Badge } from "../../../components/ui/badge";
 import { formatDate } from "../../../utils/format-date";
 import DetailsData from "../../../components/details/DetailsData";
+import { useState } from "react";
+import PaymentsDeleteAlert from "./PaymentsDeleteAlert";
+import { Button } from "../../../components/ui/button";
 
 const PaymentsCard = ({
-  description,
-  amountPaid,
-  amountDue,
+  data,
   remainingAmount,
-  date,
-  receipt,
+  amountDue,
   index,
+  classId,
 }: {
-  description: string;
-  amountPaid: number;
-  amountDue: number;
-  remainingAmount: number;
-  date: Date;
-  receipt?: string;
+  data: any;
   index: number;
+  remainingAmount: number;
+  amountDue: number;
+  classId: number;
 }) => {
+  const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
+    useState<boolean>(false);
+
   return (
-    <Card className="mx-auto w-full overflow-hidden shadow-sm sm:max-w-lg">
-      <CardHeader className="border-b bg-muted/30">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Payment Details</CardTitle>
-          <Badge variant="outline" className="px-3 py-1">
-            # {index}
-          </Badge>
-        </div>
-      </CardHeader>
-
-      <CardContent className="space-y-5 ">
-        {description && (
-          <DetailsData icon={StickyNote} label={"Description"}>
-            <p className="font-medium">{description}</p>
-          </DetailsData>
-        )}
-
-        <div className="grid gap-3 sm:grid-cols-3">
-          <DetailsData icon={CalendarDays} label={"Payment date"}>
-            <p className="font-medium">{formatDate(date)}</p>
-          </DetailsData>
-          <DetailsData icon={WalletCards} label={"Amount due"}>
-            <p className="font-medium">{formatCurrency(amountDue)}</p>
-          </DetailsData>
-          <DetailsData icon={CreditCard} label={"Paid amount"}>
-            <p className="font-medium">{formatCurrency(amountPaid)}</p>
-          </DetailsData>
-        </div>
-
-        <div className="flex items-center justify-between rounded-lg bg-primary/5 px-4 py-3">
-          <span className="text-sm font-medium text-muted-foreground">
-            Remaining amount
-          </span>
-
-          <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
-            {formatCurrency(remainingAmount)}
-          </span>
-        </div>
-
-        {receipt && (
-          <>
-            <Separator />
-
-            <div className="space-y-3">
-              <div>
-                <h3 className="text-sm font-semibold">Payment receipt</h3>
-              </div>
-
-              <img
-                src={receipt}
-                alt="Payment receipt"
-                className="w-full object-cover rounded-xl"
-              />
+    <>
+      <Card className="mx-auto w-full overflow-hidden shadow-sm sm:max-w-lg">
+        <CardHeader className="border-b bg-muted/30">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="text-sm py-3 px-3">
+                <span className="text-muted-foreground">#</span> {index}
+              </Badge>
+              <CardTitle className="text-lg">Payment Details</CardTitle>
             </div>
-          </>
-        )}
-      </CardContent>
-    </Card>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="destructive"
+                size="icon"
+                onClick={() => setDeleteConfirmDialogOpen(true)}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-5 ">
+          {data.description && (
+            <DetailsData icon={StickyNote} label={"Description"}>
+              <p className="font-medium">{data.description}</p>
+            </DetailsData>
+          )}
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <DetailsData icon={CalendarDays} label={"Payment date"}>
+              <p className="font-medium">{formatDate(data.createdAt)}</p>
+            </DetailsData>
+            <DetailsData icon={WalletCards} label={"Amount due"}>
+              <p className="font-medium">{formatCurrency(amountDue)}</p>
+            </DetailsData>
+            <DetailsData icon={CreditCard} label={"Paid amount"}>
+              <p className="font-medium">{formatCurrency(data.amount)}</p>
+            </DetailsData>
+          </div>
+
+          <div className="flex items-center justify-between rounded-lg bg-primary/5 px-4 py-3">
+            <span className="text-sm font-medium text-muted-foreground">
+              Remaining amount
+            </span>
+
+            <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+              {formatCurrency(remainingAmount)}
+            </span>
+          </div>
+
+          {data.image && (
+            <>
+              <Separator />
+
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-sm font-semibold">Payment receipt</h3>
+                </div>
+
+                <img
+                  src={data.image}
+                  alt="Payment receipt"
+                  className="w-full object-cover rounded-xl"
+                />
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+      <PaymentsDeleteAlert
+        confirmDialogOpen={deleteConfirmDialogOpen}
+        setConfirmDialogOpen={setDeleteConfirmDialogOpen}
+        id={data.id}
+        classId={classId}
+      />
+    </>
   );
 };
 

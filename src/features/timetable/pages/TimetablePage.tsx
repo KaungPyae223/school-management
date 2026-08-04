@@ -3,7 +3,7 @@ import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { m, AnimatePresence } from "framer-motion";
 import { useAppQuery } from "../../../hooks/use-app-query";
-import { classesService } from "../../../services/classes";
+import { classService } from "../../../services/classes";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
 import TimetableHeader from "../components/TimetableHeader";
 import { useFormatData } from "../hooks/useFormatData";
@@ -30,7 +30,7 @@ const TimetablePage = () => {
 
   const { data } = useAppQuery({
     queryKey: ["classes", params],
-    queryFn: () => classesService.getAllClasses(params),
+    queryFn: () => classService.getAllClasses(params),
   }) as { data: ResponseDataType };
 
   const formattedData = data?.data?.map(useFormatData);

@@ -1,4 +1,5 @@
 import ErrorPage from "../../../components/errors/ErrorPage";
+import { studentService } from "../../../services/students";
 
 const routes = [
   {
@@ -24,11 +25,7 @@ const routes = [
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const result = await window.api.getStudent(Number(params.studentId));
-
-      if (result.error) {
-        throw new Error(result.error);
-      }
+      const result = await studentService.getStudent(Number(params.studentId));
 
       return result.data;
     },
@@ -41,11 +38,7 @@ const routes = [
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const result = await window.api.getStudent(Number(params.studentId));
-
-      if (result.error) {
-        throw new Error(result.error);
-      }
+      const result = await studentService.getStudent(Number(params.studentId));
 
       return result.data;
     },

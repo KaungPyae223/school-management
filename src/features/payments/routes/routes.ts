@@ -1,4 +1,5 @@
 import ErrorPage from "../../../components/errors/ErrorPage";
+import { enrollmentService } from "../../../services/enrollment";
 
 const routes = [
   {
@@ -16,23 +17,11 @@ const routes = [
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const payments = await window.api.getAllPaymentsByEnrollment(
+      const enrollment = await enrollmentService.getEnrollment(
         Number(params.enrollmentId),
       );
 
-      if (payments.error) {
-        throw new Error(payments.error);
-      }
-
-      const enrollment = await window.api.getEnrollment(
-        Number(params.enrollmentId),
-      );
-
-      if (enrollment.error) {
-        throw new Error(enrollment.error);
-      }
-
-      return { payments: payments.data, enrollment: enrollment.data };
+      return { enrollment: enrollment.data };
     },
     ErrorBoundary: ErrorPage,
   },

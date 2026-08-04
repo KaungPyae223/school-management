@@ -53,7 +53,7 @@ export const enrollmentIPCs = () => {
       await prisma.payment.create({
         data: {
           enrollmentId: enrollment.id,
-          amount: restData.price,
+          amount: Number(restData.amount),
           image: imageUrl,
           description: restData.description,
         },

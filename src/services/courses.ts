@@ -1,22 +1,22 @@
 export const courseService = {
   createCourse: async (payload: any) => {
-    const res = await window.api.createCourse(payload);
+    const data = await window.api.createCourse(payload);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
   updateCourse: async (payload: any) => {
-    const res = await window.api.updateCourse(payload);
+    const data = await window.api.updateCourse(payload);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
   getAllCourses: async (params: any) => {
@@ -39,6 +39,16 @@ export const courseService = {
     return data;
   },
 
+  getCourse: async (id: number) => {
+    const data = await window.api.getCourse(id);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
   getCourseClasses: async (params: any) => {
     const data = await window.api.getCourseClasses(params);
 
@@ -50,22 +60,22 @@ export const courseService = {
   },
 
   deleteCourse: async (id: number) => {
-    const res = await window.api.deleteCourse(id);
+    const data = await window.api.deleteCourse(id);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 
-  restoreCourse: async (id: number) => {
-    const res = await window.api.restoreCourse(id);
+  datatoreCourse: async (id: number) => {
+    const data = await window.api.datatoreCourse(id);
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!data.success) {
+      throw new Error(data.error);
     }
 
-    return res;
+    return data;
   },
 };

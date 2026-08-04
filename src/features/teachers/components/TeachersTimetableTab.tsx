@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTimetableChange } from "../../timetable/hooks/useTimetableChange";
 import { useAppQuery } from "../../../hooks/use-app-query";
-import { classesService } from "../../../services/classes";
+import { classService } from "../../../services/classes";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { useFormatData } from "../../timetable/hooks/useFormatData";
 import TimetableCourse from "../../timetable/components/TimetableCourse";
@@ -17,7 +17,7 @@ const TeachersTimetableTab = ({ id }: { id: number }) => {
   const { data: timetableData } = useAppQuery({
     queryKey: ["classes", { ...params, teacherId: id }],
     queryFn: () =>
-      classesService.getAllClasses({
+      classService.getAllClasses({
         ...params,
         teacherId: id,
       }),
