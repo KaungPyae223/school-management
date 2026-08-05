@@ -1,12 +1,7 @@
 import {
-  BadgeCheck,
   BookOpen,
-  CalendarCheck2,
-  CalendarDays,
-  CalendarOff,
   CheckCircle2,
   Circle,
-  Clock,
   Currency,
   DollarSign,
   PlayCircle,
@@ -15,14 +10,11 @@ import {
   XLineTop,
 } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../../../components/ui/card";
-import { Badge } from "../../../components/ui/badge";
-
 import { formatCurrency } from "../../../utils/format-currency";
 import { formatDate } from "../../../utils/format-date";
 import { Separator } from "../../../components/ui/separator";
-
-import { changeTime } from "../../../utils/change-time";
 import DetailsData from "../../../components/details/DetailsData";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const CoursesDetailsCard = ({ data }: { data: any }) => {
   console.log("Courses Data", data);
@@ -30,22 +22,12 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
   return (
     <Card className="shadow-sm flex flex-row gap-1.5">
       <CardHeader className="w-lg">
-        <div className="relative rounded-md overflow-hidden">
-          {data.image ? (
-            <>
-              <img
-                src={data.image}
-                alt={data.name}
-                className="w-full object-cover aspect-square"
-              />
-              <div className="absolute inset-0 bg-black/20"></div>
-            </>
-          ) : (
-            <div className="w-full h-full bg-foreground/50 backdrop-blur-sm flex items-center justify-center">
-              <BookOpen size={48} className="text-background" />
-            </div>
-          )}
-        </div>
+        <ImageDisplay
+          image={data.image}
+          alt={data.name}
+          fallbackIcon={BookOpen}
+          display="details"
+        />
       </CardHeader>
       <CardContent className=" space-y-3 w-full">
         <div className="flex items-center gap-2">

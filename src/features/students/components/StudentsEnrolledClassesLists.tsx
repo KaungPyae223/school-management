@@ -20,6 +20,7 @@ import TableActionButton from "../../../components/table/TableActionButton";
 import { useNavigate } from "react-router";
 import StudentsEnrolledClassesDeleteAlert from "./StudentsEnrolledClassesDeleteAlert";
 import TableIconContent from "../../../components/table/TableIconContent";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
   const [enrolledID, setEnrolledID] = useState<number>(0);
@@ -94,17 +95,12 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
             <TableRow key={enrollmentData.id}>
               <TableCell>
                 <div className="flex items-center gap-3">
-                  {enrollmentData.course_image ? (
-                    <img
-                      src={enrollmentData.course_image}
-                      alt={enrollmentData.course_name}
-                      className="h-10 w-10 rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 bg-foreground/50 rounded-lg backdrop-blur-sm flex items-center justify-center">
-                      <BookOpen size={20} className="text-background" />
-                    </div>
-                  )}
+                  <ImageDisplay
+                    image={enrollmentData.course_image}
+                    alt={enrollmentData.course_name}
+                    fallbackIcon={BookOpen}
+                    display="list"
+                  />
                   <div className="space-y-0.5">
                     <p className="font-medium text-foreground">
                       {enrollmentData.course_name}

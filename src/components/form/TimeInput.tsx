@@ -1,4 +1,11 @@
+import { CalendarIcon } from "lucide-react";
 import { Input } from "../ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "../ui/input-group";
+import { useRef } from "react";
 
 const dateToTimeString = (value: unknown): string => {
   if (value instanceof Date && !isNaN(value.getTime())) {
@@ -28,17 +35,36 @@ const TimeInput = ({
 }) => {
   const { value, onChange, ...restField } = field;
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleShowPicker = () => {
+    if (inputRef.current && "showPicker" in inputRef.current) {
+      try {
+        inputRef.current.showPicker();
+      } catch (error) {
+        console.error("Failed to open native picker:", error);
+      }
+    }
+  };
+
   return (
-    <Input
-      {...restField}
-      type="time"
-      id={id}
-      value={dateToTimeString(value)}
-      onChange={(e) => onChange(timeStringToDate(e.target.value))}
-      aria-invalid={fieldState.invalid}
-      autoComplete="off"
-      disabled={disabled ?? field.disabled}
-    />
+    <InputGroup onClick={handleShowPicker}>
+      <InputGroupInput
+        {...restField}
+        ref={inputRef}
+        type="time"
+        id={id}
+        value={dateToTimeString(value)}
+        onChange={(e) => onChange(timeStringToDate(e.target.value))}
+        aria-invalid={fieldState.invalid}
+        autoComplete="off"
+        disabled={disabled ?? field.disabled}
+        className="cursor-pointer [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+      />
+      <InputGroupAddon align="inline-end" title="Open time picker">
+        <CalendarIcon />
+      </InputGroupAddon>
+    </InputGroup>
   );
 };
 

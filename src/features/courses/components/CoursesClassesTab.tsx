@@ -1,7 +1,7 @@
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 import { BookOpen } from "lucide-react";
 import Paginate from "../../../components/paginate/Paginate";
 import { courseService } from "../../../services/courses";
@@ -20,7 +20,7 @@ const CoursesClassesTab = ({ id }: { id: number }) => {
   }) as { data: ResponseDataType; isLoading: boolean };
 
   return (
-    <PageDataShow
+    <DataShow
       isLoading={isLoading}
       dataLength={data?.data.length}
       emptyDescription="There are no classes taken by this teacher. Please assign a class to this teacher to get started!"
@@ -29,7 +29,7 @@ const CoursesClassesTab = ({ id }: { id: number }) => {
     >
       <CoursesClassesList data={data?.data} />
       <Paginate meta={data?.meta} />
-    </PageDataShow>
+    </DataShow>
   );
 };
 

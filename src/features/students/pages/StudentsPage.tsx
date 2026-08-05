@@ -11,7 +11,7 @@ import { m, AnimatePresence } from "framer-motion";
 import StudentsGrid from "../components/StudentsGrid";
 import StudentList from "../components/StudentsList";
 import { studentService } from "../../../services/students";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 
 const StudentsPage = () => {
   useAddBreadcrumb({
@@ -30,7 +30,7 @@ const StudentsPage = () => {
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">
       <StudentsHeader tab={view} />
-      <PageDataShow
+      <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
         emptyDescription="There are no students available at the moment. Please add a student to get started!"
@@ -67,7 +67,7 @@ const StudentsPage = () => {
           )}
         </AnimatePresence>
         <Paginate meta={data?.meta} />
-      </PageDataShow>
+      </DataShow>
     </Tabs>
   );
 };

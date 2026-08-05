@@ -27,6 +27,7 @@ import { formatDate } from "../../../utils/format-date";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../../utils/format-currency";
 import { cn } from "../../../lib/utils";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const TimetableDetailsContent = ({ classData }: { classData: any }) => {
   if (!classData) {
@@ -39,17 +40,13 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
   return (
     <DrawerContent>
       <div className="space-y-3 px-4 mt-4">
-        {classData.course_image ? (
-          <img
-            src={classData.course_image}
-            alt=""
-            className="w-full h-48 rounded-md object-cover border border-border"
-          />
-        ) : (
-          <div className="w-full h-48 rounded-md bg-foreground/50 border border-border backdrop-blur-sm flex items-center justify-center">
-            <BookOpen size={48} className="text-background" />
-          </div>
-        )}
+        <ImageDisplay
+          image={classData.course_image}
+          alt=""
+          fallbackIcon={BookOpen}
+          display="timetable"
+        />
+
         <div className="flex items-center justify-between gap-2">
           <p className="text-lg">{classData.course_name}</p>
           <div className="flex items-center gap-2">
@@ -104,7 +101,7 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
             </div>
             <div className="flex items-center gap-1.5 mt-2.5">
               {openingDays.map((day) => (
-                <Badge variant="outline" className="bg-white" key={day}>
+                <Badge variant="outline"  key={day}>
                   {day.slice(0, 3)}
                 </Badge>
               ))}

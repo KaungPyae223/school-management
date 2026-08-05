@@ -11,7 +11,7 @@ import ClassesHeader from "../components/ClassesHeader";
 import ClassesGrid from "../components/ClassesGrid";
 import { classService } from "../../../services/classes";
 import ClassesList from "../components/ClassesList";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 
 const ClassesPage = () => {
   useAddBreadcrumb({
@@ -30,7 +30,7 @@ const ClassesPage = () => {
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">
       <ClassesHeader tab={view} isTrashView={false} />
-      <PageDataShow
+      <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
         emptyDescription="There are no classes available at the moment. Please add a class to get started!"
@@ -67,7 +67,7 @@ const ClassesPage = () => {
           )}
         </AnimatePresence>
         <Paginate meta={data?.meta} />
-      </PageDataShow>
+      </DataShow>
     </Tabs>
   );
 };

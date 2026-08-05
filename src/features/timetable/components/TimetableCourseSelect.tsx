@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, LibraryBig } from "lucide-react";
+import { Search, LibraryBig, BookOpen } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -20,6 +20,7 @@ import { debounce } from "lodash";
 import { useSearchParams } from "react-router";
 
 import { useSetQueryParams } from "../../../hooks/use-set-query-params";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 interface Course {
   id: string;
@@ -198,9 +199,11 @@ const TimetableCourseSelect = () => {
                   onCheckedChange={() => toggleColumn(course.id.toString())}
                   onSelect={(e) => e.preventDefault()}
                 >
-                  <img
-                    src={course.image}
-                    className="h-10 w-10 object-cover items-center rounded-md"
+                  <ImageDisplay
+                    image={course.image}
+                    alt={course.name}
+                    fallbackIcon={BookOpen}
+                    display="list"
                   />
                   <span className="font-medium text-sm truncate">
                     {course.name}

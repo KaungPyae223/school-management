@@ -25,6 +25,7 @@ import { formatDate } from "../../../utils/format-date";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import TableActionButton from "../../../components/table/TableActionButton";
 import { useNavigate } from "react-router";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const PaymentsList = ({
   data,
@@ -141,17 +142,12 @@ const PaymentsList = ({
             </TableCell>
             <TableCell hidden={!selectedColumns.includes("Name")}>
               <div className="flex items-center gap-3">
-                {payment.courseImage ? (
-                  <img
-                    src={payment.courseImage}
-                    alt={payment.courseName}
-                    className="h-10 w-10 rounded-lg object-cover"
-                  />
-                ) : (
-                  <div className="w-10 h-10 bg-foreground/50 rounded-lg backdrop-blur-sm flex items-center justify-center">
-                    <BookOpen size={20} className="text-background" />
-                  </div>
-                )}
+                <ImageDisplay
+                  image={payment.courseImage}
+                  alt={payment.courseName}
+                  fallbackIcon={BookOpen}
+                  display="list"
+                />
                 <div className="space-y-0.5">
                   <p className="font-medium text-foreground">
                     {payment.courseName}

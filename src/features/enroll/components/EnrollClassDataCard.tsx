@@ -2,6 +2,7 @@ import React from "react";
 import { Badge } from "../../../components/ui/badge";
 
 import {
+  BookOpen,
   CalendarClock,
   CalendarDays,
   Clock,
@@ -14,16 +15,18 @@ import ClassesTeacherCard from "../../classes/components/ClassesTeacherCard";
 import { Separator } from "../../../components/ui/separator";
 import { changeTime } from "../../../utils/change-time";
 import DetailsData from "../../../components/details/DetailsData";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const EnrollClassDataCard = ({ data }: { data: any }) => {
   return (
     <div className="overflow-hidden rounded-xl border border-border">
       {/* Top Section: Course & Teacher */}
-      <div className="flex  items-center  ">
-        <img
-          src={data.course_image}
+      <div className="flex  items-center">
+        <ImageDisplay
+          image={data.course_image}
           alt={data.course.name}
-          className="h-24 w-24 m-4 shrink-0 border border-border  rounded-lg object-cover"
+          display="data"
+          fallbackIcon={BookOpen}
         />
         <Separator orientation="vertical" />
         <div className="flex-1 space-y-3 m-4">
@@ -51,7 +54,7 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
           >
             <div className="space-x-1 space-y-1">
               {data.days.split(",").map((day) => (
-                <Badge variant="outline" className="bg-white" key={day}>
+                <Badge variant="outline" key={day}>
                   {day.slice(0, 3)}
                 </Badge>
               ))}

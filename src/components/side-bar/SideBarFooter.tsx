@@ -1,3 +1,4 @@
+import { Link, NavLink } from "react-router";
 import {
   SidebarFooter,
   SidebarMenu,
@@ -19,10 +20,10 @@ const Footer = () => {
             </a>
           </SidebarMenuButton>
           <SidebarMenuButton asChild tooltip="Settings">
-            <a href="#">
+            <NavLink to="/settings">
               <Settings />
               <span>Settings</span>
-            </a>
+            </NavLink>
           </SidebarMenuButton>
         </SidebarMenuItem>
 

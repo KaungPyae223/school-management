@@ -8,9 +8,16 @@ import {
 } from "../../../components/ui/avatar";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { formatCurrency } from "../../../utils/format-currency";
-import { DollarSign, Wallet, CircleDollarSign, Hash } from "lucide-react";
+import {
+  DollarSign,
+  Wallet,
+  CircleDollarSign,
+  Hash,
+  BookOpen,
+} from "lucide-react";
 import FormHeader from "../../../components/form/FormHeader";
 import DetailsData from "../../../components/details/DetailsData";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const PaymentsDetailsInfoCard = ({
   enrollment,
@@ -27,10 +34,11 @@ const PaymentsDetailsInfoCard = ({
       <CardContent>
         <div className="overflow-hidden rounded-xl border border-border">
           <div className="flex items-center">
-            <img
-              src={enrollment.courseImage}
+            <ImageDisplay
+              image={enrollment.courseImage}
               alt={enrollment.class.course.name}
-              className="h-24 w-24 m-4 shrink-0 border border-border  rounded-lg object-cover"
+              fallbackIcon={BookOpen}
+              display="data"
             />
             <Separator orientation="vertical" />
             <div className="flex-1 space-y-3 m-4">

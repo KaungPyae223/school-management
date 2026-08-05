@@ -12,7 +12,7 @@ import { courseService } from "../../../services/courses";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 
 const CoursesPage = () => {
   useAddBreadcrumb({
@@ -31,7 +31,7 @@ const CoursesPage = () => {
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">
       <CoursesHeader tab={view} />
-      <PageDataShow
+      <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
         emptyDescription="There are no courses available at the moment. Please add a course to get started!"
@@ -68,7 +68,7 @@ const CoursesPage = () => {
           )}
         </AnimatePresence>
         <Paginate meta={data?.meta} />
-      </PageDataShow>
+      </DataShow>
     </Tabs>
   );
 };

@@ -2,7 +2,7 @@ import LoadingComponent from "../loading/LoadingComponent";
 import EmptyComponent from "../empty/EmptyComponent";
 import { type LucideIcon } from "lucide-react";
 
-const PageDataShow = ({
+const DataShow = ({
   isLoading,
   dataLength,
   children,
@@ -37,4 +37,4 @@ const PageDataShow = ({
   return children;
 };
 
-export default PageDataShow;
+export default DataShow;

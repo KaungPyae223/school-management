@@ -35,6 +35,7 @@ import ClassesStatus from "./ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
 import { changeTime } from "../../../utils/change-time";
 import CardData from "../../../components/card-utils/CardData";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const ClassesCard = ({ classData }: { classData: any }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -49,20 +50,12 @@ const ClassesCard = ({ classData }: { classData: any }) => {
     <>
       <Card className="shadow-sm hover:shadow-md pt-0 transition-shadow duration-200 group overflow-hidden">
         <div className="relative">
-          {classData.course_image ? (
-            <>
-              <img
-                src={classData.course_image}
-                alt=""
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/20 group-hover:scale-105 transition-transform duration-300"></div>
-            </>
-          ) : (
-            <div className="w-full h-48 bg-foreground/50 backdrop-blur-sm flex items-center justify-center">
-              <BookOpen size={48} className="text-background" />
-            </div>
-          )}
+          <ImageDisplay
+            image={classData.course_image}
+            alt={classData.course_name}
+            fallbackIcon={BookOpen}
+            display="card"
+          />
           {!isTrashView && classData.status != "complete" && (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -151,7 +144,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               </div>
               <div className="flex items-center gap-1.5 mt-2.5">
                 {openingDays.map((day) => (
-                  <Badge variant="outline" className="bg-white" key={day}>
+                  <Badge variant="outline" key={day}>
                     {day.slice(0, 3)}
                   </Badge>
                 ))}

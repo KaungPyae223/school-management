@@ -27,7 +27,7 @@ const CardMenu = ({
       <DropdownMenuTrigger asChild>
         <Button
           size="icon-sm"
-          className="absolute top-3 right-3 text-primary/80 bg-white/20 hover:bg-white/40 backdrop-blur-sm border border-white/40"
+          className="absolute top-3 right-3 text-primary/80 bg-background/80 hover:bg-background/90 backdrop-blur-sm border border-border dark:border-border/50"
         >
           <EllipsisVertical />
         </Button>

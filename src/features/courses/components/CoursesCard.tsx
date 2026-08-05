@@ -23,6 +23,7 @@ import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated"
 import CardMenu from "../../../components/card-utils/CardMenu";
 import CardData from "../../../components/card-utils/CardData";
 import CoursesRestoreAlert from "./CoursesRestoreAlert";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const CoursesCard = ({ course }: { course: any }) => {
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
@@ -35,30 +36,19 @@ const CoursesCard = ({ course }: { course: any }) => {
     <>
       <Card className="shadow-sm hover:shadow-md pt-0 transition-shadow duration-200 group overflow-hidden">
         <div className="relative">
-          {course.image ? (
-            <>
-              <img
-                src={course.image}
-                alt=""
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/20 group-hover:scale-105 transition-transform duration-300"></div>
-            </>
-          ) : (
-            <div className="w-full h-48 bg-foreground/50 backdrop-blur-sm flex items-center justify-center">
-              <BookOpen size={48} className="text-background" />
-            </div>
-          )}
+          <ImageDisplay
+            image={course.image}
+            alt={course.name}
+            fallbackIcon={BookOpen}
+          />
+
           <CardMenu
             onEdit={() => navigate(`/courses/edit/${course.id}`)}
             onDelete={() => setDeleteConfirmDialogOpen(true)}
             onRestore={() => setRestoreConfirmDialogOpen(true)}
           />
           <div className="absolute bottom-3 left-3">
-            <Badge
-              variant="secondary"
-              className="text-sm shadow-sm bg-white/90 text-foreground"
-            >
+            <Badge variant="secondary" className="text-sm shadow-sm ">
               {formatCurrency(course.price)}
             </Badge>
           </div>

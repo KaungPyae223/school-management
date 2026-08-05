@@ -136,7 +136,7 @@ const EnrollStudentInput = ({
           className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
         {showStudentDropDown && studentData.length > 0 && (
-          <div className=" absolute w-full z-50 bg-white border divide-y rounded-lg mt-1">
+          <div className=" absolute w-full z-50 bg-card border divide-y rounded-lg mt-1">
             <ScrollArea className="max-h-72">
               {studentData.map((data) => (
                 <div
@@ -158,7 +158,7 @@ const EnrollStudentInput = ({
 
                   <div>
                     <p className="text-xs text-muted-foreground">Student</p>
-                    <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                    <p className="text-sm font-medium text-foreground line-clamp-1">
                       {data.name}
                     </p>
                   </div>
@@ -182,7 +182,7 @@ const EnrollStudentInput = ({
       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 
       {selectedStudent && studentValue !== 0 && (
-        <div className="mt-2 flex items-center justify-between rounded-lg border border-border  p-3 ">
+        <div className="mt-2 flex items-center justify-between rounded-lg bg-card border border-border  p-3 ">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10">
               <AvatarImage
@@ -195,7 +195,7 @@ const EnrollStudentInput = ({
             </Avatar>
             <div>
               <p className="text-xs text-muted-foreground">Student</p>
-              <p className="text-sm font-medium text-gray-900 line-clamp-1">
+              <p className="text-sm font-medium text-foreground line-clamp-1">
                 {selectedStudent.name}
               </p>
             </div>

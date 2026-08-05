@@ -144,7 +144,7 @@ const ClassesTeacherInput = ({
           className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
         {showTeacherDropDown && teacherData.length > 0 && (
-          <div className=" absolute w-full z-50 bg-white border divide-y rounded-lg mt-1">
+          <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1 shadow-lg dark:shadow-gray-900/30">
             <ScrollArea className="max-h-72">
               {teacherData.map((data) => (
                 <div
@@ -166,7 +166,7 @@ const ClassesTeacherInput = ({
 
                   <div>
                     <p className="text-xs text-muted-foreground">Teacher</p>
-                    <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                    <p className="text-sm font-medium text-foreground line-clamp-1">
                       {data.name}
                     </p>
                   </div>
@@ -190,7 +190,7 @@ const ClassesTeacherInput = ({
       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 
       {selectedTeacher && teacherValue !== 0 && (
-        <div className="mt-2 flex items-center justify-between rounded-lg border border-border  p-3 ">
+        <div className="mt-2 flex items-center justify-between rounded-lg bg-card border border-border  p-3 ">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10">
               <AvatarImage
@@ -203,7 +203,7 @@ const ClassesTeacherInput = ({
             </Avatar>
             <div>
               <p className="text-xs text-muted-foreground">Teacher</p>
-              <p className="text-sm font-medium text-gray-900 line-clamp-1">
+              <p className="text-sm font-medium text-foreground line-clamp-1">
                 {selectedTeacher.name}
               </p>
             </div>

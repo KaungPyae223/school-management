@@ -29,6 +29,7 @@ import TableActionButton from "../../../components/table/TableActionButton";
 import ClassesStatus from "./ClassesStatus";
 import { changeTime } from "../../../utils/change-time";
 import TableIconContent from "../../../components/table/TableIconContent";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const ClassesList = ({ data }: { data: any[] }) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -124,17 +125,12 @@ const ClassesList = ({ data }: { data: any[] }) => {
             <TableRow key={classData.id}>
               <TableCell hidden={!selectedColumns.includes("Name")}>
                 <div className="flex items-center gap-3">
-                  {classData.course_image ? (
-                    <img
-                      src={classData.course_image}
-                      alt={classData.course_name}
-                      className="h-10 w-10 rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 bg-foreground/50 rounded-lg backdrop-blur-sm flex items-center justify-center">
-                      <BookOpen size={20} className="text-background" />
-                    </div>
-                  )}
+                  <ImageDisplay
+                    image={classData.course_image}
+                    alt={classData.course_name}
+                    fallbackIcon={BookOpen}
+                    display="list"
+                  />
                   <div className="space-y-0.5">
                     <p className="font-medium text-foreground">
                       {classData.course_name}

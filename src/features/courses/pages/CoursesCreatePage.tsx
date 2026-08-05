@@ -23,6 +23,7 @@ import { useCreateCourse } from "../hooks/useCreateCourse";
 import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
+import NumberInput from "../../../components/form/NumberInput";
 
 const formSchema = z.object({
   image: z
@@ -147,17 +148,11 @@ const CoursesCreatePage = () => {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <RequiredLabel id="price">Price</RequiredLabel>
-                  <Input
-                    {...field}
+                  <NumberInput
+                    field={field}
+                    fieldState={fieldState}
                     id="price"
-                    type="number"
-                    aria-invalid={fieldState.invalid}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      field.onChange(val === "" ? undefined : Number(val));
-                    }}
                     placeholder="Enter course price"
-                    autoComplete="off"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />

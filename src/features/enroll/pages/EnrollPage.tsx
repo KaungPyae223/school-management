@@ -28,6 +28,7 @@ import { Label } from "../../../components/ui/label";
 import { Textarea } from "../../../components/ui/textarea";
 import { useEnrollClass } from "../hooks/useEnrollClass";
 import { generateImageData } from "../../../utils/generate-image-data";
+import NumberInput from "../../../components/form/NumberInput";
 
 const formSchema = z.object({
   classId: z.number().min(1, "Class is required"),
@@ -143,17 +144,11 @@ const EnrollPage = () => {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <RequiredLabel id="amount">Amount</RequiredLabel>
-                  <Input
-                    {...field}
+                  <NumberInput
+                    field={field}
+                    fieldState={fieldState}
                     id="amount"
-                    type="number"
-                    aria-invalid={fieldState.invalid}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      field.onChange(val === "" ? undefined : Number(val));
-                    }}
                     placeholder="Enter amount"
-                    autoComplete="off"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />

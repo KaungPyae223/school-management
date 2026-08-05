@@ -17,27 +17,18 @@ import ClassesStatus from "./ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
 import { changeTime } from "../../../utils/change-time";
 import DetailsData from "../../../components/details/DetailsData";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const ClassesDetailsCard = ({ data }: { data: any }) => {
   return (
     <Card className="shadow-sm flex flex-row gap-1.5">
       <CardHeader className="w-lg">
-        <div className="relative rounded-md overflow-hidden">
-          {data.course_image ? (
-            <>
-              <img
-                src={data.course_image}
-                alt={data.course.name}
-                className="w-full object-cover aspect-square"
-              />
-              <div className="absolute inset-0 bg-black/20"></div>
-            </>
-          ) : (
-            <div className="w-full h-full bg-foreground/50 backdrop-blur-sm flex items-center justify-center">
-              <BookOpen size={48} className="text-background" />
-            </div>
-          )}
-        </div>
+        <ImageDisplay
+          image={data.course_image}
+          alt={data.course.name}
+          fallbackIcon={BookOpen}
+          display="details"
+        />
       </CardHeader>
       <CardContent className=" space-y-3 w-full">
         <div className="flex items-center gap-2">
@@ -57,7 +48,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
           <DetailsData icon={CalendarDays} label={"Opening Days"}>
             <div className="space-x-1 space-y-1">
               {data.days.split(",").map((day) => (
-                <Badge variant="outline" className="bg-white" key={day}>
+                <Badge variant="outline" key={day}>
                   {day.slice(0, 3)}
                 </Badge>
               ))}

@@ -25,6 +25,7 @@ import { Label } from "../../../components/ui/label";
 import ImageInput from "../../../components/form/ImageInput";
 import { Textarea } from "../../../components/ui/textarea";
 import { useCreatePayment } from "../hooks/useCreatePayment";
+import NumberInput from "../../../components/form/NumberInput";
 
 const formSchema = z.object({
   amount: z.number().min(1, "Amount is required"),
@@ -127,17 +128,11 @@ const PaymentsCreateCard = ({
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <RequiredLabel id="amount">Paid Amount</RequiredLabel>
-                  <Input
-                    {...field}
+                  <NumberInput
+                    field={field}
+                    fieldState={fieldState}
                     id="amount"
-                    type="number"
-                    aria-invalid={fieldState.invalid}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      field.onChange(val === "" ? undefined : Number(val));
-                    }}
                     placeholder="Enter paid amount"
-                    autoComplete="off"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />

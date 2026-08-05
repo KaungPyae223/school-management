@@ -5,7 +5,7 @@ import PaymentsDetailsInfoCard from "../components/PaymentsDetailsInfoCard";
 import PaymentsCard from "../components/PaymentsCard";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { paymentService } from "../../../services/payments";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 import { CreditCard } from "lucide-react";
 import PaymentsCreateCard from "../components/PaymentsCreateCard";
 import { Separator } from "../../../components/ui/separator";
@@ -66,7 +66,7 @@ const PaymentsDetailsPage = () => {
         </>
       )}
 
-      <PageDataShow
+      <DataShow
         isLoading={isLoading}
         dataLength={data?.data?.length || 0}
         emptyDescription="There are no payments made for this class yet."
@@ -89,7 +89,7 @@ const PaymentsDetailsPage = () => {
             />
           );
         })}
-      </PageDataShow>
+      </DataShow>
     </div>
   );
 };

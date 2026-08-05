@@ -11,7 +11,7 @@ import { teacherService } from "../../../services/teachers";
 import TeachersHeader from "../components/TeachersHeader";
 import TeachersGrid from "../components/TeachersGrid";
 import TeachersList from "../components/TeachersList";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 
 const TeachersPage = () => {
   useAddBreadcrumb({
@@ -30,7 +30,7 @@ const TeachersPage = () => {
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">
       <TeachersHeader tab={view} />
-      <PageDataShow
+      <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
         emptyDescription="There are no teachers available at the moment. Please add a teacher to get started!"
@@ -67,7 +67,7 @@ const TeachersPage = () => {
           )}
         </AnimatePresence>
         <Paginate meta={data?.meta} />
-      </PageDataShow>
+      </DataShow>
     </Tabs>
   );
 };

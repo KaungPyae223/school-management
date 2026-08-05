@@ -17,7 +17,7 @@ import Paginate from "../../../components/paginate/Paginate";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import StudentsEnrolledClassesLists from "../components/StudentsEnrolledClassesLists";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 
 const StudentsDetailsPage = () => {
   useAddBreadcrumb({
@@ -69,7 +69,7 @@ const StudentsDetailsPage = () => {
             <SearchInput />
           </CardContent>
         </Card>
-        <PageDataShow
+        <DataShow
           isLoading={isLoading}
           dataLength={data?.data.length}
           emptyDescription="There are no attended classes available at the moment. Please add an attended class to get started!"
@@ -78,7 +78,7 @@ const StudentsDetailsPage = () => {
         >
           <StudentsEnrolledClassesLists data={data?.data} />
           <Paginate meta={data?.meta} />
-        </PageDataShow>
+        </DataShow>
       </div>
       <StudentDeleteAlert
         confirmDialogOpen={confirmDialogOpen}

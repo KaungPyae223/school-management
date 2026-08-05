@@ -90,8 +90,8 @@ const ImageInput = <T extends FieldValues = FieldValues>({
             className={cn(
               "border-2 mt-3 border-dashed rounded-xl p-6 text-center w-full transition-all cursor-pointer",
               isDragging
-                ? "border-blue-400 bg-blue-50"
-                : "border-gray-300 hover:border-gray-400 hover:bg-gray-50",
+                ? "border-blue-400 bg-blue-50 dark:border-blue-500 dark:bg-blue-950/50"
+                : "border-gray-300 hover:border-gray-400 hover:bg-gray-50 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-800/50",
             )}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}

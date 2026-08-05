@@ -16,6 +16,7 @@ import type { TableHeadType } from "../../../types/TableHeader";
 import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import CoursesRestoreAlert from "./CoursesRestoreAlert";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const CoursesList = ({ data }: { data: any }) => {
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
@@ -95,17 +96,12 @@ const CoursesList = ({ data }: { data: any }) => {
             <TableRow key={course.id}>
               <TableCell hidden={!selectedColumns.includes("Name")}>
                 <div className="flex items-center gap-3">
-                  {course.image ? (
-                    <img
-                      src={course.image}
-                      alt={course.name}
-                      className="h-10 w-10 rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 bg-foreground/50 rounded-lg backdrop-blur-sm flex items-center justify-center">
-                      <BookOpen size={20} className="text-background" />
-                    </div>
-                  )}
+                  <ImageDisplay
+                    image={course.image}
+                    alt={course.name}
+                    fallbackIcon={BookOpen}
+                    display="list"
+                  />
                   <p className="font-medium text-foreground">{course.name}</p>
                 </div>
               </TableCell>

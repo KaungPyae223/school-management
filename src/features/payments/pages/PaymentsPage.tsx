@@ -10,7 +10,7 @@ import PaymentsHeader from "../components/PaymentsHeader";
 import { AnimatePresence, m } from "framer-motion";
 import PaymentsList from "../components/PaymentsList";
 import Paginate from "../../../components/paginate/Paginate";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 
 const PaymentsPage = () => {
   useAddBreadcrumb({
@@ -35,7 +35,7 @@ const PaymentsPage = () => {
       className="space-y-4"
     >
       <PaymentsHeader />
-      <PageDataShow
+      <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
         emptyDescription="There are no payments available at the moment. Please add a payment to get started!"
@@ -68,7 +68,7 @@ const PaymentsPage = () => {
           )}
         </AnimatePresence>
         <Paginate meta={data?.meta} />
-      </PageDataShow>
+      </DataShow>
     </Tabs>
   );
 };

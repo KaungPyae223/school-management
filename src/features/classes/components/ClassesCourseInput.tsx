@@ -3,7 +3,7 @@ import { Input } from "../../../components/ui/input";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Button } from "../../../components/ui/button";
-import { Trash } from "lucide-react";
+import { BookOpen, Trash } from "lucide-react";
 import { debounce } from "lodash";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type {
@@ -11,6 +11,7 @@ import type {
   ControllerFieldState,
 } from "react-hook-form";
 import { cn } from "../../../lib/utils";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 interface Course {
   id: string;
@@ -140,11 +141,11 @@ const ClassesCourseInput = ({
           className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
         {showCourseDropDown && courseData.length > 0 && (
-          <div className=" absolute w-full z-50 bg-white border divide-y rounded-lg mt-1">
+          <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1 shadow-lg dark:shadow-gray-900/30">
             <ScrollArea className="max-h-72">
               {courseData.map((data: Course) => (
                 <div
-                  className="flex items-center justify-between  p-2 hover:bg-muted cursor-pointer"
+                  className="flex items-center justify-between p-2 hover:bg-muted cursor-pointer"
                   key={data.id}
                   onMouseDown={() => {
                     field.onChange(data.id);
@@ -155,18 +156,20 @@ const ClassesCourseInput = ({
                   }}
                 >
                   <div className="flex items-center gap-3">
-                    <img
-                      src={data.image}
-                      className="h-10 w-10 object-cover items-center rounded-md"
+                    <ImageDisplay
+                      image={data.image}
+                      alt={data.name}
+                      fallbackIcon={BookOpen}
+                      display="list"
                     />
                     <div>
                       <p className="text-xs text-muted-foreground">Course</p>
-                      <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                      <p className="text-sm font-medium text-foreground line-clamp-1">
                         {data.name}
                       </p>
                     </div>
                   </div>
-                  <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                  <p className="text-sm font-medium text-foreground line-clamp-1">
                     ${data.price}
                   </p>
                 </div>
@@ -189,22 +192,24 @@ const ClassesCourseInput = ({
       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 
       {selectedCourse && courseValue !== 0 && (
-        <div className="mt-2 bg-green-100 flex items-center justify-between rounded-lg border border-green-300  p-3 ">
+        <div className="mt-2 flex items-center justify-between bg-card rounded-lg border border-border  p-3 ">
           <div className="flex items-center gap-3">
-            <img
-              src={selectedCourse.image}
-              className="h-10 w-10 object-cover items-center rounded-md"
+            <ImageDisplay
+              image={selectedCourse.image}
+              alt={selectedCourse.name}
+              fallbackIcon={BookOpen}
+              display="list"
             />
             <div>
               <p className="text-xs text-muted-foreground">Course</p>
-              <p className="text-sm font-medium text-gray-900 line-clamp-1">
+              <p className="text-sm font-medium text-foreground line-clamp-1">
                 {selectedCourse.name}
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <p className="text-sm font-semibold text-gray-800">
+            <p className="text-sm font-semibold text-foreground">
               ${selectedCourse.price}
             </p>
             <Button

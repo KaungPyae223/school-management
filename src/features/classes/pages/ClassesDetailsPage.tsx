@@ -18,7 +18,7 @@ import { enrollmentService } from "../../../services/enrollment";
 import ClassesEnrolledStudentsList from "../components/ClassesEnrolledStudentsList";
 import Paginate from "../../../components/paginate/Paginate";
 import SearchInput from "../../../components/search-input/SearchInput";
-import PageDataShow from "../../../components/page/PageDataShow";
+import DataShow from "../../../components/data/DataShow";
 import ClassesCompleteAlert from "../components/ClassesCompleteAlert";
 
 const ClassesDetailsPage = () => {
@@ -99,7 +99,7 @@ const ClassesDetailsPage = () => {
             </div>
           </CardContent>
         </Card>
-        <PageDataShow
+        <DataShow
           isLoading={isLoading}
           dataLength={data?.data.length}
           emptyDescription="There are no enrolled students available at the moment. Please add an enrolled student to get started!"
@@ -113,7 +113,7 @@ const ClassesDetailsPage = () => {
           <ClassesEnrolledStudentsList data={data?.data} />
 
           <Paginate meta={data?.meta} />
-        </PageDataShow>
+        </DataShow>
       </div>
 
       <ClassesDeleteAlert

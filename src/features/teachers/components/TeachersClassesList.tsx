@@ -12,6 +12,7 @@ import { formatDate } from "../../../utils/format-date";
 import { changeTime } from "../../../utils/change-time";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import ClassesStatus from "../../classes/components/ClassesStatus";
+import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const TeachersClassesList = ({ data }: { data: any }) => {
   console.log(data);
@@ -78,17 +79,12 @@ const TeachersClassesList = ({ data }: { data: any }) => {
           <TableRow key={classData.id}>
             <TableCell>
               <div className="flex items-center gap-3">
-                {classData.image ? (
-                  <img
-                    src={classData.image}
-                    alt={classData.course_name}
-                    className="h-10 w-10 rounded-lg object-cover"
-                  />
-                ) : (
-                  <div className="w-10 h-10 bg-foreground/50 rounded-lg backdrop-blur-sm flex items-center justify-center">
-                    <BookOpen size={20} className="text-background" />
-                  </div>
-                )}
+                <ImageDisplay
+                  image={classData.image}
+                  alt={classData.course_name}
+                  fallbackIcon={BookOpen}
+                  display="list"
+                />
                 <div className="space-y-0.5">
                   <p className="font-medium text-foreground">
                     {classData.course_name}
