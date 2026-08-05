@@ -6,6 +6,7 @@ import rrulePlugin from "@fullcalendar/rrule";
 import { changeTime } from "../../../utils/change-time";
 import { useTimetableChange } from "../hooks/useTimetableChange";
 import { useFilterData } from "../hooks/useFilterData";
+import { useTheme } from "../../../components/theme-provider/theme-provider";
 
 const TimetableCourse = ({
   data,
@@ -23,11 +24,14 @@ const TimetableCourse = ({
     idField: "courseId",
   });
 
+  const { themeValue } = useTheme();
+
   return (
     <FullCalendar
       plugins={[themePlugin, dayGridPlugin, timeGridPlugin, rrulePlugin]}
       initialView={initialView}
       initialDate={initialDate}
+      colorScheme={themeValue}
       showNonCurrentDates={false}
       headerToolbar={{
         left: "prev,next today",
@@ -44,19 +48,19 @@ const TimetableCourse = ({
       eventContent={(eventInfo) => (
         <div className="px-1 py-0.5 space-y-0.5">
           <div className="flex items-center justify-between gap-1.5">
-            <div className="text-[11px] font-semibold leading-tight truncate text-white">
+            <div className="text-[11px] font-semibold leading-tight truncate text-primary-foreground">
               {eventInfo.event.title}
             </div>
             {eventInfo.event.extendedProps.batch && (
-              <span className="shrink-0 text-[9px] font-medium bg-white/20 text-white px-1.5 py-0.5 rounded-full">
+              <span className="shrink-0 text-[9px] font-medium bg-primary-foreground/20 text-primary-foreground px-1.5 py-0.5 rounded-full">
                 B{eventInfo.event.extendedProps.batch}
               </span>
             )}
           </div>
-          <div className="text-[10px] opacity-90 leading-tight truncate text-white/90">
+          <div className="text-[10px] leading-tight truncate text-primary-foreground/90">
             {eventInfo.event.extendedProps.teacher}
           </div>
-          <div className="text-[10px] opacity-75 leading-tight truncate text-white/80">
+          <div className="text-[10px] leading-tight truncate text-primary-foreground/80">
             {changeTime(eventInfo.event.extendedProps.startTime)} -{" "}
             {changeTime(eventInfo.event.extendedProps.endTime)}
           </div>

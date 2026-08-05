@@ -12,6 +12,7 @@ import {
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { useTimetableChange } from "../hooks/useTimetableChange";
 import { useFilterData } from "../hooks/useFilterData";
+import { useTheme } from "../../../components/theme-provider/theme-provider";
 
 const TimetableTeacher = ({
   data,
@@ -29,10 +30,13 @@ const TimetableTeacher = ({
     idField: "teacherId",
   });
 
+  const { themeValue } = useTheme();
+
   return (
     <FullCalendar
       plugins={[themePlugin, dayGridPlugin, timeGridPlugin, rrulePlugin]}
       initialView={initialView}
+      colorScheme={themeValue}
       showNonCurrentDates={false}
       initialDate={initialDate}
       headerToolbar={{
@@ -49,22 +53,22 @@ const TimetableTeacher = ({
       }}
       eventContent={(eventInfo) => (
         <div className="flex items-center gap-1.5 px-1 py-0.5 overflow-hidden">
-          <Avatar className="h-7 w-7">
+          <Avatar className="h-7 w-7 ring-1 ring-primary-foreground/20">
             <AvatarImage
               src={eventInfo.event.extendedProps.course_image}
               alt={eventInfo.event.extendedProps.teacher}
             />
-            <AvatarFallback>
+            <AvatarFallback className="bg-primary-foreground/15 text-primary-foreground">
               {generateImageFallBack(eventInfo.event.extendedProps.teacher)}
             </AvatarFallback>
           </Avatar>
 
           <div className="min-w-0 flex-1">
-            <div className="truncate text-[11px] font-semibold leading-tight text-white">
+            <div className="truncate text-[11px] font-semibold leading-tight text-primary-foreground">
               {eventInfo.event.extendedProps.teacher}
             </div>
 
-            <div className="truncate text-[10px] leading-tight text-white/80">
+            <div className="truncate text-[10px] leading-tight text-primary-foreground/80">
               {changeTime(eventInfo.event.extendedProps.startTime)} -{" "}
               {changeTime(eventInfo.event.extendedProps.endTime)}
             </div>
