@@ -1,15 +1,15 @@
 import { Monitor, Moon, Sun } from "lucide-react";
 
 import { Button } from "../../../components/ui/button";
-import { useTheme } from "../../../components/theme-provider/theme-provider";
 import { ButtonGroup } from "../../../components/ui/button-group";
+import { useModeStore } from "../../../stores/useModeStore";
 
 const SettingsChangeAppearance = () => {
-  const { setTheme, theme } = useTheme();
+  const { mode, setMode } = useModeStore();
 
   return (
-    <div className="flex items-center justify-between">
-      <div>
+    <div className="flex items-center gap-5 justify-between">
+      <div className="space-y-0.5">
         <p>Change Apperance</p>
         <p className="text-xs text-muted-foreground">
           Choose how the app looks on your device
@@ -18,22 +18,22 @@ const SettingsChangeAppearance = () => {
       <ButtonGroup>
         <Button
           size={"sm"}
-          variant={theme === "system" ? "default" : "outline"}
-          onClick={() => setTheme("system")}
+          variant={mode === "system" ? "default" : "outline"}
+          onClick={() => setMode("system")}
         >
           <Monitor />
         </Button>
         <Button
           size={"sm"}
-          variant={theme === "light" ? "default" : "outline"}
-          onClick={() => setTheme("light")}
+          variant={mode === "light" ? "default" : "outline"}
+          onClick={() => setMode("light")}
         >
           <Sun />
         </Button>
         <Button
           size={"sm"}
-          variant={theme === "dark" ? "default" : "outline"}
-          onClick={() => setTheme("dark")}
+          variant={mode === "dark" ? "default" : "outline"}
+          onClick={() => setMode("dark")}
         >
           <Moon />
         </Button>

@@ -7,6 +7,7 @@ import {
 import { Separator } from "../../../components/ui/separator";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import SettingsChangeAppearance from "../components/SettingsChangeAppearance";
+import SettingsChangeTheme from "../components/SettingsChangeTheme";
 
 const SettingsPage = () => {
   useAddBreadcrumb({
@@ -21,7 +22,7 @@ const SettingsPage = () => {
       <CardContent className="space-y-3.5 py-3">
         <SettingsChangeAppearance />
         <Separator />
-        <SettingsChangeAppearance />
+        <SettingsChangeTheme />
       </CardContent>
     </Card>
   );

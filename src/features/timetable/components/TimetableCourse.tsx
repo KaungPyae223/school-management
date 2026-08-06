@@ -6,7 +6,7 @@ import rrulePlugin from "@fullcalendar/rrule";
 import { changeTime } from "../../../utils/change-time";
 import { useTimetableChange } from "../hooks/useTimetableChange";
 import { useFilterData } from "../hooks/useFilterData";
-import { useTheme } from "../../../components/theme-provider/theme-provider";
+import { useModeStore } from "../../../stores/useModeStore";
 
 const TimetableCourse = ({
   data,
@@ -24,14 +24,14 @@ const TimetableCourse = ({
     idField: "courseId",
   });
 
-  const { themeValue } = useTheme();
+  const { activeMode } = useModeStore();
 
   return (
     <FullCalendar
       plugins={[themePlugin, dayGridPlugin, timeGridPlugin, rrulePlugin]}
       initialView={initialView}
       initialDate={initialDate}
-      colorScheme={themeValue}
+      colorScheme={activeMode()}
       showNonCurrentDates={false}
       headerToolbar={{
         left: "prev,next today",

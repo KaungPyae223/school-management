@@ -1,6 +1,6 @@
 import { SidebarProvider } from "../components/ui/sidebar";
 import { AppSidebar } from "../components/side-bar/SideBar";
-import { Outlet, useNavigation } from "react-router";
+import { Outlet, ScrollRestoration, useNavigation } from "react-router";
 import Header from "../components/header/Header";
 
 import { Toaster } from "../components/ui/sonner";
@@ -22,6 +22,7 @@ const Layout = () => {
           {isLoading ? <LoadingPage /> : <Outlet />}
         </div>
       </main>
+      <ScrollRestoration />
       <Toaster position="top-center" richColors={true} />
     </SidebarProvider>
   );

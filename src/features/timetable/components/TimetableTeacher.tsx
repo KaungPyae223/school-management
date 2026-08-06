@@ -12,7 +12,7 @@ import {
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { useTimetableChange } from "../hooks/useTimetableChange";
 import { useFilterData } from "../hooks/useFilterData";
-import { useTheme } from "../../../components/theme-provider/theme-provider";
+import { useModeStore } from "../../../stores/useModeStore";
 
 const TimetableTeacher = ({
   data,
@@ -30,13 +30,13 @@ const TimetableTeacher = ({
     idField: "teacherId",
   });
 
-  const { themeValue } = useTheme();
+  const { activeMode } = useModeStore();
 
   return (
     <FullCalendar
       plugins={[themePlugin, dayGridPlugin, timeGridPlugin, rrulePlugin]}
       initialView={initialView}
-      colorScheme={themeValue}
+      colorScheme={activeMode()}
       showNonCurrentDates={false}
       initialDate={initialDate}
       headerToolbar={{
