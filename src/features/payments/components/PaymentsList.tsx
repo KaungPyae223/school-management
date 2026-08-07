@@ -47,44 +47,44 @@ const PaymentsList = ({
   const headers: TableHeadType[] = [
     {
       title: "Name",
-      key: "name",
+      key: "Name",
       sortable: true,
       sortKey: "studentName",
     },
     {
       title: "Course",
-      key: "course",
+      key: "Course",
       sortable: true,
       sortKey: "courseName",
     },
     {
       title: "Email",
-      key: "email",
+      key: "Email",
       sortable: true,
       sortKey: "studentEmail",
     },
     {
       title: "Phone",
-      key: "phone",
+      key: "Phone",
       sortable: true,
       sortKey: "studentPhone",
     },
     {
       title: "Price",
-      key: "price",
+      key: "Price",
       sortable: true,
       sortKey: "e.price",
       align: "right",
     },
     {
       title: "First Paid Date",
-      key: "first_paid_date",
+      key: "First Paid Date",
       sortable: true,
       sortKey: "firstPaidAt",
     },
     {
       title: "Last Paid Date",
-      key: "last_paid_date",
+      key: "Last Paid Date",
       sortable: true,
       sortKey: "lastPaidAt",
     },
@@ -92,14 +92,14 @@ const PaymentsList = ({
       ? [
           {
             title: "Paid Amount",
-            key: "paidAmount",
+            key: "Paid Amount",
             sortable: true,
             sortKey: "paidAmount",
             align: "right" as const,
           },
           {
             title: "Remaining Amount",
-            key: "remainingAmount",
+            key: "Remaining Amount",
             sortable: true,
             sortKey: "remainingAmount",
             align: "right" as const,
@@ -108,7 +108,7 @@ const PaymentsList = ({
       : []),
     {
       title: "Payment Times",
-      key: "paymentTimes",
+      key: "Payment Times",
       sortable: true,
       sortKey: "paymentTimes",
       align: "right",

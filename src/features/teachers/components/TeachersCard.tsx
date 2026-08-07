@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   BookOpen,
@@ -32,6 +33,7 @@ import CardMeta from "../../../components/card-utils/CardMeta";
 import TeachersRestoreAlert from "./TeachersRestoreAlert";
 
 const TeacherCard = ({ teacher }: { teacher: any }) => {
+  const { t } = useTranslation();
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
   const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
@@ -59,13 +61,13 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
           <div className="w-full space-y-1.5">
             <CardMeta
               icon={BookOpen}
-              title="Total classes"
+              title={t("teachers.totalClasses")}
               value={teacher.total_classes}
               className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
             />
             <CardMeta
               icon={GraduationCap}
-              title="Total Students"
+              title={t("teachers.totalStudents")}
               value={teacher.total_students}
               className="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
             />
@@ -74,13 +76,13 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
 
         <div className="flex flex-1 flex-col  justify-between gap-3">
           <CardContent className="pt-4 flex-1 space-y-3.5">
-            <CardInfo icon={Phone} label="Phone" value={teacher.phone} />
-            <CardInfo icon={Mail} label="Email" value={teacher.email} />
-            <CardInfo icon={MapPin} label="Address" value={teacher.address} />
+            <CardInfo icon={Phone} label={t("teachers.fields.phone")} value={teacher.phone} />
+            <CardInfo icon={Mail} label={t("teachers.fields.email")} value={teacher.email} />
+            <CardInfo icon={MapPin} label={t("teachers.fields.address")} value={teacher.address} />
             <CardInfo
               icon={IdCard}
-              label="NRC"
-              value={teacher.dob && formatDate(teacher.dob)}
+              label={t("teachers.fields.nrc")}
+              value={teacher.nrc}
             />
           </CardContent>
           <div>
@@ -94,7 +96,7 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
                 className="w-full justify-between cursor-pointer"
                 onClick={() => navigate(`/teachers/details/${teacher.id}`)}
               >
-                View Teacher Details
+                {t("teachers.viewTeacherDetails")}
                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
               </Button>
             </CardFooter>

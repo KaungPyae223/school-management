@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { GraduationCap } from "lucide-react";
 import {
   SidebarMenu,
@@ -7,6 +8,8 @@ import {
 } from "../ui/sidebar";
 
 const Header = () => {
+  const { t } = useTranslation();
+
   return (
     <SidebarHeader>
       <SidebarMenu className="border-b border-b-gray-300 pb-1.5">
@@ -17,7 +20,7 @@ const Header = () => {
                 <GraduationCap className="size-5" />
               </div>
               <div className="flex gap-0.5 ms-1.5 leading-none">
-                <span className="font-semibold">School Management</span>
+                <span className="font-semibold">{t("general.appTitle")}</span>
               </div>
             </a>
           </SidebarMenuButton>

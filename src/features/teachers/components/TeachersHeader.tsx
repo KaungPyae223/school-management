@@ -1,14 +1,27 @@
-import { Download, Grid2X2Icon, List, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Download, Plus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
-import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import { Link } from "react-router";
 import ColumnSelector from "../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
 import ChangeTrashView from "../../../components/header/ChangeTrashView";
 import SearchInput from "../../../components/search-input/SearchInput";
+import ViewChange from "../../../components/header/ViewChange";
 
 const TeachersHeader = ({ tab }: { tab: string }) => {
+  const { t } = useTranslation();
+
+  const columns = [
+    { title: t("teachers.fields.name"), key: "Name" },
+    { title: t("teachers.fields.phone"), key: "Phone" },
+    { title: t("teachers.fields.email"), key: "Email" },
+    { title: t("teachers.fields.address"), key: "Address" },
+    { title: t("teachers.fields.nrc"), key: "NRC" },
+    { title: t("teachers.totalClasses"), key: "Total Classes" },
+    { title: t("teachers.totalStudents"), key: "Total Students" },
+  ];
+
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-row gap-3 justify-between">
@@ -24,15 +37,7 @@ const TeachersHeader = ({ tab }: { tab: string }) => {
                 transition={{ duration: 0.3 }}
               >
                 <ColumnSelector
-                  columns={[
-                    "Name",
-                    "Phone",
-                    "Email",
-                    "Address",
-                    "NRC",
-                    "Total Classes",
-                    "Total Students",
-                  ]}
+                  columns={columns}
                   alwaysSelectedColumns={["Name", "Phone", "Email"]}
                   defaultSelectedColumns={[
                     "Name",
@@ -51,21 +56,15 @@ const TeachersHeader = ({ tab }: { tab: string }) => {
         <div className="flex gap-2">
           <ChangeTrashView />
 
-          <TabsList>
-            <TabsTrigger value="grid">
-              <Grid2X2Icon className="w-4 h-4 mr-1" /> Grid
-            </TabsTrigger>
-            <TabsTrigger value="list">
-              <List className="w-4 h-4 mr-1" /> List
-            </TabsTrigger>
-          </TabsList>
+          <ViewChange />
+
           <Button variant="outline">
-            <Download className="w-4 h-4 mr-0.5" /> Export CSV
+            <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 
           <Link to="/teachers/create">
             <Button>
-              <Plus className="w-4 h-4 mr-0.5" /> Add Teacher
+              <Plus className="w-4 h-4 mr-0.5" /> {t("teachers.addTeacher")}
             </Button>
           </Link>
         </div>

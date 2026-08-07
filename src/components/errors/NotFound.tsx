@@ -1,13 +1,15 @@
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import useAddBreadcrumb from "../../hooks/use-add-breadcrumb";
 import { ArrowLeft, LayoutDashboard } from "lucide-react";
 import { Button } from "../ui/button";
 
 const NotFound = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   useAddBreadcrumb({
-    title: "Not Found",
+    title: t("errors.notFoundBreadcrumb"),
   });
 
   return (
@@ -15,24 +17,23 @@ const NotFound = () => {
       {/* Main Content */}
       <div className="text-center max-w-md">
         <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-4">
-          Error 404
+          {t("errors.error404")}
         </p>
 
-        <h1 className="text-4xl font-bold text-primary">Page not found</h1>
+        <h1 className="text-4xl font-bold text-primary">{t("errors.pageNotFound")}</h1>
 
         <p className="text-muted-foreground mt-3 mb-8">
-          Sorry, we couldn't find the page you're looking for. It might have
-          been moved or deleted.
+          {t("errors.pageNotFoundMessage")}
         </p>
 
         <div className="flex items-center justify-center gap-4">
           <Button variant="outline" onClick={() => navigate("/")}>
             <LayoutDashboard className="w-4 h-4" />
-            Go to Dashboard
+            {t("errors.goToDashboard")}
           </Button>
           <Button onClick={() => navigate(-1)}>
             <ArrowLeft className="w-4 h-4" />
-            Go back
+            {t("errors.goBack")}
           </Button>
         </div>
       </div>

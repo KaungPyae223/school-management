@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Card,
   CardContent,
@@ -11,14 +12,16 @@ import SettingsChangeLanguage from "../components/SettingsChangeLanguage";
 import SettingsChangeTheme from "../components/SettingsChangeTheme";
 
 const SettingsPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Settings",
+    title: t("settings.title"),
   });
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
       <CardHeader className="border-b bg-muted/30">
-        <CardTitle className="text-lg">Settings</CardTitle>
+        <CardTitle className="text-lg">{t("settings.title")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3.5 py-3">
         <SettingsChangeAppearance />

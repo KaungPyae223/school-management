@@ -2,6 +2,7 @@ import TableHeader from "./TableHeader";
 import TableHead from "./TableHead";
 import type { TableHeadType } from "../../types/TableHeader";
 import { useSearchParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const TableHeaderGenerator = ({
   headers,
@@ -15,6 +16,8 @@ const TableHeaderGenerator = ({
   const [searchParams] = useSearchParams();
   const isTrashView = searchParams.get("trash");
 
+  const { t } = useTranslation();
+
   return (
     <TableHeader>
       {headers.map((header: TableHeadType) => (
@@ -23,7 +26,7 @@ const TableHeaderGenerator = ({
           align={header.align}
           sortable={header.sortable}
           sortKey={header.sortKey}
-          hidden={!selectedColumns.includes(header.title)}
+          hidden={!selectedColumns.includes(header.key)}
         >
           {header.title}
         </TableHead>
@@ -34,7 +37,7 @@ const TableHeaderGenerator = ({
         sortKey={`${prefix}createdAt`}
         hidden={!selectedColumns.includes("Created At")}
       >
-        Created At
+        {t("general.createdAt")}
       </TableHead>
       <TableHead
         key="updated-at"
@@ -42,9 +45,9 @@ const TableHeaderGenerator = ({
         sortKey={`${prefix}updatedAt`}
         hidden={!selectedColumns.includes("Updated At")}
       >
-        {isTrashView ? "Deleted At" : "Updated At"}
+        {isTrashView ? t("general.deletedAt") : t("general.updatedAt")}
       </TableHead>
-      <TableHead align="right">Actions</TableHead>
+      <TableHead align="right">{t("general.actions")}</TableHead>
     </TableHeader>
   );
 };

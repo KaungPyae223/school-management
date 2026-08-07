@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { IdCard, Mail, MapPin, Phone } from "lucide-react";
 import DetailsData from "../../../components/details/DetailsData";
 import {
@@ -11,6 +12,8 @@ import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { formatDate } from "../../../utils/format-date";
 
 const TeachersDetailsCard = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
+
   return (
     <Card className="shadow-sm flex flex-row gap-1.5">
       <CardHeader className="w-lg items-center justify-center h-full">
@@ -27,25 +30,25 @@ const TeachersDetailsCard = ({ data }: { data: any }) => {
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          <DetailsData icon={Phone} label={"Phone Number"}>
+          <DetailsData icon={Phone} label={t("teachers.fields.phoneNumber")}>
             <p className="font-medium">{data.phone}</p>
           </DetailsData>
-          <DetailsData icon={Mail} label={"Email"}>
-            <p className="font-medium">{data.email || "TBA"}</p>
+          <DetailsData icon={Mail} label={t("teachers.fields.email")}>
+            <p className="font-medium">{data.email || t("students.tba")}</p>
           </DetailsData>
 
-          <DetailsData icon={IdCard} label={"NRC"}>
-            <p className="font-medium">{data.nrc || "TBA"}</p>
+          <DetailsData icon={IdCard} label={t("teachers.fields.nrc")}>
+            <p className="font-medium">{data.nrc || t("students.tba")}</p>
           </DetailsData>
-          <DetailsData icon={MapPin} label={"Address"} className="col-span-3">
-            <p className="font-medium">{data.address || "TBA"}</p>
+          <DetailsData icon={MapPin} label={t("teachers.fields.address")} className="col-span-3">
+            <p className="font-medium">{data.address || t("students.tba")}</p>
           </DetailsData>
         </div>
         <Separator />
         <div className=" flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
             <div>
-              <p className="text-[11px]">Created At</p>
+              <p className="text-[11px]">{t("general.createdAt")}</p>
               <p className="font-medium text-foreground">
                 {formatDate(data.createdAt)}
               </p>
@@ -54,7 +57,7 @@ const TeachersDetailsCard = ({ data }: { data: any }) => {
 
           <div className="flex items-center gap-2">
             <div className="text-right">
-              <p className="text-[11px]">Last Updated</p>
+              <p className="text-[11px]">{t("general.updatedAt")}</p>
               <p className="font-medium text-foreground">
                 {formatDate(data.updatedAt)}
               </p>

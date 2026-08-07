@@ -13,9 +13,13 @@ import StudentList from "../components/StudentsList";
 import { studentService } from "../../../services/students";
 import DataShow from "../../../components/data/DataShow";
 
+import { useTranslation } from "react-i18next";
+
 const StudentsPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Students",
+    title: t("students.title"),
   });
 
   const { view, changeView } = useViewTabChange();
@@ -33,11 +37,11 @@ const StudentsPage = () => {
       <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
-        emptyDescription="There are no students available at the moment. Please add a student to get started!"
-        emptyTitle="No Students"
+        emptyDescription={t("students.noStudentsDesc")}
+        emptyTitle={t("students.noStudentsTitle")}
         emptyIcon={GraduationCap}
         action={{
-          label: "Add Student",
+          label: t("students.addStudent"),
           link: "/students/create",
         }}
       >

@@ -26,32 +26,32 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
   const headers: TableHeadType[] = [
     {
       title: "Name",
-      key: "name",
+      key: "Name",
       sortable: true,
       sortKey: "studentName",
     },
     {
       title: "Phone",
-      key: "phone",
+      key: "Phone",
       sortable: true,
       sortKey: "studentPhone",
     },
     {
       title: "Email",
-      key: "totalStudents",
+      key: "Email",
       sortable: true,
       sortKey: "studentEmail",
     },
     {
       title: "Paid Amount",
-      key: "paidAmount",
+      key: "Paid Amount",
       sortable: true,
       sortKey: "paidAmount",
       align: "right",
     },
     {
       title: "Remaining Amount",
-      key: "remainingAmount",
+      key: "Remaining Amount",
       sortable: true,
       sortKey: "remainingAmount",
       align: "right",

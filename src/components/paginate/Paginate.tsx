@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Pagination,
   PaginationContent,
@@ -25,6 +26,10 @@ interface Props {
 }
 
 const Paginate: React.FC<Props> = ({ meta }) => {
+  const { t, i18n } = useTranslation();
+
+  const isMyanmar = i18n.language === "my";
+
   const start = meta?.page * meta?.limit - meta?.limit + 1;
   const end =
     meta?.page * meta?.limit < meta?.total_data
@@ -56,21 +61,34 @@ const Paginate: React.FC<Props> = ({ meta }) => {
       <CardContent className="flex flex-col-reverse gap-4 px-6 md:flex-row items-center md:justify-between">
         {/* Page info */}
         <div className="flex items-center gap-4">
-          <div className="text-sm text-muted-foreground flex items-center ">
-            Showing
-            <span className="mx-1 font-medium text-foreground">{start}</span>
-            to
-            <span className="mx-1 font-medium text-foreground">{end}</span>
-            of
-            <span className="mx-1 font-medium text-foreground">
-              {meta?.total_data}
-            </span>
-            results
-          </div>
+          {isMyanmar ? (
+            <div className="text-sm text-muted-foreground flex items-center ">
+              စုစုပေါင်း{" "}
+              <span className="mx-1 font-medium text-foreground">
+                {meta?.total_data}
+              </span>{" "}
+              ခုအနက်{" "}
+              <span className="mx-1 font-medium text-foreground">{start}</span>{" "}
+              မှ <span className="mx-1 font-medium text-foreground">{end}</span>{" "}
+              အထိ
+            </div>
+          ) : (
+            <div className="text-sm text-muted-foreground flex items-center ">
+              {t("pagination.showing")}
+              <span className="mx-1 font-medium text-foreground">{start}</span>
+              {t("pagination.to")}
+              <span className="mx-1 font-medium text-foreground">{end}</span>
+              {t("pagination.of")}
+              <span className="mx-1 font-medium text-foreground">
+                {meta?.total_data}
+              </span>
+              {t("pagination.results")}
+            </div>
+          )}
           <div className="min-h-5 hidden sm:block border-l-2 border-l-gray-400" />
           <div className=" py-1.5 sm:flex items-center gap-2 hidden">
             <p className="text-sm text-muted-foreground whitespace-nowrap">
-              Rows per page
+              {t("pagination.rowsPerPage")}
             </p>
             <Select
               onValueChange={(e) =>
@@ -82,11 +100,11 @@ const Paginate: React.FC<Props> = ({ meta }) => {
               defaultValue={meta?.limit.toString()}
             >
               <SelectTrigger size="sm">
-                <SelectValue placeholder="Limit" />
+                <SelectValue placeholder={t("pagination.limit")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Limit</SelectLabel>
+                  <SelectLabel>{t("pagination.limit")}</SelectLabel>
                   <SelectItem value="10">10</SelectItem>
                   <SelectItem value="20">20</SelectItem>
                   <SelectItem value="50">50</SelectItem>

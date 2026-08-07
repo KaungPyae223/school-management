@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
@@ -33,41 +34,23 @@ import {
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import DateInput from "../../../components/form/DateInput";
 import FormError from "../../../components/form/FormError";
-
-const formSchema = z.object({
-  image: z
-    .instanceof(File)
-    .refine((file) => file.size <= 5 * 1024 * 1024, {
-      message: "Max file size is 5MB",
-    })
-    .refine(
-      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-      {
-        message: "Only .jpg, .jpeg, .png and .webp formats are supported",
-      },
-    )
-    .optional(),
-  name: z.string().min(1, "Name must be at least 1 characters."),
-  phone: z.string().min(1, "Phone number must be at least 1 characters."),
-  email: z.string().email("Invalid email address").or(z.literal("")).optional(),
-  address: z.string().optional(),
-  dob: z.date().optional(),
-  gender: z.enum(["MALE", "FEMALE"]).optional(),
-});
+import { StudentsSchema } from "../schema/StudentsSchema";
 
 const StudentsCreatePage = () => {
+  const { t } = useTranslation();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { formSchema } = StudentsSchema();
 
   useAddBreadcrumb({
-    title: "Create Student",
+    title: t("students.createTitle"),
     params: [
       {
-        name: "Students",
+        name: t("students.title"),
         link: "/students",
       },
       {
-        name: "Create",
+        name: t("students.createBreadcrumb"),
         link: "/students/create",
       },
     ],
@@ -103,7 +86,7 @@ const StudentsCreatePage = () => {
         ...imageData,
       });
 
-      toast.success("Student created successfully");
+      toast.success(t("students.alerts.createSuccess"));
       form.reset();
     } catch (error: any) {
       toast.error(error.message);
@@ -120,7 +103,7 @@ const StudentsCreatePage = () => {
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title="Create Student" />
+      <FormHeader title={t("students.createTitle")} />
       <CardContent>
         <form id="create-student-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
@@ -130,7 +113,7 @@ const StudentsCreatePage = () => {
               name={"image"}
               render={({ field, fieldState }) => (
                 <ImageInput
-                  label="Image"
+                  label={t("students.fields.image")}
                   id="image"
                   field={field}
                   fieldState={fieldState}
@@ -142,12 +125,14 @@ const StudentsCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"name"}>Name</RequiredLabel>
+                  <RequiredLabel id={"name"}>
+                    {t("students.fields.name")}
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="name"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter course name"
+                    placeholder={t("students.fields.namePlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -161,13 +146,15 @@ const StudentsCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"phone"}>Phone</RequiredLabel>
+                  <RequiredLabel id={"phone"}>
+                    {t("students.fields.phone")}
+                  </RequiredLabel>
 
                   <Input
                     {...field}
                     id="phone"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter phone number"
+                    placeholder={t("students.fields.phonePlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -181,12 +168,14 @@ const StudentsCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="email">Email</FieldLabel>
+                  <FieldLabel htmlFor="email">
+                    {t("students.fields.email")}
+                  </FieldLabel>
                   <Input
                     {...field}
                     id="email"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter email address"
+                    placeholder={t("students.fields.emailPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -200,12 +189,14 @@ const StudentsCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="address">Address</FieldLabel>
+                  <FieldLabel htmlFor="address">
+                    {t("students.fields.address")}
+                  </FieldLabel>
                   <Textarea
                     {...field}
                     id="address"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter address"
+                    placeholder={t("students.fields.addressPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -220,11 +211,13 @@ const StudentsCreatePage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="dob">Date of Birth</FieldLabel>
+                    <FieldLabel htmlFor="dob">
+                      {t("students.fields.dob")}
+                    </FieldLabel>
                     <DateInput
                       ariaInvalid={fieldState.invalid}
                       field={field}
-                      label="Pick a Date of Birth"
+                      label={t("students.fields.pickDob")}
                       disabledDate={(date) => date >= new Date()}
                     />
                     {fieldState.invalid && (
@@ -238,19 +231,29 @@ const StudentsCreatePage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="gender">Gender</FieldLabel>
+                    <FieldLabel htmlFor="gender">
+                      {t("students.fields.gender")}
+                    </FieldLabel>
                     <Select
                       value={field.value ?? ""}
                       onValueChange={field.onChange}
                     >
                       <SelectTrigger className="w-full ">
-                        <SelectValue placeholder="Select a gender" />
+                        <SelectValue
+                          placeholder={t("students.fields.selectGender")}
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Gender</SelectLabel>
-                          <SelectItem value="MALE">Male</SelectItem>
-                          <SelectItem value="FEMALE">Female</SelectItem>
+                          <SelectLabel>
+                            {t("students.fields.gender")}
+                          </SelectLabel>
+                          <SelectItem value="MALE">
+                            {t("students.fields.male")}
+                          </SelectItem>
+                          <SelectItem value="FEMALE">
+                            {t("students.fields.female")}
+                          </SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -274,8 +277,8 @@ const StudentsCreatePage = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={createStudent}
-        title="Create this student?"
-        description="Please confirm that you want to create this student with the provided information. You can edit the course later if needed."
+        title={t("students.alerts.createConfirmTitle")}
+        description={t("students.alerts.createConfirmDesc")}
       />
     </Card>
   );

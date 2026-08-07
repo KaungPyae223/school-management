@@ -1,6 +1,7 @@
 import { ArchiveRestore, Eye, Pencil, Trash2 } from "lucide-react";
 import TableActionButton from "./TableActionButton";
 import { useSearchParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const TableActionButtonsContainer = ({
   onView,
@@ -18,11 +19,13 @@ const TableActionButtonsContainer = ({
   const [searchParams] = useSearchParams();
   const isTrashView = searchParams.get("trash");
 
+  const { t } = useTranslation();
+
   return (
     <div className="flex items-center justify-end gap-1">
       {children}
       {onView && (
-        <TableActionButton onClick={onView} icon={Eye} tooltip="View" />
+        <TableActionButton onClick={onView} icon={Eye} tooltip={t("general.view")} />
       )}
 
       {isTrashView ? (
@@ -30,21 +33,21 @@ const TableActionButtonsContainer = ({
           <TableActionButton
             variant="default"
             className="bg-green-300 hover:bg-green-400 text-green-800"
-             onClick={onRestore}
+            onClick={onRestore}
             icon={ArchiveRestore}
-            tooltip="Restore"
+            tooltip={t("general.restore")}
           />
         )
       ) : (
         <>
           {onEdit && (
-            <TableActionButton onClick={onEdit} icon={Pencil} tooltip="Edit" />
+            <TableActionButton onClick={onEdit} icon={Pencil} tooltip={t("general.edit")} />
           )}
           {onDelete && (
             <TableActionButton
               onClick={onDelete}
               icon={Trash2}
-              tooltip="Delete"
+              tooltip={t("general.delete")}
               variant="destructive"
             />
           )}

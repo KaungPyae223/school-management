@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   BookOpen,
   Calendar,
@@ -29,6 +30,7 @@ import TableActionButtonsContainer from "../../../components/table/TableActionBu
 import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
 
 const StudentsList = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [studentId, setStudentId] = useState<number>(0);
   const navigate = useNavigate();
@@ -48,15 +50,20 @@ const StudentsList = ({ data }: { data: any }) => {
   ]);
 
   const headers: TableHeadType[] = [
-    { title: "Name", key: "name", sortable: true, sortKey: "s.name" },
-    { title: "Phone", key: "phone", sortable: true, sortKey: "s.phone" },
-    { title: "Email", key: "email", sortable: true, sortKey: "s.email" },
-    { title: "Address", key: "address", sortable: true, sortKey: "s.address" },
-    { title: "Gender", key: "gender", sortable: true, sortKey: "s.gender" },
-    { title: "Date of Birth", key: "dob", sortable: true, sortKey: "s.dob" },
+    { title: t("students.fields.name"), key: "Name", sortable: true, sortKey: "s.name" },
+    { title: t("students.fields.phone"), key: "Phone", sortable: true, sortKey: "s.phone" },
+    { title: t("students.fields.email"), key: "Email", sortable: true, sortKey: "s.email" },
+    { title: t("students.fields.address"), key: "Address", sortable: true, sortKey: "s.address" },
+    { title: t("students.fields.gender"), key: "Gender", sortable: true, sortKey: "s.gender" },
     {
-      title: "Total Classes",
-      key: "totalClasses",
+      title: t("students.fields.dob"),
+      key: "Date of Birth",
+      sortable: true,
+      sortKey: "s.dob",
+    },
+    {
+      title: t("students.totalClasses"),
+      key: "Total Classes",
       sortable: true,
       sortKey: "total_classes",
     },
@@ -64,6 +71,12 @@ const StudentsList = ({ data }: { data: any }) => {
 
   const generateGenderIcon = (gender: string) => {
     return gender ? (gender === "FEMALE" ? Venus : Mars) : VenusAndMars;
+  };
+
+  const getGenderLabel = (gender: string) => {
+    if (gender === "FEMALE") return t("students.fields.female");
+    if (gender === "MALE") return t("students.fields.male");
+    return gender;
   };
 
   return (
@@ -100,7 +113,7 @@ const StudentsList = ({ data }: { data: any }) => {
               <TableCell hidden={!selectedColumns.includes("Gender")}>
                 <TableIconContent
                   icon={generateGenderIcon(student.gender)}
-                  value={student.gender}
+                  value={getGenderLabel(student.gender)}
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Date of Birth")}>

@@ -1,14 +1,16 @@
+import { useTranslation } from "react-i18next";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 import { ArrowLeft, RefreshCw } from "lucide-react";
 import { Button } from "../ui/button";
 import useAddBreadcrumb from "../../hooks/use-add-breadcrumb";
 
 const ErrorPage = () => {
+  const { t } = useTranslation();
   const error = useRouteError();
   console.error(error);
 
-  let errorStatus = "Something went wrong";
-  let errorMessage = "An unexpected error has occurred.";
+  let errorStatus = t("errors.somethingWentWrong");
+  let errorMessage = t("errors.unexpectedErrorMessage");
 
   if (isRouteErrorResponse(error)) {
     errorStatus = `${error.status} ${error.statusText}`;
@@ -18,7 +20,7 @@ const ErrorPage = () => {
   }
 
   useAddBreadcrumb({
-    title: "Error",
+    title: t("errors.errorBreadcrumb"),
   });
 
   return (
@@ -28,18 +30,18 @@ const ErrorPage = () => {
           {errorStatus}
         </p>
 
-        <h1 className="text-4xl font-bold text-primary">Unexpected Error</h1>
+        <h1 className="text-4xl font-bold text-primary">{t("errors.unexpectedError")}</h1>
 
         <p className="text-muted-foreground mt-3 mb-8">{errorMessage}</p>
 
         <div className="flex items-center justify-center gap-4">
           <Button variant="outline" onClick={() => window.history.back()}>
             <ArrowLeft className="w-4 h-4" />
-            Go back
+            {t("errors.goBack")}
           </Button>
           <Button onClick={() => window.location.reload()}>
             <RefreshCw className="w-4 h-4" />
-            Reload page
+            {t("errors.reloadPage")}
           </Button>
         </div>
       </div>

@@ -9,15 +9,21 @@ const PaymentsHeader = () => {
   const { view } = useViewTabChange("initial");
 
   const columns = [
-    "Name",
-    "Course",
-    "Email",
-    "Phone",
-    "Price",
+    { title: "Name", key: "Name" },
+    { title: "Course", key: "Course" },
+    { title: "Price", key: "Price" },
+    { title: "Phone", key: "Phone" },
+
+    { title: "Payment Times", key: "Payment Times" },
+
     ...(view === "initial"
-      ? ["First Paid Date", "Last Paid Date", "Paid Amount", "Remaining Amount"]
+      ? [
+          { title: "First Paid Date", key: "First Paid Date" },
+          { title: "Last Paid Date", key: "Last Paid Date" },
+          { title: "Paid Amount", key: "Paid Amount" },
+          { title: "Remaining Amount", key: "Remaining Amount" },
+        ]
       : []),
-    "Payment Times",
   ];
 
   const defaultSelectedColumns = [

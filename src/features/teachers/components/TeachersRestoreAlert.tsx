@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useNavigate } from "react-router";
@@ -14,6 +15,7 @@ const TeachersRestoreAlert = ({
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   back?: boolean;
 }) => {
+  const { t } = useTranslation();
   const { mutateAsync, isPending } = useRestoreTeacher();
 
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ const TeachersRestoreAlert = ({
   const handleRestore = async () => {
     try {
       await mutateAsync(id);
-      toast.success("teacher restored successfully");
+      toast.success(t("teachers.alerts.restoreSuccess"));
       if (back) {
         navigate(-1);
       }
@@ -38,8 +40,8 @@ const TeachersRestoreAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleRestore}
       variant="default"
-      title="Restore this teacher?"
-      description="Please confirm that you want to restore this teacher. This action cannot be undone."
+      title={t("teachers.alerts.restoreTitle")}
+      description={t("teachers.alerts.restoreDesc")}
       isPending={isPending}
     />
   );

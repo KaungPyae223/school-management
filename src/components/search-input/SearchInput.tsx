@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Search } from "lucide-react";
 import {
   InputGroup,
@@ -11,11 +12,13 @@ import { debounce } from "lodash";
 
 const SearchInput = ({
   searchParam = "search",
-  placeholder = "Search...",
+  placeholder,
 }: {
   searchParam?: string;
   placeholder?: string;
 }) => {
+  const { t } = useTranslation();
+  const defaultPlaceholder = placeholder || t("general.searchPlaceholder");
   const updateQueryParams = useSetQueryParams();
   const [searchParams] = useSearchParams();
 
@@ -44,7 +47,7 @@ const SearchInput = ({
   return (
     <InputGroup className="max-w-xs">
       <InputGroupInput
-        placeholder={placeholder}
+        placeholder={defaultPlaceholder}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />

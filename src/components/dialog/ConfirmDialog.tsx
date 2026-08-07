@@ -1,4 +1,5 @@
 import type React from "react";
+import { useTranslation } from "react-i18next";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,6 +29,8 @@ const ConfirmDialog = ({
   variant?: "default" | "destructive";
   isPending?: boolean;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <AlertDialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
       <AlertDialogContent>
@@ -37,7 +40,7 @@ const ConfirmDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel variant="outline" size="default">
-            Cancel
+            {t("general.cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
@@ -48,7 +51,7 @@ const ConfirmDialog = ({
             {isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              "Continue"
+              t("general.continue")
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

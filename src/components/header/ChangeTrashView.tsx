@@ -1,9 +1,11 @@
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { Button } from "../ui/button";
 import { Archive, Trash2 } from "lucide-react";
 
 const ChangeTrashView = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
 
   const isTrashView = searchParams.get("trash");
@@ -25,11 +27,11 @@ const ChangeTrashView = () => {
     >
       {isTrashView ? (
         <>
-          <Archive className="w-4 h-4" /> Normal View
+          <Archive className="w-4 h-4" /> {t("general.normalView")}
         </>
       ) : (
         <>
-          <Trash2 className="w-4 h-4" /> Trash
+          <Trash2 className="w-4 h-4" /> {t("general.trash")}
         </>
       )}
     </Button>

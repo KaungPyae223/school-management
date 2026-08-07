@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import DetailsHeader from "../../../components/details/DetailsHeader";
 
 import { BookOpen } from "lucide-react";
@@ -20,15 +21,17 @@ import StudentsEnrolledClassesLists from "../components/StudentsEnrolledClassesL
 import DataShow from "../../../components/data/DataShow";
 
 const StudentsDetailsPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Student Details",
+    title: t("students.detailsTitle"),
     params: [
       {
-        name: "Students",
+        name: t("students.title"),
         link: "/students",
       },
       {
-        name: "Details",
+        name: t("students.detailsBreadcrumb"),
         link: "/students/details",
       },
     ],
@@ -72,8 +75,8 @@ const StudentsDetailsPage = () => {
         <DataShow
           isLoading={isLoading}
           dataLength={data?.data.length}
-          emptyDescription="There are no attended classes available at the moment. Please add an attended class to get started!"
-          emptyTitle="No Attended Classes"
+          emptyDescription={t("students.noAttendedClassesDesc")}
+          emptyTitle={t("students.noAttendedClassesTitle")}
           emptyIcon={BookOpen}
         >
           <StudentsEnrolledClassesLists data={data?.data} />

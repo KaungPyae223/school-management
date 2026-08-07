@@ -1,13 +1,13 @@
-import { Download, Grid2X2Icon, List, Plus } from "lucide-react";
+import { Download, Plus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
-import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import { Link } from "react-router";
 
 import ColumnSelector from "../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
 import ChangeTrashView from "../../../components/header/ChangeTrashView";
 import SearchInput from "../../../components/search-input/SearchInput";
+import ViewChange from "../../../components/header/ViewChange";
 
 const ClassesHeader = ({
   tab,
@@ -16,6 +16,18 @@ const ClassesHeader = ({
   tab: string;
   isTrashView?: boolean;
 }) => {
+  const columns = [
+    { title: "Name", key: "Name" },
+    { title: "Teacher", key: "Teacher" },
+    { title: "Total Students", key: "Total Students" },
+    { title: "Days", key: "Days" },
+    { title: "Price", key: "Price" },
+    { title: "Status", key: "Status" },
+    { title: "Time", key: "Time" },
+    { title: "Start Date", key: "Start Date" },
+    { title: "End Date", key: "End Date" },
+  ];
+
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-row gap-3 justify-between">
@@ -31,17 +43,7 @@ const ClassesHeader = ({
                 transition={{ duration: 0.3 }}
               >
                 <ColumnSelector
-                  columns={[
-                    "Name",
-                    "Teacher",
-                    "Total Students",
-                    "Days",
-                    "Price",
-                    "Status",
-                    "Time",
-                    "Start Date",
-                    "End Date",
-                  ]}
+                  columns={columns}
                   alwaysSelectedColumns={["Name", "Teacher"]}
                   defaultSelectedColumns={[
                     "Name",
@@ -61,14 +63,7 @@ const ClassesHeader = ({
         <div className="flex gap-2">
           {isTrashView && <ChangeTrashView />}
 
-          <TabsList>
-            <TabsTrigger value="grid">
-              <Grid2X2Icon className="w-4 h-4 mr-1" /> Grid
-            </TabsTrigger>
-            <TabsTrigger value="list">
-              <List className="w-4 h-4 mr-1" /> List
-            </TabsTrigger>
-          </TabsList>
+          <ViewChange />
           <Button variant="outline">
             <Download className="w-4 h-4 mr-0.5" /> Export CSV
           </Button>

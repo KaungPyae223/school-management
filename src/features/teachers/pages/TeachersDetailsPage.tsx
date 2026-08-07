@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useLoaderData, useNavigate } from "react-router";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useState } from "react";
@@ -14,15 +15,17 @@ import TeachersClassesTab from "../components/TeachersClassesTab";
 import TeachersTimetableTab from "../components/TeachersTimetableTab";
 
 const TeachersDetailsPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Teacher Details",
+    title: t("teachers.detailsTitle"),
     params: [
       {
-        name: "Teachers",
+        name: t("teachers.title"),
         link: "/teachers",
       },
       {
-        name: "Details",
+        name: t("teachers.detailsBreadcrumb"),
         link: "/teachers/details",
       },
     ],

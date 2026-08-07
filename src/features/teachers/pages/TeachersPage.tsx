@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
@@ -14,8 +15,10 @@ import TeachersList from "../components/TeachersList";
 import DataShow from "../../../components/data/DataShow";
 
 const TeachersPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Teachers",
+    title: t("teachers.title"),
   });
 
   const { view, changeView } = useViewTabChange();
@@ -33,11 +36,11 @@ const TeachersPage = () => {
       <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
-        emptyDescription="There are no teachers available at the moment. Please add a teacher to get started!"
-        emptyTitle="No Teachers"
+        emptyDescription={t("teachers.noTeachersDesc")}
+        emptyTitle={t("teachers.noTeachersTitle")}
         emptyIcon={UserRoundPen}
         action={{
-          label: "Add Teacher",
+          label: t("teachers.addTeacher"),
           link: "/teachers/create",
         }}
       >

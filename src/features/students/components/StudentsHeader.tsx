@@ -1,14 +1,27 @@
-import { Download, Grid2X2Icon, List, Plus } from "lucide-react";
+import { Download, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
-import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import { Link } from "react-router";
 
 import ColumnSelector from "../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
 import SearchInput from "../../../components/search-input/SearchInput";
+import ViewChange from "../../../components/header/ViewChange";
 
 const StudentsHeader = ({ tab }: { tab: string }) => {
+  const { t } = useTranslation();
+
+  const columns = [
+    { title: t("students.fields.name"), key: "Name" },
+    { title: t("students.fields.phone"), key: "Phone" },
+    { title: t("students.fields.email"), key: "Email" },
+    { title: t("students.fields.address"), key: "Address" },
+    { title: t("students.fields.gender"), key: "Gender" },
+    { title: t("students.fields.dob"), key: "Date of Birth" },
+    { title: t("students.totalClasses"), key: "Total Classes" },
+  ];
+
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-row gap-3 justify-between">
@@ -24,15 +37,7 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
                 transition={{ duration: 0.3 }}
               >
                 <ColumnSelector
-                  columns={[
-                    "Name",
-                    "Phone",
-                    "Email",
-                    "Address",
-                    "Gender",
-                    "Date of Birth",
-                    "Total Classes",
-                  ]}
+                  columns={columns}
                   alwaysSelectedColumns={["Name", "Phone", "Email"]}
                   defaultSelectedColumns={[
                     "Name",
@@ -49,21 +54,14 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
         </div>
 
         <div className="flex gap-2">
-          <TabsList>
-            <TabsTrigger value="grid">
-              <Grid2X2Icon className="w-4 h-4 mr-1" /> Grid
-            </TabsTrigger>
-            <TabsTrigger value="list">
-              <List className="w-4 h-4 mr-1" /> List
-            </TabsTrigger>
-          </TabsList>
+          <ViewChange />
           <Button variant="outline">
-            <Download className="w-4 h-4 mr-0.5" /> Export CSV
+            <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 
           <Link to="/students/create">
             <Button>
-              <Plus className="w-4 h-4 mr-0.5" /> Add Student
+              <Plus className="w-4 h-4 mr-0.5" /> {t("students.addStudent")}
             </Button>
           </Link>
         </div>

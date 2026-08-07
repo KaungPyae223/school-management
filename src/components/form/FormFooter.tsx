@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { Loader2Icon } from "lucide-react";
@@ -11,6 +12,8 @@ const FormFooter = ({
   isSubmitting: boolean;
   resetForm: () => void;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <CardFooter className="flex gap-2">
       <Button
@@ -19,17 +22,17 @@ const FormFooter = ({
         variant="outline"
         onClick={resetForm}
       >
-        Reset
+        {t("form.reset")}
       </Button>
 
       <Button type="submit" form={formID} disabled={isSubmitting}>
         {isSubmitting ? (
           <>
             <Loader2Icon className="animate-spin" />
-            Loading...
+            {t("form.loading")}
           </>
         ) : (
-          "Submit"
+          t("form.submit")
         )}
       </Button>
     </CardFooter>

@@ -44,40 +44,40 @@ const CoursesList = ({ data }: { data: any }) => {
   };
 
   const headers: TableHeadType[] = [
-    { title: "Name", key: "name", sortable: true, sortKey: "c.name" },
+    { title: "Name", key: "Name", sortable: true, sortKey: "c.name" },
     {
       title: "Price",
-      key: "price",
+      key: "Price",
       align: "right",
       sortable: true,
       sortKey: "c.price",
     },
     {
       title: "Description",
-      key: "description",
+      key: "Description",
       sortKey: "c.description",
     },
     {
       title: "Enrollments",
-      key: "enrollments",
+      key: "Enrollments",
       sortable: true,
       sortKey: "total_enrollments",
     },
     {
       title: "Teachers",
-      key: "teachers",
+      key: "Teachers",
       sortable: true,
       sortKey: "total_teachers",
     },
     {
       title: "Classes",
-      key: "classes",
+      key: "Classes",
       sortable: true,
       sortKey: "total_classes",
     },
     {
       title: "Active",
-      key: "active",
+      key: "Active",
       sortable: true,
       sortKey: "total_active_classes",
     },

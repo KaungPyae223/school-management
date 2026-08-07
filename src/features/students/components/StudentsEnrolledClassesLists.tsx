@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { TableHeadType } from "../../../types/TableHeader";
 import Table from "../../../components/table/Table";
 import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
@@ -23,44 +24,45 @@ import TableIconContent from "../../../components/table/TableIconContent";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
+  const { t } = useTranslation();
   const [enrolledID, setEnrolledID] = useState<number>(0);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
   const headers: TableHeadType[] = [
     {
-      title: "Course",
-      key: "course_name",
+      title: t("students.table.course"),
+      key: "Course",
       sortable: true,
       sortKey: "course_name",
     },
     {
-      title: "Teacher",
-      key: "teacher_name",
+      title: t("students.table.teacher"),
+      key: "Teacher",
       sortable: true,
       sortKey: "teacher_name",
     },
     {
-      title: "Price",
-      key: "price",
+      title: t("students.table.price"),
+      key: "Price",
       sortable: true,
       sortKey: "price",
       align: "right",
     },
     {
-      title: "Period",
-      key: "startDate",
+      title: t("students.table.period"),
+      key: "Period",
       sortable: true,
       sortKey: "startDate",
     },
     {
-      title: "Time",
-      key: "startTime",
+      title: t("students.table.time"),
+      key: "Time",
       sortable: true,
       sortKey: "startTime",
     },
     {
-      title: "Remaining",
-      key: "remainingAmount",
+      title: t("students.table.remaining"),
+      key: "Remaining",
       sortable: true,
       sortKey: "remainingAmount",
       align: "right",
@@ -106,7 +108,7 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                       {enrollmentData.course_name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Batch {enrollmentData.batch}
+                      {t("students.batch")} {enrollmentData.batch}
                     </p>
                   </div>
                 </div>
@@ -143,16 +145,16 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                 <div className="flex flex-col gap-1">
                   <span>
                     <span className="text-xs text-muted-foreground">
-                      Start:
+                      {t("students.start")}:
                     </span>{" "}
                     {formatDate(enrollmentData.startDate)}
                   </span>
 
                   <span>
-                    <span className="text-xs text-muted-foreground">End:</span>{" "}
+                    <span className="text-xs text-muted-foreground">{t("students.end")}:</span>{" "}
                     {enrollmentData.endDate
                       ? formatDate(enrollmentData.endDate)
-                      : "TBA"}
+                      : t("students.tba")}
                   </span>
                 </div>
               </TableCell>
@@ -165,7 +167,7 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                   <p className="text-xs text-muted-foreground">
                     {enrollmentData.days
                       .split(",")
-                      .map((day) => day.slice(0, 3))
+                      .map((day: string) => day.slice(0, 3))
                       .join(", ")}
                   </p>
                 </div>
@@ -187,7 +189,7 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                     onClick={() => {}}
                     variant="default"
                     icon={CreditCard}
-                    tooltip="Payment History"
+                    tooltip={t("students.table.paymentHistory")}
                   />
                 </TableActionButtonsContainer>
               </TableCell>

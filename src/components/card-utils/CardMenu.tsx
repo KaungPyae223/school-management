@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { ArchiveRestore, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 import {
@@ -19,6 +20,7 @@ const CardMenu = ({
   onDelete: () => void;
   onRestore?: () => void;
 }) => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const isTrashView = searchParams.get("trash");
 
@@ -36,17 +38,17 @@ const CardMenu = ({
         <DropdownMenuGroup>
           {isTrashView ? (
             <DropdownMenuItem onClick={onRestore}>
-              <ArchiveRestore className="mr-2 h-4 w-4" /> Restore
+              <ArchiveRestore className="mr-2 h-4 w-4" /> {t("general.restore")}
             </DropdownMenuItem>
           ) : (
             <>
               <DropdownMenuItem onClick={onEdit}>
-                <Pencil className="mr-2 h-4 w-4" /> Edit
+                <Pencil className="mr-2 h-4 w-4" /> {t("general.edit")}
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
               <DropdownMenuItem className="text-destructive" onClick={onDelete}>
-                <Trash2 className="mr-2 h-4 w-4" /> Delete
+                <Trash2 className="mr-2 h-4 w-4" /> {t("general.delete")}
               </DropdownMenuItem>
             </>
           )}

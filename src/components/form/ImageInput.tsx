@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Field, FieldError, FieldLabel } from "../ui/field";
 import { Button } from "../ui/button";
 import { Upload, X } from "lucide-react";
@@ -27,6 +28,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
   fieldState: ControllerFieldState;
   oldImageURL?: string;
 }) => {
+  const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
 
   const selectedImage = field.value ? URL.createObjectURL(field.value) : null;
@@ -41,12 +43,12 @@ const ImageInput = <T extends FieldValues = FieldValues>({
     const validTypes = ["image/jpeg", "image/png", "image/webp"];
 
     if (!validTypes.includes(file.type)) {
-      toast.error("Please upload a JPEG, PNG, or WebP image");
+      toast.error(t("validation.fileFormat"));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error("File size must be less than 5MB");
+      toast.error(t("validation.fileSize"));
       return;
     }
 
@@ -83,7 +85,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
           <div className="flex flex-row justify-between items-center">
             {label}
             {required && (
-              <span className="text-muted-foreground text-xs">Required</span>
+              <span className="text-muted-foreground text-xs">{t("form.required")}</span>
             )}
           </div>
           <div
@@ -133,10 +135,10 @@ const ImageInput = <T extends FieldValues = FieldValues>({
                   )}
                 />
                 <p className="text-sm text-gray-600 my-2">
-                  Drag and drop or click to upload cover image
+                  {t("form.dragAndDrop")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  PNG, JPG, WebP (Max 5MB)
+                  {t("form.imageFormats")}
                 </p>
               </div>
             )}

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Calendar, CalendarDays, Mail, MapPin, Phone } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../../../components/ui/card";
 
@@ -14,11 +15,18 @@ import DetailsData from "../../../components/details/DetailsData";
 import { Mars, Venus, VenusAndMars } from "lucide-react";
 
 const StudentsDetailsCard = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
   const genderIcon = data.gender
     ? data.gender === "FEMALE"
       ? Venus
       : Mars
     : VenusAndMars;
+
+  const getGenderLabel = (gender: string) => {
+    if (gender === "FEMALE") return t("students.fields.female");
+    if (gender === "MALE") return t("students.fields.male");
+    return gender || t("students.na");
+  };
 
   return (
     <Card className="shadow-sm flex flex-row gap-1.5">
@@ -36,32 +44,32 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          <DetailsData icon={Phone} label={"Phone Number"}>
+          <DetailsData icon={Phone} label={t("students.fields.phoneNumber")}>
             <p className="font-medium">{data.phone}</p>
           </DetailsData>
-          <DetailsData icon={Calendar} label={"Date of Birth"}>
+          <DetailsData icon={Calendar} label={t("students.fields.dob")}>
             <p className="font-medium">
-              {data.dob ? formatDate(data.dob) : "TBA"}
+              {data.dob ? formatDate(data.dob) : t("students.tba")}
             </p>
           </DetailsData>
-          <DetailsData icon={MapPin} label={"Address"}>
-            <p className="font-medium">{data.address || "N/A"}</p>
+          <DetailsData icon={MapPin} label={t("students.fields.address")}>
+            <p className="font-medium">{data.address || t("students.na")}</p>
           </DetailsData>
-          <DetailsData icon={genderIcon} label={"Gender"}>
-            <p className="font-medium">{data.gender || "N/A"}</p>
+          <DetailsData icon={genderIcon} label={t("students.fields.gender")}>
+            <p className="font-medium">{getGenderLabel(data.gender)}</p>
           </DetailsData>
-          <DetailsData icon={Mail} label={"Email"}>
-            <p className="font-medium">{data.email || "N/A"}</p>
+          <DetailsData icon={Mail} label={t("students.fields.email")}>
+            <p className="font-medium">{data.email || t("students.na")}</p>
           </DetailsData>
-          <DetailsData icon={Phone} label={"Phone"}>
-            <p className="font-medium">{data.phone || "N/A"}</p>
+          <DetailsData icon={Phone} label={t("students.fields.phone")}>
+            <p className="font-medium">{data.phone || t("students.na")}</p>
           </DetailsData>
         </div>
         <Separator />
         <div className=" flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
             <div>
-              <p className="text-[11px]">Created At</p>
+              <p className="text-[11px]">{t("general.createdAt")}</p>
               <p className="font-medium text-foreground">
                 {formatDate(data.createdAt)}
               </p>
@@ -70,7 +78,7 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
 
           <div className="flex items-center gap-2">
             <div className="text-right">
-              <p className="text-[11px]">Last Updated</p>
+              <p className="text-[11px]">{t("general.updatedAt")}</p>
               <p className="font-medium text-foreground">
                 {formatDate(data.updatedAt)}
               </p>

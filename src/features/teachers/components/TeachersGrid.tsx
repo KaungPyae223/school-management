@@ -1,15 +1,18 @@
+import { useTranslation } from "react-i18next";
 import CardSort from "../../../components/card-utils/CardSort";
 import TeachersCard from "./TeachersCard";
 
 const TeachersGrid = ({ data }: { data: any[] }) => {
+  const { t } = useTranslation();
+
   const sortOptions = [
-    { field: "t.name", label: "Name" },
-    { field: "t.phone", label: "Phone" },
-    { field: "t.email", label: "Email" },
-    { field: "t.address", label: "Address" },
-    { field: "t.nrc", label: "NRC" },
-    { field: "total_classes", label: "Total Classes" },
-    { field: "total_students", label: "Total Students" },
+    { field: "t.name", label: t("teachers.fields.name") },
+    { field: "t.phone", label: t("teachers.fields.phone") },
+    { field: "t.email", label: t("teachers.fields.email") },
+    { field: "t.address", label: t("teachers.fields.address") },
+    { field: "t.nrc", label: t("teachers.fields.nrc") },
+    { field: "total_classes", label: t("teachers.totalClasses") },
+    { field: "total_students", label: t("teachers.totalStudents") },
   ];
 
   return (

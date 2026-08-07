@@ -5,6 +5,7 @@ import { Badge } from "../ui/badge";
 import { formatDate } from "../../utils/format-date";
 import { useSearchParams } from "react-router";
 import { cn } from "../../lib/utils";
+import { useTranslation } from "react-i18next";
 
 const CardCretedUpdated = ({
   createdAt,
@@ -16,6 +17,8 @@ const CardCretedUpdated = ({
   const [searchParams] = useSearchParams();
   const isTrashView = searchParams.get("trash");
 
+  const { t } = useTranslation();
+
   return (
     <CardContent>
       <Separator className="mb-4" />
@@ -23,7 +26,7 @@ const CardCretedUpdated = ({
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-1.5 text-xs  uppercase tracking-wide text-muted-foreground font-medium">
             <Calendar className="h-3 w-3" />
-            Created Date
+            {t("general.createdAt")}
           </span>
           <Badge variant="secondary" className="text-xs font-medium">
             {formatDate(createdAt)}
@@ -43,7 +46,7 @@ const CardCretedUpdated = ({
               ) : (
                 <CalendarClock className="h-3 w-3" />
               )}
-              {isTrashView ? "Deleted Date" : "Last updated"}
+              {isTrashView ? t("general.deletedAt") : t("general.updatedAt")}
             </span>
             <Badge
               variant="secondary"

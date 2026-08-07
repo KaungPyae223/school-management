@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import useBreadCrumbStore from "../stores/useBreadCrumbStroe";
+import { useTranslation } from "react-i18next";
 
 const useAddBreadcrumb = ({
   title = "",
@@ -8,12 +9,13 @@ const useAddBreadcrumb = ({
   title?: string;
   params?: { name: string; link: string }[];
 }) => {
-  const { setTitle, setParams } = useBreadCrumbStore();
+const { setTitle, setParams } = useBreadCrumbStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setTitle(title || "");
     setParams(params || []);
-  }, [setTitle, setParams]);
+  }, [setTitle, setParams, t]);
 };
 
 export default useAddBreadcrumb;

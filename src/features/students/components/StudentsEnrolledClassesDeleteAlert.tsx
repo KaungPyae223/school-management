@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useDeleteEnrollment } from "../../classes/hooks/useDeleteEnrollment";
@@ -11,12 +12,13 @@ const StudentsEnrolledClassesDeleteAlert = ({
   confirmDialogOpen: boolean;
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { t } = useTranslation();
   const { mutateAsync, isPending } = useDeleteEnrollment(id);
 
   const handleDelete = async () => {
     try {
       await mutateAsync(id);
-      toast.success("Enrollment deleted successfully");
+      toast.success(t("students.alerts.deleteEnrollmentSuccess"));
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -30,8 +32,8 @@ const StudentsEnrolledClassesDeleteAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleDelete}
       variant="destructive"
-      title="Delete this enrollment?"
-      description="Please confirm that you want to delete this enrollment. This action cannot be undone."
+      title={t("students.alerts.deleteEnrollmentTitle")}
+      description={t("students.alerts.deleteEnrollmentDesc")}
       isPending={isPending}
     />
   );

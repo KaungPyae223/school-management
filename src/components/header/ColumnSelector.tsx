@@ -11,9 +11,10 @@ import { Columns } from "lucide-react";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { useGetSelectedColumns } from "../../hooks/use-get-selected-columns";
 import { useSearchParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 interface Props {
-  columns: string[];
+  columns: { title: string; key: string }[];
   alwaysSelectedColumns: string[];
   defaultSelectedColumns: string[];
 }
@@ -25,6 +26,8 @@ const ColumnSelector: React.FC<Props> = ({
 }) => {
   const [searchParams] = useSearchParams();
   const isTrashView = searchParams.get("trash");
+
+  const { t } = useTranslation();
 
   const updateQueryParams = useSetQueryParams();
 
@@ -46,7 +49,11 @@ const ColumnSelector: React.FC<Props> = ({
 
   const selectAllColumns = () => {
     updateQueryParams({
-      columns: [...columns, "Created At", "Updated At"].join(","),
+      columns: [
+        ...columns.map((column) => column.key),
+        "Created At",
+        "Updated At",
+      ].join(","),
     });
   };
 
@@ -57,7 +64,7 @@ const ColumnSelector: React.FC<Props> = ({
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2">
           <Columns className="h-4 w-4" />
-          <span>Columns</span>
+          <span>{t("general.columns")}</span>
           <span className="ml-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
             {visibleColumnsCount}
           </span>
@@ -67,7 +74,7 @@ const ColumnSelector: React.FC<Props> = ({
       <DropdownMenuContent className="w-64" align="start">
         {/* Header with count */}
         <DropdownMenuLabel className="px-2 pt-2.5 pb-1.5 font-medium uppercase tracking-wider text-muted-foreground">
-          Select Columns
+          {t("general.selectColumns")}
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
@@ -75,13 +82,13 @@ const ColumnSelector: React.FC<Props> = ({
         <div className="px-1">
           {columns.map((column) => (
             <DropdownMenuCheckboxItem
-              key={column}
-              checked={selectedColumns.includes(column)}
-              onCheckedChange={() => toggleColumn(column)}
-              disabled={alwaysSelectedColumns.includes(column)}
+              key={column.key}
+              checked={selectedColumns.includes(column.key)}
+              onCheckedChange={() => toggleColumn(column.title)}
+              disabled={alwaysSelectedColumns.includes(column.key)}
               className="p-2 cursor-pointer"
             >
-              <span className="flex items-center gap-2">{column}</span>
+              <span className="flex items-center gap-2">{column.title}</span>
             </DropdownMenuCheckboxItem>
           ))}
 
@@ -91,7 +98,9 @@ const ColumnSelector: React.FC<Props> = ({
             disabled={alwaysSelectedColumns.includes("Created At")}
             className="py-2 px-2 cursor-pointer"
           >
-            <span className="flex items-center gap-2">Created At</span>
+            <span className="flex items-center gap-2">
+              {t("general.createdAt")}
+            </span>
           </DropdownMenuCheckboxItem>
 
           <DropdownMenuCheckboxItem
@@ -105,7 +114,7 @@ const ColumnSelector: React.FC<Props> = ({
             className="py-2 px-2 cursor-pointer"
           >
             <span className="flex items-center gap-2">
-              {isTrashView ? "Deleted At" : "Updated At"}
+              {isTrashView ? t("general.deletedAt") : t("general.updatedAt")}
             </span>
           </DropdownMenuCheckboxItem>
         </div>
@@ -120,7 +129,7 @@ const ColumnSelector: React.FC<Props> = ({
               className="flex-1 text-xs h-8"
               onClick={selectAllColumns}
             >
-              Select All
+              {t("general.selectAll")}
             </Button>
             <Button
               variant="outline"
@@ -132,7 +141,7 @@ const ColumnSelector: React.FC<Props> = ({
                 });
               }}
             >
-              Reset Defaults
+              {t("general.resetDefaults")}
             </Button>
           </div>
         </div>

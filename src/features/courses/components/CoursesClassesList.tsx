@@ -5,7 +5,7 @@ import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator
 import TableBody from "../../../components/table/TableBody";
 import TableRow from "../../../components/table/TableRow";
 import TableCell from "../../../components/table/TableCell";
-import { BookOpen, DollarSign, Users } from "lucide-react";
+import { DollarSign, Users } from "lucide-react";
 import TableIconContent from "../../../components/table/TableIconContent";
 import { formatCurrency } from "../../../utils/format-currency";
 import { formatDate } from "../../../utils/format-date";
@@ -25,38 +25,38 @@ const CoursesClassesList = ({ data }: { data: any }) => {
   const headers: TableHeadType[] = [
     {
       title: "Teacher",
-      key: "teacher_name",
+      key: "Teacher",
       sortable: true,
       sortKey: "teacher_name",
     },
 
     {
       title: "Price",
-      key: "price",
+      key: "Price",
       sortable: true,
       sortKey: "cl.price",
       align: "right",
     },
     {
       title: "Period",
-      key: "startDate",
+      key: "Period",
       sortable: true,
       sortKey: "cl.startDate",
     },
     {
       title: "Time",
-      key: "startTime",
+      key: "Time",
       sortable: true,
       sortKey: "cl.startTime",
     },
     {
       title: "Status",
-      key: "status",
+      key: "Status",
       sortable: false,
     },
     {
       title: "Total Students",
-      key: "total_students",
+      key: "Total Students",
       sortable: true,
       sortKey: "total_students",
       align: "right",

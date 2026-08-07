@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   BookOpen,
@@ -34,6 +35,7 @@ import CardInfo from "../../../components/card-utils/CardInfo";
 import CardMeta from "../../../components/card-utils/CardMeta";
 
 const StudentCard = ({ student }: { student: any }) => {
+  const { t } = useTranslation();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -42,6 +44,13 @@ const StudentCard = ({ student }: { student: any }) => {
       ? Venus
       : Mars
     : VenusAndMars;
+
+  const getGenderLabel = (gender: string) => {
+    if (gender === "FEMALE") return t("students.fields.female");
+    if (gender === "MALE") return t("students.fields.male");
+    return gender;
+  };
+
   return (
     <>
       <Card className="shadow-sm hover:shadow-md  relative transition-shadow duration-200 group overflow-hidden">
@@ -62,20 +71,24 @@ const StudentCard = ({ student }: { student: any }) => {
           </div>
         </CardHeader>
         <CardContent className="pb-3 flex-1 space-y-3.5">
-          <CardInfo icon={Phone} label="Phone" value={student.phone} />
-          <CardInfo icon={Mail} label="Email" value={student.email} />
-          <CardInfo icon={MapPin} label="Address" value={student.address} />
+          <CardInfo icon={Phone} label={t("students.fields.phone")} value={student.phone} />
+          <CardInfo icon={Mail} label={t("students.fields.email")} value={student.email} />
+          <CardInfo icon={MapPin} label={t("students.fields.address")} value={student.address} />
           <CardInfo
             icon={Calendar}
-            label="Date of Birth"
+            label={t("students.fields.dob")}
             value={student.dob && formatDate(student.dob)}
           />
-          <CardInfo icon={genderIcon} label="Gender" value={student.gender} />
+          <CardInfo
+            icon={genderIcon}
+            label={t("students.fields.gender")}
+            value={getGenderLabel(student.gender)}
+          />
         </CardContent>
         <CardContent>
           <CardMeta
             icon={BookOpen}
-            title="Total classes"
+            title={t("students.totalClasses")}
             value={student.total_classes}
             className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
           />
@@ -90,7 +103,7 @@ const StudentCard = ({ student }: { student: any }) => {
             className="w-full justify-between cursor-pointer"
             onClick={() => navigate(`/students/details/${student.id}`)}
           >
-            View Student Details
+            {t("students.viewStudentDetails")}
             <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
           </Button>
         </CardFooter>

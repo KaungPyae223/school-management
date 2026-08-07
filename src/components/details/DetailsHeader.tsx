@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { ArchiveRestore, ChevronLeft, Pencil, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardHeader } from "../ui/card";
@@ -16,13 +17,14 @@ const DetailsHeader = ({
   isDeleted?: boolean;
   children?: React.ReactNode;
 }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
     <Card className="shadow-sm">
       <CardHeader className="flex flex-row justify-between items-center">
         <Button variant="outline" onClick={() => navigate(-1)}>
-          <ChevronLeft /> Back
+          <ChevronLeft /> {t("general.back")}
         </Button>
         <div className="flex items-center gap-3">
           {children}
@@ -33,17 +35,17 @@ const DetailsHeader = ({
               onClick={onRestore}
             >
               <ArchiveRestore className="size-3.5" />
-              Restore
+              {t("general.restore")}
             </Button>
           ) : (
             <>
               <Button variant="outline" onClick={onUpdate}>
                 <Pencil className="size-3.5" />
-                Edit
+                {t("general.edit")}
               </Button>
               <Button variant="destructive" onClick={onDelete}>
                 <Trash className="size-3.5" />
-                Delete
+                {t("general.delete")}
               </Button>
             </>
           )}

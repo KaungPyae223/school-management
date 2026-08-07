@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router";
 import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { Button } from "../ui/button";
 import { ArrowDown, ArrowUp } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 type SortOption = {
   field: string;
@@ -22,6 +23,8 @@ const CardSort = ({
 
   const sort = searchParams.get("sort");
   const sortDirection = searchParams.get("sortDirection");
+
+  const { t } = useTranslation();
 
   const handleSortKeyChange = (sortKey: string) => {
     if (sortKey === "none") {
@@ -51,7 +54,7 @@ const CardSort = ({
     <div className="flex items-center justify-between gap-3 mb-5 flex-wrap">
       <div className="flex items-center gap-3 flex-wrap">
         <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          Sort by
+          {t("general.sortBy")}
         </span>
 
         <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
@@ -61,7 +64,7 @@ const CardSort = ({
             size="sm"
             onClick={() => handleSortKeyChange("none")}
           >
-            None
+            {t("general.none")}
           </Button>
 
           {sortOptions.map(({ field, label }) => (
@@ -81,7 +84,7 @@ const CardSort = ({
             size="sm"
             onClick={() => handleSortKeyChange(`${prefix}createdAt`)}
           >
-            Created Date
+            {t("general.createdAt")}
           </Button>
 
           <Button
@@ -90,7 +93,7 @@ const CardSort = ({
             size="sm"
             onClick={() => handleSortKeyChange(`${prefix}updatedAt`)}
           >
-            {isTrashView ? "Deleted Date" : "Last Updated"}
+            {isTrashView ? t("general.deletedAt") : t("general.updatedAt")}
           </Button>
         </div>
 
@@ -100,7 +103,7 @@ const CardSort = ({
           ) : (
             <ArrowUp size={14} />
           )}
-          {sortDirection === "desc" ? "Descending" : "Ascending"}
+          {sortDirection === "desc" ? t("general.desc") : t("general.asc")}
         </Button>
       </div>
     </div>

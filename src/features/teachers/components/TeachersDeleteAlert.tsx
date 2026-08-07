@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useDeleteTeacher } from "../hooks/useDeleteTeacher";
@@ -14,6 +15,7 @@ const TeachersDeleteAlert = ({
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   back?: boolean;
 }) => {
+  const { t } = useTranslation();
   const { mutateAsync, isPending } = useDeleteTeacher();
 
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ const TeachersDeleteAlert = ({
   const handleDelete = async () => {
     try {
       await mutateAsync(id);
-      toast.success("teacher deleted successfully");
+      toast.success(t("teachers.alerts.deleteSuccess"));
       if (back) {
         navigate(-1);
       }
@@ -38,8 +40,8 @@ const TeachersDeleteAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleDelete}
       variant="destructive"
-      title="Delete this teacher?"
-      description="Please confirm that you want to delete this teacher. This action cannot be undone."
+      title={t("teachers.alerts.deleteTitle")}
+      description={t("teachers.alerts.deleteDesc")}
       isPending={isPending}
     />
   );

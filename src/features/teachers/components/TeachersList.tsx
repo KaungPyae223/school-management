@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   BookOpen,
   GraduationCap,
@@ -28,6 +29,7 @@ import TableActionButtonsContainer from "../../../components/table/TableActionBu
 import TeachersRestoreAlert from "./TeachersRestoreAlert";
 
 const TeachersList = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
   const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
@@ -56,19 +58,19 @@ const TeachersList = ({ data }: { data: any }) => {
   ]);
 
   const headers: TableHeadType[] = [
-    { title: "Name", key: "Name", sortable: true, sortKey: "t.name" },
-    { title: "Phone", key: "Phone", sortable: true, sortKey: "t.phone" },
-    { title: "Email", key: "Email", sortable: true, sortKey: "t.email" },
-    { title: "Address", key: "Address", sortable: false, sortKey: "t.address" },
-    { title: "NRC", key: "NRC", sortable: true, sortKey: "t.nrc" },
+    { title: t("teachers.fields.name"), key: "Name", sortable: true, sortKey: "t.name" },
+    { title: t("teachers.fields.phone"), key: "Phone", sortable: true, sortKey: "t.phone" },
+    { title: t("teachers.fields.email"), key: "Email", sortable: true, sortKey: "t.email" },
+    { title: t("teachers.fields.address"), key: "Address", sortable: false, sortKey: "t.address" },
+    { title: t("teachers.fields.nrc"), key: "NRC", sortable: true, sortKey: "t.nrc" },
     {
-      title: "Total Classes",
+      title: t("teachers.totalClasses"),
       key: "Total Classes",
       sortable: true,
       sortKey: "total_classes",
     },
     {
-      title: "Total Students",
+      title: t("teachers.totalStudents"),
       key: "Total Students",
       sortable: true,
       sortKey: "total_students",

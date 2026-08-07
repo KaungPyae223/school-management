@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import type { TableHeadType } from "../../../types/TableHeader";
 import Table from "../../../components/table/Table";
@@ -15,43 +16,43 @@ import ClassesStatus from "../../classes/components/ClassesStatus";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const TeachersClassesList = ({ data }: { data: any }) => {
-  console.log(data);
+  const { t } = useTranslation();
 
   const headers: TableHeadType[] = [
     {
-      title: "Course",
-      key: "course_name",
+      title: t("students.table.course"),
+      key: "Course",
       sortable: true,
       sortKey: "course_name",
     },
 
     {
-      title: "Price",
-      key: "price",
+      title: t("students.table.price"),
+      key: "Price",
       sortable: true,
       sortKey: "cl.price",
       align: "right",
     },
     {
-      title: "Period",
-      key: "startDate",
+      title: t("students.table.period"),
+      key: "Period",
       sortable: true,
       sortKey: "cl.startDate",
     },
     {
-      title: "Time",
-      key: "startTime",
+      title: t("students.table.time"),
+      key: "Time",
       sortable: true,
       sortKey: "cl.startTime",
     },
     {
       title: "Status",
-      key: "status",
+      key: "Status",
       sortable: false,
     },
     {
-      title: "Total Students",
-      key: "total_students",
+      title: t("teachers.totalStudents"),
+      key: "Total Students",
       sortable: true,
       sortKey: "total_students",
       align: "right",
@@ -90,7 +91,7 @@ const TeachersClassesList = ({ data }: { data: any }) => {
                     {classData.course_name}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Batch {classData.batch}
+                    {t("students.batch")} {classData.batch}
                   </p>
                 </div>
               </div>
@@ -105,13 +106,13 @@ const TeachersClassesList = ({ data }: { data: any }) => {
             <TableCell>
               <div className="flex flex-col gap-1">
                 <span>
-                  <span className="text-xs text-muted-foreground">Start:</span>{" "}
+                  <span className="text-xs text-muted-foreground">{t("students.start")}:</span>{" "}
                   {formatDate(classData.startDate)}
                 </span>
 
                 <span>
-                  <span className="text-xs text-muted-foreground">End:</span>{" "}
-                  {classData.endDate ? formatDate(classData.endDate) : "TBA"}
+                  <span className="text-xs text-muted-foreground">{t("students.end")}:</span>{" "}
+                  {classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
                 </span>
               </div>
             </TableCell>

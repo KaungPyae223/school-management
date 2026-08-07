@@ -1,7 +1,6 @@
-import { Download, Grid2X2Icon, List, Plus } from "lucide-react";
+import { Download, Plus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
-import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import { Link } from "react-router";
 
 import ColumnSelector from "../../../components/header/ColumnSelector";
@@ -9,8 +8,19 @@ import { AnimatePresence, m } from "framer-motion";
 import ChangeTrashView from "../../../components/header/ChangeTrashView";
 
 import SearchInput from "../../../components/search-input/SearchInput";
+import ViewChange from "../../../components/header/ViewChange";
 
 const CoursesHeader = ({ tab }: { tab: string }) => {
+  const columns = [
+    { title: "Name", key: "Name" },
+    { title: "Price", key: "Price" },
+    { title: "Description", key: "Description" },
+    { title: "Enrollments", key: "Enrollments" },
+    { title: "Teachers", key: "Teachers" },
+    { title: "Classes", key: "Classes" },
+    { title: "Active", key: "Active" },
+  ];
+
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-row gap-3 justify-between">
@@ -26,15 +36,7 @@ const CoursesHeader = ({ tab }: { tab: string }) => {
                 transition={{ duration: 0.3 }}
               >
                 <ColumnSelector
-                  columns={[
-                    "Name",
-                    "Price",
-                    "Description",
-                    "Enrollments",
-                    "Teachers",
-                    "Classes",
-                    "Active",
-                  ]}
+                  columns={columns}
                   alwaysSelectedColumns={["Name", "Price"]}
                   defaultSelectedColumns={[
                     "Name",
@@ -51,14 +53,8 @@ const CoursesHeader = ({ tab }: { tab: string }) => {
         <div className="flex gap-2">
           <ChangeTrashView />
 
-          <TabsList>
-            <TabsTrigger value="grid">
-              <Grid2X2Icon className="w-4 h-4 mr-1" /> Grid
-            </TabsTrigger>
-            <TabsTrigger value="list">
-              <List className="w-4 h-4 mr-1" /> List
-            </TabsTrigger>
-          </TabsList>
+          <ViewChange />
+
           <Button variant="outline">
             <Download className="w-4 h-4 mr-0.5" /> Export CSV
           </Button>

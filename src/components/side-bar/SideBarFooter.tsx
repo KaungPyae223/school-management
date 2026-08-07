@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router";
+import { useTranslation } from "react-i18next";
 import {
   SidebarFooter,
   SidebarMenu,
@@ -8,21 +9,23 @@ import {
 import { CircleQuestionMark, Code2, Settings } from "lucide-react";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <SidebarFooter>
       <SidebarMenu>
         {/* Settings */}
         <SidebarMenuItem className="space-y-1.5">
-          <SidebarMenuButton asChild tooltip="Help">
+          <SidebarMenuButton asChild tooltip={t("general.help")}>
             <a href="#">
               <CircleQuestionMark />
-              <span>Help</span>
+              <span>{t("general.help")}</span>
             </a>
           </SidebarMenuButton>
-          <SidebarMenuButton asChild tooltip="Settings">
+          <SidebarMenuButton asChild tooltip={t("settings.title")}>
             <NavLink to="/settings">
               <Settings />
-              <span>Settings</span>
+              <span>{t("settings.title")}</span>
             </NavLink>
           </SidebarMenuButton>
         </SidebarMenuItem>
@@ -31,13 +34,13 @@ const Footer = () => {
         <SidebarMenuItem className="border-t border-t-gray-300 mt-3 pt-3">
           <SidebarMenuButton
             asChild
-            tooltip="Developed by Kaung Pyae Aung"
+            tooltip={`${t("general.developedBy")} Kaung Pyae Aung`}
             className="text-muted-foreground hover:text-sidebar-foreground"
           >
             <a href="#">
               <Code2 className="shrink-0" />
               <div className="flex flex-col leading-none">
-                <span className="text-[10px]">Developed by</span>
+                <span className="text-[10px]">{t("general.developedBy")}</span>
                 <span className="text-xs font-medium">Kaung Pyae Aung</span>
               </div>
             </a>

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import { useTranslation } from "react-i18next";
 import {
   SidebarContent,
   SidebarGroup,
@@ -19,15 +20,17 @@ import {
 } from "lucide-react";
 
 const Content = () => {
+  const { t } = useTranslation();
+
   const items = [
-    { title: "Dashboard", url: "/", icon: LayoutDashboard },
-    { title: "Students", url: "/students", icon: GraduationCap },
-    { title: "Teachers", url: "/teachers", icon: UserRoundPen },
-    { title: "Courses", url: "/courses", icon: LibraryBig },
-    { title: "Classes", url: "/classes", icon: BookOpen },
-    { title: "Payments", url: "/payments", icon: CreditCard },
-    { title: "Timetable", url: "/timetable", icon: CalendarDays },
-    { title: "Analysis", url: "/analysis", icon: ChartNoAxesCombined },
+    { title: "Dashboard", translationKey: "dashboard.title", url: "/", icon: LayoutDashboard },
+    { title: "Students", translationKey: "students.title", url: "/students", icon: GraduationCap },
+    { title: "Teachers", translationKey: "teachers.title", url: "/teachers", icon: UserRoundPen },
+    { title: "Courses", translationKey: "courses.title", url: "/courses", icon: LibraryBig },
+    { title: "Classes", translationKey: "classes.title", url: "/classes", icon: BookOpen },
+    { title: "Payments", translationKey: "payments.title", url: "/payments", icon: CreditCard },
+    { title: "Timetable", translationKey: "timetable.title", url: "/timetable", icon: CalendarDays },
+    { title: "Analysis", translationKey: "analysis.title", url: "/analysis", icon: ChartNoAxesCombined },
   ];
 
   return (
@@ -35,16 +38,19 @@ const Content = () => {
       <SidebarGroup>
         <SidebarGroupContent>
           <SidebarMenu className="space-y-1.5">
-            {items.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title}>
-                  <NavLink to={item.url}>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+            {items.map((item) => {
+              const label = t(item.translationKey, { defaultValue: item.title });
+              return (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild tooltip={label}>
+                    <NavLink to={item.url}>
+                      <item.icon />
+                      <span>{label}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
