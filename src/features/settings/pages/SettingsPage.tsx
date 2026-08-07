@@ -7,6 +7,7 @@ import {
 import { Separator } from "../../../components/ui/separator";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import SettingsChangeAppearance from "../components/SettingsChangeAppearance";
+import SettingsChangeLanguage from "../components/SettingsChangeLanguage";
 import SettingsChangeTheme from "../components/SettingsChangeTheme";
 
 const SettingsPage = () => {
@@ -23,6 +24,8 @@ const SettingsPage = () => {
         <SettingsChangeAppearance />
         <Separator />
         <SettingsChangeTheme />
+        <Separator />
+        <SettingsChangeLanguage />
       </CardContent>
     </Card>
   );

@@ -1,0 +1,10 @@
+{
+  "settings": {
+    "changeLanguage": {
+      "title": "ဘာသာစကားပြောင်းရန်",
+      "description": "အသုံးပြုရန် ဘာသာစကားကို ရွေးချယ်ပါ",
+      "selectPlaceholder": "ဘာသာစကားရွေးပါ",
+      "languagesLabel": "ဘာသာစကားများ"
+    }
+  }
+}

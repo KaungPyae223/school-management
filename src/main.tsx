@@ -4,5 +4,6 @@ import Index from "./routers/Index.tsx";
 import "@fullcalendar/react/skeleton.css";
 import "@fullcalendar/react/themes/monarch/theme.css";
 import "@fullcalendar/react/themes/monarch/palettes/blue.css";
+import "./translate/i18n";
 
 createRoot(document.getElementById("root")!).render(<Index />);

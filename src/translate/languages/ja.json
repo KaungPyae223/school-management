@@ -1,0 +1,10 @@
+{
+  "settings": {
+    "changeLanguage": {
+      "title": "言語の変更",
+      "description": "アプリの言語を選択してください",
+      "selectPlaceholder": "言語を選択してください",
+      "languagesLabel": "言語"
+    }
+  }
+}
