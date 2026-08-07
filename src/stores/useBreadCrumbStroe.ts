@@ -12,7 +12,7 @@ type UseBreadCrumbStore = {
   setTitle: (title: string) => void;
 };
 
-const useBreadCrumbStore = create<UseBreadCrumbStore>((set) => ({
+const useBreadCrumbStore = create<UseBreadCrumbStore>((set, ) => ({
   params: [],
   title: "",
   setParams: (params) => set({ params }),

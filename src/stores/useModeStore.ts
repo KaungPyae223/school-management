@@ -1,6 +1,7 @@
 // stores/color-scheme-store.ts
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { electronStorage } from "./electronStorage";
 
 export type Mode = "dark" | "light" | "system";
 
@@ -33,6 +34,7 @@ export const useModeStore = create<ModeState>()(
     }),
     {
       name: "mode",
+      storage: createJSONStorage(() => electronStorage),
       onRehydrateStorage: () => (state) => {
         if (state) {
           const root = document.documentElement;

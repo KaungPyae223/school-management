@@ -2,6 +2,11 @@ import type { ResponseDataType } from "./ResponseTypes";
 
 declare global {
   interface Window {
+    electronStore: {
+      get: (key: string) => Promise<string | null>;
+      set: (key: string, value: string) => Promise<void>;
+      delete: (key: string) => Promise<void>;
+    };
     api: {
       getAllCourses: (data: {
         page?: number;

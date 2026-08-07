@@ -1,6 +1,7 @@
 // stores/color-scheme-store.ts
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { electronStorage } from "./electronStorage";
 
 export type ColorScheme = "default" | "blue" | "red" | "pink" | "orange";
 const COLOR_SCHEMES: ColorScheme[] = [
@@ -28,7 +29,8 @@ export const useColorSchemeStore = create<ColorSchemeState>()(
       },
     }),
     {
-      name: "color-scheme",
+      name: "colorScheme",
+      storage: createJSONStorage(() => electronStorage),
       onRehydrateStorage: () => (state) => {
         if (state) {
           const root = document.documentElement;
