@@ -23,6 +23,7 @@ import {
 import { debounce } from "lodash";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { useSearchParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import { useSetQueryParams } from "../../../hooks/use-set-query-params";
 
@@ -33,6 +34,7 @@ interface Teacher {
 }
 
 const TimetableTeacherSelect = () => {
+  const { t } = useTranslation();
   const [searchParam] = useSearchParams();
 
   const selected = searchParam.get("selectedTeachers")
@@ -162,20 +164,20 @@ const TimetableTeacherSelect = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2">
           <UserPen className="h-4 w-4" />
-          <span>Teachers</span>
+          <span>{t("timetable.teachers")}</span>
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-64" align="start">
         <DropdownMenuLabel className="px-2 pt-2.5 pb-1.5 font-medium uppercase tracking-wider text-muted-foreground">
-          Select Teachers
+          {t("timetable.selectTeachers")}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <div className="p-2">
           <InputGroup>
             <InputGroupInput
-              placeholder="Search..."
+              placeholder={t("general.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
               onKeyDown={(e) => e.stopPropagation()}
@@ -192,7 +194,7 @@ const TimetableTeacherSelect = () => {
         <ScrollArea className="h-75 p-1">
           {teacherData.length === 0 && !isLoading ? (
             <div className="text-center text-sm text-muted-foreground py-4">
-              No teachers found
+              {t("timetable.noTeachersFound")}
             </div>
           ) : (
             teacherData.map((teacher, index) => (
@@ -222,7 +224,7 @@ const TimetableTeacherSelect = () => {
               {isLoading && (
                 <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                   <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
-                  Loading more...
+                  {t("form.loading")}
                 </div>
               )}
             </div>
@@ -238,7 +240,7 @@ const TimetableTeacherSelect = () => {
             className="flex-1 text-xs"
             onClick={selectAllFiltered}
           >
-            Select All
+            {t("timetable.selectAll")}
           </Button>
           <Button
             variant="outline"
@@ -246,7 +248,7 @@ const TimetableTeacherSelect = () => {
             className="flex-1 text-xs"
             onClick={deselectAllFiltered}
           >
-            Deselect All
+            {t("timetable.deselectAll")}
           </Button>
         </div>
       </DropdownMenuContent>
@@ -255,3 +257,4 @@ const TimetableTeacherSelect = () => {
 };
 
 export default TimetableTeacherSelect;
+

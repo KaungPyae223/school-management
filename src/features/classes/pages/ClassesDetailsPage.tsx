@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useLoaderData, useNavigate } from "react-router";
 import DetailsHeader from "../../../components/details/DetailsHeader";
@@ -22,15 +23,17 @@ import DataShow from "../../../components/data/DataShow";
 import ClassesCompleteAlert from "../components/ClassesCompleteAlert";
 
 const ClassesDetailsPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Class Details",
+    title: t("classes.detailsTitle"),
     params: [
       {
-        name: "Classes",
+        name: t("classes.title"),
         link: "/classes",
       },
       {
-        name: "Details",
+        name: t("classes.detailsBreadcrumb"),
         link: "/classes/details",
       },
     ],
@@ -73,7 +76,7 @@ const ClassesDetailsPage = () => {
               onClick={() => setCompleteConfirmDialogOpen(true)}
             >
               <GraduationCap className="size-3.5" />
-              Complete Class
+              {t("classes.completeClass")}
             </Button>
           )}
           {classData.status != "complete" && (
@@ -82,7 +85,7 @@ const ClassesDetailsPage = () => {
               onClick={() => navigate(`/classes/enroll/${classData.id}`)}
             >
               <UserPlus className="size-3.5" />
-              Enrolled Student
+              {t("classes.enrolledStudent")}
             </Button>
           )}
         </DetailsHeader>
@@ -93,7 +96,7 @@ const ClassesDetailsPage = () => {
             <SearchInput />
             <div className="flex items-center gap-2 whitespace-nowrap">
               <span className="text-sm font-medium text-muted-foreground">
-                Total Students:
+                {t("classes.fields.totalStudents")}:
               </span>
               <Badge variant="secondary">{classData._count.enrollments}</Badge>
             </div>
@@ -102,11 +105,11 @@ const ClassesDetailsPage = () => {
         <DataShow
           isLoading={isLoading}
           dataLength={data?.data.length}
-          emptyDescription="There are no enrolled students available at the moment. Please add an enrolled student to get started!"
-          emptyTitle="No Enrolled Students"
+          emptyDescription={t("classes.noEnrolledStudentsDesc")}
+          emptyTitle={t("classes.noEnrolledStudentsTitle")}
           emptyIcon={GraduationCap}
           action={{
-            label: "Add Student",
+            label: t("students.addStudent"),
             link: `/classes/enroll/${classData.id}`,
           }}
         >

@@ -9,6 +9,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { generateImageData } from "../../../utils/generate-image-data";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import FormFooter from "../../../components/form/FormFooter";
@@ -26,23 +27,7 @@ import ImageInput from "../../../components/form/ImageInput";
 import { Textarea } from "../../../components/ui/textarea";
 import { useCreatePayment } from "../hooks/useCreatePayment";
 import NumberInput from "../../../components/form/NumberInput";
-
-const formSchema = z.object({
-  amount: z.number().min(1, "Amount is required"),
-  description: z.string().optional(),
-  image: z
-    .instanceof(File)
-    .refine((file) => file.size <= 5 * 1024 * 1024, {
-      message: "Max file size is 5MB",
-    })
-    .refine(
-      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-      {
-        message: "Only .jpg, .jpeg, .png and .webp formats are supported",
-      },
-    )
-    .optional(),
-});
+import { PaymentsSchema } from "../schema/PaymentsSchema";
 
 const PaymentsCreateCard = ({
   amountDue,
@@ -53,6 +38,9 @@ const PaymentsCreateCard = ({
   classId: number;
   enrollmentId: number;
 }) => {
+  const { t } = useTranslation();
+  const { formSchema } = PaymentsSchema();
+
   type FormValues = z.infer<typeof formSchema>;
 
   const form = useForm<FormValues>({
@@ -75,7 +63,7 @@ const PaymentsCreateCard = ({
       const data = form.getValues();
 
       if (amountDue < data.amount) {
-        toast.error("You pay exceed the amount due");
+        toast.error(t("payments.exceedAmountDue"));
         return;
       }
 
@@ -87,7 +75,7 @@ const PaymentsCreateCard = ({
         enrollmentId: enrollmentId,
       });
 
-      toast.success("Payment created successfully");
+      toast.success(t("payments.alerts.createSuccess"));
       form.reset();
     } catch (error: unknown) {
       console.log(error);
@@ -112,14 +100,14 @@ const PaymentsCreateCard = ({
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
       <CardHeader className="border-b bg-muted/30">
-        <CardTitle className="text-lg">Create Payment</CardTitle>
+        <CardTitle className="text-lg">{t("payments.createPayment")}</CardTitle>
       </CardHeader>
       <CardContent>
         <form id="enroll-class" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <FormError errorMessage={errorMessage} />
             <Field>
-              <Label>Amount Due</Label>
+              <Label>{t("payments.fields.amountDue")}</Label>
               <Input value={amountDue} readOnly />
             </Field>
             <Controller
@@ -127,12 +115,12 @@ const PaymentsCreateCard = ({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="amount">Paid Amount</RequiredLabel>
+                  <RequiredLabel id="amount">{t("payments.fields.amount")}</RequiredLabel>
                   <NumberInput
                     field={field}
                     fieldState={fieldState}
                     id="amount"
-                    placeholder="Enter paid amount"
+                    placeholder={t("payments.fields.amountPlaceholder")}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -142,7 +130,7 @@ const PaymentsCreateCard = ({
             />
             {amountWatch && amountDue - amountWatch != 0 && (
               <Field>
-                <Label>Remain Amount</Label>
+                <Label>{t("payments.fields.remainAmount")}</Label>
                 <Input value={amountDue - amountWatch} readOnly />
               </Field>
             )}
@@ -152,7 +140,7 @@ const PaymentsCreateCard = ({
               name={"image"}
               render={({ field, fieldState }) => (
                 <ImageInput
-                  label="Payment Receipt"
+                  label={t("payments.fields.image")}
                   id="image"
                   field={field}
                   fieldState={fieldState}
@@ -164,12 +152,12 @@ const PaymentsCreateCard = ({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="description">Description</FieldLabel>
+                  <FieldLabel htmlFor="description">{t("payments.fields.description")}</FieldLabel>
                   <Textarea
                     {...field}
                     id="description"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter payment description"
+                    placeholder={t("payments.fields.descriptionPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -190,8 +178,8 @@ const PaymentsCreateCard = ({
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={enrollClass}
-        title="Create Payment?"
-        description="Please confirm that you want to create payment with the provided information."
+        title={t("payments.alerts.createConfirmTitle")}
+        description={t("payments.alerts.createConfirmDesc")}
       />
     </Card>
   );

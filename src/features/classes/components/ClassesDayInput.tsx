@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "../../../components/ui/button";
 import type {
   ControllerRenderProps,
@@ -11,7 +12,8 @@ const ClassesDayInput = ({
   field: ControllerRenderProps<any, "days">;
   fieldState: ControllerFieldState;
 }) => {
-   const selectedDays = field.value?.split(",") ?? [];
+  const { t } = useTranslation();
+  const selectedDays = field.value?.split(",") ?? [];
 
   const days = [
     "Monday",
@@ -63,7 +65,7 @@ const ClassesDayInput = ({
           variant={selectedDays.includes(day) ? "default" : "outline"}
           onClick={() => toggleDay(day)}
         >
-          {day}
+          {t(`classes.days.${day}` as any)}
         </Button>
       ))}
     </div>
@@ -71,3 +73,4 @@ const ClassesDayInput = ({
 };
 
 export default ClassesDayInput;
+

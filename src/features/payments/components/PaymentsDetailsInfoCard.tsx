@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Separator } from "../../../components/ui/separator";
 import { Badge } from "../../../components/ui/badge";
@@ -28,9 +29,11 @@ const PaymentsDetailsInfoCard = ({
   paymentsTimes: number;
   totalPaid: number;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title="Payments History" />
+      <FormHeader title={t("payments.historyTitle")} />
       <CardContent>
         <div className="overflow-hidden rounded-xl border border-border">
           <div className="flex items-center">
@@ -46,7 +49,7 @@ const PaymentsDetailsInfoCard = ({
                 <h3 className="text-lg font-semibold line-clamp-1">
                   {enrollment.class.course.name}
                 </h3>
-                <Badge variant="outline">Batch {enrollment.class.batch}</Badge>
+                <Badge variant="outline">{t("classes.batch", { batch: enrollment.class.batch })}</Badge>
               </div>
 
               <div className="flex items-center gap-3 rounded-md border p-3">
@@ -60,7 +63,7 @@ const PaymentsDetailsInfoCard = ({
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-xs text-muted-foreground">Student</p>
+                  <p className="text-xs text-muted-foreground">{t("payments.student")}</p>
                   <p className="text-sm font-medium">
                     {enrollment.student.name}
                   </p>
@@ -73,7 +76,7 @@ const PaymentsDetailsInfoCard = ({
             <div className="divide-x divide-border grid grid-cols-2">
               <DetailsData
                 icon={DollarSign}
-                label="Course Price"
+                label={t("payments.coursePrice")}
                 className="rounded-none"
                 border={false}
               >
@@ -84,7 +87,7 @@ const PaymentsDetailsInfoCard = ({
 
               <DetailsData
                 icon={Hash}
-                label="Payment Times"
+                label={t("payments.paymentTimes")}
                 className="rounded-none"
                 border={false}
               >
@@ -95,7 +98,7 @@ const PaymentsDetailsInfoCard = ({
             <div className="divide-x divide-border grid grid-cols-2">
               <DetailsData
                 icon={Wallet}
-                label="Total Paid"
+                label={t("payments.totalPaid")}
                 className="rounded-none"
                 border={false}
               >
@@ -104,7 +107,7 @@ const PaymentsDetailsInfoCard = ({
 
               <DetailsData
                 icon={CircleDollarSign}
-                label="Remaining Balance"
+                label={t("payments.remainingBalance")}
                 className="rounded-none"
                 border={false}
               >
@@ -121,3 +124,4 @@ const PaymentsDetailsInfoCard = ({
 };
 
 export default PaymentsDetailsInfoCard;
+

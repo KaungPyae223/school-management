@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   BookOpen,
   CheckCircle2,
@@ -17,7 +18,7 @@ import DetailsData from "../../../components/details/DetailsData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const CoursesDetailsCard = ({ data }: { data: any }) => {
-  console.log("Courses Data", data);
+  const { t } = useTranslation();
 
   return (
     <Card className="shadow-sm flex flex-row gap-1.5">
@@ -36,31 +37,31 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
         <p className="text-sm text-muted-foreground "> {data.description}</p>
 
         <div className="grid grid-cols-3 gap-3">
-          <DetailsData icon={DollarSign} label={"Price"}>
+          <DetailsData icon={DollarSign} label={t("courses.fields.price")}>
             <p className="font-medium">{formatCurrency(data.price)}</p>
           </DetailsData>
-          <DetailsData icon={UserPen} label={"Total Teacher"}>
+          <DetailsData icon={UserPen} label={t("courses.totalTeachers")}>
             <p className="font-medium">{data.total_teachers}</p>
           </DetailsData>
-          <DetailsData icon={Users} label={"Total Students"}>
+          <DetailsData icon={Users} label={t("courses.totalEnrollments")}>
             <p className="font-medium">{data.total_enrollments}</p>
           </DetailsData>
-          <DetailsData icon={BookOpen} label={"Total Classes"}>
+          <DetailsData icon={BookOpen} label={t("courses.totalClasses")}>
             <p className="font-medium">{data.total_classes}</p>
           </DetailsData>
-          <DetailsData icon={PlayCircle} label={"Total Active Classes"}>
+          <DetailsData icon={PlayCircle} label={t("courses.totalActiveClasses")}>
             <p className="font-medium">{data.total_active_classes}</p>
           </DetailsData>
-          <DetailsData icon={Circle} label={"Total Upcoming Classes"}>
+          <DetailsData icon={Circle} label={t("courses.totalUpcomingClasses")}>
             <p className="font-medium">{data.total_upcoming_classes}</p>
           </DetailsData>
-          <DetailsData icon={CheckCircle2} label={"Total Completed Classes"}>
+          <DetailsData icon={CheckCircle2} label={t("courses.totalCompletedClasses")}>
             <p className="font-medium">{data.total_complete_classes}</p>
           </DetailsData>
-          <DetailsData icon={Currency} label={"Total Revenue"}>
+          <DetailsData icon={Currency} label={t("courses.totalRevenue")}>
             <p className="font-medium">{formatCurrency(data.total_revenue)}</p>
           </DetailsData>
-          <DetailsData icon={XLineTop} label={"Average Students per Class"}>
+          <DetailsData icon={XLineTop} label={t("courses.averageStudentsPerClass")}>
             <p className="font-medium">
               {data.total_classes > 0
                 ? Math.round(
@@ -74,7 +75,7 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
         <div className=" flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
             <div>
-              <p className="text-[11px]">Created At</p>
+              <p className="text-[11px]">{t("general.createdAt")}</p>
               <p className="font-medium text-foreground">
                 {formatDate(data.createdAt)}
               </p>
@@ -83,7 +84,7 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
 
           <div className="flex items-center gap-2">
             <div className="text-right">
-              <p className="text-[11px]">Last Updated</p>
+              <p className="text-[11px]">{t("general.updatedAt")}</p>
               <p className="font-medium text-foreground">
                 {formatDate(data.updatedAt)}
               </p>

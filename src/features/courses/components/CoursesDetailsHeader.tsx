@@ -1,9 +1,12 @@
+import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import { AnimatePresence, m } from "framer-motion";
 import SearchInput from "../../../components/search-input/SearchInput";
 import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
 
 const CoursesDetailsHeader = ({ tab }: { tab: string }) => {
+  const { t } = useTranslation();
+
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-wrap items-center justify-between gap-4">
@@ -32,8 +35,8 @@ const CoursesDetailsHeader = ({ tab }: { tab: string }) => {
           )}
         </AnimatePresence>
         <TabsList>
-          <TabsTrigger value="classes">Classes</TabsTrigger>
-          <TabsTrigger value="timetable">Timetable</TabsTrigger>
+          <TabsTrigger value="classes">{t("courses.classes")}</TabsTrigger>
+          <TabsTrigger value="timetable">{t("teachers.timetable")}</TabsTrigger>
         </TabsList>
       </CardContent>
     </Card>

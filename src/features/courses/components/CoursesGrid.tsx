@@ -1,14 +1,17 @@
+import { useTranslation } from "react-i18next";
 import CoursesCard from "./CoursesCard";
 import CardSort from "../../../components/card-utils/CardSort";
 
 const CoursesGrid = ({ data }: { data: any[] }) => {
+  const { t } = useTranslation();
+
   const sortOptions = [
-    { field: "c.name", label: "Name" },
-    { field: "c.price", label: "Price" },
-    { field: "total_enrollments", label: "Enrollments" },
-    { field: "total_teachers", label: "Teachers" },
-    { field: "total_classes", label: "Classes" },
-    { field: "total_active_classes", label: "Active" },
+    { field: "c.name", label: t("courses.fields.name") },
+    { field: "c.price", label: t("courses.fields.price") },
+    { field: "total_enrollments", label: t("courses.enrollments") },
+    { field: "total_teachers", label: t("courses.teachers") },
+    { field: "total_classes", label: t("courses.classes") },
+    { field: "total_active_classes", label: t("courses.active") },
   ];
 
   return (

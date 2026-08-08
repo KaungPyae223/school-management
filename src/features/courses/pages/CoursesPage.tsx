@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { Tabs } from "../../../components/ui/tabs";
 import CoursesHeader from "../components/CoursesHeader";
@@ -15,8 +16,10 @@ import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import DataShow from "../../../components/data/DataShow";
 
 const CoursesPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Courses",
+    title: t("courses.title"),
   });
 
   const { view, changeView } = useViewTabChange();
@@ -34,11 +37,11 @@ const CoursesPage = () => {
       <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
-        emptyDescription="There are no courses available at the moment. Please add a course to get started!"
-        emptyTitle="No Courses"
+        emptyDescription={t("courses.noCoursesDesc")}
+        emptyTitle={t("courses.noCoursesTitle")}
         emptyIcon={LibraryBig}
         action={{
-          label: "Add Course",
+          label: t("courses.addCourse"),
           link: "/courses/create",
         }}
       >

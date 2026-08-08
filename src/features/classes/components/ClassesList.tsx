@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   BookOpen,
   CalendarCheck2,
@@ -32,6 +33,7 @@ import TableIconContent from "../../../components/table/TableIconContent";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const ClassesList = ({ data }: { data: any[] }) => {
+  const { t } = useTranslation();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [classId, setClassId] = useState<number>(0);
   const navigate = useNavigate();
@@ -48,56 +50,56 @@ const ClassesList = ({ data }: { data: any[] }) => {
 
   const headers: TableHeadType[] = [
     {
-      title: "Name",
+      title: t("classes.fields.name"),
       key: "Name",
       sortable: true,
       sortKey: "course_name",
     },
     {
-      title: "Teacher",
+      title: t("classes.fields.teacher"),
       key: "Teacher",
       sortable: true,
       sortKey: "teacher_name",
     },
     {
-      title: "Total Students",
+      title: t("classes.fields.totalStudents"),
       key: "Total Students",
       sortable: true,
       sortKey: "total_students",
       align: "right",
     },
     {
-      title: "Days",
+      title: t("classes.fields.days"),
       key: "Days",
       sortable: true,
       sortKey: "cl.days",
     },
     {
-      title: "Price",
+      title: t("classes.fields.price"),
       key: "Price",
       sortable: true,
       sortKey: "cl.price",
       align: "right",
     },
     {
-      title: "Status",
+      title: t("classes.fields.status"),
       key: "Status",
       sortable: false,
     },
     {
-      title: "Time",
+      title: t("classes.fields.time"),
       key: "Time",
       sortable: true,
       sortKey: "cl.startTime",
     },
     {
-      title: "Start Date",
+      title: t("classes.fields.startDate"),
       key: "Start Date",
       sortable: true,
       sortKey: "cl.startDate",
     },
     {
-      title: "End Date",
+      title: t("classes.fields.endDate"),
       key: "End Date",
       sortable: true,
       sortKey: "cl.endDate",
@@ -136,7 +138,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                       {classData.course_name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Batch {classData.batch}
+                      {t("classes.batch", { batch: classData.batch })}
                     </p>
                   </div>
                 </div>
@@ -172,7 +174,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 hidden={!selectedColumns.includes("Days")}
                 className="space-x-1"
               >
-                {classData.days.split(",").map((day) => (
+                {classData.days.split(",").map((day: string) => (
                   <Badge variant="default" key={day}>
                     {day.slice(0, 3)}
                   </Badge>
@@ -208,7 +210,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 <TableIconContent
                   icon={CalendarOff}
                   value={
-                    classData.endDate ? formatDate(classData.endDate) : "TBA"
+                    classData.endDate ? formatDate(classData.endDate) : t("students.tba")
                   }
                   iconClassName="text-red-600 dark:text-red-400"
                 />
@@ -231,7 +233,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                         navigate(`/classes/enroll/${classData.id}`)
                       }
                       icon={UserPlus}
-                      tooltip="Enrolled Student"
+                      tooltip={t("classes.enrolledStudent")}
                       className="text-white hover:text-white bg-green-600 hover:bg-green-700 "
                     />
                   )}

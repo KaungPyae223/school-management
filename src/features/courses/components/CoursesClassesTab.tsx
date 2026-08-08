@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
@@ -8,6 +9,7 @@ import { courseService } from "../../../services/courses";
 import CoursesClassesList from "./CoursesClassesList";
 
 const CoursesClassesTab = ({ id }: { id: number }) => {
+  const { t } = useTranslation();
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading } = useAppQuery({
@@ -23,8 +25,8 @@ const CoursesClassesTab = ({ id }: { id: number }) => {
     <DataShow
       isLoading={isLoading}
       dataLength={data?.data.length}
-      emptyDescription="There are no classes taken by this teacher. Please assign a class to this teacher to get started!"
-      emptyTitle="No Classes"
+      emptyDescription={t("courses.noClassesDesc")}
+      emptyTitle={t("courses.noClassesTitle")}
       emptyIcon={BookOpen}
     >
       <CoursesClassesList data={data?.data} />

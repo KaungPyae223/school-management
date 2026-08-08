@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Avatar,
   AvatarFallback,
@@ -15,6 +16,8 @@ const ClassesTeacherCard = ({
   name: string;
   className?: string;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={cn(
@@ -28,7 +31,7 @@ const ClassesTeacherCard = ({
       </Avatar>
 
       <div>
-        <p className="text-xs text-muted-foreground">Teacher</p>
+        <p className="text-xs text-muted-foreground">{t("classes.fields.teacher")}</p>
         <p className="text-sm font-medium">{name}</p>
       </div>
     </div>
@@ -36,3 +39,4 @@ const ClassesTeacherCard = ({
 };
 
 export default ClassesTeacherCard;
+

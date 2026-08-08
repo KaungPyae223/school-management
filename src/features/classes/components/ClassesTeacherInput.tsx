@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Field, FieldError } from "../../../components/ui/field";
 import { Input } from "../../../components/ui/input";
 import RequiredLabel from "../../../components/form/RequiredLabel";
@@ -33,6 +34,7 @@ const ClassesTeacherInput = ({
   fieldState: ControllerFieldState;
   defaultSelectedTeacher?: Teacher;
 }) => {
+  const { t } = useTranslation();
   const teacherValue = field.value;
 
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -127,7 +129,7 @@ const ClassesTeacherInput = ({
 
   return (
     <Field data-invalid={fieldState.invalid}>
-      <RequiredLabel id="teacherID">Teacher</RequiredLabel>
+      <RequiredLabel id="teacherID">{t("classes.fields.teacher")}</RequiredLabel>
 
       <div className="relative">
         <Input
@@ -139,7 +141,7 @@ const ClassesTeacherInput = ({
           onFocus={() => setShowTeacherDropDown(true)}
           onBlur={() => setShowTeacherDropDown(false)}
           aria-invalid={fieldState.invalid}
-          placeholder="Search for a teacher..."
+          placeholder={t("classes.fields.teacherPlaceholder")}
           autoComplete="off"
           className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
@@ -165,7 +167,7 @@ const ClassesTeacherInput = ({
                   </Avatar>
 
                   <div>
-                    <p className="text-xs text-muted-foreground">Teacher</p>
+                    <p className="text-xs text-muted-foreground">{t("classes.fields.teacher")}</p>
                     <p className="text-sm font-medium text-foreground line-clamp-1">
                       {data.name}
                     </p>
@@ -177,7 +179,7 @@ const ClassesTeacherInput = ({
                   {isLoading && (
                     <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                       <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
-                      Loading more...
+                      {t("form.loading")}
                     </div>
                   )}
                 </div>
@@ -202,7 +204,7 @@ const ClassesTeacherInput = ({
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-xs text-muted-foreground">Teacher</p>
+              <p className="text-xs text-muted-foreground">{t("classes.fields.teacher")}</p>
               <p className="text-sm font-medium text-foreground line-clamp-1">
                 {selectedTeacher.name}
               </p>
@@ -227,3 +229,4 @@ const ClassesTeacherInput = ({
 };
 
 export default ClassesTeacherInput;
+

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Download, Plus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
@@ -11,14 +12,16 @@ import SearchInput from "../../../components/search-input/SearchInput";
 import ViewChange from "../../../components/header/ViewChange";
 
 const CoursesHeader = ({ tab }: { tab: string }) => {
+  const { t } = useTranslation();
+
   const columns = [
-    { title: "Name", key: "Name" },
-    { title: "Price", key: "Price" },
-    { title: "Description", key: "Description" },
-    { title: "Enrollments", key: "Enrollments" },
-    { title: "Teachers", key: "Teachers" },
-    { title: "Classes", key: "Classes" },
-    { title: "Active", key: "Active" },
+    { title: t("courses.fields.name"), key: "Name" },
+    { title: t("courses.fields.price"), key: "Price" },
+    { title: t("courses.fields.description"), key: "Description" },
+    { title: t("courses.enrollments"), key: "Enrollments" },
+    { title: t("courses.teachers"), key: "Teachers" },
+    { title: t("courses.classes"), key: "Classes" },
+    { title: t("courses.active"), key: "Active" },
   ];
 
   return (
@@ -56,12 +59,12 @@ const CoursesHeader = ({ tab }: { tab: string }) => {
           <ViewChange />
 
           <Button variant="outline">
-            <Download className="w-4 h-4 mr-0.5" /> Export CSV
+            <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 
           <Link to="/courses/create">
             <Button>
-              <Plus className="w-4 h-4 mr-0.5" /> Add Course
+              <Plus className="w-4 h-4 mr-0.5" /> {t("courses.addCourse")}
             </Button>
           </Link>
         </div>

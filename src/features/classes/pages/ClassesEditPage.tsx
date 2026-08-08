@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-
 import * as z from "zod";
+import { useTranslation } from "react-i18next";
 
 import { Card, CardContent } from "../../../components/ui/card";
 import {
@@ -28,47 +28,24 @@ import { useEditClass } from "../hooks/useEditClass";
 import { useLoaderData } from "react-router";
 import { Label } from "../../../components/ui/label";
 import { Input } from "../../../components/ui/input";
-
-const formSchema = z
-  .object({
-    teacherId: z.number().min(1, "Teacher is required"),
-    courseId: z.number().min(1, "Course is required"),
-    startDate: z
-      .date({
-        message: "Start date is required",
-      })
-      .refine((date) => date >= new Date(), {
-        message: "Start date must be greater than or equal to today",
-      }),
-    startTime: z.date({ message: "Start time is required" }),
-    endTime: z.date({ message: "End time is required" }),
-    days: z.string().min(1, "Day is required"),
-    description: z.string().optional(),
-    price: z.number().min(1, "Price is required"),
-  })
-  .refine((data) => data.startTime < data.endTime, {
-    message: "Start time must be before end time",
-    path: ["endTime"],
-  })
-  .refine((data) => data.startTime < data.endTime, {
-    message: "End time must be after start time",
-    path: ["startTime"],
-  });
+import { ClassesSchema } from "../schema/ClassesSchema";
 
 const ClassesEditPage = () => {
+  const { t } = useTranslation();
+  const { formSchema } = ClassesSchema();
   const classData = useLoaderData();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
-    title: "Edit Class",
+    title: t("classes.editTitle"),
     params: [
       {
-        name: "Classes",
+        name: t("classes.title"),
         link: "/classes",
       },
       {
-        name: "Edit",
+        name: t("classes.editBreadcrumb"),
         link: "/classes/edit",
       },
     ],
@@ -86,6 +63,7 @@ const ClassesEditPage = () => {
       endTime: classData.endTime,
       days: classData.days,
       description: classData.description ?? "",
+      price: classData.price,
     },
   });
 
@@ -102,7 +80,7 @@ const ClassesEditPage = () => {
 
       await mutateAsync(data);
 
-      toast.success("Class editd successfully");
+      toast.success(t("classes.alerts.editSuccess"));
       form.reset();
     } catch (error: unknown) {
       toast.error((error as Error).message);
@@ -119,14 +97,14 @@ const ClassesEditPage = () => {
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title="Edit Class" />
+      <FormHeader title={t("classes.editTitle")} />
       <CardContent>
         <form id="edit-class-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <FormError errorMessage={errorMessage} />
 
             <Field>
-              <Label>Batch</Label>
+              <Label>{t("students.batch")}</Label>
 
               <Input value={classData.batch} readOnly />
             </Field>
@@ -168,7 +146,7 @@ const ClassesEditPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="days">Day</RequiredLabel>
+                  <RequiredLabel id="days">{t("classes.fields.days")}</RequiredLabel>
                   <ClassesDayInput field={field} fieldState={fieldState} />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -181,11 +159,11 @@ const ClassesEditPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="startDate">Start Date</RequiredLabel>
+                  <RequiredLabel id="startDate">{t("classes.fields.startDate")}</RequiredLabel>
 
                   <DateInput
                     field={field}
-                    label="Start Date"
+                    label={t("classes.fields.startDate")}
                     ariaInvalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
@@ -200,7 +178,7 @@ const ClassesEditPage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="startTime">Start Time</RequiredLabel>
+                    <RequiredLabel id="startTime">{t("classes.fields.startTime")}</RequiredLabel>
 
                     <TimeInput
                       field={field}
@@ -218,7 +196,7 @@ const ClassesEditPage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="endTime">End Time</RequiredLabel>
+                    <RequiredLabel id="endTime">{t("classes.fields.endTime")}</RequiredLabel>
                     <TimeInput
                       field={field}
                       fieldState={fieldState}
@@ -237,13 +215,13 @@ const ClassesEditPage = () => {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="classDescription">
-                    Description
+                    {t("classes.fields.description")}
                   </FieldLabel>
                   <Textarea
                     {...field}
                     id="classDescription"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter class description"
+                    placeholder={t("classes.fields.descriptionPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -265,8 +243,8 @@ const ClassesEditPage = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={editClass}
-        title="Edit this class?"
-        description="Please confirm that you want to edit this class with the provided information. You can edit the class later if needed."
+        title={t("classes.alerts.editConfirmTitle")}
+        description={t("classes.alerts.editConfirmDesc")}
       />
     </Card>
   );

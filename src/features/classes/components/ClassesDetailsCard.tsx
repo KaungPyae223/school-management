@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   BadgeCheck,
   BookOpen,
@@ -20,6 +21,8 @@ import DetailsData from "../../../components/details/DetailsData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const ClassesDetailsCard = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
+
   return (
     <Card className="shadow-sm flex flex-row gap-1.5">
       <CardHeader className="w-lg">
@@ -35,7 +38,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
           <h3 className="text-2xl font-semibold line-clamp-1">
             {data.course.name}
           </h3>
-          <Badge variant="outline">Batch {data.batch}</Badge>
+          <Badge variant="outline">{t("classes.batch", { batch: data.batch })}</Badge>
         </div>
         <p className="text-sm text-muted-foreground "> {data.description}</p>
 
@@ -45,32 +48,32 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
         />
 
         <div className="grid grid-cols-3 gap-3">
-          <DetailsData icon={CalendarDays} label={"Opening Days"}>
+          <DetailsData icon={CalendarDays} label={t("classes.openingDays")}>
             <div className="space-x-1 space-y-1">
-              {data.days.split(",").map((day) => (
+              {data.days.split(",").map((day: string) => (
                 <Badge variant="outline" key={day}>
                   {day.slice(0, 3)}
                 </Badge>
               ))}
             </div>
           </DetailsData>
-          <DetailsData icon={Clock} label={"Time"}>
+          <DetailsData icon={Clock} label={t("classes.fields.time")}>
             <p className="font-medium">
               {changeTime(data.startTime)} - {changeTime(data.endTime)}
             </p>
           </DetailsData>
-          <DetailsData icon={DollarSign} label={"Price"}>
+          <DetailsData icon={DollarSign} label={t("classes.fields.price")}>
             <p className="font-medium">{formatCurrency(data.price)}</p>
           </DetailsData>
-          <DetailsData icon={BadgeCheck} label={"Status"}>
+          <DetailsData icon={BadgeCheck} label={t("classes.fields.status")}>
             <ClassesStatus status={data.status} />
           </DetailsData>
-          <DetailsData icon={CalendarCheck2} label={"Start Date"}>
+          <DetailsData icon={CalendarCheck2} label={t("classes.fields.startDate")}>
             <p className="font-medium">{formatDate(data.startDate)}</p>
           </DetailsData>
-          <DetailsData icon={CalendarOff} label={"End Date"}>
+          <DetailsData icon={CalendarOff} label={t("classes.fields.endDate")}>
             <p className="font-medium">
-              {data.endDate ? formatDate(data.endDate) : "TBA"}
+              {data.endDate ? formatDate(data.endDate) : t("students.tba")}
             </p>
           </DetailsData>
         </div>
@@ -78,7 +81,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
         <div className=" flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
             <div>
-              <p className="text-[11px]">Created At</p>
+              <p className="text-[11px]">{t("general.createdAt")}</p>
               <p className="font-medium text-foreground">
                 {formatDate(data.createdAt)}
               </p>
@@ -87,7 +90,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
 
           <div className="flex items-center gap-2">
             <div className="text-right">
-              <p className="text-[11px]">Last Updated</p>
+              <p className="text-[11px]">{t("general.updatedAt")}</p>
               <p className="font-medium text-foreground">
                 {formatDate(data.updatedAt)}
               </p>
@@ -100,3 +103,4 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
 };
 
 export default ClassesDetailsCard;
+

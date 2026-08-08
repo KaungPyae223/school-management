@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
@@ -14,8 +15,10 @@ import ClassesList from "../components/ClassesList";
 import DataShow from "../../../components/data/DataShow";
 
 const ClassesPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Classes",
+    title: t("classes.title"),
   });
 
   const { view, changeView } = useViewTabChange();
@@ -33,11 +36,11 @@ const ClassesPage = () => {
       <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
-        emptyDescription="There are no classes available at the moment. Please add a class to get started!"
-        emptyTitle="No Classes"
+        emptyDescription={t("classes.noClassesDesc")}
+        emptyTitle={t("classes.noClassesTitle")}
         emptyIcon={BookOpen}
         action={{
-          label: "Add Class",
+          label: t("classes.addClass"),
           link: "/classes/create",
         }}
       >

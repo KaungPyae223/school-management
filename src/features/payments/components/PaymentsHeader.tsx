@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Card, CardHeader } from "../../../components/ui/card";
 import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
 
@@ -6,22 +7,23 @@ import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import SearchInput from "../../../components/search-input/SearchInput";
 
 const PaymentsHeader = () => {
+  const { t } = useTranslation();
   const { view } = useViewTabChange("initial");
 
   const columns = [
-    { title: "Name", key: "Name" },
-    { title: "Course", key: "Course" },
-    { title: "Price", key: "Price" },
-    { title: "Phone", key: "Phone" },
+    { title: t("students.fields.name"), key: "Name" },
+    { title: t("students.table.course"), key: "Course" },
+    { title: t("students.table.price"), key: "Price" },
+    { title: t("students.fields.phone"), key: "Phone" },
 
-    { title: "Payment Times", key: "Payment Times" },
+    { title: t("payments.paymentTimes"), key: "Payment Times" },
 
     ...(view === "initial"
       ? [
-          { title: "First Paid Date", key: "First Paid Date" },
-          { title: "Last Paid Date", key: "Last Paid Date" },
-          { title: "Paid Amount", key: "Paid Amount" },
-          { title: "Remaining Amount", key: "Remaining Amount" },
+          { title: t("payments.firstPaidDate"), key: "First Paid Date" },
+          { title: t("payments.lastPaidDate"), key: "Last Paid Date" },
+          { title: t("payments.paidAmount"), key: "Paid Amount" },
+          { title: t("payments.remainingAmount"), key: "Remaining Amount" },
         ]
       : []),
   ];
@@ -48,8 +50,8 @@ const PaymentsHeader = () => {
         </div>
 
         <TabsList>
-          <TabsTrigger value="initial">Initial Payments</TabsTrigger>
-          <TabsTrigger value="all">All Payments</TabsTrigger>
+          <TabsTrigger value="initial">{t("payments.initialPayments")}</TabsTrigger>
+          <TabsTrigger value="all">{t("payments.allPayments")}</TabsTrigger>
         </TabsList>
       </CardHeader>
     </Card>
@@ -57,3 +59,4 @@ const PaymentsHeader = () => {
 };
 
 export default PaymentsHeader;
+

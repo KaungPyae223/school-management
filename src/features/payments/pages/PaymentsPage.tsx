@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { CreditCardIcon } from "lucide-react";
 import { Tabs } from "../../../components/ui/tabs";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
@@ -13,8 +14,10 @@ import Paginate from "../../../components/paginate/Paginate";
 import DataShow from "../../../components/data/DataShow";
 
 const PaymentsPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Payments",
+    title: t("payments.title"),
   });
 
   const { view, changeView } = useViewTabChange("initial");
@@ -38,8 +41,8 @@ const PaymentsPage = () => {
       <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}
-        emptyDescription="There are no payments available at the moment. Please add a payment to get started!"
-        emptyTitle="No Payments"
+        emptyDescription={t("payments.noPaymentsDesc")}
+        emptyTitle={t("payments.noPaymentsTitle")}
         emptyIcon={CreditCardIcon}
       >
         <AnimatePresence mode="wait" initial={false}>

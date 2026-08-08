@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useNavigate } from "react-router";
@@ -14,12 +15,13 @@ const PaymentsDeleteAlert = ({
   confirmDialogOpen: boolean;
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { t } = useTranslation();
   const { mutateAsync, isPending } = useDeletePayment(classId);
 
   const handleDelete = async () => {
     try {
       await mutateAsync(id);
-      toast.success("Payment deleted successfully");
+      toast.success(t("payments.alerts.deleteSuccess"));
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -33,11 +35,12 @@ const PaymentsDeleteAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleDelete}
       variant="destructive"
-      title="Delete this payment?"
-      description="Please confirm that you want to delete this payment. This action cannot be undone."
+      title={t("payments.alerts.deleteTitle")}
+      description={t("payments.alerts.deleteDesc")}
       isPending={isPending}
     />
   );
 };
 
 export default PaymentsDeleteAlert;
+

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { CreditCard } from "lucide-react";
 import Table from "../../../components/table/Table";
 import TableActionButton from "../../../components/table/TableActionButton";
@@ -20,37 +21,38 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
   const [enrolledID, setEnrolledID] = useState<number>(0);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
   const headers: TableHeadType[] = [
     {
-      title: "Name",
+      title: t("students.fields.name"),
       key: "Name",
       sortable: true,
       sortKey: "studentName",
     },
     {
-      title: "Phone",
+      title: t("students.fields.phone"),
       key: "Phone",
       sortable: true,
       sortKey: "studentPhone",
     },
     {
-      title: "Email",
+      title: t("students.fields.email"),
       key: "Email",
       sortable: true,
       sortKey: "studentEmail",
     },
     {
-      title: "Paid Amount",
+      title: t("classes.fields.paidAmount"),
       key: "Paid Amount",
       sortable: true,
       sortKey: "paidAmount",
       align: "right",
     },
     {
-      title: "Remaining Amount",
+      title: t("classes.fields.remainingAmount"),
       key: "Remaining Amount",
       sortable: true,
       sortKey: "remainingAmount",
@@ -81,7 +83,7 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
           prefix="e."
         />
         <TableBody>
-          {data.map((enrollmentData) => (
+          {data.map((enrollmentData: any) => (
             <TableRow key={enrollmentData.id}>
               <TableCell>
                 <div className="flex items-center gap-3">
@@ -105,7 +107,7 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
               <TableCell>
                 {enrollmentData.studentEmail
                   ? enrollmentData.studentEmail
-                  : "N/A"}
+                  : t("students.na")}
               </TableCell>
               <TableCell align="right">
                 {formatCurrency(enrollmentData.paidAmount)}
@@ -125,7 +127,7 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
                     onClick={() => {}}
                     variant="default"
                     icon={CreditCard}
-                    tooltip="Payment History"
+                    tooltip={t("students.table.paymentHistory")}
                   />
                 </TableActionButtonsContainer>
               </TableCell>
@@ -143,3 +145,4 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
 };
 
 export default ClassesEnrolledStudentsList;
+

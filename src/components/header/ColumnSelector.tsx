@@ -33,13 +33,13 @@ const ColumnSelector: React.FC<Props> = ({
 
   const selectedColumns = useGetSelectedColumns(defaultSelectedColumns);
 
-  const toggleColumn = (title: string) => {
+  const toggleColumn = (key: string) => {
     let checkColumns: string[] = [];
 
-    if (selectedColumns.includes(title)) {
-      checkColumns = selectedColumns.filter((col) => col !== title);
+    if (selectedColumns.includes(key)) {
+      checkColumns = selectedColumns.filter((col) => col !== key);
     } else {
-      checkColumns = [...selectedColumns, title];
+      checkColumns = [...selectedColumns, key];
     }
 
     updateQueryParams({
@@ -84,7 +84,7 @@ const ColumnSelector: React.FC<Props> = ({
             <DropdownMenuCheckboxItem
               key={column.key}
               checked={selectedColumns.includes(column.key)}
-              onCheckedChange={() => toggleColumn(column.title)}
+              onCheckedChange={() => toggleColumn(column.key)}
               disabled={alwaysSelectedColumns.includes(column.key)}
               className="p-2 cursor-pointer"
             >

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Tabs } from "../../../components/ui/tabs";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
@@ -17,8 +18,10 @@ import TimetableCourse from "../components/TimetableCourse";
 import { useTimetableChange } from "../hooks/useTimetableChange";
 
 const TimetablePage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Timetable",
+    title: t("timetable.title"),
   });
 
   const [open, setOpen] = useState(false);

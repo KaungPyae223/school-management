@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useDeleteClass } from "../hooks/useDeleteClass";
@@ -14,13 +15,14 @@ const ClassesDeleteAlert = ({
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   back?: boolean;
 }) => {
+  const { t } = useTranslation();
   const { mutateAsync, isPending } = useDeleteClass();
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
       await mutateAsync(id);
-      toast.success("Class deleted successfully");
+      toast.success(t("classes.alerts.deleteSuccess"));
       if (back) {
         navigate(-1);
       }
@@ -37,11 +39,12 @@ const ClassesDeleteAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleDelete}
       variant="destructive"
-      title="Delete this class?"
-      description="Please confirm that you want to delete this class. This action cannot be undone."
+      title={t("classes.alerts.deleteTitle")}
+      description={t("classes.alerts.deleteDesc")}
       isPending={isPending}
     />
   );
 };
 
 export default ClassesDeleteAlert;
+

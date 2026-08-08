@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Card, CardHeader } from "../../../components/ui/card";
 import { AnimatePresence, m } from "framer-motion";
 import TimetableTeacherSelect from "./TimetableTeacherSelect";
@@ -5,6 +6,8 @@ import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import TimetableCourseSelect from "./TimetableCourseSelect";
 
 const TimetableHeader = ({ tab }: { tab: string }) => {
+  const { t } = useTranslation();
+
   return (
     <Card className="shadow-sm ">
       <CardHeader className="flex flex-row items-center justify-between gap-3">
@@ -33,8 +36,8 @@ const TimetableHeader = ({ tab }: { tab: string }) => {
           )}
         </AnimatePresence>
         <TabsList>
-          <TabsTrigger value="courses">Courses</TabsTrigger>
-          <TabsTrigger value="teachers">Teachers</TabsTrigger>
+          <TabsTrigger value="courses">{t("timetable.courses")}</TabsTrigger>
+          <TabsTrigger value="teachers">{t("timetable.teachers")}</TabsTrigger>
         </TabsList>
       </CardHeader>
     </Card>
@@ -42,3 +45,4 @@ const TimetableHeader = ({ tab }: { tab: string }) => {
 };
 
 export default TimetableHeader;
+

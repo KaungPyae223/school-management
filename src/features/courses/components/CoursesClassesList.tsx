@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import type { TableHeadType } from "../../../types/TableHeader";
 import Table from "../../../components/table/Table";
@@ -20,31 +21,31 @@ import {
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 
 const CoursesClassesList = ({ data }: { data: any }) => {
-  console.log(data);
+  const { t } = useTranslation();
 
   const headers: TableHeadType[] = [
     {
-      title: "Teacher",
+      title: t("students.table.teacher"),
       key: "Teacher",
       sortable: true,
       sortKey: "teacher_name",
     },
 
     {
-      title: "Price",
+      title: t("students.table.price"),
       key: "Price",
       sortable: true,
       sortKey: "cl.price",
       align: "right",
     },
     {
-      title: "Period",
+      title: t("students.table.period"),
       key: "Period",
       sortable: true,
       sortKey: "cl.startDate",
     },
     {
-      title: "Time",
+      title: t("students.table.time"),
       key: "Time",
       sortable: true,
       sortKey: "cl.startTime",
@@ -55,7 +56,7 @@ const CoursesClassesList = ({ data }: { data: any }) => {
       sortable: false,
     },
     {
-      title: "Total Students",
+      title: t("teachers.totalStudents"),
       key: "Total Students",
       sortable: true,
       sortKey: "total_students",
@@ -80,7 +81,7 @@ const CoursesClassesList = ({ data }: { data: any }) => {
         prefix="cl."
       />
       <TableBody>
-        {data.map((classData) => (
+        {data.map((classData: any) => (
           <TableRow key={classData.id}>
             <TableCell>
               <div className="flex items-center gap-3">
@@ -113,13 +114,13 @@ const CoursesClassesList = ({ data }: { data: any }) => {
             <TableCell>
               <div className="flex flex-col gap-1">
                 <span>
-                  <span className="text-xs text-muted-foreground">Start:</span>{" "}
+                  <span className="text-xs text-muted-foreground">{t("students.start")}:</span>{" "}
                   {formatDate(classData.startDate)}
                 </span>
 
                 <span>
-                  <span className="text-xs text-muted-foreground">End:</span>{" "}
-                  {classData.endDate ? formatDate(classData.endDate) : "TBA"}
+                  <span className="text-xs text-muted-foreground">{t("students.end")}:</span>{" "}
+                  {classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
                 </span>
               </div>
             </TableCell>

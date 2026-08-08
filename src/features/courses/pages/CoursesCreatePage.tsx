@@ -1,8 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-
 import * as z from "zod";
-
+import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import {
   Field,
@@ -24,38 +23,23 @@ import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
 import NumberInput from "../../../components/form/NumberInput";
-
-const formSchema = z.object({
-  image: z
-    .instanceof(File)
-    .refine((file) => file.size <= 5 * 1024 * 1024, {
-      message: "Max file size is 5MB",
-    })
-    .refine(
-      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-      {
-        message: "Only .jpg, .jpeg, .png and .webp formats are supported",
-      },
-    )
-    .optional(),
-  name: z.string().min(1, "Course name must be at least 1 characters."),
-  description: z.string().optional(),
-  price: z.number().min(0, "Price must be at least 0"),
-});
+import { CoursesSchema } from "../schema/CoursesSchema";
 
 const CoursesCreatePage = () => {
+  const { t } = useTranslation();
+  const { formSchema } = CoursesSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
-    title: "Create Course",
+    title: t("courses.createTitle"),
     params: [
       {
-        name: "Courses",
+        name: t("courses.title"),
         link: "/courses",
       },
       {
-        name: "Create",
+        name: t("courses.createBreadcrumb"),
         link: "/courses/create",
       },
     ],
@@ -88,7 +72,7 @@ const CoursesCreatePage = () => {
         ...imageData,
       });
 
-      toast.success("Course created successfully");
+      toast.success(t("courses.alerts.createSuccess"));
       form.reset();
     } catch (error: any) {
       toast.error(error.message);
@@ -105,7 +89,7 @@ const CoursesCreatePage = () => {
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title="Create Course" />
+      <FormHeader title={t("courses.createTitle")} />
       <CardContent>
         <form id="create-course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
@@ -116,7 +100,7 @@ const CoursesCreatePage = () => {
               name={"image"}
               render={({ field, fieldState }) => (
                 <ImageInput
-                  label="Image"
+                  label={t("courses.fields.image")}
                   id="image"
                   field={field}
                   fieldState={fieldState}
@@ -128,12 +112,12 @@ const CoursesCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="name">Name</RequiredLabel>
+                  <RequiredLabel id="name">{t("courses.fields.name")}</RequiredLabel>
                   <Input
                     {...field}
                     id="name"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter course name"
+                    placeholder={t("courses.fields.namePlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -147,12 +131,12 @@ const CoursesCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="price">Price</RequiredLabel>
+                  <RequiredLabel id="price">{t("courses.fields.price")}</RequiredLabel>
                   <NumberInput
                     field={field}
                     fieldState={fieldState}
                     id="price"
-                    placeholder="Enter course price"
+                    placeholder={t("courses.fields.pricePlaceholder")}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -165,12 +149,12 @@ const CoursesCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="description">Description</FieldLabel>
+                  <FieldLabel htmlFor="description">{t("courses.fields.description")}</FieldLabel>
                   <Textarea
                     {...field}
                     id="description"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter course description"
+                    placeholder={t("courses.fields.descriptionPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -192,8 +176,8 @@ const CoursesCreatePage = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={createCourse}
-        title="Create this course?"
-        description="Please confirm that you want to create this course with the provided information. You can edit the course later if needed."
+        title={t("courses.alerts.createConfirmTitle")}
+        description={t("courses.alerts.createConfirmDesc")}
       />
     </Card>
   );

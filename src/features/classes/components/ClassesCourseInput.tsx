@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Field, FieldError } from "../../../components/ui/field";
 import { Input } from "../../../components/ui/input";
 import RequiredLabel from "../../../components/form/RequiredLabel";
@@ -31,6 +32,7 @@ const ClassesCourseInput = ({
   defaultSelectedCourse?: Course;
   setValue: any;
 }) => {
+  const { t } = useTranslation();
   const courseValue = field.value;
 
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -124,7 +126,7 @@ const ClassesCourseInput = ({
 
   return (
     <Field data-invalid={fieldState.invalid}>
-      <RequiredLabel id="courseID">Course</RequiredLabel>
+      <RequiredLabel id="courseID">{t("classes.fields.course")}</RequiredLabel>
 
       <div className="relative">
         <Input
@@ -136,7 +138,7 @@ const ClassesCourseInput = ({
           onFocus={() => setShowCourseDropDown(true)}
           onBlur={() => setShowCourseDropDown(false)}
           aria-invalid={fieldState.invalid}
-          placeholder="Search for a course..."
+          placeholder={t("classes.fields.coursePlaceholder")}
           autoComplete="off"
           className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
@@ -163,7 +165,7 @@ const ClassesCourseInput = ({
                       display="list"
                     />
                     <div>
-                      <p className="text-xs text-muted-foreground">Course</p>
+                      <p className="text-xs text-muted-foreground">{t("classes.fields.course")}</p>
                       <p className="text-sm font-medium text-foreground line-clamp-1">
                         {data.name}
                       </p>
@@ -179,7 +181,7 @@ const ClassesCourseInput = ({
                   {isLoading && (
                     <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                       <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
-                      Loading more...
+                      {t("form.loading")}
                     </div>
                   )}
                 </div>
@@ -201,7 +203,7 @@ const ClassesCourseInput = ({
               display="list"
             />
             <div>
-              <p className="text-xs text-muted-foreground">Course</p>
+              <p className="text-xs text-muted-foreground">{t("classes.fields.course")}</p>
               <p className="text-sm font-medium text-foreground line-clamp-1">
                 {selectedCourse.name}
               </p>
@@ -233,3 +235,4 @@ const ClassesCourseInput = ({
 };
 
 export default ClassesCourseInput;
+

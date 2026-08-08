@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { BookOpen, ClipboardList, PlayCircle, UserPen } from "lucide-react";
 
 import Table from "../../../components/table/Table";
@@ -19,6 +20,7 @@ import CoursesRestoreAlert from "./CoursesRestoreAlert";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const CoursesList = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
   const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
@@ -44,39 +46,39 @@ const CoursesList = ({ data }: { data: any }) => {
   };
 
   const headers: TableHeadType[] = [
-    { title: "Name", key: "Name", sortable: true, sortKey: "c.name" },
+    { title: t("courses.fields.name"), key: "Name", sortable: true, sortKey: "c.name" },
     {
-      title: "Price",
+      title: t("courses.fields.price"),
       key: "Price",
       align: "right",
       sortable: true,
       sortKey: "c.price",
     },
     {
-      title: "Description",
+      title: t("courses.fields.description"),
       key: "Description",
       sortKey: "c.description",
     },
     {
-      title: "Enrollments",
+      title: t("courses.enrollments"),
       key: "Enrollments",
       sortable: true,
       sortKey: "total_enrollments",
     },
     {
-      title: "Teachers",
+      title: t("courses.teachers"),
       key: "Teachers",
       sortable: true,
       sortKey: "total_teachers",
     },
     {
-      title: "Classes",
+      title: t("courses.classes"),
       key: "Classes",
       sortable: true,
       sortKey: "total_classes",
     },
     {
-      title: "Active",
+      title: t("courses.active"),
       key: "Active",
       sortable: true,
       sortKey: "total_active_classes",
@@ -92,7 +94,7 @@ const CoursesList = ({ data }: { data: any }) => {
           prefix={"c."}
         />
         <TableBody>
-          {data.map((course) => (
+          {data.map((course: any) => (
             <TableRow key={course.id}>
               <TableCell hidden={!selectedColumns.includes("Name")}>
                 <div className="flex items-center gap-3">
@@ -113,7 +115,7 @@ const CoursesList = ({ data }: { data: any }) => {
                   <p className="font-semibold">
                     {formatCurrency(course.price)}
                   </p>
-                  <p className="text-xs text-muted-foreground">per course</p>
+                  <p className="text-xs text-muted-foreground">{t("courses.perCourse")}</p>
                 </div>
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Description")}>

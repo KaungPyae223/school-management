@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Download, Plus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
@@ -16,16 +17,18 @@ const ClassesHeader = ({
   tab: string;
   isTrashView?: boolean;
 }) => {
+  const { t } = useTranslation();
+
   const columns = [
-    { title: "Name", key: "Name" },
-    { title: "Teacher", key: "Teacher" },
-    { title: "Total Students", key: "Total Students" },
-    { title: "Days", key: "Days" },
-    { title: "Price", key: "Price" },
-    { title: "Status", key: "Status" },
-    { title: "Time", key: "Time" },
-    { title: "Start Date", key: "Start Date" },
-    { title: "End Date", key: "End Date" },
+    { title: t("classes.fields.name"), key: "Name" },
+    { title: t("classes.fields.teacher"), key: "Teacher" },
+    { title: t("classes.fields.totalStudents"), key: "Total Students" },
+    { title: t("classes.fields.days"), key: "Days" },
+    { title: t("classes.fields.price"), key: "Price" },
+    { title: t("classes.fields.status"), key: "Status" },
+    { title: t("classes.fields.time"), key: "Time" },
+    { title: t("classes.fields.startDate"), key: "Start Date" },
+    { title: t("classes.fields.endDate"), key: "End Date" },
   ];
 
   return (
@@ -65,12 +68,12 @@ const ClassesHeader = ({
 
           <ViewChange />
           <Button variant="outline">
-            <Download className="w-4 h-4 mr-0.5" /> Export CSV
+            <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 
           <Link to="/classes/create">
             <Button>
-              <Plus className="w-4 h-4 mr-0.5" /> Add Class
+              <Plus className="w-4 h-4 mr-0.5" /> {t("classes.addClass")}
             </Button>
           </Link>
         </div>

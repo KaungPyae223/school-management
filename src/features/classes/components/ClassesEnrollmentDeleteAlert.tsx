@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useNavigate } from "react-router";
@@ -14,13 +15,14 @@ const ClassesEnrollmentDeleteAlert = ({
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   back?: boolean;
 }) => {
+  const { t } = useTranslation();
   const { mutateAsync, isPending } = useDeleteEnrollment(id);
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
       await mutateAsync(id);
-      toast.success("Enrollment deleted successfully");
+      toast.success(t("classes.alerts.deleteEnrollmentSuccess"));
       if (back) {
         navigate(-1);
       }
@@ -37,11 +39,12 @@ const ClassesEnrollmentDeleteAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleDelete}
       variant="destructive"
-      title="Delete this enrollment?"
-      description="Please confirm that you want to delete this enrollment. This action cannot be undone."
+      title={t("classes.alerts.deleteEnrollmentTitle")}
+      description={t("classes.alerts.deleteEnrollmentDesc")}
       isPending={isPending}
     />
   );
 };
 
 export default ClassesEnrollmentDeleteAlert;
+

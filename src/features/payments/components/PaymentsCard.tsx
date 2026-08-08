@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   CalendarDays,
   WalletCards,
@@ -33,6 +34,7 @@ const PaymentsCard = ({
   amountDue: number;
   classId: number;
 }) => {
+  const { t } = useTranslation();
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
 
@@ -45,7 +47,7 @@ const PaymentsCard = ({
               <Badge variant="outline" className="text-sm py-3 px-3">
                 <span className="text-muted-foreground">#</span> {index}
               </Badge>
-              <CardTitle className="text-lg">Payment Details</CardTitle>
+              <CardTitle className="text-lg">{t("payments.detailsTitle")}</CardTitle>
             </div>
             <div className="flex items-center gap-2">
               <Button
@@ -61,26 +63,26 @@ const PaymentsCard = ({
 
         <CardContent className="space-y-5 ">
           {data.description && (
-            <DetailsData icon={StickyNote} label={"Description"}>
+            <DetailsData icon={StickyNote} label={t("payments.fields.description")}>
               <p className="font-medium">{data.description}</p>
             </DetailsData>
           )}
 
           <div className="grid gap-3 sm:grid-cols-3">
-            <DetailsData icon={CalendarDays} label={"Payment date"}>
+            <DetailsData icon={CalendarDays} label={t("payments.paymentDate")}>
               <p className="font-medium">{formatDate(data.createdAt)}</p>
             </DetailsData>
-            <DetailsData icon={WalletCards} label={"Amount due"}>
+            <DetailsData icon={WalletCards} label={t("payments.amountDue")}>
               <p className="font-medium">{formatCurrency(amountDue)}</p>
             </DetailsData>
-            <DetailsData icon={CreditCard} label={"Paid amount"}>
+            <DetailsData icon={CreditCard} label={t("payments.paidAmount")}>
               <p className="font-medium">{formatCurrency(data.amount)}</p>
             </DetailsData>
           </div>
 
           <div className="flex items-center justify-between rounded-lg bg-primary/5 px-4 py-3">
             <span className="text-sm font-medium text-muted-foreground">
-              Remaining amount
+              {t("payments.remainingAmount")}
             </span>
 
             <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
@@ -94,7 +96,7 @@ const PaymentsCard = ({
 
               <div className="space-y-3">
                 <div>
-                  <h3 className="text-sm font-semibold">Payment receipt</h3>
+                  <h3 className="text-sm font-semibold">{t("payments.paymentReceipt")}</h3>
                 </div>
 
                 <img

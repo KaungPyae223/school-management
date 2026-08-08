@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-
 import * as z from "zod";
+import { useTranslation } from "react-i18next";
 
 import { Card, CardContent } from "../../../components/ui/card";
 import {
@@ -25,46 +25,23 @@ import ClassesDayInput from "../components/ClassesDayInput";
 import { useCreateClass } from "../hooks/useCreateClass";
 import { toast } from "sonner";
 import FormError from "../../../components/form/FormError";
-
-const formSchema = z
-  .object({
-    teacherId: z.number().min(1, "Teacher is required"),
-    courseId: z.number().min(1, "Course is required"),
-    startDate: z
-      .date({
-        message: "Start date is required",
-      })
-      .refine((date) => date >= new Date(), {
-        message: "Start date must be greater than or equal to today",
-      }),
-    startTime: z.date({ message: "Start time is required" }),
-    endTime: z.date({ message: "End time is required" }),
-    days: z.string().min(1, "Day is required"),
-    description: z.string().optional(),
-    price: z.number().min(1, "Price is required"),
-  })
-  .refine((data) => data.startTime < data.endTime, {
-    message: "Start time must be before end time",
-    path: ["endTime"],
-  })
-  .refine((data) => data.startTime < data.endTime, {
-    message: "End time must be after start time",
-    path: ["startTime"],
-  });
+import { ClassesSchema } from "../schema/ClassesSchema";
 
 const ClassesCratePage = () => {
+  const { t } = useTranslation();
+  const { formSchema } = ClassesSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
-    title: "Create Class",
+    title: t("classes.createTitle"),
     params: [
       {
-        name: "Classes",
+        name: t("classes.title"),
         link: "/classes",
       },
       {
-        name: "Create",
+        name: t("classes.createBreadcrumb"),
         link: "/classes/create",
       },
     ],
@@ -98,7 +75,7 @@ const ClassesCratePage = () => {
 
       await mutateAsync(data);
 
-      toast.success("Class created successfully");
+      toast.success(t("classes.alerts.createSuccess"));
       form.reset();
     } catch (error: unknown) {
       toast.error((error as Error).message);
@@ -115,7 +92,7 @@ const ClassesCratePage = () => {
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title="Create Class" />
+      <FormHeader title={t("classes.createTitle")} />
       <CardContent>
         <form id="create-class-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
@@ -144,7 +121,7 @@ const ClassesCratePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="days">Day</RequiredLabel>
+                  <RequiredLabel id="days">{t("classes.fields.days")}</RequiredLabel>
                   <ClassesDayInput field={field} fieldState={fieldState} />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -157,11 +134,11 @@ const ClassesCratePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="startDate">Start Date</RequiredLabel>
+                  <RequiredLabel id="startDate">{t("classes.fields.startDate")}</RequiredLabel>
 
                   <DateInput
                     field={field}
-                    label="Start Date"
+                    label={t("classes.fields.startDate")}
                     ariaInvalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
@@ -176,7 +153,7 @@ const ClassesCratePage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="startTime">Start Time</RequiredLabel>
+                    <RequiredLabel id="startTime">{t("classes.fields.startTime")}</RequiredLabel>
 
                     <TimeInput
                       field={field}
@@ -194,7 +171,7 @@ const ClassesCratePage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="endTime">End Time</RequiredLabel>
+                    <RequiredLabel id="endTime">{t("classes.fields.endTime")}</RequiredLabel>
                     <TimeInput
                       field={field}
                       fieldState={fieldState}
@@ -213,13 +190,13 @@ const ClassesCratePage = () => {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="classDescription">
-                    Description
+                    {t("classes.fields.description")}
                   </FieldLabel>
                   <Textarea
                     {...field}
                     id="classDescription"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter class description"
+                    placeholder={t("classes.fields.descriptionPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -241,8 +218,8 @@ const ClassesCratePage = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={createClass}
-        title="Create this class?"
-        description="Please confirm that you want to create this class with the provided information. You can edit the class later if needed."
+        title={t("classes.alerts.createConfirmTitle")}
+        description={t("classes.alerts.createConfirmDesc")}
       />
     </Card>
   );

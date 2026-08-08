@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   BookOpen,
   CreditCard,
@@ -34,6 +35,8 @@ const PaymentsList = ({
   data: any;
   view: "initial" | "all";
 }) => {
+  const { t } = useTranslation();
+
   const selectedColumns = useGetSelectedColumns([
     "Name",
     "Course",
@@ -46,44 +49,44 @@ const PaymentsList = ({
 
   const headers: TableHeadType[] = [
     {
-      title: "Name",
+      title: t("students.fields.name"),
       key: "Name",
       sortable: true,
       sortKey: "studentName",
     },
     {
-      title: "Course",
+      title: t("students.table.course"),
       key: "Course",
       sortable: true,
       sortKey: "courseName",
     },
     {
-      title: "Email",
+      title: t("students.fields.email"),
       key: "Email",
       sortable: true,
       sortKey: "studentEmail",
     },
     {
-      title: "Phone",
+      title: t("students.fields.phone"),
       key: "Phone",
       sortable: true,
       sortKey: "studentPhone",
     },
     {
-      title: "Price",
+      title: t("students.table.price"),
       key: "Price",
       sortable: true,
       sortKey: "e.price",
       align: "right",
     },
     {
-      title: "First Paid Date",
+      title: t("payments.firstPaidDate"),
       key: "First Paid Date",
       sortable: true,
       sortKey: "firstPaidAt",
     },
     {
-      title: "Last Paid Date",
+      title: t("payments.lastPaidDate"),
       key: "Last Paid Date",
       sortable: true,
       sortKey: "lastPaidAt",
@@ -91,14 +94,14 @@ const PaymentsList = ({
     ...(view === "initial"
       ? [
           {
-            title: "Paid Amount",
+            title: t("payments.paidAmount"),
             key: "Paid Amount",
             sortable: true,
             sortKey: "paidAmount",
             align: "right" as const,
           },
           {
-            title: "Remaining Amount",
+            title: t("payments.remainingAmount"),
             key: "Remaining Amount",
             sortable: true,
             sortKey: "remainingAmount",
@@ -107,7 +110,7 @@ const PaymentsList = ({
         ]
       : []),
     {
-      title: "Payment Times",
+      title: t("payments.paymentTimes"),
       key: "Payment Times",
       sortable: true,
       sortKey: "paymentTimes",
@@ -153,7 +156,7 @@ const PaymentsList = ({
                     {payment.courseName}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Batch {payment.batch}
+                    {t("classes.batch", { batch: payment.batch })}
                   </p>
                 </div>
               </div>
@@ -227,7 +230,7 @@ const PaymentsList = ({
                   }}
                   variant={payment.remainingAmount > 0 ? "default" : "outline"}
                   icon={CreditCard}
-                  tooltip="View payment details"
+                  tooltip={t("payments.viewPaymentDetails")}
                 />
               </TableActionButtonsContainer>
             </TableCell>

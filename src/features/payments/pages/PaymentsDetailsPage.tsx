@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useLoaderData, useParams } from "react-router";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 
@@ -11,17 +12,18 @@ import PaymentsCreateCard from "../components/PaymentsCreateCard";
 import { Separator } from "../../../components/ui/separator";
 
 const PaymentsDetailsPage = () => {
+  const { t } = useTranslation();
   const { enrollmentId } = useParams();
 
   useAddBreadcrumb({
-    title: "Payments History",
+    title: t("payments.historyTitle"),
     params: [
       {
-        name: "Payments",
+        name: t("payments.title"),
         link: "/payments",
       },
       {
-        name: "History",
+        name: t("payments.historyBreadcrumb"),
         link: `/payments/${enrollmentId}`,
       },
     ],
@@ -69,8 +71,8 @@ const PaymentsDetailsPage = () => {
       <DataShow
         isLoading={isLoading}
         dataLength={data?.data?.length || 0}
-        emptyDescription="There are no payments made for this class yet."
-        emptyTitle="No Payments"
+        emptyDescription={t("payments.noClassPaymentsDesc")}
+        emptyTitle={t("payments.noPaymentsTitle")}
         emptyIcon={CreditCard}
         className="w-full sm:max-w-lg mx-auto h-fit py-12"
       >

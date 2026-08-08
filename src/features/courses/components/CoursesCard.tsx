@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   BookOpen,
@@ -26,6 +27,7 @@ import CoursesRestoreAlert from "./CoursesRestoreAlert";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const CoursesCard = ({ course }: { course: any }) => {
+  const { t } = useTranslation();
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
   const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
@@ -72,7 +74,7 @@ const CoursesCard = ({ course }: { course: any }) => {
                 />
               }
               iconBg="bg-blue-100 dark:bg-blue-900/30"
-              label="Enrollments"
+              label={t("courses.enrollments")}
               value={course.total_enrollments}
               border
             />
@@ -85,7 +87,7 @@ const CoursesCard = ({ course }: { course: any }) => {
                 />
               }
               iconBg="bg-purple-100 dark:bg-purple-900/30"
-              label="Teachers"
+              label={t("courses.teachers")}
               value={course.total_teachers}
               border
             />
@@ -98,7 +100,7 @@ const CoursesCard = ({ course }: { course: any }) => {
                 />
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
-              label="Classes"
+              label={t("courses.classes")}
               value={course.total_classes}
               border
             />
@@ -111,7 +113,7 @@ const CoursesCard = ({ course }: { course: any }) => {
                 />
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
-              label="Active"
+              label={t("courses.active")}
               value={course.total_active_classes}
               border
             />
@@ -129,7 +131,7 @@ const CoursesCard = ({ course }: { course: any }) => {
             variant="ghost"
             className="w-full justify-between"
           >
-            View Course Details
+            {t("courses.viewCourseDetails")}
             <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
           </Button>
         </CardFooter>

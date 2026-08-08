@@ -20,7 +20,6 @@ import {
   CardFooter,
   CardTitle,
 } from "../../../components/ui/card";
-import { formatDate } from "../../../utils/format-date";
 import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
 
 import { useNavigate } from "react-router";

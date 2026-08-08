@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   BookOpen,
@@ -38,6 +39,7 @@ import CardData from "../../../components/card-utils/CardData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
 const ClassesCard = ({ classData }: { classData: any }) => {
+  const { t } = useTranslation();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -68,7 +70,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Enrolled Student</p>
+                <p>{t("classes.enrolledStudent")}</p>
               </TooltipContent>
             </Tooltip>
           )}
@@ -99,7 +101,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Batch {classData.batch}</p>
+                <p>{t("classes.batch", { batch: classData.batch })}</p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -120,7 +122,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 />
               }
               iconBg="bg-purple-100 dark:bg-purple-900/30"
-              label="Start Time"
+              label={t("classes.fields.startTime")}
               value={changeTime(classData.startTime)}
             />
 
@@ -132,18 +134,18 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 />
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
-              label="End Time"
+              label={t("classes.fields.endTime")}
               value={changeTime(classData.endTime)}
             />
             <div className="col-span-2 w-full border border-border rounded-lg  px-3 py-2">
               <div className="text-muted-foreground text-xs flex items-center gap-1.5">
-                <Calendar className="size-3" /> Schedule Days
+                <Calendar className="size-3" /> {t("classes.scheduleDays")}
                 <Badge variant="secondary" className="ms-auto">
-                  {openingDays.length} days
+                  {t("classes.daysCount", { count: openingDays.length })}
                 </Badge>
               </div>
               <div className="flex items-center gap-1.5 mt-2.5">
-                {openingDays.map((day) => (
+                {openingDays.map((day: string) => (
                   <Badge variant="outline" key={day}>
                     {day.slice(0, 3)}
                   </Badge>
@@ -167,9 +169,9 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">
-                    Total Students
+                    {t("classes.fields.totalStudents")}
                   </p>
-                  <p className="text-xs text-muted-foreground/60">Enrolled</p>
+                  <p className="text-xs text-muted-foreground/60">{t("classes.enrolledStudents")}</p>
                 </div>
               </div>
               <Badge
@@ -187,7 +189,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 />
               }
               iconBg="bg-blue-100 dark:bg-blue-900/30"
-              label="Start Date"
+              label={t("classes.fields.startDate")}
               value={formatDate(classData.startDate)}
             />
 
@@ -199,8 +201,8 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 />
               }
               iconBg="bg-red-100 dark:bg-red-900/30"
-              label="End Date"
-              value={classData.endDate ? formatDate(classData.endDate) : "TBA"}
+              label={t("classes.fields.endDate")}
+              value={classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
             />
           </div>
         </CardContent>
@@ -216,7 +218,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
             className="w-full justify-between"
             onClick={() => navigate(`/classes/details/${classData.id}`)}
           >
-            View Class Details
+            {t("classes.viewClassDetails")}
             <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
           </Button>
         </CardFooter>
