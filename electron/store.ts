@@ -9,7 +9,7 @@ export interface StoreSchema {
 export const store = new Store<StoreSchema>({
   defaults: {
     preferredLanguage: JSON.stringify({
-      state: { language: "en" },
+      state: { language: "en-GB" },
       version: 0,
     }),
     mode: JSON.stringify({ state: { mode: "system" }, version: 0 }),

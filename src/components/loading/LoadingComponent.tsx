@@ -1,7 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { cn } from "../../lib/utils";
 import { Card, CardContent } from "../ui/card";
 
 const LoadingComponent = ({ className }: { className?: string }) => {
+  const { t } = useTranslation();
+
   return (
     <Card
       className={cn(
@@ -12,13 +15,13 @@ const LoadingComponent = ({ className }: { className?: string }) => {
       <CardContent>
         <div className="text-center max-w-md">
           <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-            Please wait
+            {t("loading.pleaseWait")}
           </p>
 
-          <h1 className="text-4xl font-bold text-primary">Loading</h1>
+          <h1 className="text-4xl font-bold text-primary">{t("loading.title")}</h1>
 
           <p className="text-muted-foreground mt-3 mb-8">
-            Fetching the content for you...
+            {t("loading.fetchingContent")}
           </p>
 
           <div className="flex items-center justify-center gap-2">
@@ -42,3 +45,4 @@ const LoadingComponent = ({ className }: { className?: string }) => {
 };
 
 export default LoadingComponent;
+

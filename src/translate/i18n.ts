@@ -7,9 +7,9 @@ import myTranslation from "./languages/my.json";
 import jaTranslation from "./languages/ja.json";
 
 export const SUPPORTED_LANGUAGES = [
-  { value: "my", label: "မြန်မာ" },
-  { value: "en", label: "English" },
-  { value: "ja", label: "日本語" },
+  { value: "my-MM", label: "မြန်မာ" },
+  { value: "en-GB", label: "English" },
+  { value: "ja-JP", label: "日本語" },
 ] as const;
 
 i18n
@@ -17,11 +17,11 @@ i18n
   .use(initReactI18next)
   .init({
     resources: {
-      en: { translation: enTranslation },
-      my: { translation: myTranslation },
-      ja: { translation: jaTranslation },
+      "en-GB": { translation: enTranslation },
+      "my-MM": { translation: myTranslation },
+      "ja-JP": { translation: jaTranslation },
     },
-    fallbackLng: "en",
+    fallbackLng: "en-GB",
     debug: true,
     interpolation: {
       escapeValue: false,

@@ -19,6 +19,7 @@ import ClassesTeacherCard from "./ClassesTeacherCard";
 import { changeTime } from "../../../utils/change-time";
 import DetailsData from "../../../components/details/DetailsData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import CardDayBadge from "../../../components/card-utils/CardDayBadge";
 
 const ClassesDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -38,7 +39,9 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
           <h3 className="text-2xl font-semibold line-clamp-1">
             {data.course.name}
           </h3>
-          <Badge variant="outline">{t("classes.batch", { batch: data.batch })}</Badge>
+          <Badge variant="outline">
+            {t("classes.batch", { batch: data.batch })}
+          </Badge>
         </div>
         <p className="text-sm text-muted-foreground "> {data.description}</p>
 
@@ -51,9 +54,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
           <DetailsData icon={CalendarDays} label={t("classes.openingDays")}>
             <div className="space-x-1 space-y-1">
               {data.days.split(",").map((day: string) => (
-                <Badge variant="outline" key={day}>
-                  {day.slice(0, 3)}
-                </Badge>
+                <CardDayBadge day={day} variant="outline" key={day} />
               ))}
             </div>
           </DetailsData>
@@ -68,7 +69,10 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
           <DetailsData icon={BadgeCheck} label={t("classes.fields.status")}>
             <ClassesStatus status={data.status} />
           </DetailsData>
-          <DetailsData icon={CalendarCheck2} label={t("classes.fields.startDate")}>
+          <DetailsData
+            icon={CalendarCheck2}
+            label={t("classes.fields.startDate")}
+          >
             <p className="font-medium">{formatDate(data.startDate)}</p>
           </DetailsData>
           <DetailsData icon={CalendarOff} label={t("classes.fields.endDate")}>
@@ -103,4 +107,3 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
 };
 
 export default ClassesDetailsCard;
-

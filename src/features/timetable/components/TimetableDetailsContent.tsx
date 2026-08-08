@@ -24,11 +24,11 @@ import { Badge } from "../../../components/ui/badge";
 import { changeTime } from "../../../utils/change-time";
 import ClassesTeacherCard from "../../classes/components/ClassesTeacherCard";
 import { formatDate } from "../../../utils/format-date";
-import { useNavigate } from "react-router";
 import { formatCurrency } from "../../../utils/format-currency";
 import { cn } from "../../../lib/utils";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 
 const TimetableDetailsContent = ({ classData }: { classData: any }) => {
   const { t } = useTranslation();
@@ -37,8 +37,6 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
     return null;
   }
   const openingDays = classData.days.split(",");
-
-  const navigate = useNavigate();
 
   return (
     <DrawerContent>
@@ -126,8 +124,12 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
                 />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">{t("classes.fields.totalStudents")}</p>
-                <p className="text-xs text-muted-foreground/60">{t("timetable.enrolled")}</p>
+                <p className="text-xs text-muted-foreground">
+                  {t("classes.fields.totalStudents")}
+                </p>
+                <p className="text-xs text-muted-foreground/60">
+                  {t("timetable.enrolled")}
+                </p>
               </div>
             </div>
             <Badge variant="secondary" className="font-medium text-foreground">
@@ -156,10 +158,13 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
             }
             iconBg="bg-red-100 dark:bg-red-900/30"
             label={t("classes.fields.endDate")}
-            value={classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
+            value={
+              classData.endDate
+                ? formatDate(classData.endDate)
+                : t("students.tba")
+            }
           />
 
-          {/* Price Card - Full Width */}
           <div className="flex items-center col-span-2 w-full justify-between rounded-lg border border-border px-3 py-2">
             <div className="flex items-center gap-3">
               <div className="p-1.5 rounded-md bg-yellow-100 dark:bg-yellow-900/30">
@@ -169,8 +174,12 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
                 />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">{t("courses.fields.price")}</p>
-                <p className="text-xs text-muted-foreground/60">{t("timetable.perStudent")}</p>
+                <p className="text-xs text-muted-foreground">
+                  {t("courses.fields.price")}
+                </p>
+                <p className="text-xs text-muted-foreground/60">
+                  {t("timetable.perStudent")}
+                </p>
               </div>
             </div>
             <Badge
@@ -189,12 +198,9 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
             {t("timetable.close")}
           </Button>
         </DrawerClose>
-        <Button
-          className="flex-1"
-          onClick={() => navigate(`/classes/details/${classData.id}`)}
-        >
-          {t("timetable.viewClassDetails")}
-        </Button>
+        <Link to={`/classes/details/${classData.id}`}>
+          <Button className="flex-1">{t("timetable.viewClassDetails")}</Button>
+        </Link>
       </DrawerFooter>
     </DrawerContent>
   );
@@ -223,4 +229,3 @@ const CourseStatsCard = ({
 };
 
 export default TimetableDetailsContent;
-

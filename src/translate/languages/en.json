@@ -71,6 +71,12 @@
     "dragAndDrop": "Drag and drop or click to upload cover image",
     "imageFormats": "PNG, JPG, WebP (Max 5MB)"
   },
+  "loading": {
+    "pleaseWait": "Please wait",
+    "title": "Loading",
+    "fetchingContent": "Fetching the content for you...",
+    "fetchingPageContent": "Fetching the page content for you..."
+  },
   "errors": {
     "unexpectedError": "Unexpected Error",
     "somethingWentWrong": "Something went wrong",

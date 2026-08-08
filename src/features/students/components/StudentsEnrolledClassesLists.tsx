@@ -151,7 +151,9 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                   </span>
 
                   <span>
-                    <span className="text-xs text-muted-foreground">{t("students.end")}:</span>{" "}
+                    <span className="text-xs text-muted-foreground">
+                      {t("students.end")}:
+                    </span>{" "}
                     {enrollmentData.endDate
                       ? formatDate(enrollmentData.endDate)
                       : t("students.tba")}
@@ -164,10 +166,10 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                     {changeTime(enrollmentData.startTime)} -{" "}
                     {changeTime(enrollmentData.endTime)}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground max-w-52">
                     {enrollmentData.days
                       .split(",")
-                      .map((day: string) => day.slice(0, 3))
+                      .map((day) => t(`general.days.${day}`))
                       .join(", ")}
                   </p>
                 </div>

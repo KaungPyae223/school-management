@@ -37,6 +37,7 @@ import ClassesTeacherCard from "./ClassesTeacherCard";
 import { changeTime } from "../../../utils/change-time";
 import CardData from "../../../components/card-utils/CardData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import CardDayBadge from "../../../components/card-utils/CardDayBadge";
 
 const ClassesCard = ({ classData }: { classData: any }) => {
   const { t } = useTranslation();
@@ -146,9 +147,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               </div>
               <div className="flex items-center gap-1.5 mt-2.5">
                 {openingDays.map((day: string) => (
-                  <Badge variant="outline" key={day}>
-                    {day.slice(0, 3)}
-                  </Badge>
+                  <CardDayBadge day={day} variant="outline" key={day} />
                 ))}
               </div>
             </div>
@@ -171,7 +170,9 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   <p className="text-xs text-muted-foreground">
                     {t("classes.fields.totalStudents")}
                   </p>
-                  <p className="text-xs text-muted-foreground/60">{t("classes.enrolledStudents")}</p>
+                  <p className="text-xs text-muted-foreground/60">
+                    {t("classes.enrolledStudents")}
+                  </p>
                 </div>
               </div>
               <Badge
@@ -202,7 +203,11 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               }
               iconBg="bg-red-100 dark:bg-red-900/30"
               label={t("classes.fields.endDate")}
-              value={classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
+              value={
+                classData.endDate
+                  ? formatDate(classData.endDate)
+                  : t("students.tba")
+              }
             />
           </div>
         </CardContent>

@@ -71,6 +71,12 @@
     "dragAndDrop": "画像をドラッグ＆ドロップまたはクリックしてアップロード",
     "imageFormats": "PNG, JPG, WebP (最大 5MB)"
   },
+  "loading": {
+    "pleaseWait": "しばらくお待ちください",
+    "title": "読み込み中",
+    "fetchingContent": "コンテンツを取得しています...",
+    "fetchingPageContent": "ページコンテンツを取得しています..."
+  },
   "errors": {
     "unexpectedError": "予期せぬエラーが発生しました",
     "somethingWentWrong": "問題が発生しました",

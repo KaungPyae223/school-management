@@ -31,6 +31,7 @@ import ClassesStatus from "./ClassesStatus";
 import { changeTime } from "../../../utils/change-time";
 import TableIconContent from "../../../components/table/TableIconContent";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import CardDayBadge from "../../../components/card-utils/CardDayBadge";
 
 const ClassesList = ({ data }: { data: any[] }) => {
   const { t } = useTranslation();
@@ -172,12 +173,10 @@ const ClassesList = ({ data }: { data: any[] }) => {
               </TableCell>
               <TableCell
                 hidden={!selectedColumns.includes("Days")}
-                className="space-x-1"
+                className="space-x-1 max-w-52"
               >
                 {classData.days.split(",").map((day: string) => (
-                  <Badge variant="default" key={day}>
-                    {day.slice(0, 3)}
-                  </Badge>
+                  <CardDayBadge day={day} key={day} />
                 ))}
               </TableCell>
               <TableCell
@@ -210,7 +209,9 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 <TableIconContent
                   icon={CalendarOff}
                   value={
-                    classData.endDate ? formatDate(classData.endDate) : t("students.tba")
+                    classData.endDate
+                      ? formatDate(classData.endDate)
+                      : t("students.tba")
                   }
                   iconClassName="text-red-600 dark:text-red-400"
                 />

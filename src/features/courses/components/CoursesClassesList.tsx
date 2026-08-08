@@ -114,13 +114,19 @@ const CoursesClassesList = ({ data }: { data: any }) => {
             <TableCell>
               <div className="flex flex-col gap-1">
                 <span>
-                  <span className="text-xs text-muted-foreground">{t("students.start")}:</span>{" "}
+                  <span className="text-xs text-muted-foreground">
+                    {t("students.start")}:
+                  </span>{" "}
                   {formatDate(classData.startDate)}
                 </span>
 
                 <span>
-                  <span className="text-xs text-muted-foreground">{t("students.end")}:</span>{" "}
-                  {classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
+                  <span className="text-xs text-muted-foreground">
+                    {t("students.end")}:
+                  </span>{" "}
+                  {classData.endDate
+                    ? formatDate(classData.endDate)
+                    : t("students.tba")}
                 </span>
               </div>
             </TableCell>
@@ -130,10 +136,10 @@ const CoursesClassesList = ({ data }: { data: any }) => {
                   {changeTime(classData.startTime)} -{" "}
                   {changeTime(classData.endTime)}
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground max-w-52">
                   {classData.days
                     .split(",")
-                    .map((day) => day.slice(0, 3))
+                    .map((day) => t(`general.days.${day}`))
                     .join(", ")}
                 </p>
               </div>

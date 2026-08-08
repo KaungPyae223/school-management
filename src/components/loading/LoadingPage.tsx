@@ -1,15 +1,19 @@
+import { useTranslation } from "react-i18next";
+
 const LoadingPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="h-[80vh] flex flex-col items-center justify-center px-4">
       <div className="text-center max-w-md">
         <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-          Please wait
+          {t("loading.pleaseWait")}
         </p>
 
-        <h1 className="text-4xl font-bold text-primary">Loading</h1>
+        <h1 className="text-4xl font-bold text-primary">{t("loading.title")}</h1>
 
         <p className="text-muted-foreground mt-3 mb-8">
-          Fetching the page content for you...
+          {t("loading.fetchingPageContent")}
         </p>
 
         <div className="flex items-center justify-center gap-2">
@@ -32,3 +36,4 @@ const LoadingPage = () => {
 };
 
 export default LoadingPage;
+

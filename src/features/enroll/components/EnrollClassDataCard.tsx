@@ -16,6 +16,7 @@ import { Separator } from "../../../components/ui/separator";
 import { changeTime } from "../../../utils/change-time";
 import DetailsData from "../../../components/details/DetailsData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import CardDayBadge from "../../../components/card-utils/CardDayBadge";
 
 const EnrollClassDataCard = ({ data }: { data: any }) => {
   return (
@@ -54,9 +55,7 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
           >
             <div className="space-x-1 space-y-1">
               {data.days.split(",").map((day) => (
-                <Badge variant="outline" key={day}>
-                  {day.slice(0, 3)}
-                </Badge>
+                <CardDayBadge key={day} day={day} variant="outline" />
               ))}
             </div>
           </DetailsData>
