@@ -20,7 +20,7 @@ const SettingsChangeTheme = () => {
   const setColorScheme = useColorSchemeStore((s) => s.setColorScheme);
 
   return (
-    <div className="flex items-center gap-5 justify-between">
+    <div className="flex items-center gap-5 justify-between py-3.5">
       <div className="space-y-0.5">
         <p className="font-medium">{t("settings.changeTheme.title")}</p>
         <p className="text-xs text-muted-foreground">

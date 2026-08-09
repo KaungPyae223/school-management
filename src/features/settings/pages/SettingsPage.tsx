@@ -23,11 +23,9 @@ const SettingsPage = () => {
       <CardHeader className="border-b bg-muted/30">
         <CardTitle className="text-lg">{t("settings.title")}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3.5 py-3">
+      <CardContent className="divide-y py-3">
         <SettingsChangeAppearance />
-        <Separator />
         <SettingsChangeTheme />
-        <Separator />
         <SettingsChangeLanguage />
       </CardContent>
     </Card>
