@@ -7,6 +7,19 @@ declare global {
       set: (key: string, value: string) => Promise<void>;
       delete: (key: string) => Promise<void>;
     };
+    authAPI: {
+      hasPassword: () => Promise<boolean>;
+      setPassword: (
+        plainPassword: string,
+      ) => Promise<{ success: boolean; message?: string }>;
+      changePassword: (
+        oldPassword: string,
+        newPassword: string,
+      ) => Promise<{ success: boolean; message?: string }>;
+      verifyPassword: (
+        plainPassword: string,
+      ) => Promise<{ success: boolean; message?: string }>;
+    };
     api: {
       getAllCourses: (data: {
         page?: number;

@@ -5,11 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
-import { Separator } from "../../../components/ui/separator";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import SettingsChangeAppearance from "../components/SettingsChangeAppearance";
 import SettingsChangeLanguage from "../components/SettingsChangeLanguage";
 import SettingsChangeTheme from "../components/SettingsChangeTheme";
+import SettingsManagePassword from "../components/SettingsManagePassword";
 
 const SettingsPage = () => {
   const { t } = useTranslation();
@@ -23,10 +23,11 @@ const SettingsPage = () => {
       <CardHeader className="border-b bg-muted/30">
         <CardTitle className="text-lg">{t("settings.title")}</CardTitle>
       </CardHeader>
-      <CardContent className="divide-y py-3">
+      <CardContent className="divide-y ">
         <SettingsChangeAppearance />
         <SettingsChangeTheme />
         <SettingsChangeLanguage />
+        <SettingsManagePassword />
       </CardContent>
     </Card>
   );

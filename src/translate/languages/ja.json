@@ -24,6 +24,34 @@
       "description": "アプリの言語を選択してください",
       "selectPlaceholder": "言語を選択してください",
       "languagesLabel": "言語"
+    },
+    "managePassword": {
+      "title": "パスワード管理",
+      "breadcrumb": "パスワード管理",
+      "description": "データを安全に保護するためにパスワードを管理します。",
+      "button": "パスワードを管理"
+    },
+    "createPassword": {
+      "title": "パスワード作成",
+      "confirmTitle": "パスワード作成の確認",
+      "confirmDescription": "このパスワードを作成してもよろしいですか？",
+      "success": "パスワードを作成しました"
+    },
+    "changePassword": {
+      "title": "パスワード変更",
+      "confirmTitle": "パスワード変更の確認",
+      "confirmDescription": "パスワードを変更してもよろしいですか？",
+      "success": "パスワードを変更しました"
+    },
+    "fields": {
+      "password": "パスワード",
+      "oldPassword": "現在のパスワード",
+      "newPassword": "新しいパスワード",
+      "confirmPassword": "パスワード（確認）",
+      "passwordPlaceholder": "パスワードを入力",
+      "oldPasswordPlaceholder": "現在のパスワードを入力",
+      "newPasswordPlaceholder": "新しいパスワードを入力",
+      "confirmPasswordPlaceholder": "確認用パスワードを入力"
     }
   },
   "general": {
@@ -395,6 +423,7 @@
     "fileSize": "ファイルサイズは最大5MBまでです。",
     "startDateFuture": "開始日は今日以降の日付を指定してください。",
     "timeOrder": "開始時刻は終了時刻より前である必要があります。",
-    "timeOrderStart": "終了時刻は開始時刻より後である必要があります。"
+    "timeOrderStart": "終了時刻は開始時刻より後である必要があります。",
+    "passwordNotMatch": "パスワードと確認用パスワードが一致しません。"
   }
 }

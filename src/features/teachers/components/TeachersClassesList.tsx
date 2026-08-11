@@ -125,7 +125,7 @@ const TeachersClassesList = ({ data }: { data: any }) => {
                 <p className="text-xs text-muted-foreground max-w-52">
                   {classData.days
                     .split(",")
-                    .map((day) => t(`general.days.${day}`))}
+                    .map((day) => t(`general.days.${day}`))
                     .join(", ")}
                 </p>
               </div>

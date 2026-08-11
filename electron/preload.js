@@ -6,6 +6,16 @@ contextBridge.exposeInMainWorld("electronStore", {
   delete: (key) => ipcRenderer.invoke("store:delete", key),
 });
 
+contextBridge.exposeInMainWorld("authAPI", {
+  hasPassword: () => ipcRenderer.invoke("auth:has-password"),
+  setPassword: (plainPassword) =>
+    ipcRenderer.invoke("auth:set-password", plainPassword),
+  changePassword: (oldPassword, newPassword) =>
+    ipcRenderer.invoke("auth:change-password", oldPassword, newPassword),
+  verifyPassword: (plainPassword) =>
+    ipcRenderer.invoke("auth:verify-password", plainPassword),
+});
+
 contextBridge.exposeInMainWorld("api", {
   // Course
   getAllCourses: (data) => ipcRenderer.invoke("course:index", data),
