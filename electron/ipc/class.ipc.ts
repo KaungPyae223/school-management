@@ -4,6 +4,7 @@ import { showImage } from "../utils/showImage";
 import { Prisma } from "../../generated/prisma/client";
 import { formatTime } from "../utils/formatTime";
 import { generateStatus } from "../utils/generateStatus";
+import { protectedHandle } from "../auth/protected-ipc";
 
 const isTeacherBusy = async (
   teacherId: number,
@@ -46,7 +47,7 @@ const isTeacherBusy = async (
 };
 
 export const classesIPCs = () => {
-  ipcMain.handle("class:index", async (_, data) => {
+  protectedHandle("class:index", async (_, data) => {
     const {
       page = 1,
       limit = 10,
@@ -187,7 +188,7 @@ export const classesIPCs = () => {
     }
   });
 
-  ipcMain.handle("class:show", async (_, id) => {
+  protectedHandle("class:show", async (_, id) => {
     try {
       const classes = await prisma.class.findUnique({
         where: { id },
@@ -240,7 +241,7 @@ export const classesIPCs = () => {
     }
   });
 
-  ipcMain.handle("class:create", async (_, data) => {
+  protectedHandle("class:create", async (_, data) => {
     try {
       const latestBath = await prisma.class.findFirst({
         where: {
@@ -276,7 +277,7 @@ export const classesIPCs = () => {
     }
   });
 
-  ipcMain.handle("class:update", async (_, data) => {
+  protectedHandle("class:update", async (_, data) => {
     try {
       const { id, ...restData } = data;
 
@@ -308,7 +309,7 @@ export const classesIPCs = () => {
     }
   });
 
-  ipcMain.handle("class:delete", async (_, id) => {
+  protectedHandle("class:delete", async (_, id) => {
     try {
       const hasLinkedStudents = await prisma.enrollment.findFirst({
         where: { classId: id },
@@ -328,7 +329,7 @@ export const classesIPCs = () => {
     }
   });
 
-  ipcMain.handle("class:complete", async (_, id) => {
+  protectedHandle("class:complete", async (_, id) => {
     try {
       await prisma.class.update({
         where: { id },

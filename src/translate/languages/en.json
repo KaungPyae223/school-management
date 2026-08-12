@@ -54,6 +54,17 @@
       "confirmPasswordPlaceholder": "Enter Confirm Password"
     }
   },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "success": "Logged in successfully",
+      "failed": "Incorrect password"
+    },
+    "fields": {
+      "password": "Password",
+      "passwordPlaceholder": "Enter Password"
+    }
+  },
   "general": {
     "sortBy": "Sort By",
     "none": "None",
@@ -295,6 +306,7 @@
     "enrolledStudents": "Enrolled Students",
     "noClassesTitle": "No Classes",
     "noClassesDesc": "There are no classes available at the moment. Please add a class to get started!",
+    "noClassesTitle": "No Classes",
     "noEnrolledStudentsTitle": "No Enrolled Students",
     "noEnrolledStudentsDesc": "There are no enrolled students available at the moment. Please add an enrolled student to get started!",
     "viewClassDetails": "View Class Details",

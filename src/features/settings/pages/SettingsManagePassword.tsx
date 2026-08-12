@@ -23,10 +23,10 @@ const SettingsManagePassword = () => {
 
   const { hasPassword } = useLoaderData();
 
-  if (!hasPassword) return <SettingsPasswordCreateForm />;
+  if (!hasPassword)
+    return <SettingsPasswordCreateForm navigateLink="/settings" />;
 
   return <SettingsPasswordChangeForm />;
 };
 
 export default SettingsManagePassword;
-

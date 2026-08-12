@@ -5,10 +5,11 @@ import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";
 import { Prisma } from "../../generated/prisma/client";
 import { generateStatus } from "../utils/generateStatus";
+import { protectedHandle } from "../auth/protected-ipc";
 
 
 export const teacherIPCs = () => {
-  ipcMain.handle("teacher:index", async (_, data) => {
+  protectedHandle("teacher:index", async (_, data) => {
     const {
       page = 1,
       limit = 10,
@@ -112,7 +113,7 @@ export const teacherIPCs = () => {
     }
   });
 
-  ipcMain.handle("teacher:get-teacher-classes", async (_, data) => {
+  protectedHandle("teacher:get-teacher-classes", async (_, data) => {
     const {
       id,
       page = 1,
@@ -197,7 +198,7 @@ export const teacherIPCs = () => {
     }
   });
 
-  ipcMain.handle("teacher:search-all-active", async (_, data) => {
+  protectedHandle("teacher:search-all-active", async (_, data) => {
     const { search = "", page = 1, limit = 10 } = data;
     const skip = Number(page - 1) * Number(limit);
 
@@ -229,7 +230,7 @@ export const teacherIPCs = () => {
     }
   });
 
-  ipcMain.handle("teacher:show", async (_, id) => {
+  protectedHandle("teacher:show", async (_, id) => {
     try {
       const teacher = await prisma.teacher.findUnique({
         where: { id },
@@ -248,7 +249,7 @@ export const teacherIPCs = () => {
     }
   });
 
-  ipcMain.handle("teacher:create", async (_, data) => {
+  protectedHandle("teacher:create", async (_, data) => {
     try {
       const { image, imageName, ...restData } = data;
 
@@ -269,7 +270,7 @@ export const teacherIPCs = () => {
     }
   });
 
-  ipcMain.handle("teacher:update", async (_, data) => {
+  protectedHandle("teacher:update", async (_, data) => {
     try {
       const { id, image, imageName, ...restData } = data;
 
@@ -304,7 +305,7 @@ export const teacherIPCs = () => {
     }
   });
 
-  ipcMain.handle("teacher:delete", async (_, id) => {
+  protectedHandle("teacher:delete", async (_, id) => {
     try {
       const hasLinkedClasses = await prisma.class.findFirst({
         where: { teacherId: id },
@@ -339,7 +340,7 @@ export const teacherIPCs = () => {
     }
   });
 
-  ipcMain.handle("teacher:restore", async (_, id) => {
+  protectedHandle("teacher:restore", async (_, id) => {
     try {
       await prisma.teacher.update({
         where: { id },

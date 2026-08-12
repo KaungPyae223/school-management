@@ -1,8 +1,9 @@
 import { ipcMain } from "electron";
 import { store, StoreSchema } from "../store";
+import { protectedHandle } from "../auth/protected-ipc";
 
 export const storeIPCs = () => {
-  ipcMain.handle(
+  protectedHandle(
     "store:get",
     async (_, key: Exclude<keyof StoreSchema, "user_password_hash">) => {
       if ((key as string) === "user_password_hash") {
@@ -12,7 +13,7 @@ export const storeIPCs = () => {
       return result;
     },
   );
-  ipcMain.handle(
+  protectedHandle(
     "store:set",
     async (
       _,
@@ -25,7 +26,7 @@ export const storeIPCs = () => {
       await store.set(key, value);
     },
   );
-  ipcMain.handle(
+  protectedHandle(
     "store:delete",
     async (_, key: Exclude<keyof StoreSchema, "user_password_hash">) => {
       if ((key as string) === "user_password_hash") {

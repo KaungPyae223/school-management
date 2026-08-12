@@ -4,9 +4,10 @@ import { saveImage } from "../utils/saveImage";
 import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";
 import { Prisma } from "../../generated/prisma/client";
+import { protectedHandle } from "../auth/protected-ipc";
 
 export const studentIPCs = () => {
-  ipcMain.handle("student:index", async (_, data) => {
+  protectedHandle("student:index", async (_, data) => {
     const {
       page = 1,
       limit = 10,
@@ -92,7 +93,7 @@ export const studentIPCs = () => {
     }
   });
 
-  ipcMain.handle("student:show", async (_, id) => {
+  protectedHandle("student:show", async (_, id) => {
     try {
       const student = await prisma.student.findUnique({
         where: { id },
@@ -111,7 +112,7 @@ export const studentIPCs = () => {
     }
   });
 
-  ipcMain.handle("student:search-all-active", async (_, data) => {
+  protectedHandle("student:search-all-active", async (_, data) => {
     const { search = "", page = 1, limit = 10 } = data;
 
     const skip = Number(page - 1) * Number(limit);
@@ -146,7 +147,7 @@ export const studentIPCs = () => {
     }
   });
 
-  ipcMain.handle("student:create", async (_, data) => {
+  protectedHandle("student:create", async (_, data) => {
     try {
       const { image, imageName, ...restData } = data;
 
@@ -167,7 +168,7 @@ export const studentIPCs = () => {
     }
   });
 
-  ipcMain.handle("student:update", async (_, data) => {
+  protectedHandle("student:update", async (_, data) => {
     try {
       const { id, image, imageName, ...restData } = data;
 
@@ -202,7 +203,7 @@ export const studentIPCs = () => {
     }
   });
 
-  ipcMain.handle("student:delete", async (_, id) => {
+  protectedHandle("student:delete", async (_, id) => {
     try {
       const hasLinkedEnrollment = await prisma.enrollment.findFirst({
         where: {
@@ -236,7 +237,7 @@ export const studentIPCs = () => {
     }
   });
 
-  ipcMain.handle("student:get-attended-classes", async (_, data) => {
+  protectedHandle("student:get-attended-classes", async (_, data) => {
     const {
       id = 0,
       page = 1,

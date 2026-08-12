@@ -140,7 +140,7 @@ const SettingsPasswordChangeForm = () => {
       </CardContent>
       <FormFooter
         formID="change-password-form"
-        isSubmitting={false}
+        isSubmitting={isPending}
         resetForm={resetForm}
       />
 

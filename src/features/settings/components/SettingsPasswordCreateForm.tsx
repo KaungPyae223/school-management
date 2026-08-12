@@ -16,7 +16,13 @@ import { Input } from "../../../components/ui/input";
 import { useCreatePassword } from "../hooks/useCreatePassword";
 import { useNavigate } from "react-router";
 
-const SettingsPasswordCreateForm = ({ back = true }: { back?: boolean }) => {
+const SettingsPasswordCreateForm = ({
+  navigateLink,
+  back = true,
+}: {
+  navigateLink?: string;
+  back?: boolean;
+}) => {
   const { t } = useTranslation();
   const { formSchema } = CreatePasswordSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -46,9 +52,7 @@ const SettingsPasswordCreateForm = ({ back = true }: { back?: boolean }) => {
 
       toast.success(t("settings.createPassword.success"));
       form.reset();
-      if (back) {
-        navigate("/settings");
-      }
+      navigate(navigateLink);
     } catch (error: any) {
       toast.error(error.message);
       setErrorMessage(error.message);
@@ -64,7 +68,7 @@ const SettingsPasswordCreateForm = ({ back = true }: { back?: boolean }) => {
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title={t("settings.createPassword.title")} />
+      <FormHeader title={t("settings.createPassword.title")} back={back} />
       <CardContent>
         <form id="create-password-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
@@ -75,7 +79,9 @@ const SettingsPasswordCreateForm = ({ back = true }: { back?: boolean }) => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="password">{t("settings.fields.password")}</RequiredLabel>
+                  <RequiredLabel id="password">
+                    {t("settings.fields.password")}
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="password"
@@ -104,7 +110,9 @@ const SettingsPasswordCreateForm = ({ back = true }: { back?: boolean }) => {
                     id="confirmPassword"
                     type="password"
                     aria-invalid={fieldState.invalid}
-                    placeholder={t("settings.fields.confirmPasswordPlaceholder")}
+                    placeholder={t(
+                      "settings.fields.confirmPasswordPlaceholder",
+                    )}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -118,7 +126,7 @@ const SettingsPasswordCreateForm = ({ back = true }: { back?: boolean }) => {
       </CardContent>
       <FormFooter
         formID="create-password-form"
-        isSubmitting={false}
+        isSubmitting={isPending}
         resetForm={resetForm}
       />
 
@@ -135,4 +143,3 @@ const SettingsPasswordCreateForm = ({ back = true }: { back?: boolean }) => {
 };
 
 export default SettingsPasswordCreateForm;
-

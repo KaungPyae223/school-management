@@ -10,13 +10,19 @@ import timetableRoutes from "../features/timetable/routes/routes";
 import enrollRoutes from "../features/enroll/routes/routes";
 import paymentRoutes from "../features/payments/routes/routes";
 import settingRoutes from "../features/settings/routes/routes";
+import authRoutes from "../features/auth/routes/routes";
 
 import Layout from "../layouts/Layout";
+import AuthGuard from "./AuthGuard";
 
 const routes = [
   {
     path: "/",
-    Component: Layout,
+    element: (
+      <AuthGuard>
+        <Layout />
+      </AuthGuard>
+    ),
     children: [
       ...dashboardRoutes,
       ...courceRoutes,
@@ -34,6 +40,7 @@ const routes = [
     ],
     ErrorBoundary: ErrorPage,
   },
+  ...authRoutes,
 ];
 
 const router = createBrowserRouter(routes);

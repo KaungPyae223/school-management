@@ -54,6 +54,17 @@
       "confirmPasswordPlaceholder": "စကားဝှက် အတည်ပြုရန် ရိုက်ထည့်ပါ"
     }
   },
+  "auth": {
+    "login": {
+      "title": "အကောင့်ဝင်ရန်",
+      "success": "အကောင့် အောင်မြင်စွာ ဝင်ရောက်ပြီးပါပြီ",
+      "failed": "စကားဝှက် မှားယွင်းနေပါသည်"
+    },
+    "fields": {
+      "password": "စကားဝှက်",
+      "passwordPlaceholder": "စကားဝှက် ရိုက်ထည့်ပါ"
+    }
+  },
   "general": {
     "sortBy": "စီရန်",
     "none": "မလုပ်ပါ",

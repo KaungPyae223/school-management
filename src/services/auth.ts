@@ -1,4 +1,12 @@
 export const authService = {
+  isAuthenticated: async () => {
+    try {
+      const response = await window.authAPI.isAuthenticated();
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   hasPassword: async () => {
     try {
       const response = await window.authAPI.hasPassword();

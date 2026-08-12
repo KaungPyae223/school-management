@@ -54,6 +54,17 @@
       "confirmPasswordPlaceholder": "確認用パスワードを入力"
     }
   },
+  "auth": {
+    "login": {
+      "title": "ログイン",
+      "success": "ログインしました",
+      "failed": "パスワードが間違っています"
+    },
+    "fields": {
+      "password": "パスワード",
+      "passwordPlaceholder": "パスワードを入力"
+    }
+  },
   "general": {
     "sortBy": "並び替え",
     "none": "なし",

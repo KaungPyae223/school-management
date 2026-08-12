@@ -5,9 +5,10 @@ import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";
 import { Prisma } from "../../generated/prisma/client";
 import { generateStatus } from "../utils/generateStatus";
+import { protectedHandle } from "../auth/protected-ipc";
 
 export const courseIPCs = () => {
-  ipcMain.handle("course:index", async (_, data) => {
+  protectedHandle("course:index", async (_, data) => {
     const {
       page = 1,
       limit = 10,
@@ -109,7 +110,7 @@ export const courseIPCs = () => {
     }
   });
 
-  ipcMain.handle("course:search-all-active", async (_, data) => {
+  protectedHandle("course:search-all-active", async (_, data) => {
     const { search = "", page = 1, limit = 10 } = data;
     const skip = Number(page - 1) * Number(limit);
 
@@ -136,7 +137,7 @@ export const courseIPCs = () => {
     }
   });
 
-  ipcMain.handle("course:show", async (_, id) => {
+  protectedHandle("course:show", async (_, id) => {
     try {
       const course = await prisma.course.findUnique({
         where: { id },
@@ -155,7 +156,7 @@ export const courseIPCs = () => {
     }
   });
 
-  ipcMain.handle("course:show-detail", async (_, id) => {
+  protectedHandle("course:show-detail", async (_, id) => {
     try {
       const course = await prisma.$queryRaw<any[]>`
           WITH class_counts AS (
@@ -204,7 +205,7 @@ export const courseIPCs = () => {
     }
   });
 
-  ipcMain.handle("course:get-course-classes", async (_, data) => {
+  protectedHandle("course:get-course-classes", async (_, data) => {
     const {
       id,
       page = 1,
@@ -290,7 +291,7 @@ export const courseIPCs = () => {
     }
   });
 
-  ipcMain.handle("course:create", async (_, data) => {
+  protectedHandle("course:create", async (_, data) => {
     try {
       const { image, imageName, ...restData } = data;
 
@@ -311,7 +312,7 @@ export const courseIPCs = () => {
     }
   });
 
-  ipcMain.handle("course:update", async (_, data) => {
+  protectedHandle("course:update", async (_, data) => {
     try {
       const { id, image, imageName, ...restData } = data;
 
@@ -346,7 +347,7 @@ export const courseIPCs = () => {
     }
   });
 
-  ipcMain.handle("course:delete", async (_, id) => {
+  protectedHandle("course:delete", async (_, id) => {
     try {
       const hasLinkedClasses = await prisma.class.findFirst({
         where: { courseId: id },
@@ -385,7 +386,7 @@ export const courseIPCs = () => {
     }
   });
 
-  ipcMain.handle("course:restore", async (_, id) => {
+  protectedHandle("course:restore", async (_, id) => {
     try {
       const course = await prisma.course.findUnique({
         where: { id },

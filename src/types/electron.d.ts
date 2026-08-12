@@ -8,6 +8,7 @@ declare global {
       delete: (key: string) => Promise<void>;
     };
     authAPI: {
+      isAuthenticated: () => Promise<boolean>;
       hasPassword: () => Promise<boolean>;
       setPassword: (
         plainPassword: string,

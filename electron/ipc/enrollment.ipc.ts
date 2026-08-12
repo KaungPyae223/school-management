@@ -4,9 +4,10 @@ import { saveImage } from "../utils/saveImage";
 import { Prisma } from "../../generated/prisma/client";
 import { showImage } from "../utils/showImage";
 import { generateStatus } from "../utils/generateStatus";
+import { protectedHandle } from "../auth/protected-ipc";
 
 export const enrollmentIPCs = () => {
-  ipcMain.handle("enrollment:create", async (_, data) => {
+  protectedHandle("enrollment:create", async (_, data) => {
     try {
       const { image, imageName, ...restData } = data;
 
@@ -64,7 +65,7 @@ export const enrollmentIPCs = () => {
     }
   });
 
-  ipcMain.handle("enrollment:show", async (_, id) => {
+  protectedHandle("enrollment:show", async (_, id) => {
     try {
       const enrollment = await prisma.enrollment.findUnique({
         where: {
@@ -91,7 +92,7 @@ export const enrollmentIPCs = () => {
     }
   });
 
-  ipcMain.handle("enrollment:delete", async (_, id) => {
+  protectedHandle("enrollment:delete", async (_, id) => {
     try {
       await prisma.enrollment.delete({
         where: {
@@ -104,7 +105,7 @@ export const enrollmentIPCs = () => {
     }
   });
 
-  ipcMain.handle("enrollment:getEnrollmentByClass", async (_, data) => {
+  protectedHandle("enrollment:getEnrollmentByClass", async (_, data) => {
     const {
       page = 1,
       limit = 10,

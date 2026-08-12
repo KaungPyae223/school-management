@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld("electronStore", {
 });
 
 contextBridge.exposeInMainWorld("authAPI", {
+  isAuthenticated: () => ipcRenderer.invoke("auth:is-authenticated"),
   hasPassword: () => ipcRenderer.invoke("auth:has-password"),
   setPassword: (plainPassword) =>
     ipcRenderer.invoke("auth:set-password", plainPassword),

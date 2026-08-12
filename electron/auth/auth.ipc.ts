@@ -1,11 +1,12 @@
 import { ipcMain, safeStorage } from "electron";
 import { store } from "../store";
 import bcrypt from "bcryptjs";
+import { authSession } from "./auth-session";
+import { protectedHandle } from "./protected-ipc";
 
 const SALT_ROUNDS = 10;
 
 const hasPassword = () => {
-  store.set("user_password_hash", null);
   return !!store.get("user_password_hash");
 };
 
@@ -30,6 +31,10 @@ const checkMatch = async (password: string): Promise<boolean> => {
 };
 
 export const authIPCs = () => {
+  ipcMain.handle("auth:is-authenticated", () => {
+    return authSession.isAuthenticated();
+  });
+
   ipcMain.handle("auth:has-password", () => {
     return hasPassword();
   });
@@ -57,7 +62,7 @@ export const authIPCs = () => {
     }
   });
 
-  ipcMain.handle(
+  protectedHandle(
     "auth:change-password",
     async (_, oldPassword, newPassword) => {
       try {
@@ -95,6 +100,10 @@ export const authIPCs = () => {
     await new Promise((res) => setTimeout(res, 500));
 
     const isMatch = await checkMatch(plainPassword);
+
+    if (isMatch) {
+      authSession.login();
+    }
 
     return {
       success: isMatch,
