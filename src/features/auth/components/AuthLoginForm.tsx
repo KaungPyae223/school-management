@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type z from "zod";
-import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import FormHeader from "../../../components/form/FormHeader";
@@ -14,12 +13,15 @@ import { Input } from "../../../components/ui/input";
 import { useNavigate } from "react-router";
 import { LoginSchema } from "../schema/LoginSchema";
 import { useLogin } from "../hooks/useLogin";
+import { useLockForm } from "../hooks/useLockForm";
 
 const AuthLoginForm = ({ navigateLink }: { navigateLink?: string }) => {
   const { t } = useTranslation();
   const { formSchema } = LoginSchema();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
+
+  type FormValues = z.infer<typeof formSchema>;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -30,25 +32,46 @@ const AuthLoginForm = ({ navigateLink }: { navigateLink?: string }) => {
 
   const { mutateAsync, isPending } = useLogin();
 
-  const onSubmit = async () => {
-    setErrorMessage("");
+  const { isLocked, setCountdown, getLockoutMessage } =
+    useLockForm(setErrorMessage);
+
+  const onSubmit = async (values: FormValues) => {
+    if (isLocked || isPending) return;
+
     try {
-      const data = form.getValues();
+      const res = await mutateAsync(values.password);
 
-      await mutateAsync(data.password);
+      if (res?.success) {
+        if (navigateLink) {
+          navigate(navigateLink);
+        }
+        return;
+      }
 
-      toast.success(t("auth.login.success"));
-      form.reset();
-      navigate(navigateLink);
-    } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      if (res?.retryAfterSeconds) {
+        setCountdown(res.retryAfterSeconds);
+        setErrorMessage(getLockoutMessage(res.retryAfterSeconds));
+      } else if (res?.remainingAttempts !== undefined) {
+        setErrorMessage(
+          t("auth.login.attemptsRemaining", {
+            count: res.remainingAttempts,
+          }),
+        );
+      } else if (
+        res?.message ===
+        "System clock tampering detected! Lockout penalty applied."
+      ) {
+        setErrorMessage(t("auth.login.systemClockTampered"));
+      } else {
+        setErrorMessage(t("auth.login.incorrectPassword"));
+      }
+    } catch (err) {
+      setErrorMessage(t("auth.login.unexpectedError"));
     }
   };
 
   const resetForm = () => {
     form.reset();
-    setErrorMessage("");
   };
 
   return (
@@ -71,6 +94,7 @@ const AuthLoginForm = ({ navigateLink }: { navigateLink?: string }) => {
                     {...field}
                     id="password"
                     type="password"
+                    disabled={isLocked || isPending}
                     aria-invalid={fieldState.invalid}
                     placeholder={t("auth.fields.passwordPlaceholder")}
                     autoComplete="off"
@@ -86,6 +110,7 @@ const AuthLoginForm = ({ navigateLink }: { navigateLink?: string }) => {
       </CardContent>
       <FormFooter
         formID="login-form"
+        disabled={isLocked}
         isSubmitting={isPending}
         resetForm={resetForm}
       />
@@ -94,4 +119,3 @@ const AuthLoginForm = ({ navigateLink }: { navigateLink?: string }) => {
 };
 
 export default AuthLoginForm;
-

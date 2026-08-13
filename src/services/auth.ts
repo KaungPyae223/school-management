@@ -1,45 +1,25 @@
 export const authService = {
   isAuthenticated: async () => {
-    try {
-      const response = await window.authAPI.isAuthenticated();
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    return await window.authAPI.isAuthenticated();
   },
   hasPassword: async () => {
-    try {
-      const response = await window.authAPI.hasPassword();
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    return await window.authAPI.hasPassword();
   },
   setPassword: async (password: string) => {
-    try {
-      const response = await window.authAPI.setPassword(password);
-      return response;
-    } catch (error) {
-      console.log(error);
+    const data = await window.authAPI.setPassword(password);
+
+    if (!data.success) {
+      throw new Error(data.message);
     }
   },
   changePassword: async (oldPassword: string, newPassword: string) => {
-    try {
-      const response = await window.authAPI.changePassword(
-        oldPassword,
-        newPassword,
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    return await window.authAPI.changePassword(oldPassword, newPassword);
   },
   verifyPassword: async (password: string) => {
-    try {
-      const response = await window.authAPI.verifyPassword(password);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    return await window.authAPI.verifyPassword(password);
+  },
+
+  getRemainTime: async () => {
+    return await window.authAPI.getRemainTime();
   },
 };

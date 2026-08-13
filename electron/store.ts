@@ -1,6 +1,11 @@
 import Store from "electron-store";
 
 export interface StoreSchema {
+  log_in_attempt: {
+    count: number;
+    lockoutUntil: number;
+    lastSeenTime: number;
+  };
   user_password_hash: string | null;
   preferredLanguage: string;
   mode: string;
@@ -9,6 +14,11 @@ export interface StoreSchema {
 
 export const store = new Store<StoreSchema>({
   defaults: {
+    log_in_attempt: {
+      count: 0,
+      lockoutUntil: 0,
+      lastSeenTime: 0,
+    },
     user_password_hash: null,
     preferredLanguage: JSON.stringify({
       state: { language: "en-GB" },

@@ -7,10 +7,12 @@ const FormFooter = ({
   formID,
   isSubmitting,
   resetForm,
+  disabled,
 }: {
   formID: string;
   isSubmitting: boolean;
   resetForm: () => void;
+  disabled?: boolean;
 }) => {
   const { t } = useTranslation();
 
@@ -25,7 +27,7 @@ const FormFooter = ({
         {t("form.reset")}
       </Button>
 
-      <Button type="submit" form={formID} disabled={isSubmitting}>
+      <Button type="submit" form={formID} disabled={isSubmitting || disabled}>
         {isSubmitting ? (
           <>
             <Loader2Icon className="animate-spin" />

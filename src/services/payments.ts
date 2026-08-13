@@ -1,8 +1,12 @@
+import { checkAuthorization } from "./check-authorization";
+
 export const paymentService = {
   createPayment: async (payload: any) => {
     const data = await window.api.createPayment(payload);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -32,7 +36,9 @@ export const paymentService = {
   deletePayment: async (id: number) => {
     const data = await window.api.deletePayment(id);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 

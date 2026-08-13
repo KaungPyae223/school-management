@@ -1,8 +1,12 @@
+import { checkAuthorization } from "./check-authorization";
+
 export const enrollmentService = {
   createEnrollment: async (payload: any) => {
     const data = await window.api.createEnrollment(payload);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -31,7 +35,9 @@ export const enrollmentService = {
   deleteEnrollment: async (id: number) => {
     const data = await window.api.deleteEnrollment(id);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 

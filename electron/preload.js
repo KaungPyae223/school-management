@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld("electronStore", {
 });
 
 contextBridge.exposeInMainWorld("authAPI", {
+  getRemainTime: () => ipcRenderer.invoke("auth:get-remain-time"),
   isAuthenticated: () => ipcRenderer.invoke("auth:is-authenticated"),
   hasPassword: () => ipcRenderer.invoke("auth:has-password"),
   setPassword: (plainPassword) =>

@@ -1,8 +1,12 @@
+import { checkAuthorization } from "./check-authorization";
+
 export const teacherService = {
   createTeacher: async (payload: any) => {
     const data = await window.api.createTeacher(payload);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -12,7 +16,9 @@ export const teacherService = {
   updateTeacher: async (payload: any) => {
     const data = await window.api.updateTeacher(payload);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -42,17 +48,21 @@ export const teacherService = {
   deleteTeacher: async (id: number) => {
     const data = await window.api.deleteTeacher(id);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
     return data;
   },
 
-  datatoreTeacher: async (id: number) => {
-    const data = await window.api.datatoreTeacher(id);
+  restoreTeacher: async (id: number) => {
+    const data = await window.api.restoreTeacher(id);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 

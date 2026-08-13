@@ -41,7 +41,8 @@
       "title": "Change Password",
       "confirmTitle": "Change Password Confirm",
       "confirmDescription": "Are you sure you want to change this password?",
-      "success": "Password changed successfully"
+      "success": "Password changed successfully",
+      "failed": "Failed to change password."
     },
     "fields": {
       "password": "Password",
@@ -58,7 +59,11 @@
     "login": {
       "title": "Login",
       "success": "Logged in successfully",
-      "failed": "Incorrect password"
+      "incorrectPassword": "Incorrect password.",
+      "attemptsRemaining": "Incorrect password. {{count}} attempt(s) remaining.",
+      "lockedCountdown": "Incorrect password. Try again after {{time}}.",
+      "systemClockTampered": "System clock tampering detected! Lockout penalty applied.",
+      "unexpectedError": "An unexpected error occurred. Please try again."
     },
     "fields": {
       "password": "Password",
@@ -92,7 +97,20 @@
     "developedBy": "Developed by",
     "appTitle": "School Management",
     "grid": "Grid",
-    "list": "List"
+    "list": "List",
+    "days": {
+      "Monday": "Mon",
+      "Tuesday": "Tue",
+      "Wednesday": "Wed",
+      "Thursday": "Thu",
+      "Friday": "Fri",
+      "Saturday": "Sat",
+      "Sunday": "Sun"
+    },
+    "timeUnits": {
+      "minuteShort": "m",
+      "secondShort": "s"
+    }
   },
   "pagination": {
     "showing": "Showing",
@@ -306,7 +324,6 @@
     "enrolledStudents": "Enrolled Students",
     "noClassesTitle": "No Classes",
     "noClassesDesc": "There are no classes available at the moment. Please add a class to get started!",
-    "noClassesTitle": "No Classes",
     "noEnrolledStudentsTitle": "No Enrolled Students",
     "noEnrolledStudentsDesc": "There are no enrolled students available at the moment. Please add an enrolled student to get started!",
     "viewClassDetails": "View Class Details",

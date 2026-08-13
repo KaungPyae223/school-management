@@ -15,6 +15,7 @@ import { Input } from "../../../components/ui/input";
 import { useChangePassword } from "../hooks/useChangePassword";
 import { useNavigate } from "react-router";
 import { ChangePasswordSchema } from "../schema/ChangePasswordSchema";
+import { useLockForm } from "../../auth/hooks/useLockForm";
 
 const SettingsPasswordChangeForm = () => {
   const { t } = useTranslation();
@@ -38,31 +39,54 @@ const SettingsPasswordChangeForm = () => {
 
   const { mutateAsync, isPending } = useChangePassword();
 
+  const { isLocked, setCountdown, getLockoutMessage } =
+    useLockForm(setErrorMessage);
+
   const changePassword = async () => {
-    setErrorMessage("");
+    if (isLocked || isPending) return;
+
     try {
       const data = form.getValues();
 
-      await mutateAsync({
+      const res = await mutateAsync({
         oldPassword: data.oldPassword,
         newPassword: data.newPassword,
       });
 
-      toast.success(t("settings.changePassword.success"));
-      form.reset();
+      if (res?.success) {
+        toast.success(t("settings.changePassword.success"));
+        form.reset();
 
-      navigate("/settings");
-    } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
-    } finally {
-      setConfirmDialogOpen(false);
+        navigate("/settings");
+        return;
+      }
+
+      if (res?.retryAfterSeconds) {
+        setCountdown(res.retryAfterSeconds);
+        setErrorMessage(getLockoutMessage(res.retryAfterSeconds));
+      } else if (res?.remainingAttempts !== undefined) {
+        setErrorMessage(
+          t("auth.login.attemptsRemaining", {
+            count: res.remainingAttempts,
+          }),
+        );
+      } else if (
+        res?.message ===
+        "System clock tampering detected! Lockout penalty applied."
+      ) {
+        setErrorMessage(t("auth.login.systemClockTampered"));
+      } else if (res?.message === "Failed to change password.") {
+        setErrorMessage(t("settings.changePassword.failed"));
+      } else {
+        setErrorMessage(t("auth.login.incorrectPassword"));
+      }
+    } catch (err) {
+      setErrorMessage(t("auth.login.unexpectedError"));
     }
   };
 
   const resetForm = () => {
     form.reset();
-    setErrorMessage("");
   };
 
   return (
@@ -78,11 +102,14 @@ const SettingsPasswordChangeForm = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="oldPassword">{t("settings.fields.oldPassword")}</RequiredLabel>
+                  <RequiredLabel id="oldPassword">
+                    {t("settings.fields.oldPassword")}
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="oldPassword"
                     type="password"
+                    disabled={isLocked || isPending}
                     aria-invalid={fieldState.invalid}
                     placeholder={t("settings.fields.oldPasswordPlaceholder")}
                     autoComplete="off"
@@ -98,11 +125,14 @@ const SettingsPasswordChangeForm = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="newPassword">{t("settings.fields.newPassword")}</RequiredLabel>
+                  <RequiredLabel id="newPassword">
+                    {t("settings.fields.newPassword")}
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="newPassword"
                     type="password"
+                    disabled={isLocked || isPending}
                     aria-invalid={fieldState.invalid}
                     placeholder={t("settings.fields.newPasswordPlaceholder")}
                     autoComplete="off"
@@ -126,7 +156,10 @@ const SettingsPasswordChangeForm = () => {
                     id="confirmPassword"
                     type="password"
                     aria-invalid={fieldState.invalid}
-                    placeholder={t("settings.fields.confirmPasswordPlaceholder")}
+                    disabled={isLocked || isPending}
+                    placeholder={t(
+                      "settings.fields.confirmPasswordPlaceholder",
+                    )}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -139,6 +172,7 @@ const SettingsPasswordChangeForm = () => {
         </form>
       </CardContent>
       <FormFooter
+        disabled={isLocked}
         formID="change-password-form"
         isSubmitting={isPending}
         resetForm={resetForm}
@@ -157,4 +191,3 @@ const SettingsPasswordChangeForm = () => {
 };
 
 export default SettingsPasswordChangeForm;
-

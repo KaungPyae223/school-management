@@ -1,8 +1,12 @@
+import { checkAuthorization } from "./check-authorization";
+
 export const studentService = {
   createStudent: async (payload: any) => {
     const data = await window.api.createStudent(payload);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -12,7 +16,9 @@ export const studentService = {
   updateStudent: async (payload: any) => {
     const data = await window.api.updateStudent(payload);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -32,7 +38,9 @@ export const studentService = {
   deleteStudent: async (id: number) => {
     const data = await window.api.deleteStudent(id);
 
-    if (!data.success) {
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 

@@ -20,7 +20,7 @@ const CardDayBadge = ({
           {t(`general.days.${day}` as any)}
         </Badge>
       </TooltipTrigger>
-      {language === "en" && (
+      {language == "en-GB" && (
         <TooltipContent>{t(`classes.days.${day}` as any)}</TooltipContent>
       )}
     </Tooltip>

@@ -41,7 +41,8 @@
       "title": "パスワード変更",
       "confirmTitle": "パスワード変更の確認",
       "confirmDescription": "パスワードを変更してもよろしいですか？",
-      "success": "パスワードを変更しました"
+      "success": "パスワードを変更しました",
+      "failed": "パスワードの変更に失敗しました。"
     },
     "fields": {
       "password": "パスワード",
@@ -58,7 +59,11 @@
     "login": {
       "title": "ログイン",
       "success": "ログインしました",
-      "failed": "パスワードが間違っています"
+      "incorrectPassword": "パスワードが間違っています。",
+      "attemptsRemaining": "パスワードが間違っています。残り{{count}}回試行できます。",
+      "lockedCountdown": "パスワードが間違っています。{{time}}後に再試行してください。",
+      "systemClockTampered": "システム時刻の変更が検出されたため、ロックアウトが適用されました。",
+      "unexpectedError": "予期せぬエラーが発生しました。もう一度お試しください。"
     },
     "fields": {
       "password": "パスワード",
@@ -92,7 +97,20 @@
     "developedBy": "開発者:",
     "appTitle": "学校管理システム",
     "grid": "グリッド",
-    "list": "リスト"
+    "list": "リスト",
+    "days": {
+      "Monday": "月曜日",
+      "Tuesday": "火曜日",
+      "Wednesday": "水曜日",
+      "Thursday": "木曜日",
+      "Friday": "金曜日",
+      "Saturday": "土曜日",
+      "Sunday": "日曜日"
+    },
+    "timeUnits": {
+      "minuteShort": "分",
+      "secondShort": "秒"
+    }
   },
   "pagination": {
     "showing": "表示中",

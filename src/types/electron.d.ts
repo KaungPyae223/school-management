@@ -1,3 +1,4 @@
+import type { AuthResponseType } from "./AuthData";
 import type { ResponseDataType } from "./ResponseTypes";
 
 declare global {
@@ -16,10 +17,9 @@ declare global {
       changePassword: (
         oldPassword: string,
         newPassword: string,
-      ) => Promise<{ success: boolean; message?: string }>;
-      verifyPassword: (
-        plainPassword: string,
-      ) => Promise<{ success: boolean; message?: string }>;
+      ) => Promise<AuthResponseType>;
+      verifyPassword: (plainPassword: string) => Promise<AuthResponseType>;
+      getRemainTime: () => Promise<AuthResponseType>;
     };
     api: {
       getAllCourses: (data: {
