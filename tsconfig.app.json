@@ -21,5 +21,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "db/prisma.ts"]
+  "include": ["src", "electron/db/prisma.ts"]
 }

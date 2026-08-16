@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, protocol } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
 import { registerIpcHandlers } from "./ipc/index";
+import { applyMigrations } from "./db/migrator";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,10 +35,7 @@ function createWindow() {
 app.disableHardwareAcceleration();
 
 app.whenReady().then(async () => {
-  if (app.isPackaged) {
-    const dbPath = path.join(app.getPath("userData"), "app.db");
-    process.env.DATABASE_URL = `file:${dbPath}`;
-  }
+  await applyMigrations();
 
   protocol.registerFileProtocol("image", (request, callback) => {
     const filePath = decodeURIComponent(new URL(request.url).pathname);

@@ -1,5 +1,4 @@
-import { ipcMain } from "electron";
-import { prisma } from "../../db/prisma";
+import { prisma } from "../db/prisma";
 import { saveImage } from "../utils/saveImage";
 import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";
@@ -60,10 +59,10 @@ export const studentIPCs = () => {
           where: {
             ...(search && {
               OR: [
-                { name: { contains: search, mode: "insensitive" } },
-                { phone: { contains: search, mode: "insensitive" } },
-                { email: { contains: search, mode: "insensitive" } },
-                { address: { contains: search, mode: "insensitive" } },
+                { name: { contains: search } },
+                { phone: { contains: search } },
+                { email: { contains: search } },
+                { address: { contains: search } },
               ],
             }),
           },

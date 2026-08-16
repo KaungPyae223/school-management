@@ -1,5 +1,4 @@
-import { ipcMain } from "electron";
-import { prisma } from "../../db/prisma";
+import { prisma } from "../db/prisma";
 import { saveImage } from "../utils/saveImage";
 import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";

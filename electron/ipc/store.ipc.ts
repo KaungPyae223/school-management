@@ -1,4 +1,3 @@
-import { ipcMain } from "electron";
 import { store, StoreSchema } from "../store";
 import { protectedHandle } from "../auth/protected-ipc";
 

@@ -14,6 +14,52 @@
     "postinstall": "electron-rebuild -f -w better-sqlite3",
     "rebuild": "electron-rebuild -f -w better-sqlite3"
   },
+  "build": {
+    "appId": "com.school.management",
+    "productName": "School Management System",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "!electron/**/*.ts",
+      "generated/**/*",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "prisma/migrations",
+        "to": "prisma/migrations",
+        "filter": [
+          "**/*.sql"
+        ]
+      }
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/better-sqlite3-multiple-ciphers/**/*",
+      "**/node_modules/better-sqlite3/**/*"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Education"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.education"
+    }
+  },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
     "@fullcalendar/core": "^6.1.21",
