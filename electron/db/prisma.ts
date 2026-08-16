@@ -8,6 +8,7 @@ import { app } from "electron";
 const dbDir = app.getPath("userData");
 const dbPath = path.join(dbDir, "app.db");
 
+console.log("db-path : ", dbPath);
 if (!fs.existsSync(dbDir)) {
   fs.mkdirSync(dbDir, { recursive: true });
 }

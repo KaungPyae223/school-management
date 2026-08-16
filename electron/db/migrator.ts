@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { app } from "electron";
 import { prisma } from "./prisma";
+import { Prisma } from "../../generated/prisma/client";
 
 function getMigrationsDir(): string | null {
   const candidatePaths = [
@@ -22,7 +23,7 @@ function getMigrationsDir(): string | null {
 
 export const applyMigrations = async (): Promise<void> => {
   try {
-    await prisma.$executeRawUnsafe(`
+    await prisma.$executeRaw(Prisma.sql`
       CREATE TABLE IF NOT EXISTS "_applied_migrations" (
         "id" TEXT PRIMARY KEY,
         "applied_at" DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -47,9 +48,8 @@ export const applyMigrations = async (): Promise<void> => {
     }
 
     for (const folder of migrationFolders) {
-      const existing = await prisma.$queryRawUnsafe<any[]>(
-        `SELECT id FROM _applied_migrations WHERE id = ? LIMIT 1`,
-        folder,
+      const existing = await prisma.$queryRaw<any[]>(
+        Prisma.sql`SELECT id FROM _applied_migrations WHERE id = ${folder} LIMIT 1`,
       );
 
       if (!existing || existing.length === 0) {
@@ -68,9 +68,8 @@ export const applyMigrations = async (): Promise<void> => {
               await tx.$executeRawUnsafe(statement);
             }
 
-            await tx.$executeRawUnsafe(
-              `INSERT INTO _applied_migrations (id) VALUES (?)`,
-              folder,
+            await tx.$executeRaw(
+              Prisma.sql`INSERT INTO _applied_migrations (id) VALUES (${folder})`,
             );
           });
 
