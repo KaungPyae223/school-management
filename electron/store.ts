@@ -10,6 +10,9 @@ export interface StoreSchema {
   preferredLanguage: string;
   mode: string;
   colorScheme: string;
+  temp_2fa_secret: string | null;
+  two_factor_secret: string | null;
+  two_factor_backup_codes: string | null;
 }
 
 export const store = new Store<StoreSchema>({
@@ -29,5 +32,8 @@ export const store = new Store<StoreSchema>({
       state: { colorScheme: "default" },
       version: 0,
     }),
+    temp_2fa_secret: null,
+    two_factor_secret: null,
+    two_factor_backup_codes: null,
   },
 });

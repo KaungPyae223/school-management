@@ -13,16 +13,11 @@ import settingRoutes from "../features/settings/routes/routes";
 import authRoutes from "../features/auth/routes/routes";
 
 import Layout from "../layouts/Layout";
-import AuthGuard from "./AuthGuard";
 
 const routes = [
   {
     path: "/",
-    element: (
-      <AuthGuard>
-        <Layout />
-      </AuthGuard>
-    ),
+    Component: Layout,
     children: [
       ...dashboardRoutes,
       ...courceRoutes,

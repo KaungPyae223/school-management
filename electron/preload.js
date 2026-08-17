@@ -16,6 +16,14 @@ contextBridge.exposeInMainWorld("authAPI", {
     ipcRenderer.invoke("auth:change-password", oldPassword, newPassword),
   verifyPassword: (plainPassword) =>
     ipcRenderer.invoke("auth:verify-password", plainPassword),
+
+  // 2FA
+  generate2FA: () => ipcRenderer.invoke("auth:2fa-generate"),
+  enable2FA: (token, backupCodes) =>
+    ipcRenderer.invoke("auth:2fa-enable", token, backupCodes),
+  verify2FA: (token) => ipcRenderer.invoke("auth:2fa-verify", token),
+  disable2FA: (token) => ipcRenderer.invoke("auth:2fa-disable", token),
+  is2FAEnabled: () => ipcRenderer.invoke("auth:2fa-is-enabled"),
 });
 
 contextBridge.exposeInMainWorld("api", {

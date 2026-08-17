@@ -1,9 +1,15 @@
 import { store, StoreSchema } from "../store";
 import { protectedHandle } from "../auth/protected-ipc";
 
+const allowedKeys: (keyof StoreSchema)[] = [
+  "preferredLanguage",
+  "mode",
+  "colorScheme",
+];
+
 export const storeIPCs = () => {
   protectedHandle("store:get", async (_, key: keyof StoreSchema) => {
-    if (key === "user_password_hash" || key === "log_in_attempt") {
+    if (!allowedKeys.includes(key)) {
       return null;
     }
     const result = (await store.get(key)) ?? null;
@@ -12,14 +18,14 @@ export const storeIPCs = () => {
   protectedHandle(
     "store:set",
     async (_, key: keyof StoreSchema, value: string) => {
-      if (key === "user_password_hash" || key === "log_in_attempt") {
+      if (!allowedKeys.includes(key)) {
         return;
       }
       await store.set(key, value);
     },
   );
   protectedHandle("store:delete", async (_, key: keyof StoreSchema) => {
-    if (key === "user_password_hash" || key === "log_in_attempt") {
+    if (!allowedKeys.includes(key)) {
       return;
     }
     await store.delete(key);

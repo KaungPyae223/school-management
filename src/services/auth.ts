@@ -22,4 +22,29 @@ export const authService = {
   getRemainTime: async () => {
     return await window.authAPI.getRemainTime();
   },
+
+  generate2FA: async () => {
+    return await window.authAPI.generate2FA();
+  },
+  enable2FA: async (payload: { token: string; backupCodes: string[] }) => {
+    const data = await window.authAPI.enable2FA(payload);
+    if (!data.success) {
+      throw new Error(data.message);
+    }
+  },
+  verify2FA: async (code: string) => {
+    const data = await window.authAPI.verify2FA(code);
+    if (!data.success) {
+      throw new Error(data.message);
+    }
+  },
+  is2FAEnabled: async () => {
+    return await window.authAPI.is2FAEnabled();
+  },
+  disable2FA: async (code: string) => {
+    const data = await window.authAPI.disable2FA(code);
+    if (!data.success) {
+      throw new Error(data.message);
+    }
+  },
 };

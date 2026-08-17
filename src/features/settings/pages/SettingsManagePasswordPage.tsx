@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import SettingsPasswordCreateForm from "../components/SettingsPasswordCreateForm";
 import SettingsPasswordChangeForm from "../components/SettingsPasswordChangeForm";
 
-const SettingsManagePassword = () => {
+const SettingsManagePasswordPage = () => {
   const { t } = useTranslation();
 
   useAddBreadcrumb({
@@ -29,4 +29,4 @@ const SettingsManagePassword = () => {
   return <SettingsPasswordChangeForm />;
 };
 
-export default SettingsManagePassword;
+export default SettingsManagePasswordPage;

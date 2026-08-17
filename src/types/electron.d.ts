@@ -20,7 +20,30 @@ declare global {
       ) => Promise<AuthResponseType>;
       verifyPassword: (plainPassword: string) => Promise<AuthResponseType>;
       getRemainTime: () => Promise<AuthResponseType>;
+
+      // 2FA
+      generate2FA: () => Promise<{
+        success: boolean;
+        qrCodeUrl?: string;
+        secret?: string;
+        backupCodes?: string[];
+        message?: string;
+      }>;
+      enable2FA: (data: {
+        token: string;
+        backupCodes: string[];
+      }) => Promise<{ success: boolean; message?: string }>;
+      verify2FA: (token: string) => Promise<{
+        success: boolean;
+        usedBackupCode?: boolean;
+        message?: string;
+      }>;
+      disable2FA: (
+        token: string,
+      ) => Promise<{ success: boolean; message?: string }>;
+      is2FAEnabled: () => Promise<boolean>;
     };
+
     api: {
       getAllCourses: (data: {
         page?: number;

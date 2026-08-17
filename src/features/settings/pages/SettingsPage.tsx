@@ -10,6 +10,7 @@ import SettingsChangeAppearance from "../components/SettingsChangeAppearance";
 import SettingsChangeLanguage from "../components/SettingsChangeLanguage";
 import SettingsChangeTheme from "../components/SettingsChangeTheme";
 import SettingsManagePassword from "../components/SettingsManagePassword";
+import Settings2FA from "../components/Settings2FA";
 
 const SettingsPage = () => {
   const { t } = useTranslation();
@@ -28,6 +29,7 @@ const SettingsPage = () => {
         <SettingsChangeTheme />
         <SettingsChangeLanguage />
         <SettingsManagePassword />
+        <Settings2FA />
       </CardContent>
     </Card>
   );

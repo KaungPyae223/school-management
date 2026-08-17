@@ -13,7 +13,7 @@ const routes = [
   {
     path: "settings/manage-password",
     lazy: async () => {
-      const module = await import("../pages/SettingsManagePassword");
+      const module = await import("../pages/SettingsManagePasswordPage");
       return { Component: module.default };
     },
     ErrorBoundary: ErrorPage,
@@ -21,6 +21,18 @@ const routes = [
       const hasPassword = await authService.hasPassword();
       return { hasPassword };
     },
+  },
+  {
+    path: "settings/manage-2fa",
+    lazy: async () => {
+      const module = await import("../pages/SettingsManage2FAPage");
+      return { Component: module.default };
+    },
+    loader: async () => {
+      const is2FAEnabled = await authService.is2FAEnabled();
+      return { is2FAEnabled };
+    },
+    ErrorBoundary: ErrorPage,
   },
 ];
 
