@@ -6,11 +6,7 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import FormHeader from "../../../components/form/FormHeader";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-} from "../../../components/ui/field";
+import { Field, FieldError, FieldGroup } from "../../../components/ui/field";
 import FormError from "../../../components/form/FormError";
 import FormFooter from "../../../components/form/FormFooter";
 import RequiredLabel from "../../../components/form/RequiredLabel";
@@ -60,7 +56,7 @@ const Settings2FAEnable = () => {
         token: data.token,
         backupCodes,
       });
-      toast.success("Two-Factor Authentication enabled successfully");
+      toast.success(t("settings.twoFactor.enableSuccess"));
       form.reset();
       setBackUpDialogOpen(true);
     } catch (error: any) {
@@ -76,15 +72,14 @@ const Settings2FAEnable = () => {
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title={"Enable Two-Factor Authentication"} />
+      <FormHeader title={t("settings.twoFactor.enableTitle")} />
       <CardContent>
-        <form id="create-password-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="enable-2FA-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <FormError errorMessage={errorMessage} />
             <Field>
               <p className="text-sm">
-                Scan this QR code with <b>Google Authenticator</b>,{" "}
-                <b>Microsoft Authenticator</b>, or <b>Authy</b>:
+                {t("settings.twoFactor.scanInstruction")}
               </p>
               <img
                 src={qrCode}
@@ -92,7 +87,7 @@ const Settings2FAEnable = () => {
                 className="max-w-64 h-64 mx-auto"
               />
               <p className="text-xs text-gray-500 font-mono text-center">
-                Manual key: {secretKey}
+                {t("settings.twoFactor.manualKey", { key: secretKey })}
               </p>
             </Field>
             <Controller
@@ -107,7 +102,7 @@ const Settings2FAEnable = () => {
                     {...field}
                     id="token"
                     aria-invalid={fieldState.invalid}
-                    placeholder={t("settings.fields.token")}
+                    placeholder={t("settings.fields.tokenPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -120,7 +115,7 @@ const Settings2FAEnable = () => {
         </form>
       </CardContent>
       <FormFooter
-        formID="create-password-form"
+        formID="enable-2FA-form"
         isSubmitting={isPending}
         resetForm={resetForm}
       />
@@ -128,7 +123,6 @@ const Settings2FAEnable = () => {
         open={backUpDialogOpen}
         setOpen={setBackUpDialogOpen}
         backupCodes={backupCodes}
-       
       />
     </Card>
   );

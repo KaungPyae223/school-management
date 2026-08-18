@@ -112,7 +112,9 @@ const CoursesCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="name">{t("courses.fields.name")}</RequiredLabel>
+                  <RequiredLabel id="name">
+                    {t("courses.fields.name")}
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="name"
@@ -131,7 +133,9 @@ const CoursesCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="price">{t("courses.fields.price")}</RequiredLabel>
+                  <RequiredLabel id="price">
+                    {t("courses.fields.price")}
+                  </RequiredLabel>
                   <NumberInput
                     field={field}
                     fieldState={fieldState}
@@ -149,7 +153,9 @@ const CoursesCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="description">{t("courses.fields.description")}</FieldLabel>
+                  <FieldLabel htmlFor="description">
+                    {t("courses.fields.description")}
+                  </FieldLabel>
                   <Textarea
                     {...field}
                     id="description"
@@ -176,6 +182,7 @@ const CoursesCreatePage = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={createCourse}
+        isPending={isPending}
         title={t("courses.alerts.createConfirmTitle")}
         description={t("courses.alerts.createConfirmDesc")}
       />

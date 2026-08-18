@@ -41,6 +41,9 @@ export const authService = {
   is2FAEnabled: async () => {
     return await window.authAPI.is2FAEnabled();
   },
+  is2FAVerified: async () => {
+    return await window.authAPI.is2FAVerified();
+  },
   disable2FA: async (code: string) => {
     const data = await window.authAPI.disable2FA(code);
     if (!data.success) {

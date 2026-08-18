@@ -44,6 +44,28 @@
       "success": "パスワードを変更しました",
       "failed": "パスワードの変更に失敗しました。"
     },
+    "twoFactor": {
+      "title": "二要素認証 (2FA)",
+      "description": "アカウントにセキュリティレイヤーを追加します",
+      "enable2FA": "2FA を有効にする",
+      "disable2FA": "2FA を無効にする",
+      "manageBreadcrumb": "二要素認証の管理",
+      "enableTitle": "二要素認証を有効にする",
+      "disableTitle": "二要素認証を無効にする",
+      "verifyTitle": "二要素認証の確認",
+      "scanInstruction": "認証アプリ（Google Authenticator、Microsoft Authenticator、Authy など）でこのQRコードをスキャンしてください：",
+      "manualKey": "手動入力キー: {{key}}",
+      "enterCodeInstruction": "認証アプリに表示されている6桁のコードを入力してください",
+      "enableSuccess": "二要素認証を有効にしました",
+      "disableSuccess": "二要素認証を無効にしました",
+      "verifySuccess": "二要素認証が確認されました",
+      "disableConfirmTitle": "二要素認証を無効にしますか？",
+      "disableConfirmDesc": "二要素認証を無効にすると、アカウントのセキュリティが低下します。再度有効にするまで、パスワードを知っている全員がバックアップやパスワード管理機能にアクセスできるようになります。",
+      "backupCodesTitle": "バックアップコードを保存してください",
+      "backupCodesDesc": "認証アプリにアクセスできなくなった場合、これらの使い捨てコードがサインインする唯一の方法になります。安全な場所に保存してください。",
+      "notEnabledTitle": "二要素認証が設定されていません",
+      "notEnabledDesc": "パスワードを安全に管理するために、まず二要素認証（2FA）を有効にしてください。"
+    },
     "fields": {
       "password": "パスワード",
       "oldPassword": "現在のパスワード",
@@ -52,7 +74,9 @@
       "passwordPlaceholder": "パスワードを入力",
       "oldPasswordPlaceholder": "現在のパスワードを入力",
       "newPasswordPlaceholder": "新しいパスワードを入力",
-      "confirmPasswordPlaceholder": "確認用パスワードを入力"
+      "confirmPasswordPlaceholder": "確認用パスワードを入力",
+      "token": "セキュリティコード",
+      "tokenPlaceholder": "6桁のコードを入力"
     }
   },
   "auth": {
@@ -98,6 +122,8 @@
     "appTitle": "学校管理システム",
     "grid": "グリッド",
     "list": "リスト",
+    "copied": "クリップボードにコピーしました",
+    "copyAll": "すべてのコードをコピー",
     "days": {
       "Monday": "月曜日",
       "Tuesday": "火曜日",

@@ -49,10 +49,11 @@ const SettingsBackupCodeDialog = ({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
-          <AlertDialogTitle>Save Your Backup Codes</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t("settings.twoFactor.backupCodesTitle")}
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            If you lose access to your authenticator app, these one-time codes
-            are the only way to sign in. Save them in a secure place.
+            {t("settings.twoFactor.backupCodesDesc")}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -79,12 +80,12 @@ const SettingsBackupCodeDialog = ({
               {copied ? (
                 <>
                   <Check className="h-3.5 w-3.5 text-green-500" />
-                  <span>{t("general.copied", "Copied to clipboard")}</span>
+                  <span>{t("general.copied")}</span>
                 </>
               ) : (
                 <>
                   <Copy className="h-3.5 w-3.5" />
-                  <span>{t("general.copyAll", "Copy all codes")}</span>
+                  <span>{t("general.copyAll")}</span>
                 </>
               )}
             </Button>
@@ -97,7 +98,7 @@ const SettingsBackupCodeDialog = ({
             variant={"default"}
             size="default"
           >
-            Back
+            {t("general.back")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

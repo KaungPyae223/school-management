@@ -44,6 +44,28 @@
       "success": "Password changed successfully",
       "failed": "Failed to change password."
     },
+    "twoFactor": {
+      "title": "Two-Factor Authentication",
+      "description": "Add an extra layer of security to your account",
+      "enable2FA": "Enable 2FA",
+      "disable2FA": "Disable 2FA",
+      "manageBreadcrumb": "Manage Two-Factor Authentication",
+      "enableTitle": "Enable Two-Factor Authentication",
+      "disableTitle": "Disable Two-Factor Authentication",
+      "verifyTitle": "Verify Two-Factor Authentication",
+      "scanInstruction": "Scan this QR code with your authenticator app (Google Authenticator, Microsoft Authenticator, or Authy):",
+      "manualKey": "Manual key: {{key}}",
+      "enterCodeInstruction": "Enter the 6-digit code from your authenticator app",
+      "enableSuccess": "Two-Factor Authentication enabled successfully",
+      "disableSuccess": "Two-Factor Authentication disabled successfully",
+      "verifySuccess": "Two-Factor Authentication verified successfully",
+      "disableConfirmTitle": "Are you sure you want to disable Two-Factor Authentication?",
+      "disableConfirmDesc": "Disabling Two-Factor Authentication reduces your account security. Everyone with password access to data backup and password management features until it is turned back on.",
+      "backupCodesTitle": "Save Your Backup Codes",
+      "backupCodesDesc": "If you lose access to your authenticator app, these one-time codes are the only way to sign in. Save them in a secure place.",
+      "notEnabledTitle": "You do not have Two-Factor Authentication",
+      "notEnabledDesc": "Please enable Two-Factor Authentication first to manage your password safely."
+    },
     "fields": {
       "password": "Password",
       "oldPassword": "Old Password",
@@ -52,7 +74,9 @@
       "passwordPlaceholder": "Enter Password",
       "oldPasswordPlaceholder": "Enter Old Password",
       "newPasswordPlaceholder": "Enter New Password",
-      "confirmPasswordPlaceholder": "Enter Confirm Password"
+      "confirmPasswordPlaceholder": "Enter Confirm Password",
+      "token": "Security Code",
+      "tokenPlaceholder": "Enter 6-digit code"
     }
   },
   "auth": {
@@ -98,6 +122,8 @@
     "appTitle": "School Management",
     "grid": "Grid",
     "list": "List",
+    "copied": "Copied to clipboard",
+    "copyAll": "Copy all codes",
     "days": {
       "Monday": "Mon",
       "Tuesday": "Tue",

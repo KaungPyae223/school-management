@@ -20,6 +20,8 @@ const ConfirmDialog = ({
   description,
   variant = "default",
   isPending = false,
+  confirmButtonText = "",
+  children,
 }: {
   confirmDialogOpen: boolean;
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +30,8 @@ const ConfirmDialog = ({
   description: string;
   variant?: "default" | "destructive";
   isPending?: boolean;
+  confirmButtonText?: string;
+  children?: React.ReactNode;
 }) => {
   const { t } = useTranslation();
 
@@ -42,6 +46,7 @@ const ConfirmDialog = ({
           <AlertDialogCancel variant="outline" size="default">
             {t("general.cancel")}
           </AlertDialogCancel>
+          {children}
           <AlertDialogAction
             onClick={onConfirm}
             variant={variant}
@@ -50,6 +55,8 @@ const ConfirmDialog = ({
           >
             {isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
+            ) : confirmButtonText ? (
+              confirmButtonText
             ) : (
               t("general.continue")
             )}

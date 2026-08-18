@@ -21,7 +21,6 @@ const checkToken = async (token: string): Promise<CheckTokenResponse> => {
   const isValid = await totpService.verifyToken(token, decryptedSecret);
 
   if (isValid) {
-    twoFactorSession.verify();
     return { success: true };
   }
 
@@ -89,7 +88,7 @@ export const register2FAIPCs = () => {
           };
         }
 
-        const isValid = totpService.verifyToken(token, tempSecret);
+        const isValid = await totpService.verifyToken(token, tempSecret);
         if (!isValid) {
           return {
             success: false,
@@ -100,6 +99,8 @@ export const register2FAIPCs = () => {
         const encryptedSecret = safeStorage.encryptString(tempSecret);
         store.set("two_factor_secret", encryptedSecret.toString("base64"));
         store.set("two_factor_enabled", true);
+
+        twoFactorSession.verify();
 
         const normalizedCodes = backupCodes.map((code) =>
           code.trim().toUpperCase(),
@@ -149,5 +150,9 @@ export const register2FAIPCs = () => {
 
   ipcMain.handle("auth:2fa-is-enabled", () => {
     return !!store.get("two_factor_enabled");
+  });
+
+  ipcMain.handle("auth:2fa-is-verified", () => {
+    return twoFactorSession.is2FAVerified();
   });
 };

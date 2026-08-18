@@ -31,7 +31,7 @@ const SettingsChangeTheme = () => {
         {options.map((o) => {
           const colorLabel = t(`settings.changeTheme.colors.${o.key}`);
           return (
-            <Tooltip>
+            <Tooltip key={o.name}>
               <TooltipTrigger asChild>
                 <button
                   key={o.name}

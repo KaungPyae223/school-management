@@ -42,6 +42,7 @@ declare global {
         token: string,
       ) => Promise<{ success: boolean; message?: string }>;
       is2FAEnabled: () => Promise<boolean>;
+      is2FAVerified: () => Promise<boolean>;
     };
 
     api: {

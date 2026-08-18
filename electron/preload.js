@@ -24,6 +24,7 @@ contextBridge.exposeInMainWorld("authAPI", {
   verify2FA: (token) => ipcRenderer.invoke("auth:2fa-verify", token),
   disable2FA: (token) => ipcRenderer.invoke("auth:2fa-disable", token),
   is2FAEnabled: () => ipcRenderer.invoke("auth:2fa-is-enabled"),
+  is2FAVerified: () => ipcRenderer.invoke("auth:2fa-is-verified"),
 });
 
 contextBridge.exposeInMainWorld("api", {

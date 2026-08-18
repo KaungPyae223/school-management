@@ -3,6 +3,7 @@ import { store } from "../store";
 import bcrypt from "bcryptjs";
 import { authSession } from "./auth-session";
 import { protectedHandle } from "./protected-ipc";
+import { twoFactorSession } from "./two-factor-session";
 
 interface LoginAttemptState {
   count: number;
@@ -16,6 +17,10 @@ const LOCKOUT_MS = 15 * 60 * 1000;
 
 const hasPassword = () => {
   return !!store.get("user_password_hash");
+};
+
+const has2FA = () => {
+  return !!store.get("two_factor_enabled");
 };
 
 const storedPassword = async (password: string) => {
@@ -157,6 +162,12 @@ export const authIPCs = () => {
 
   ipcMain.handle("auth:set-password", async (_, plainPassword) => {
     try {
+      if (has2FA() && !twoFactorSession.is2FAVerified()) {
+        return {
+          success: false,
+          message: "Please verify Two-Factor Authentication first.",
+        };
+      }
       if (hasPassword()) {
         return { success: false, message: "Password cannot be set." };
       }
@@ -182,6 +193,12 @@ export const authIPCs = () => {
     "auth:change-password",
     async (_, oldPassword, newPassword) => {
       try {
+        if (has2FA() && !twoFactorSession.is2FAVerified()) {
+          return {
+            success: false,
+            message: "Please verify Two-Factor Authentication first.",
+          };
+        }
         if (!hasPassword()) {
           return { success: false, message: "No password set." };
         }

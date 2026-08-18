@@ -19,7 +19,9 @@ const routes = [
     ErrorBoundary: ErrorPage,
     loader: async () => {
       const hasPassword = await authService.hasPassword();
-      return { hasPassword };
+      const is2FAEnabled = await authService.is2FAEnabled();
+      const is2FAVerified = await authService.is2FAVerified();
+      return { hasPassword, is2FAEnabled, is2FAVerified };
     },
   },
   {
