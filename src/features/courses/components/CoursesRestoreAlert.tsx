@@ -41,6 +41,7 @@ const CoursesRestoreAlert = ({
       variant="default"
       title={t("courses.alerts.restoreTitle")}
       description={t("courses.alerts.restoreDesc")}
+      confirmButtonText={t("courses.alerts.restoreButton")}
       isPending={isPending}
     />
   );

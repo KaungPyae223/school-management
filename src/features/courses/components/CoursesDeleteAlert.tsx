@@ -41,6 +41,7 @@ const CoursesDeleteAlert = ({
       variant="destructive"
       title={t("courses.alerts.deleteTitle")}
       description={t("courses.alerts.deleteDesc")}
+      confirmButtonText={t("courses.alerts.deleteButton")}
       isPending={isPending}
     />
   );

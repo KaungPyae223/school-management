@@ -41,6 +41,7 @@ const ClassesCompleteAlert = ({
       variant="default"
       title={t("classes.alerts.completeTitle")}
       description={t("classes.alerts.completeDesc")}
+      confirmButtonText={t("classes.alerts.completeButton")}
       isPending={isPending}
     />
   );

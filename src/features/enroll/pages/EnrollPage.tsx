@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 import * as z from "zod";
 
@@ -50,19 +51,20 @@ const formSchema = z.object({
   description: z.string().optional(),
 });
 const EnrollPage = () => {
+  const { t } = useTranslation();
   const data = useLoaderData();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
-    title: "Enroll Class",
+    title: t("enroll.title"),
     params: [
       {
-        name: "Classes",
+        name: t("classes.title"),
         link: "/classes",
       },
       {
-        name: "Enroll",
+        name: t("enroll.breadcrumb"),
         link: "/enroll",
       },
     ],
@@ -94,7 +96,7 @@ const EnrollPage = () => {
       const data = form.getValues();
 
       if (data.price < data.amount) {
-        toast.error("You pay exceed the price");
+        toast.error(t("payments.exceedAmountDue"));
         return;
       }
 
@@ -105,7 +107,7 @@ const EnrollPage = () => {
         image: imageData,
       });
 
-      toast.success("Student enrolled successfully");
+      toast.success(t("enroll.alerts.success"));
       form.reset();
     } catch (error: unknown) {
       console.log(error);
@@ -125,7 +127,7 @@ const EnrollPage = () => {
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
-      <FormHeader title="Enroll Class" />
+      <FormHeader title={t("enroll.title")} />
       <CardContent>
         <form id="enroll-class" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
@@ -143,12 +145,14 @@ const EnrollPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="amount">Amount</RequiredLabel>
+                  <RequiredLabel id="amount">
+                    {t("payments.fields.amount")}
+                  </RequiredLabel>
                   <NumberInput
                     field={field}
                     fieldState={fieldState}
                     id="amount"
-                    placeholder="Enter amount"
+                    placeholder={t("payments.fields.amountPlaceholder")}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -158,7 +162,7 @@ const EnrollPage = () => {
             />
             {amountWatch && data.price - amountWatch != 0 && (
               <Field>
-                <Label>Remain Amount</Label>
+                <Label>{t("payments.fields.remainAmount")}</Label>
                 <Input value={data.price - amountWatch} readOnly />
               </Field>
             )}
@@ -168,7 +172,7 @@ const EnrollPage = () => {
               name={"image"}
               render={({ field, fieldState }) => (
                 <ImageInput
-                  label="Payment Receipt"
+                  label={t("payments.fields.image")}
                   id="image"
                   field={field}
                   fieldState={fieldState}
@@ -180,12 +184,14 @@ const EnrollPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="description">Description</FieldLabel>
+                  <FieldLabel htmlFor="description">
+                    {t("payments.fields.description")}
+                  </FieldLabel>
                   <Textarea
                     {...field}
                     id="description"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Enter payment description"
+                    placeholder={t("payments.fields.descriptionPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -207,11 +213,13 @@ const EnrollPage = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={enrollClass}
-        title="Enroll in this class?"
-        description="Please confirm that you want to enroll in this class with the provided information. You can edit the class later if needed."
+        confirmButtonText={t("enroll.alerts.confirmButton")}
+        title={t("enroll.alerts.confirmTitle")}
+        description={t("enroll.alerts.confirmDesc")}
       />
     </Card>
   );
 };
 
 export default EnrollPage;
+

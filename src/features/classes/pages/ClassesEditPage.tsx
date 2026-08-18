@@ -245,6 +245,7 @@ const ClassesEditPage = () => {
         onConfirm={editClass}
         title={t("classes.alerts.editConfirmTitle")}
         description={t("classes.alerts.editConfirmDesc")}
+        confirmButtonText={t("classes.alerts.editConfirmButton")}
       />
     </Card>
   );

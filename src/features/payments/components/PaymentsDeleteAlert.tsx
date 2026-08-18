@@ -35,6 +35,7 @@ const PaymentsDeleteAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleDelete}
       variant="destructive"
+      confirmButtonText={t("payments.alerts.deleteButton")}
       title={t("payments.alerts.deleteTitle")}
       description={t("payments.alerts.deleteDesc")}
       isPending={isPending}
@@ -43,4 +44,3 @@ const PaymentsDeleteAlert = ({
 };
 
 export default PaymentsDeleteAlert;
-

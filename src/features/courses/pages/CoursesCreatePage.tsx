@@ -183,6 +183,7 @@ const CoursesCreatePage = () => {
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={createCourse}
         isPending={isPending}
+        confirmButtonText={t("courses.alerts.createConfirmButton")}
         title={t("courses.alerts.createConfirmTitle")}
         description={t("courses.alerts.createConfirmDesc")}
       />

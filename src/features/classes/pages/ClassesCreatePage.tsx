@@ -220,6 +220,7 @@ const ClassesCratePage = () => {
         onConfirm={createClass}
         title={t("classes.alerts.createConfirmTitle")}
         description={t("classes.alerts.createConfirmDesc")}
+        confirmButtonText={t("classes.alerts.createConfirmButton")}
       />
     </Card>
   );

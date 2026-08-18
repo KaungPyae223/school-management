@@ -35,12 +35,14 @@
       "title": "パスワード作成",
       "confirmTitle": "パスワード作成の確認",
       "confirmDescription": "このパスワードを作成してもよろしいですか？",
+      "confirmButton": "パスワードを作成",
       "success": "パスワードを作成しました"
     },
     "changePassword": {
       "title": "パスワード変更",
       "confirmTitle": "パスワード変更の確認",
       "confirmDescription": "パスワードを変更してもよろしいですか？",
+      "confirmButton": "パスワードを変更",
       "success": "パスワードを変更しました",
       "failed": "パスワードの変更に失敗しました。"
     },
@@ -61,6 +63,7 @@
       "verifySuccess": "二要素認証が確認されました",
       "disableConfirmTitle": "二要素認証を無効にしますか？",
       "disableConfirmDesc": "二要素認証を無効にすると、アカウントのセキュリティが低下します。再度有効にするまで、パスワードを知っている全員がバックアップやパスワード管理機能にアクセスできるようになります。",
+      "disableConfirmButton": "2FA を無効にする",
       "backupCodesTitle": "バックアップコードを保存してください",
       "backupCodesDesc": "認証アプリにアクセスできなくなった場合、これらの使い捨てコードがサインインする唯一の方法になります。安全な場所に保存してください。",
       "notEnabledTitle": "二要素認証が設定されていません",
@@ -227,14 +230,18 @@
       "deleteTitle": "この生徒を削除しますか？",
       "deleteDesc": "この生徒を削除することを確認してください。この操作は取り消せません。",
       "deleteSuccess": "生徒を削除しました",
+      "deleteButton": "生徒を削除",
       "createConfirmTitle": "この生徒を登録しますか？",
       "createConfirmDesc": "入力された情報で生徒を登録することを確認してください。",
+      "createConfirmButton": "生徒を作成",
       "createSuccess": "生徒を登録しました",
       "editConfirmTitle": "この生徒の情報を編集しますか？",
       "editConfirmDesc": "入力された情報で生徒の情報を更新することを確認してください。",
+      "editConfirmButton": "生徒を編集",
       "editSuccess": "生徒情報を更新しました",
       "deleteEnrollmentTitle": "この受講登録を削除しますか？",
       "deleteEnrollmentDesc": "この受講登録を削除することを確認してください。この操作は取り消せません。",
+      "deleteEnrollmentButton": "受講登録を削除",
       "deleteEnrollmentSuccess": "受講登録を削除しました"
     }
   },
@@ -274,14 +281,18 @@
       "deleteTitle": "この講師を削除しますか？",
       "deleteDesc": "この講師を削除することを確認してください。この操作は取り消せません。",
       "deleteSuccess": "講師を削除しました",
+      "deleteButton": "講師を削除",
       "restoreTitle": "この講師を復元しますか？",
       "restoreDesc": "この講師を復元することを確認してください。",
       "restoreSuccess": "講師を復元しました",
+      "restoreButton": "講師を復元",
       "createConfirmTitle": "この講師を登録しますか？",
       "createConfirmDesc": "入力された情報で講師を登録することを確認してください。",
+      "createConfirmButton": "講師を作成",
       "createSuccess": "講師を登録しました",
       "editConfirmTitle": "この講師の情報を編集しますか？",
       "editConfirmDesc": "入力された情報で講師の情報を更新することを確認してください。",
+      "editConfirmButton": "講師を編集",
       "editSuccess": "講師情報を更新しました"
     }
   },
@@ -325,14 +336,18 @@
       "deleteTitle": "このコースを削除しますか？",
       "deleteDesc": "このコースを削除することを確認してください。この操作は取り消せません。",
       "deleteSuccess": "コースを削除しました",
+      "deleteButton": "コースを削除",
       "restoreTitle": "このコースを復元しますか？",
       "restoreDesc": "このコースを復元することを確認してください。",
       "restoreSuccess": "コースを復元しました",
+      "restoreButton": "コースを復元",
       "createConfirmTitle": "このコースを登録しますか？",
       "createConfirmDesc": "入力された情報でコースを登録することを確認してください。後から編集も可能です。",
+      "createConfirmButton": "コースを作成",
       "createSuccess": "コースを登録しました",
       "editConfirmTitle": "このコースの情報を編集しますか？",
       "editConfirmDesc": "入力された情報でコースの情報を更新することを確認してください。後から編集も可能です。",
+      "editConfirmButton": "コースを編集",
       "editSuccess": "コース情報を更新しました"
     }
   },
@@ -395,18 +410,33 @@
       "deleteTitle": "このクラスを削除しますか？",
       "deleteDesc": "このクラスを削除することを確認してください。この操作は取り消せません。",
       "deleteSuccess": "クラスを削除しました",
+      "deleteButton": "クラスを削除",
       "completeTitle": "このクラスを修了にしますか？",
       "completeDesc": "このクラスを修了状態に変更することを確認してください。この操作は取り消せません。",
       "completeSuccess": "クラスを修了にしました",
+      "completeButton": "クラスを完了",
       "deleteEnrollmentTitle": "この受講登録を削除しますか？",
       "deleteEnrollmentDesc": "この受講登録を削除することを確認してください。この操作は取り消せません。",
+      "deleteEnrollmentButton": "受講登録を削除",
       "deleteEnrollmentSuccess": "受講登録を削除しました",
       "createConfirmTitle": "このクラスを登録しますか？",
       "createConfirmDesc": "入力された情報でクラスを登録することを確認してください。後から編集も可能です。",
+      "createConfirmButton": "クラスを作成",
       "createSuccess": "クラスを登録しました",
       "editConfirmTitle": "このクラスの情報を編集しますか？",
       "editConfirmDesc": "入力された情報でクラスの情報を更新することを確認してください。後から編集も可能です。",
+      "editConfirmButton": "クラスを編集",
       "editSuccess": "クラス情報を更新しました"
+    }
+  },
+  "enroll": {
+    "title": "クラス受講登録",
+    "breadcrumb": "受講登録",
+    "alerts": {
+      "confirmTitle": "このクラスに受講登録しますか？",
+      "confirmDesc": "入力された情報でこのクラスに受講登録してもよろしいですか？必要に応じて後から編集できます。",
+      "confirmButton": "クラスを受講登録",
+      "success": "受講登録が完了しました"
     }
   },
   "payments": {
@@ -447,8 +477,10 @@
       "deleteTitle": "この支払いを削除しますか？",
       "deleteDesc": "この支払いを削除することを確認してください。この操作は取り消せません。",
       "deleteSuccess": "支払いを削除しました",
+      "deleteButton": "支払いを削除",
       "createConfirmTitle": "この支払いを登録しますか？",
       "createConfirmDesc": "入力された情報で支払いを登録することを確認してください。",
+      "createConfirmButton": "支払いを実行",
       "createSuccess": "支払いを登録しました"
     }
   },

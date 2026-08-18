@@ -277,6 +277,7 @@ const StudentsCreatePage = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={createStudent}
+        confirmButtonText={t("students.alerts.createConfirmButton")}
         title={t("students.alerts.createConfirmTitle")}
         description={t("students.alerts.createConfirmDesc")}
       />

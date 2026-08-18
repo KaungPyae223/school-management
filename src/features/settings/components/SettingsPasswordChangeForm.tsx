@@ -183,6 +183,7 @@ const SettingsPasswordChangeForm = () => {
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={changePassword}
         isPending={isPending}
+        confirmButtonText={t("settings.changePassword.confirmButton")}
         title={t("settings.changePassword.confirmTitle")}
         description={t("settings.changePassword.confirmDescription")}
       />

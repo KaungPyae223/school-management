@@ -283,6 +283,7 @@ const StudentEdit = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={editStudent}
+        confirmButtonText={t("students.alerts.editConfirmButton")}
         title={t("students.alerts.editConfirmTitle")}
         description={t("students.alerts.editConfirmDesc")}
       />

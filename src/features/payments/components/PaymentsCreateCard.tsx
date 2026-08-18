@@ -115,7 +115,9 @@ const PaymentsCreateCard = ({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="amount">{t("payments.fields.amount")}</RequiredLabel>
+                  <RequiredLabel id="amount">
+                    {t("payments.fields.amount")}
+                  </RequiredLabel>
                   <NumberInput
                     field={field}
                     fieldState={fieldState}
@@ -152,7 +154,9 @@ const PaymentsCreateCard = ({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="description">{t("payments.fields.description")}</FieldLabel>
+                  <FieldLabel htmlFor="description">
+                    {t("payments.fields.description")}
+                  </FieldLabel>
                   <Textarea
                     {...field}
                     id="description"
@@ -178,6 +182,7 @@ const PaymentsCreateCard = ({
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={enrollClass}
+        confirmButtonText={t("payments.alerts.createConfirmButton")}
         title={t("payments.alerts.createConfirmTitle")}
         description={t("payments.alerts.createConfirmDesc")}
       />

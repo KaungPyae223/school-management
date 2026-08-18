@@ -180,6 +180,7 @@ const CourseEditPage = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={editCourse}
+        confirmButtonText={t("courses.alerts.editConfirmButton")}
         title={t("courses.alerts.editConfirmTitle")}
         description={t("courses.alerts.editConfirmDesc")}
       />

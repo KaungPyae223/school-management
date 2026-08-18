@@ -118,7 +118,9 @@ const TeachersEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"name"}>{t("teachers.fields.name")}</RequiredLabel>
+                  <RequiredLabel id={"name"}>
+                    {t("teachers.fields.name")}
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="name"
@@ -137,7 +139,9 @@ const TeachersEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"phone"}>{t("teachers.fields.phone")}</RequiredLabel>
+                  <RequiredLabel id={"phone"}>
+                    {t("teachers.fields.phone")}
+                  </RequiredLabel>
 
                   <Input
                     {...field}
@@ -157,7 +161,9 @@ const TeachersEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="email">{t("teachers.fields.email")}</FieldLabel>
+                  <FieldLabel htmlFor="email">
+                    {t("teachers.fields.email")}
+                  </FieldLabel>
                   <Input
                     {...field}
                     id="email"
@@ -176,7 +182,9 @@ const TeachersEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"address"}>{t("teachers.fields.address")}</RequiredLabel>
+                  <RequiredLabel id={"address"}>
+                    {t("teachers.fields.address")}
+                  </RequiredLabel>
                   <Textarea
                     {...field}
                     id="address"
@@ -195,7 +203,9 @@ const TeachersEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="nrc">{t("teachers.fields.nrc")}</FieldLabel>
+                  <FieldLabel htmlFor="nrc">
+                    {t("teachers.fields.nrc")}
+                  </FieldLabel>
                   <Input
                     {...field}
                     id="nrc"
@@ -222,6 +232,7 @@ const TeachersEdit = () => {
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={editTeacher}
+        confirmButtonText={t("teachers.alerts.editConfirmButton")}
         title={t("teachers.alerts.editConfirmTitle")}
         description={t("teachers.alerts.editConfirmDesc")}
       />

@@ -105,6 +105,7 @@ const Settings2FADisable = () => {
         onConfirm={disable2FA}
         isPending={isPending}
         variant="destructive"
+        confirmButtonText={t("settings.twoFactor.disableConfirmButton")}
         title={t("settings.twoFactor.disableConfirmTitle")}
         description={t("settings.twoFactor.disableConfirmDesc")}
       />

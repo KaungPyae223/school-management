@@ -40,6 +40,7 @@ const TeachersRestoreAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleRestore}
       variant="default"
+      confirmButtonText={t("teachers.alerts.restoreButton")}
       title={t("teachers.alerts.restoreTitle")}
       description={t("teachers.alerts.restoreDesc")}
       isPending={isPending}

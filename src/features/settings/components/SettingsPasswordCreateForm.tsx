@@ -135,6 +135,7 @@ const SettingsPasswordCreateForm = ({
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={createPassword}
         isPending={isPending}
+        confirmButtonText={t("settings.createPassword.confirmButton")}
         title={t("settings.createPassword.confirmTitle")}
         description={t("settings.createPassword.confirmDescription")}
       />

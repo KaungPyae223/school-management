@@ -41,10 +41,10 @@ const ClassesEnrollmentDeleteAlert = ({
       variant="destructive"
       title={t("classes.alerts.deleteEnrollmentTitle")}
       description={t("classes.alerts.deleteEnrollmentDesc")}
+      confirmButtonText={t("classes.alerts.deleteEnrollmentButton")}
       isPending={isPending}
     />
   );
 };
 
 export default ClassesEnrollmentDeleteAlert;
-

@@ -39,6 +39,7 @@ const StudentDeleteAlert = ({
       setConfirmDialogOpen={setConfirmDialogOpen}
       onConfirm={handleDelete}
       variant="destructive"
+      confirmButtonText={t("students.alerts.deleteButton")}
       title={t("students.alerts.deleteTitle")}
       description={t("students.alerts.deleteDesc")}
       isPending={isPending}
