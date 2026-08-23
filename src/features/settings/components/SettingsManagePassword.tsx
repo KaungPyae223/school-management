@@ -1,8 +1,6 @@
-import { useNavigate } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../../components/ui/button";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { authService } from "../../../services/auth";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useState } from "react";
 import { AlertDialogAction } from "../../../components/ui/alert-dialog";
@@ -12,16 +10,10 @@ const SettingsManagePassword = () => {
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
-  const { data } = useAppQuery({
-    queryKey: ["is2FAEnable"],
-    queryFn: () => authService.is2FAEnabled(),
-    staleTime: 0,
-    gcTime: 0,
-    refetchOnMount: "always",
-  });
+  const { is2FAEnabled } = useLoaderData();
 
   const managePassword = () => {
-    if (data) {
+    if (is2FAEnabled) {
       navigate("/settings/manage-password");
     } else {
       setConfirmDialogOpen(true);

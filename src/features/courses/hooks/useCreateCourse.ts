@@ -6,8 +6,7 @@ export const useCreateCourse = () => {
   return useMutation({
     mutationFn: courseService.createCourse,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
-      
+      queryClient.invalidateQueries({ queryKey: ["courses"] });   
     },
   });
 };

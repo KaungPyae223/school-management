@@ -5,12 +5,6 @@ import { authSession } from "./auth-session";
 import { protectedHandle } from "./protected-ipc";
 import { twoFactorSession } from "./two-factor-session";
 
-interface LoginAttemptState {
-  count: number;
-  lockoutUntil: number;
-  lastSeenTime: number;
-}
-
 const SALT_ROUNDS = 10;
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_MS = 15 * 60 * 1000;

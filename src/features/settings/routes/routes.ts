@@ -8,6 +8,12 @@ const routes = [
       const module = await import("../pages/SettingsPage");
       return { Component: module.default };
     },
+    loader: async () => {
+      const hasPassword = await authService.hasPassword();
+      const is2FAEnabled = await authService.is2FAEnabled();
+      const is2FAVerified = await authService.is2FAVerified();
+      return { hasPassword, is2FAEnabled, is2FAVerified };
+    },
     ErrorBoundary: ErrorPage,
   },
   {
@@ -33,6 +39,20 @@ const routes = [
     loader: async () => {
       const is2FAEnabled = await authService.is2FAEnabled();
       return { is2FAEnabled };
+    },
+    ErrorBoundary: ErrorPage,
+  },
+  {
+    path: "settings/backup",
+    lazy: async () => {
+      const module = await import("../pages/SettingsBackupPage");
+      return { Component: module.default };
+    },
+    loader: async () => {
+      const hasPassword = await authService.hasPassword();
+      const is2FAEnabled = await authService.is2FAEnabled();
+      const is2FAVerified = await authService.is2FAVerified();
+      return { hasPassword, is2FAEnabled, is2FAVerified };
     },
     ErrorBoundary: ErrorPage,
   },

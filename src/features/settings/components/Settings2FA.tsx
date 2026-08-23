@@ -1,20 +1,12 @@
-import { useNavigate } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../../components/ui/button";
-import { authService } from "../../../services/auth";
-import { useAppQuery } from "../../../hooks/use-app-query";
 
 const Settings2FA = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { data } = useAppQuery({
-    queryKey: ["is2FAEnable"],
-    queryFn: () => authService.is2FAEnabled(),
-    staleTime: 0,
-    gcTime: 0,
-    refetchOnMount: "always",
-  });
+  const { is2FAEnabled } = useLoaderData();
 
   return (
     <div className="flex items-center gap-5 justify-between py-3.5">
@@ -30,7 +22,7 @@ const Settings2FA = () => {
           onClick={() => navigate("/settings/manage-2fa")}
           variant="outline"
         >
-          {data
+          {is2FAEnabled
             ? t("settings.twoFactor.disable2FA")
             : t("settings.twoFactor.enable2FA")}
         </Button>
@@ -40,4 +32,3 @@ const Settings2FA = () => {
 };
 
 export default Settings2FA;
-

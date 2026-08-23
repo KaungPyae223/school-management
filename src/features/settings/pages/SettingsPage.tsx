@@ -11,6 +11,7 @@ import SettingsChangeLanguage from "../components/SettingsChangeLanguage";
 import SettingsChangeTheme from "../components/SettingsChangeTheme";
 import SettingsManagePassword from "../components/SettingsManagePassword";
 import Settings2FA from "../components/Settings2FA";
+import SettingsDataBackup from "../components/SettingsDataBackup";
 
 const SettingsPage = () => {
   const { t } = useTranslation();
@@ -30,6 +31,7 @@ const SettingsPage = () => {
         <SettingsChangeLanguage />
         <SettingsManagePassword />
         <Settings2FA />
+        <SettingsDataBackup />
       </CardContent>
     </Card>
   );

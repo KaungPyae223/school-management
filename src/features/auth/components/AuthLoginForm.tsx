@@ -11,13 +11,13 @@ import FormFooter from "../../../components/form/FormFooter";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import { Input } from "../../../components/ui/input";
 import { useNavigate } from "react-router";
-import { LoginSchema } from "../schema/LoginSchema";
 import { useLogin } from "../hooks/useLogin";
 import { useLockForm } from "../hooks/useLockForm";
+import { PasswordSchema } from "../schema/PasswordSchema";
 
 const AuthLoginForm = ({ navigateLink }: { navigateLink?: string }) => {
   const { t } = useTranslation();
-  const { formSchema } = LoginSchema();
+  const { formSchema } = PasswordSchema();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
 

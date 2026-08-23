@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer, webUtils } = require("electron");
 
 contextBridge.exposeInMainWorld("electronStore", {
   get: (key) => ipcRenderer.invoke("store:get", key),
@@ -25,6 +25,13 @@ contextBridge.exposeInMainWorld("authAPI", {
   disable2FA: (token) => ipcRenderer.invoke("auth:2fa-disable", token),
   is2FAEnabled: () => ipcRenderer.invoke("auth:2fa-is-enabled"),
   is2FAVerified: () => ipcRenderer.invoke("auth:2fa-is-verified"),
+});
+
+contextBridge.exposeInMainWorld("backupAPI", {
+  exportBackup: (password) => ipcRenderer.invoke("backup:zip", password),
+  importBackup: (data) => ipcRenderer.invoke("backup:import", data),
+  getFilePath: (file) => webUtils.getPathForFile(file),
+  relaunchApp: () => ipcRenderer.invoke("backup:relaunch"),
 });
 
 contextBridge.exposeInMainWorld("api", {

@@ -17,7 +17,7 @@ import { useNavigate } from "react-router";
 import { ChangePasswordSchema } from "../schema/ChangePasswordSchema";
 import { useLockForm } from "../../auth/hooks/useLockForm";
 
-const SettingsPasswordChangeForm = () => {
+const SettingsPasswordChange = () => {
   const { t } = useTranslation();
   const { formSchema } = ChangePasswordSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -191,4 +191,4 @@ const SettingsPasswordChangeForm = () => {
   );
 };
 
-export default SettingsPasswordChangeForm;
+export default SettingsPasswordChange;

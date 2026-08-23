@@ -7,6 +7,7 @@ import { paymentIPCs } from "./payment.ipc";
 import { storeIPCs } from "./store.ipc";
 import { authIPCs } from "../auth/auth.ipc";
 import { register2FAIPCs } from "../auth/two-factor.ipc";
+import { backupIPCs } from "../auth/backup.ipc";
 
 export const registerIpcHandlers = () => {
   courseIPCs();
@@ -18,4 +19,5 @@ export const registerIpcHandlers = () => {
   storeIPCs();
   authIPCs();
   register2FAIPCs();
+  backupIPCs();
 };

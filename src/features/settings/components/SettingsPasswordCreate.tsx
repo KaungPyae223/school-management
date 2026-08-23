@@ -16,7 +16,7 @@ import { Input } from "../../../components/ui/input";
 import { useCreatePassword } from "../hooks/useCreatePassword";
 import { useNavigate } from "react-router";
 
-const SettingsPasswordCreateForm = ({
+const SettingsPasswordCreate = ({
   navigateLink,
   back = true,
 }: {
@@ -143,4 +143,4 @@ const SettingsPasswordCreateForm = ({
   );
 };
 
-export default SettingsPasswordCreateForm;
+export default SettingsPasswordCreate;

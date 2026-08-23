@@ -48,7 +48,6 @@ const checkToken = async (token: string): Promise<CheckTokenResponse> => {
         updatedEncryptedCodes.toString("base64"),
       );
 
-      twoFactorSession.verify();
       return { success: true, message: "Backup code used successfully." };
     }
   }
@@ -69,7 +68,7 @@ export const register2FAIPCs = () => {
         secret: setupData.secret,
         backupCodes: setupData.backupCodes,
       };
-    } catch (err: any) {
+    } catch {
       return { success: false, message: err.message };
     }
   });
@@ -116,7 +115,7 @@ export const register2FAIPCs = () => {
         store.delete("temp_2fa_secret");
 
         return { success: true, message: "2FA enabled successfully!" };
-      } catch (err: any) {
+      } catch {
         return { success: false, message: "Failed to enable 2FA." };
       }
     },
@@ -124,8 +123,12 @@ export const register2FAIPCs = () => {
 
   ipcMain.handle("auth:2fa-verify", async (_, token: string) => {
     try {
-      return await checkToken(token);
-    } catch (err: any) {
+      const check = await checkToken(token);
+      if (check.success) {
+        twoFactorSession.verify();
+      }
+      return check;
+    } catch {
       return { success: false, message: "Verification failed." };
     }
   });
@@ -143,7 +146,7 @@ export const register2FAIPCs = () => {
       store.set("two_factor_enabled", false);
 
       return { success: true };
-    } catch (err: any) {
+    } catch {
       return { success: false, message: "Failed to disable 2FA." };
     }
   });

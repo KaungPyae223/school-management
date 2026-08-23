@@ -45,6 +45,18 @@ declare global {
       is2FAVerified: () => Promise<boolean>;
     };
 
+    backupAPI: {
+      exportBackup: (
+        password: string,
+      ) => Promise<{ success: boolean; error?: string }>;
+      importBackup: (data: {
+        filePath: string;
+        password: string;
+      }) => Promise<{ success: boolean; error?: string }>;
+      getFilePath: (file: any) => Promise<string>;
+      relaunchApp: () => Promise<void>;
+    };
+
     api: {
       getAllCourses: (data: {
         page?: number;
