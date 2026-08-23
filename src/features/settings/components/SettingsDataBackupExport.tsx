@@ -48,7 +48,7 @@ const SettingsDataBackupExport = () => {
 
       await mutateAsync(data.password);
 
-      toast.success("Successfully export backup");
+      toast.success(t("settings.backup.exportSuccess"));
       form.reset();
     } catch (error: any) {
       toast.error(error.message);
@@ -70,9 +70,9 @@ const SettingsDataBackupExport = () => {
                 <FileArchive className="size-5 text-muted-foreground" />
               </div>
               <div>
-                <AlertTitle>Export Backup</AlertTitle>
+                <AlertTitle>{t("settings.backup.exportTitle")}</AlertTitle>
                 <AlertDescription>
-                  Export your school data to a backup file.
+                  {t("settings.backup.exportDesc")}
                 </AlertDescription>
               </div>
             </Alert>
@@ -84,14 +84,16 @@ const SettingsDataBackupExport = () => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <RequiredLabel id="password">
-                      Current Password
+                      {t("settings.backup.currentPassword")}
                     </RequiredLabel>
                     <Input
                       {...field}
                       id="password"
                       type="password"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Enter your current password"
+                      placeholder={t(
+                        "settings.backup.currentPasswordPlaceholder",
+                      )}
                       autoComplete="current-password"
                     />
                     {fieldState.invalid && (
@@ -104,7 +106,7 @@ const SettingsDataBackupExport = () => {
 
             <Button className="w-full" type="submit">
               <Download />
-              Export Backup
+              {t("settings.backup.exportButton")}
             </Button>
           </CardContent>
         </FieldGroup>
@@ -114,9 +116,9 @@ const SettingsDataBackupExport = () => {
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={exportBackup}
         isPending={isPending}
-        confirmButtonText={"Export Backup"}
-        title={"Confirm Export Backup"}
-        description={"Are you sure to export backup data"}
+        confirmButtonText={t("settings.backup.exportConfirmButton")}
+        title={t("settings.backup.exportConfirmTitle")}
+        description={t("settings.backup.exportConfirmDesc")}
       />
     </Card>
   );

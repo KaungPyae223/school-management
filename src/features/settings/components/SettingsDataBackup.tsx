@@ -31,24 +31,22 @@ const SettingsDataBackup = () => {
     <div className="flex items-center gap-5 justify-between pt-3.5 pb-1.5">
       <div className="space-y-1">
         <p className="text-sm font-medium text-foreground">
-          Data Backup & Restore
+          {t("settings.backup.title")}
         </p>
         <p className="text-xs text-muted-foreground">
-          Export a backup file or restore your database and media files.
+          {t("settings.backup.description")}
         </p>
       </div>
       <Button variant={"outline"} onClick={backup}>
-        Backup
+        {t("settings.backup.button")}
       </Button>
       <ConfirmDialog
         confirmDialogOpen={confirmPasswordSetupDialogOpen}
         setConfirmDialogOpen={setConfirmPasswordSetupDialogOpen}
         onConfirm={() => navigate("/settings/manage-password")}
-        title={"Password Not Set"}
-        description={
-          "Please set a password before backing up. You cannot backup without a password."
-        }
-        confirmButtonText={"Set Password"}
+        title={t("settings.backup.noPasswordTitle")}
+        description={t("settings.backup.noPasswordDesc")}
+        confirmButtonText={t("settings.backup.setPassword")}
       />
       <ConfirmDialog
         confirmDialogOpen={confirm2FASetupDialogOpen}

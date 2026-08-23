@@ -59,7 +59,7 @@ const SettingsDataBackupImport = () => {
       file.type === "multipart/x-zip";
 
     if (!isZip) {
-      toast.error("Please upload a valid .zip backup file.");
+      toast.error(t("settings.backup.invalidZip"));
       return false;
     }
     return true;
@@ -123,12 +123,12 @@ const SettingsDataBackupImport = () => {
         password: values.password,
       });
 
-      toast.success("Successfully imported backup. The app will restart now.");
+      toast.success(t("settings.backup.importSuccess"));
       form.reset();
       await window.backupAPI.relaunchApp();
     } catch (error: any) {
       setErrorMessage(error.message);
-      toast.error(error?.message || "Failed to restore backup.");
+      toast.error(error?.message || t("settings.backup.importFailed"));
     } finally {
       setConfirmDialogOpen(false);
     }
@@ -146,9 +146,9 @@ const SettingsDataBackupImport = () => {
                 <DatabaseBackup className="size-5 text-muted-foreground" />
               </div>
               <div>
-                <AlertTitle>Import Backup</AlertTitle>
+                <AlertTitle>{t("settings.backup.importTitle")}</AlertTitle>
                 <AlertDescription>
-                  Restore your application data from a previous backup file.
+                  {t("settings.backup.importDesc")}
                 </AlertDescription>
               </div>
             </Alert>
@@ -159,13 +159,17 @@ const SettingsDataBackupImport = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="password">Backup Password</RequiredLabel>
+                    <RequiredLabel id="password">
+                      {t("settings.backup.backupPassword")}
+                    </RequiredLabel>
                     <Input
                       {...field}
                       id="password"
                       type="password"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Enter the password used when this backup was created."
+                      placeholder={t(
+                        "settings.backup.backupPasswordPlaceholder",
+                      )}
                       autoComplete="current-password"
                     />
                     {fieldState.invalid && (
@@ -204,7 +208,7 @@ const SettingsDataBackupImport = () => {
                           type="button"
                           variant="ghost"
                           size="icon"
-                          aria-label="Remove file"
+                          aria-label={t("settings.backup.removeFile")}
                           className="size-8 shrink-0 text-emerald-700 hover:bg-emerald-200/60 hover:text-destructive dark:text-emerald-400 dark:hover:bg-emerald-900/60 dark:hover:text-destructive"
                           onClick={() => handleRemoveFile(field.onChange)}
                         >
@@ -215,11 +219,10 @@ const SettingsDataBackupImport = () => {
                       <Alert variant="destructive">
                         <AlertCircle className="size-4" />
                         <AlertTitle>
-                          Existing data will be overwritten
+                          {t("settings.backup.overwriteWarningTitle")}
                         </AlertTitle>
                         <AlertDescription>
-                          Restoring this backup will replace all current data in
-                          the application. This action cannot be undone.
+                          {t("settings.backup.overwriteWarningDesc")}
                         </AlertDescription>
                       </Alert>
 
@@ -230,7 +233,9 @@ const SettingsDataBackupImport = () => {
                         disabled={isPending}
                       >
                         <DatabaseBackup className="size-4" />
-                        {isPending ? "Restoring..." : "Restore Backup"}
+                        {isPending
+                          ? t("settings.backup.restoring")
+                          : t("settings.backup.restoreButton")}
                       </Button>
                     </div>
                   ) : (
@@ -253,10 +258,10 @@ const SettingsDataBackupImport = () => {
                           )}
                         />
                         <p className="text-sm text-gray-600 my-2">
-                          Click or drag & drop to upload Backup Zip File
+                          {t("settings.backup.dropzoneText")}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Supports .zip archive files
+                          {t("settings.backup.dropzoneSubtext")}
                         </p>
                       </div>
                     </FieldLabel>
@@ -285,9 +290,9 @@ const SettingsDataBackupImport = () => {
         setConfirmDialogOpen={setConfirmDialogOpen}
         onConfirm={handleImportBackup}
         isPending={isPending}
-        confirmButtonText="Overwrite & Restore"
-        title="Confirm Database Overwrite"
-        description="Are you sure you want to restore this backup? Current application data will be permanently overwritten."
+        confirmButtonText={t("settings.backup.importConfirmButton")}
+        title={t("settings.backup.importConfirmTitle")}
+        description={t("settings.backup.importConfirmDesc")}
       />
     </Card>
   );

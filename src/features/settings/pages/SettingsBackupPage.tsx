@@ -8,14 +8,14 @@ const SettingsBackupPage = () => {
   const { t } = useTranslation();
 
   useAddBreadcrumb({
-    title: "Manage Backup",
+    title: t("settings.backup.manageBreadcrumb"),
     params: [
       {
         name: t("settings.title"),
         link: "/settings",
       },
       {
-        name: "Manage Backup",
+        name: t("settings.backup.manageBreadcrumb"),
         link: `/settings/backup`,
       },
     ],
