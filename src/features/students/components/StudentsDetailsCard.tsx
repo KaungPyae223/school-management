@@ -14,6 +14,8 @@ import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import DetailsData from "../../../components/details/DetailsData";
 import { Mars, Venus, VenusAndMars } from "lucide-react";
 
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+
 const StudentsDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();
   const genderIcon = data.gender
@@ -45,7 +47,7 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
 
         <div className="grid grid-cols-3 gap-3">
           <DetailsData icon={Phone} label={t("students.fields.phoneNumber")}>
-            <p className="font-medium">{data.phone}</p>
+            <p className="font-medium">{replaceLocalDigit(data.phone)}</p>
           </DetailsData>
           <DetailsData icon={Calendar} label={t("students.fields.dob")}>
             <p className="font-medium">
@@ -62,7 +64,9 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
             <p className="font-medium">{data.email || t("students.na")}</p>
           </DetailsData>
           <DetailsData icon={Phone} label={t("students.fields.phone")}>
-            <p className="font-medium">{data.phone || t("students.na")}</p>
+            <p className="font-medium">
+              {data.phone ? replaceLocalDigit(data.phone) : t("students.na")}
+            </p>
           </DetailsData>
         </div>
         <Separator />

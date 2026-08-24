@@ -74,6 +74,8 @@ const ClassesTeacherInput = ({
   useEffect(() => {
     if (defaultSelectedTeacher && field.value == defaultSelectedTeacher.id) {
       setSelectedTeacher(defaultSelectedTeacher);
+    } else if (field.value == 0) {
+      setSelectedTeacher(null);
     }
   }, [field.value]);
 
@@ -129,7 +131,9 @@ const ClassesTeacherInput = ({
 
   return (
     <Field data-invalid={fieldState.invalid}>
-      <RequiredLabel id="teacherID">{t("classes.fields.teacher")}</RequiredLabel>
+      <RequiredLabel id="teacherID">
+        {t("classes.fields.teacher")}
+      </RequiredLabel>
 
       <div className="relative">
         <Input
@@ -167,7 +171,9 @@ const ClassesTeacherInput = ({
                   </Avatar>
 
                   <div>
-                    <p className="text-xs text-muted-foreground">{t("classes.fields.teacher")}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("classes.fields.teacher")}
+                    </p>
                     <p className="text-sm font-medium text-foreground line-clamp-1">
                       {data.name}
                     </p>
@@ -204,7 +210,9 @@ const ClassesTeacherInput = ({
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-xs text-muted-foreground">{t("classes.fields.teacher")}</p>
+              <p className="text-xs text-muted-foreground">
+                {t("classes.fields.teacher")}
+              </p>
               <p className="text-sm font-medium text-foreground line-clamp-1">
                 {selectedTeacher.name}
               </p>
@@ -229,4 +237,3 @@ const ClassesTeacherInput = ({
 };
 
 export default ClassesTeacherInput;
-

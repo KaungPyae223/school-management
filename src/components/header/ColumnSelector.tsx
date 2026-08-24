@@ -12,6 +12,7 @@ import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { useGetSelectedColumns } from "../../hooks/use-get-selected-columns";
 import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import { replaceLocalDigit } from "../../utils/replace-local-digit";
 
 interface Props {
   columns: { title: string; key: string }[];
@@ -66,7 +67,7 @@ const ColumnSelector: React.FC<Props> = ({
           <Columns className="h-4 w-4" />
           <span>{t("general.columns")}</span>
           <span className="ml-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-            {visibleColumnsCount}
+            {replaceLocalDigit(visibleColumnsCount)}
           </span>
         </Button>
       </DropdownMenuTrigger>

@@ -30,6 +30,7 @@ import CardMenu from "../../../components/card-utils/CardMenu";
 import CardInfo from "../../../components/card-utils/CardInfo";
 import CardMeta from "../../../components/card-utils/CardMeta";
 import TeachersRestoreAlert from "./TeachersRestoreAlert";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const TeacherCard = ({ teacher }: { teacher: any }) => {
   const { t } = useTranslation();
@@ -75,7 +76,7 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
 
         <div className="flex flex-1 flex-col  justify-between gap-3">
           <CardContent className="pt-4 flex-1 space-y-3.5">
-            <CardInfo icon={Phone} label={t("teachers.fields.phone")} value={teacher.phone} />
+            <CardInfo icon={Phone} label={t("teachers.fields.phone")} value={replaceLocalDigit(teacher.phone)} />
             <CardInfo icon={Mail} label={t("teachers.fields.email")} value={teacher.email} />
             <CardInfo icon={MapPin} label={t("teachers.fields.address")} value={teacher.address} />
             <CardInfo

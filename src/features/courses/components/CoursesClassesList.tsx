@@ -18,6 +18,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 
 const CoursesClassesList = ({ data }: { data: any }) => {
@@ -150,7 +151,7 @@ const CoursesClassesList = ({ data }: { data: any }) => {
             <TableCell align="right">
               <TableIconContent
                 icon={Users}
-                value={classData.total_students}
+                value={replaceLocalDigit(classData.total_students)}
                 align="right"
               />
             </TableCell>

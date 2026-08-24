@@ -1,5 +1,6 @@
 import { type LucideIcon } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { replaceLocalDigit } from "../../utils/replace-local-digit";
 
 const CardMeta = ({
   icon: Icon,
@@ -9,7 +10,7 @@ const CardMeta = ({
 }: {
   icon: LucideIcon;
   title: string;
-  value: string;
+  value: string | number;
   className?: string;
 }) => {
   return (
@@ -20,7 +21,7 @@ const CardMeta = ({
         </div>
         <span className="text-sm text-muted-foreground">{title}</span>
       </div>
-      <span className="text-sm font-medium">{value}</span>
+      <span className="text-sm font-medium">{replaceLocalDigit(value)}</span>
     </div>
   );
 };

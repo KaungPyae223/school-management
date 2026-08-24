@@ -27,6 +27,7 @@ import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import TeachersRestoreAlert from "./TeachersRestoreAlert";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const TeachersList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -100,7 +101,10 @@ const TeachersList = ({ data }: { data: any }) => {
                 </div>
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Phone")}>
-                <TableIconContent icon={Phone} value={teacher.phone} />
+                <TableIconContent
+                  icon={Phone}
+                  value={replaceLocalDigit(teacher.phone)}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Email")}>
                 <TableIconContent icon={Mail} value={teacher.email} />
@@ -114,13 +118,13 @@ const TeachersList = ({ data }: { data: any }) => {
               <TableCell hidden={!selectedColumns.includes("Total Classes")}>
                 <TableIconContent
                   icon={BookOpen}
-                  value={teacher.total_classes}
+                  value={replaceLocalDigit(teacher.total_classes)}
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Total Students")}>
                 <TableIconContent
                   icon={GraduationCap}
-                  value={teacher.total_students}
+                  value={replaceLocalDigit(teacher.total_students)}
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>

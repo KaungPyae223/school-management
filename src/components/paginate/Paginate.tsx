@@ -21,6 +21,8 @@ import { useSetQueryParams } from "../../hooks/use-set-query-params";
 import { Card, CardContent } from "../ui/card";
 import { cn } from "../../lib/utils";
 
+import { replaceLocalDigit } from "../../utils/replace-local-digit";
+
 interface Props {
   meta: ResponseDataType["meta"];
 }
@@ -28,7 +30,7 @@ interface Props {
 const Paginate: React.FC<Props> = ({ meta }) => {
   const { t, i18n } = useTranslation();
 
-  const isMyanmar = i18n.language === "my";
+  const isMyanmar = i18n.language === "my-MM" || i18n.language === "my";
 
   const start = meta?.page * meta?.limit - meta?.limit + 1;
   const end =
@@ -65,22 +67,31 @@ const Paginate: React.FC<Props> = ({ meta }) => {
             <div className="text-sm text-muted-foreground flex items-center ">
               စုစုပေါင်း{" "}
               <span className="mx-1 font-medium text-foreground">
-                {meta?.total_data}
+                {replaceLocalDigit(meta?.total_data)}
               </span>{" "}
               ခုအနက်{" "}
-              <span className="mx-1 font-medium text-foreground">{start}</span>{" "}
-              မှ <span className="mx-1 font-medium text-foreground">{end}</span>{" "}
+              <span className="mx-1 font-medium text-foreground">
+                {replaceLocalDigit(start)}
+              </span>{" "}
+              မှ{" "}
+              <span className="mx-1 font-medium text-foreground">
+                {replaceLocalDigit(end)}
+              </span>{" "}
               အထိ
             </div>
           ) : (
             <div className="text-sm text-muted-foreground flex items-center ">
               {t("pagination.showing")}
-              <span className="mx-1 font-medium text-foreground">{start}</span>
+              <span className="mx-1 font-medium text-foreground">
+                {replaceLocalDigit(start)}
+              </span>
               {t("pagination.to")}
-              <span className="mx-1 font-medium text-foreground">{end}</span>
+              <span className="mx-1 font-medium text-foreground">
+                {replaceLocalDigit(end)}
+              </span>
               {t("pagination.of")}
               <span className="mx-1 font-medium text-foreground">
-                {meta?.total_data}
+                {replaceLocalDigit(meta?.total_data)}
               </span>
               {t("pagination.results")}
             </div>
@@ -100,15 +111,17 @@ const Paginate: React.FC<Props> = ({ meta }) => {
               defaultValue={meta?.limit.toString()}
             >
               <SelectTrigger size="sm">
-                <SelectValue placeholder={t("pagination.limit")} />
+                <SelectValue placeholder={t("pagination.limit")}>
+                  {replaceLocalDigit(meta?.limit)}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>{t("pagination.limit")}</SelectLabel>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="20">20</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                  <SelectItem value="100">100</SelectItem>
+                  <SelectItem value="10">{replaceLocalDigit(10)}</SelectItem>
+                  <SelectItem value="20">{replaceLocalDigit(20)}</SelectItem>
+                  <SelectItem value="50">{replaceLocalDigit(50)}</SelectItem>
+                  <SelectItem value="100">{replaceLocalDigit(100)}</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -141,7 +154,7 @@ const Paginate: React.FC<Props> = ({ meta }) => {
                         : "hover:bg-primary/10 cursor-pointer",
                     )}
                   >
-                    {page}
+                    {replaceLocalDigit(page)}
                   </PaginationLink>
                 ))}
               </PaginationItem>

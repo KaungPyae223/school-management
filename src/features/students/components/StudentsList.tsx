@@ -26,6 +26,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import StudentDeleteAlert from "./StudentsDeleteAlert";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
 
@@ -102,7 +103,10 @@ const StudentsList = ({ data }: { data: any }) => {
                 </div>
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Phone")}>
-                <TableIconContent icon={Phone} value={student.phone} />
+                <TableIconContent
+                  icon={Phone}
+                  value={replaceLocalDigit(student.phone)}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Email")}>
                 <TableIconContent icon={Mail} value={student.email} />
@@ -125,7 +129,7 @@ const StudentsList = ({ data }: { data: any }) => {
               <TableCell hidden={!selectedColumns.includes("Total Classes")}>
                 <TableIconContent
                   icon={BookOpen}
-                  value={student.total_classes}
+                  value={replaceLocalDigit(student.total_classes)}
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>

@@ -32,6 +32,7 @@ import { changeTime } from "../../../utils/change-time";
 import TableIconContent from "../../../components/table/TableIconContent";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 import CardDayBadge from "../../../components/card-utils/CardDayBadge";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const ClassesList = ({ data }: { data: any[] }) => {
   const { t } = useTranslation();
@@ -139,7 +140,9 @@ const ClassesList = ({ data }: { data: any[] }) => {
                       {classData.course_name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {t("classes.batch", { batch: classData.batch })}
+                      {t("classes.batch", {
+                        batch: replaceLocalDigit(classData.batch),
+                      })}
                     </p>
                   </div>
                 </div>
@@ -169,7 +172,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 hidden={!selectedColumns.includes("Total Students")}
                 align="right"
               >
-                {classData.total_students}
+                {replaceLocalDigit(classData.total_students)}
               </TableCell>
               <TableCell
                 hidden={!selectedColumns.includes("Days")}

@@ -27,6 +27,7 @@ import TableActionButtonsContainer from "../../../components/table/TableActionBu
 import TableActionButton from "../../../components/table/TableActionButton";
 import { useNavigate } from "react-router";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const PaymentsList = ({
   data,
@@ -156,7 +157,9 @@ const PaymentsList = ({
                     {payment.courseName}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {t("classes.batch", { batch: payment.batch })}
+                    {t("classes.batch", {
+                      batch: replaceLocalDigit(payment.batch),
+                    })}
                   </p>
                 </div>
               </div>
@@ -165,7 +168,10 @@ const PaymentsList = ({
               <TableIconContent icon={Mail} value={payment.studentEmail} />
             </TableCell>
             <TableCell hidden={!selectedColumns.includes("Phone")}>
-              <TableIconContent icon={Phone} value={payment.studentPhone} />
+              <TableIconContent
+                icon={Phone}
+                value={replaceLocalDigit(payment.studentPhone)}
+              />
             </TableCell>
             <TableCell
               hidden={!selectedColumns.includes("Price")}

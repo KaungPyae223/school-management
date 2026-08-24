@@ -19,6 +19,7 @@ import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import ClassesEnrollmentDeleteAlert from "./ClassesEnrollmentDeleteAlert";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -103,7 +104,7 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
                   </div>
                 </div>
               </TableCell>
-              <TableCell>{enrollmentData.studentPhone}</TableCell>
+              <TableCell>{replaceLocalDigit(enrollmentData.studentPhone)}</TableCell>
               <TableCell>
                 {enrollmentData.studentEmail
                   ? enrollmentData.studentEmail

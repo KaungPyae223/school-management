@@ -18,7 +18,12 @@ import DetailsData from "../../../components/details/DetailsData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 import CardDayBadge from "../../../components/card-utils/CardDayBadge";
 
+import { useTranslation } from "react-i18next";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+
 const EnrollClassDataCard = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="overflow-hidden rounded-xl border border-border">
       {/* Top Section: Course & Teacher */}
@@ -35,7 +40,9 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
             <h3 className="text-lg font-semibold line-clamp-1">
               {data.course.name}
             </h3>
-            <Badge variant="outline">Batch {data.batch}</Badge>
+            <Badge variant="outline">
+              {t("classes.batch", { batch: replaceLocalDigit(data.batch) })}
+            </Badge>
           </div>
           <ClassesTeacherCard
             image={data.teacher_image}

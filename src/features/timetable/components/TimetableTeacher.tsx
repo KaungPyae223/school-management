@@ -13,6 +13,10 @@ import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { useTimetableChange } from "../hooks/useTimetableChange";
 import { useFilterData } from "../hooks/useFilterData";
 import { useModeStore } from "../../../stores/useModeStore";
+import i18n from "../../../translate/i18n";
+import { calendarLocales, myLocale } from "../utils/calendar-locales";
+import { myanmarMonths } from "../../../utils/format-date";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const TimetableTeacher = ({
   data,
@@ -32,9 +36,23 @@ const TimetableTeacher = ({
 
   const { activeMode } = useModeStore();
 
+  const calendarLocale = i18n.language === "my-MM" ? myLocale : i18n.language;
+
   return (
     <FullCalendar
       plugins={[themePlugin, dayGridPlugin, timeGridPlugin, rrulePlugin]}
+      locales={calendarLocales}
+      locale={calendarLocale}
+      titleFormat={
+        i18n.language === "my-MM"
+          ? (info) => {
+              const month = info.date.month;
+              const year = info.date.year;
+
+              return `${myanmarMonths[month]} ${replaceLocalDigit(year)}`;
+            }
+          : undefined
+      }
       initialView={initialView}
       colorScheme={activeMode()}
       showNonCurrentDates={false}

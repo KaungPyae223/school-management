@@ -31,6 +31,7 @@ import {
   TooltipTrigger,
 } from "../../../components/ui/tooltip";
 import { formatDate } from "../../../utils/format-date";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 import ClassesDeleteAlert from "./ClassesDeleteAlert";
 import ClassesStatus from "./ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
@@ -98,11 +99,15 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   variant="secondary"
                   className="px-2 py-1 text-sm flex items-center gap-2"
                 >
-                  <Layers /> {classData.batch}
+                  <Layers /> {replaceLocalDigit(classData.batch)}
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{t("classes.batch", { batch: classData.batch })}</p>
+                <p>
+                  {t("classes.batch", {
+                    batch: replaceLocalDigit(classData.batch),
+                  })}
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -142,7 +147,9 @@ const ClassesCard = ({ classData }: { classData: any }) => {
               <div className="text-muted-foreground text-xs flex items-center gap-1.5">
                 <Calendar className="size-3" /> {t("classes.scheduleDays")}
                 <Badge variant="secondary" className="ms-auto">
-                  {t("classes.daysCount", { count: openingDays.length })}
+                  {t("classes.daysCount", {
+                    count: replaceLocalDigit(openingDays.length),
+                  })}
                 </Badge>
               </div>
               <div className="flex items-center gap-1.5 mt-2.5">
@@ -179,7 +186,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 variant="secondary"
                 className="font-medium text-foreground"
               >
-                {classData.total_students}
+                {replaceLocalDigit(classData.total_students)}
               </Badge>
             </div>
             <CardData

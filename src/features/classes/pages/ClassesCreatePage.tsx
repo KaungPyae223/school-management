@@ -56,11 +56,10 @@ const ClassesCratePage = () => {
       courseId: "" as unknown as number,
       teacherId: "" as unknown as number,
       startDate: new Date(),
-      endDate: new Date(),
-      startTime: "",
-      endTime: "",
-      days: [],
-      description: "",
+      startTime: undefined,
+      endTime: undefined,
+      days: undefined,
+      description: undefined,
     },
   });
 
@@ -124,7 +123,9 @@ const ClassesCratePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="days">{t("classes.fields.days")}</RequiredLabel>
+                  <RequiredLabel id="days">
+                    {t("classes.fields.days")}
+                  </RequiredLabel>
                   <ClassesDayInput field={field} fieldState={fieldState} />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -137,7 +138,9 @@ const ClassesCratePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="startDate">{t("classes.fields.startDate")}</RequiredLabel>
+                  <RequiredLabel id="startDate">
+                    {t("classes.fields.startDate")}
+                  </RequiredLabel>
 
                   <DateInput
                     field={field}
@@ -156,7 +159,9 @@ const ClassesCratePage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="startTime">{t("classes.fields.startTime")}</RequiredLabel>
+                    <RequiredLabel id="startTime">
+                      {t("classes.fields.startTime")}
+                    </RequiredLabel>
 
                     <TimeInput
                       field={field}
@@ -174,7 +179,9 @@ const ClassesCratePage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="endTime">{t("classes.fields.endTime")}</RequiredLabel>
+                    <RequiredLabel id="endTime">
+                      {t("classes.fields.endTime")}
+                    </RequiredLabel>
                     <TimeInput
                       field={field}
                       fieldState={fieldState}

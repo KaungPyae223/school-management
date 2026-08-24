@@ -14,6 +14,7 @@ import { changeTime } from "../../../utils/change-time";
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import ClassesStatus from "../../classes/components/ClassesStatus";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const TeachersClassesList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -91,7 +92,7 @@ const TeachersClassesList = ({ data }: { data: any }) => {
                     {classData.course_name}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {t("students.batch")} {classData.batch}
+                    {t("students.batch")} {replaceLocalDigit(classData.batch)}
                   </p>
                 </div>
               </div>
@@ -136,7 +137,7 @@ const TeachersClassesList = ({ data }: { data: any }) => {
             <TableCell align="right">
               <TableIconContent
                 icon={Users}
-                value={classData.total_students}
+                value={replaceLocalDigit(classData.total_students)}
                 align="right"
               />
             </TableCell>

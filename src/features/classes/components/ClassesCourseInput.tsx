@@ -71,6 +71,8 @@ const ClassesCourseInput = ({
   useEffect(() => {
     if (defaultSelectedCourse && field.value == defaultSelectedCourse.id) {
       setSelectedCourse(defaultSelectedCourse);
+    } else if (field.value == 0) {
+      setSelectedCourse(null);
     }
   }, [field.value]);
 
@@ -165,7 +167,9 @@ const ClassesCourseInput = ({
                       display="list"
                     />
                     <div>
-                      <p className="text-xs text-muted-foreground">{t("classes.fields.course")}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {t("classes.fields.course")}
+                      </p>
                       <p className="text-sm font-medium text-foreground line-clamp-1">
                         {data.name}
                       </p>
@@ -203,7 +207,9 @@ const ClassesCourseInput = ({
               display="list"
             />
             <div>
-              <p className="text-xs text-muted-foreground">{t("classes.fields.course")}</p>
+              <p className="text-xs text-muted-foreground">
+                {t("classes.fields.course")}
+              </p>
               <p className="text-sm font-medium text-foreground line-clamp-1">
                 {selectedCourse.name}
               </p>
@@ -235,4 +241,3 @@ const ClassesCourseInput = ({
 };
 
 export default ClassesCourseInput;
-

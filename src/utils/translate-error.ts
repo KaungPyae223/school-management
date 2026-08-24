@@ -13,7 +13,11 @@ export const translateError = (
     rawMessage = error.trim();
   } else if (error instanceof Error) {
     rawMessage = error.message.trim();
-  } else if (typeof error === "object" && error !== null && "message" in error) {
+  } else if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error
+  ) {
     rawMessage = String((error as any).message).trim();
   } else {
     rawMessage = String(error).trim();
@@ -90,8 +94,7 @@ export const translateError = (
     "backup code used successfully.": "errors.backupCodeUsed",
     "backup canceled by user.": "errors.backupCanceled",
     "backup file not found on disk.": "errors.backupFileNotFound",
-    "password is required to decrypt backup.":
-      "errors.passwordRequiredDecrypt",
+    "password is required to decrypt backup.": "errors.passwordRequiredDecrypt",
     "please select a zip backup.": "errors.selectZipBackup",
     "backup file is missing app.db or images folder.":
       "errors.backupMissingFiles",

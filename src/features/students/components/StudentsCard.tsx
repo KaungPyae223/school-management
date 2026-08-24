@@ -34,6 +34,8 @@ import CardMenu from "../../../components/card-utils/CardMenu";
 import CardInfo from "../../../components/card-utils/CardInfo";
 import CardMeta from "../../../components/card-utils/CardMeta";
 
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+
 const StudentCard = ({ student }: { student: any }) => {
   const { t } = useTranslation();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -71,7 +73,7 @@ const StudentCard = ({ student }: { student: any }) => {
           </div>
         </CardHeader>
         <CardContent className="pb-3 flex-1 space-y-3.5">
-          <CardInfo icon={Phone} label={t("students.fields.phone")} value={student.phone} />
+          <CardInfo icon={Phone} label={t("students.fields.phone")} value={replaceLocalDigit(student.phone)} />
           <CardInfo icon={Mail} label={t("students.fields.email")} value={student.email} />
           <CardInfo icon={MapPin} label={t("students.fields.address")} value={student.address} />
           <CardInfo

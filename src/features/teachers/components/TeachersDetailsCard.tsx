@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader } from "../../../components/ui/card";
 import { Separator } from "../../../components/ui/separator";
 import { generateImageFallBack } from "../../../utils/generate-image-fallback";
 import { formatDate } from "../../../utils/format-date";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const TeachersDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -31,7 +32,7 @@ const TeachersDetailsCard = ({ data }: { data: any }) => {
 
         <div className="grid grid-cols-3 gap-3">
           <DetailsData icon={Phone} label={t("teachers.fields.phoneNumber")}>
-            <p className="font-medium">{data.phone}</p>
+            <p className="font-medium">{replaceLocalDigit(data.phone)}</p>
           </DetailsData>
           <DetailsData icon={Mail} label={t("teachers.fields.email")}>
             <p className="font-medium">{data.email || t("students.tba")}</p>

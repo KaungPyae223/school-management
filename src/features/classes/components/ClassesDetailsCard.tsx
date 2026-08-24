@@ -21,12 +21,14 @@ import DetailsData from "../../../components/details/DetailsData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 import CardDayBadge from "../../../components/card-utils/CardDayBadge";
 
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+
 const ClassesDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();
 
   return (
     <Card className="shadow-sm flex flex-row gap-1.5">
-      <CardHeader className="w-lg">
+      <CardHeader className="w-lg items-center justify-center h-full">
         <ImageDisplay
           image={data.course_image}
           alt={data.course.name}
@@ -40,7 +42,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
             {data.course.name}
           </h3>
           <Badge variant="outline">
-            {t("classes.batch", { batch: data.batch })}
+            {t("classes.batch", { batch: replaceLocalDigit(data.batch) })}
           </Badge>
         </div>
         <p className="text-sm text-muted-foreground "> {data.description}</p>

@@ -20,6 +20,8 @@ import FormHeader from "../../../components/form/FormHeader";
 import DetailsData from "../../../components/details/DetailsData";
 import ImageDisplay from "../../../components/image/ImageDisplay";
 
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+
 const PaymentsDetailsInfoCard = ({
   enrollment,
   paymentsTimes,
@@ -49,7 +51,11 @@ const PaymentsDetailsInfoCard = ({
                 <h3 className="text-lg font-semibold line-clamp-1">
                   {enrollment.class.course.name}
                 </h3>
-                <Badge variant="outline">{t("classes.batch", { batch: enrollment.class.batch })}</Badge>
+                <Badge variant="outline">
+                  {t("classes.batch", {
+                    batch: replaceLocalDigit(enrollment.class.batch),
+                  })}
+                </Badge>
               </div>
 
               <div className="flex items-center gap-3 rounded-md border p-3">
@@ -91,7 +97,7 @@ const PaymentsDetailsInfoCard = ({
                 className="rounded-none"
                 border={false}
               >
-                <p className="font-medium">{paymentsTimes}</p>
+                <p className="font-medium">{replaceLocalDigit(paymentsTimes)}</p>
               </DetailsData>
             </div>
 

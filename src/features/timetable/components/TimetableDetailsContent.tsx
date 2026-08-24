@@ -30,6 +30,8 @@ import ImageDisplay from "../../../components/image/ImageDisplay";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+
 const TimetableDetailsContent = ({ classData }: { classData: any }) => {
   const { t } = useTranslation();
 
@@ -57,11 +59,15 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
                   variant="secondary"
                   className="px-2 py-1 text-sm flex items-center gap-2"
                 >
-                  <Layers /> {classData.batch}
+                  <Layers /> {replaceLocalDigit(classData.batch)}
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{t("classes.batch", { batch: classData.batch })}</p>
+                <p>
+                  {t("classes.batch", {
+                    batch: replaceLocalDigit(classData.batch),
+                  })}
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -97,7 +103,9 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
             <div className="text-muted-foreground text-xs flex items-center gap-1.5">
               <Calendar className="size-3" /> {t("classes.scheduleDays")}
               <Badge variant="secondary" className="ms-auto">
-                {t("classes.daysCount", { count: openingDays.length })}
+                {t("classes.daysCount", {
+                  count: replaceLocalDigit(openingDays.length),
+                })}
               </Badge>
             </div>
             <div className="flex items-center gap-1.5 mt-2.5">
@@ -133,7 +141,7 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
               </div>
             </div>
             <Badge variant="secondary" className="font-medium text-foreground">
-              {classData.total_students}
+              {replaceLocalDigit(classData.total_students)}
             </Badge>
           </div>
 

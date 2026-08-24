@@ -22,6 +22,7 @@ import { useNavigate } from "react-router";
 import StudentsEnrolledClassesDeleteAlert from "./StudentsEnrolledClassesDeleteAlert";
 import TableIconContent from "../../../components/table/TableIconContent";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
   const { t } = useTranslation();
@@ -108,7 +109,7 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                       {enrollmentData.course_name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {t("students.batch")} {enrollmentData.batch}
+                      {t("students.batch")} {replaceLocalDigit(enrollmentData.batch)}
                     </p>
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "../../lib/utils";
+import { replaceLocalDigit } from "../../utils/replace-local-digit";
 
 const CardData = ({
   icon,
@@ -10,7 +11,7 @@ const CardData = ({
 }: {
   icon: React.ReactNode;
   label: string;
-  value: string;
+  value: string | number;
   iconBg: string;
   border?: boolean;
 }) => {
@@ -24,7 +25,7 @@ const CardData = ({
       <div className={cn("p-1.5 rounded-md", iconBg)}>{icon}</div>
       <div>
         <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="text-xs font-medium">{value}</p>
+        <p className="text-xs font-medium">{replaceLocalDigit(value)}</p>
       </div>
     </div>
   );

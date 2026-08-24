@@ -18,6 +18,7 @@ import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator
 import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import CoursesRestoreAlert from "./CoursesRestoreAlert";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
 
 const CoursesList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -126,25 +127,25 @@ const CoursesList = ({ data }: { data: any }) => {
               <TableCell hidden={!selectedColumns.includes("Enrollments")}>
                 <TableIconContent
                   icon={ClipboardList}
-                  value={course.total_enrollments}
+                  value={replaceLocalDigit(course.total_enrollments)}
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Teachers")}>
                 <TableIconContent
                   icon={UserPen}
-                  value={course.total_teachers}
+                  value={replaceLocalDigit(course.total_teachers)}
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Classes")}>
                 <TableIconContent
                   icon={BookOpen}
-                  value={course.total_classes}
+                  value={replaceLocalDigit(course.total_classes)}
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Active")}>
                 <TableIconContent
                   icon={PlayCircle}
-                  value={course.total_active_classes}
+                  value={replaceLocalDigit(course.total_active_classes)}
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
