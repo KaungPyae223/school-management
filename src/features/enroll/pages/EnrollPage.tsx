@@ -30,6 +30,7 @@ import { Textarea } from "../../../components/ui/textarea";
 import { useEnrollClass } from "../hooks/useEnrollClass";
 import { generateImageData } from "../../../utils/generate-image-data";
 import NumberInput from "../../../components/form/NumberInput";
+import { translateError } from "../../../utils/translate-error";
 
 const formSchema = z.object({
   classId: z.number().min(1, "Class is required"),
@@ -111,8 +112,9 @@ const EnrollPage = () => {
       form.reset();
     } catch (error: unknown) {
       console.log(error);
-      toast.error((error as Error).message);
-      setErrorMessage((error as Error).message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

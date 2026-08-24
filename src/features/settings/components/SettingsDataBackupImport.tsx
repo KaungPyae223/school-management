@@ -32,6 +32,7 @@ import { BackupImportSchema } from "../schema/BackupImportSchema";
 import { cn } from "../../../lib/utils";
 import { useImportBackup } from "../hooks/useImportBackup";
 import FormError from "../../../components/form/FormError";
+import { translateError } from "../../../utils/translate-error";
 
 const SettingsDataBackupImport = () => {
   const { t } = useTranslation();
@@ -127,8 +128,9 @@ const SettingsDataBackupImport = () => {
       form.reset();
       await window.backupAPI.relaunchApp();
     } catch (error: any) {
-      setErrorMessage(error.message);
-      toast.error(error?.message || t("settings.backup.importFailed"));
+      const msg = translateError(error, t) || t("settings.backup.importFailed");
+      setErrorMessage(msg);
+      toast.error(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

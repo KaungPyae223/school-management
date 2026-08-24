@@ -24,6 +24,7 @@ import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
 import NumberInput from "../../../components/form/NumberInput";
 import { CoursesSchema } from "../schema/CoursesSchema";
+import { translateError } from "../../../utils/translate-error";
 
 const CoursesCreatePage = () => {
   const { t } = useTranslation();
@@ -45,7 +46,9 @@ const CoursesCreatePage = () => {
     ],
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  type FormValues = z.infer<typeof formSchema>;
+
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       image: undefined,
@@ -55,11 +58,11 @@ const CoursesCreatePage = () => {
     },
   });
 
+  const { mutateAsync, isPending } = useCreateCourse();
+
   const onSubmit = () => {
     setConfirmDialogOpen(true);
   };
-
-  const { mutateAsync, isPending } = useCreateCourse();
 
   const createCourse = async () => {
     setErrorMessage("");
@@ -75,8 +78,9 @@ const CoursesCreatePage = () => {
       toast.success(t("courses.alerts.createSuccess"));
       form.reset();
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

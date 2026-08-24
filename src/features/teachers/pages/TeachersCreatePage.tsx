@@ -23,6 +23,7 @@ import { useCreateTeacher } from "../hooks/useCreateTeacher";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
 import { TeachersSchema } from "../schema/TeachersSchema";
+import { translateError } from "../../../utils/translate-error";
 
 const TeachersCreatePage = () => {
   const { t } = useTranslation();
@@ -76,8 +77,9 @@ const TeachersCreatePage = () => {
       toast.success(t("teachers.alerts.createSuccess"));
       form.reset();
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

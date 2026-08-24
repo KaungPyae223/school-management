@@ -20,6 +20,7 @@ import { PasswordSchema } from "../../auth/schema/PasswordSchema";
 import { useExportBackup } from "../hooks/useExportBackup";
 import { toast } from "sonner";
 import FormError from "../../../components/form/FormError";
+import { translateError } from "../../../utils/translate-error";
 
 const SettingsDataBackupExport = () => {
   const { t } = useTranslation();
@@ -51,8 +52,9 @@ const SettingsDataBackupExport = () => {
       toast.success(t("settings.backup.exportSuccess"));
       form.reset();
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

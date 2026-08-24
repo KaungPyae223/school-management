@@ -26,6 +26,7 @@ import { useCreateClass } from "../hooks/useCreateClass";
 import { toast } from "sonner";
 import FormError from "../../../components/form/FormError";
 import { ClassesSchema } from "../schema/ClassesSchema";
+import { translateError } from "../../../utils/translate-error";
 
 const ClassesCratePage = () => {
   const { t } = useTranslation();
@@ -34,7 +35,7 @@ const ClassesCratePage = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
-    title: t("classes.createTitle"),
+    title: t("classes.createBreadcrumb"),
     params: [
       {
         name: t("classes.title"),
@@ -52,13 +53,14 @@ const ClassesCratePage = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      teacherId: 0,
-      courseId: 0,
-      startDate: undefined,
-      startTime: undefined,
-      endTime: undefined,
-      days: "",
-      description: undefined,
+      courseId: "" as unknown as number,
+      teacherId: "" as unknown as number,
+      startDate: new Date(),
+      endDate: new Date(),
+      startTime: "",
+      endTime: "",
+      days: [],
+      description: "",
     },
   });
 
@@ -78,8 +80,9 @@ const ClassesCratePage = () => {
       toast.success(t("classes.alerts.createSuccess"));
       form.reset();
     } catch (error: unknown) {
-      toast.error((error as Error).message);
-      setErrorMessage((error as Error).message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

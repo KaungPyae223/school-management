@@ -36,6 +36,7 @@ import { useEditStudent } from "../hooks/useEditStudent";
 import DateInput from "../../../components/form/DateInput";
 import FormError from "../../../components/form/FormError";
 import { StudentsSchema } from "../schema/StudentsSchema";
+import { translateError } from "../../../utils/translate-error";
 
 const StudentEdit = () => {
   const { t } = useTranslation();
@@ -94,8 +95,9 @@ const StudentEdit = () => {
       toast.success(t("students.alerts.editSuccess"));
       navigate("/students");
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

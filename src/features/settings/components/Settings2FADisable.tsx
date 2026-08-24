@@ -16,6 +16,7 @@ import { TwoFactorSchema } from "../schema/TwoFactorSchema";
 import { useTwoFactorDisable } from "../hooks/useTwoFactorDisable";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useNavigate } from "react-router";
+import { translateError } from "../../../utils/translate-error";
 
 const Settings2FADisable = () => {
   const { t } = useTranslation();
@@ -46,8 +47,9 @@ const Settings2FADisable = () => {
       form.reset();
       navigate(-1);
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

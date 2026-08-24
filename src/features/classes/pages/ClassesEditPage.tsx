@@ -29,16 +29,17 @@ import { useLoaderData } from "react-router";
 import { Label } from "../../../components/ui/label";
 import { Input } from "../../../components/ui/input";
 import { ClassesSchema } from "../schema/ClassesSchema";
+import { translateError } from "../../../utils/translate-error";
 
 const ClassesEditPage = () => {
   const { t } = useTranslation();
-  const { formSchema } = ClassesSchema();
   const classData = useLoaderData();
+  const { formSchema } = ClassesSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
-    title: t("classes.editTitle"),
+    title: t("classes.editBreadcrumb"),
     params: [
       {
         name: t("classes.title"),
@@ -46,7 +47,7 @@ const ClassesEditPage = () => {
       },
       {
         name: t("classes.editBreadcrumb"),
-        link: "/classes/edit",
+        link: `/classes/edit/${classData.id}`,
       },
     ],
   });
@@ -83,8 +84,9 @@ const ClassesEditPage = () => {
       toast.success(t("classes.alerts.editSuccess"));
       form.reset();
     } catch (error: unknown) {
-      toast.error((error as Error).message);
-      setErrorMessage((error as Error).message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

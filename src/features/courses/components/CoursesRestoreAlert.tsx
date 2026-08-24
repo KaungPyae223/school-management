@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useRestoreCourse } from "../hooks/useRestoreCourse";
 import { useNavigate } from "react-router";
+import { translateError } from "../../../utils/translate-error";
 
 const CoursesRestoreAlert = ({
   id,
@@ -27,7 +28,7 @@ const CoursesRestoreAlert = ({
         navigate(-1);
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(translateError(error, t));
     } finally {
       setConfirmDialogOpen(false);
     }

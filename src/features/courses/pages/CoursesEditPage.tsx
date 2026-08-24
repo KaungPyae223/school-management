@@ -25,17 +25,19 @@ import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
 import NumberInput from "../../../components/form/NumberInput";
 import { CoursesSchema } from "../schema/CoursesSchema";
+import { translateError } from "../../../utils/translate-error";
 
 const CourseEditPage = () => {
   const { t } = useTranslation();
-  const { formSchema } = CoursesSchema();
+  const course = useLoaderData();
   const navigate = useNavigate();
+  const { formSchema } = CoursesSchema();
+
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const course = useLoaderData();
 
   useAddBreadcrumb({
-    title: t("courses.editTitle"),
+    title: t("courses.editBreadcrumb"),
     params: [
       {
         name: t("courses.title"),
@@ -43,18 +45,20 @@ const CourseEditPage = () => {
       },
       {
         name: t("courses.editBreadcrumb"),
-        link: "/courses/edit",
+        link: `/courses/edit/${course.id}`,
       },
     ],
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  type FormValues = z.infer<typeof formSchema>;
+
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      image: undefined,
       name: course.name,
-      description: course.description ?? "",
       price: course.price,
+      description: course.description ?? "",
+      image: undefined,
     },
   });
 
@@ -79,8 +83,9 @@ const CourseEditPage = () => {
       toast.success(t("courses.alerts.editSuccess"));
       navigate("/courses");
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

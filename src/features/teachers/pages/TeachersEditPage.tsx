@@ -24,6 +24,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import { useEditTeacher } from "../hooks/useEditTeacher";
 import FormError from "../../../components/form/FormError";
 import { TeachersSchema } from "../schema/TeachersSchema";
+import { translateError } from "../../../utils/translate-error";
 
 const TeachersEdit = () => {
   const { t } = useTranslation();
@@ -81,8 +82,9 @@ const TeachersEdit = () => {
       toast.success(t("teachers.alerts.editSuccess"));
       navigate("/teachers");
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

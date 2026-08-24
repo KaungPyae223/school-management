@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useDeleteEnrollment } from "../../classes/hooks/useDeleteEnrollment";
+import { translateError } from "../../../utils/translate-error";
 
 const StudentsEnrolledClassesDeleteAlert = ({
   id,
@@ -20,7 +21,7 @@ const StudentsEnrolledClassesDeleteAlert = ({
       await mutateAsync(id);
       toast.success(t("students.alerts.deleteEnrollmentSuccess"));
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(translateError(error, t));
     } finally {
       setConfirmDialogOpen(false);
     }

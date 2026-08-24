@@ -1,9 +1,5 @@
-import { useNavigate } from "react-router";
-
-export const checkAuthorization = (error: string): void => {
-  const navigate = useNavigate();
-
+export const checkAuthorization = (error?: string): void => {
   if (error === "UNAUTHORIZED") {
-    navigate("/login", { replace: true });
+    window.location.href = "/login"; // or window.location.hash = "#/login" for HashRouter
   }
 };

@@ -14,6 +14,7 @@ import { Input } from "../../../components/ui/input";
 import { TwoFactorSchema } from "../schema/TwoFactorSchema";
 import { useTwoFactorVerifiy } from "../hooks/useTwoFactorVerifiy";
 import { useRevalidator } from "react-router";
+import { translateError } from "../../../utils/translate-error";
 
 const Settings2FAVerify = () => {
   const { t } = useTranslation();
@@ -38,8 +39,9 @@ const Settings2FAVerify = () => {
       form.reset();
       revalidator.revalidate();
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     }
   };
 

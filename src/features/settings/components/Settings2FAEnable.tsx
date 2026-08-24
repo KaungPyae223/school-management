@@ -16,6 +16,7 @@ import { TwoFactorSchema } from "../schema/TwoFactorSchema";
 import { authService } from "../../../services/auth";
 import { useTwoFactorEnable } from "../hooks/useTwoFactorEnable";
 import SettingsBackupCodeDialog from "./SettingsBackupCodeDialog";
+import { translateError } from "../../../utils/translate-error";
 
 const Settings2FAEnable = () => {
   const { t } = useTranslation();
@@ -23,9 +24,21 @@ const Settings2FAEnable = () => {
   const [backUpDialogOpen, setBackUpDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const [qrCode, setQrCode] = useState<string | null>(null);
-  const [secretKey, setSecretKey] = useState("");
+  const [qrCode, setQrCode] = useState<string>("");
+  const [secretKey, setSecretKey] = useState<string>("");
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetch2FA = async () => {
+      const res = await authService.generate2FA();
+
+      setQrCode(res.qrCodeUrl);
+      setSecretKey(res.secret);
+      setBackupCodes(res.backupCodes);
+    };
+
+    fetch2FA();
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,19 +46,6 @@ const Settings2FAEnable = () => {
       token: "",
     },
   });
-
-  const startSetup = async () => {
-    const res = await authService.generate2FA();
-    if (res.success) {
-      setQrCode(res.qrCodeUrl);
-      setSecretKey(res.secret);
-      setBackupCodes(res.backupCodes);
-    }
-  };
-
-  useEffect(() => {
-    startSetup();
-  }, []);
 
   const { mutateAsync, isPending } = useTwoFactorEnable();
 
@@ -60,8 +60,9 @@ const Settings2FAEnable = () => {
       form.reset();
       setBackUpDialogOpen(true);
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     }
   };
 

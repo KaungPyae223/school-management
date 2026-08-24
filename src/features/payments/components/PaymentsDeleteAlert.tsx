@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useNavigate } from "react-router";
 import { useDeletePayment } from "../hooks/useDeletePayment";
+import { translateError } from "../../../utils/translate-error";
 
 const PaymentsDeleteAlert = ({
   id,
@@ -23,7 +24,7 @@ const PaymentsDeleteAlert = ({
       await mutateAsync(id);
       toast.success(t("payments.alerts.deleteSuccess"));
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(translateError(error, t));
     } finally {
       setConfirmDialogOpen(false);
     }

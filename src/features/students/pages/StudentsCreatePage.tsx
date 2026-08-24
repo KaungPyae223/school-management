@@ -35,6 +35,7 @@ import RequiredLabel from "../../../components/form/RequiredLabel";
 import DateInput from "../../../components/form/DateInput";
 import FormError from "../../../components/form/FormError";
 import { StudentsSchema } from "../schema/StudentsSchema";
+import { translateError } from "../../../utils/translate-error";
 
 const StudentsCreatePage = () => {
   const { t } = useTranslation();
@@ -89,8 +90,9 @@ const StudentsCreatePage = () => {
       toast.success(t("students.alerts.createSuccess"));
       form.reset();
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

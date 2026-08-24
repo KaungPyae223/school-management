@@ -15,6 +15,7 @@ import RequiredLabel from "../../../components/form/RequiredLabel";
 import { Input } from "../../../components/ui/input";
 import { useCreatePassword } from "../hooks/useCreatePassword";
 import { useNavigate } from "react-router";
+import { translateError } from "../../../utils/translate-error";
 
 const SettingsPasswordCreate = ({
   navigateLink,
@@ -54,8 +55,9 @@ const SettingsPasswordCreate = ({
       form.reset();
       navigate(navigateLink);
     } catch (error: any) {
-      toast.error(error.message);
-      setErrorMessage(error.message);
+      const msg = translateError(error, t);
+      toast.error(msg);
+      setErrorMessage(msg);
     } finally {
       setConfirmDialogOpen(false);
     }

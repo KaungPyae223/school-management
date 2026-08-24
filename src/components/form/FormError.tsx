@@ -1,11 +1,15 @@
+import { useTranslation } from "react-i18next";
+import { translateError } from "../../utils/translate-error";
+
 const FormError = ({ errorMessage }: { errorMessage: string }) => {
-  if (!errorMessage) return;
+  const { t } = useTranslation();
+  if (!errorMessage) return null;
 
   return (
     <div
       className={`border border-destructive bg-destructive/10 text-destructive rounded-md p-3 text-sm`}
     >
-      {errorMessage}
+      {translateError(errorMessage, t)}
     </div>
   );
 };
