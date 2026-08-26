@@ -11,14 +11,14 @@ import FormError from "../../../components/form/FormError";
 import FormFooter from "../../../components/form/FormFooter";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import { Input } from "../../../components/ui/input";
-import { TwoFactorSchema } from "../schema/TwoFactorSchema";
+import { useTwoFactorSchema } from "../schema/useTwoFactorSchema";
 import { useTwoFactorVerifiy } from "../hooks/useTwoFactorVerifiy";
 import { useRevalidator } from "react-router";
 import { translateError } from "../../../utils/translate-error";
 
 const Settings2FAVerify = () => {
   const { t } = useTranslation();
-  const { formSchema } = TwoFactorSchema();
+  const { formSchema } = useTwoFactorSchema();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const revalidator = useRevalidator();
 

@@ -25,12 +25,12 @@ import ClassesDayInput from "../components/ClassesDayInput";
 import { useCreateClass } from "../hooks/useCreateClass";
 import { toast } from "sonner";
 import FormError from "../../../components/form/FormError";
-import { ClassesSchema } from "../schema/ClassesSchema";
+import { useClassesSchema } from "../schema/useClassesSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const ClassesCratePage = () => {
   const { t } = useTranslation();
-  const { formSchema } = ClassesSchema();
+  const { formSchema } = useClassesSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 

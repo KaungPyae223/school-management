@@ -27,7 +27,7 @@ import ImageInput from "../../../components/form/ImageInput";
 import { Textarea } from "../../../components/ui/textarea";
 import { useCreatePayment } from "../hooks/useCreatePayment";
 import NumberInput from "../../../components/form/NumberInput";
-import { PaymentsSchema } from "../schema/PaymentsSchema";
+import { usePaymentsSchema } from "../schema/usePaymentsSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const PaymentsCreateCard = ({
@@ -40,7 +40,7 @@ const PaymentsCreateCard = ({
   enrollmentId: number;
 }) => {
   const { t } = useTranslation();
-  const { formSchema } = PaymentsSchema();
+  const { formSchema } = usePaymentsSchema();
 
   type FormValues = z.infer<typeof formSchema>;
 

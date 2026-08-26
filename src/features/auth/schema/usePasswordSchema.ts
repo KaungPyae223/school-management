@@ -1,16 +1,13 @@
 import z from "zod";
 import { useTranslation } from "react-i18next";
 
-export const PasswordSchema = () => {
+export const usePasswordSchema = () => {
   const { t } = useTranslation();
 
   const formSchema = z.object({
     password: z
       .string()
-      .min(
-        1,
-        t("validation.required", { field: t("auth.fields.password") }),
-      )
+      .min(1, t("validation.required", { field: t("auth.fields.password") }))
       .min(
         4,
         t("validation.minLength", {
@@ -31,4 +28,3 @@ export const PasswordSchema = () => {
     formSchema,
   };
 };
-

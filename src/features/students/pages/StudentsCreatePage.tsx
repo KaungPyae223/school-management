@@ -34,14 +34,14 @@ import {
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import DateInput from "../../../components/form/DateInput";
 import FormError from "../../../components/form/FormError";
-import { StudentsSchema } from "../schema/StudentsSchema";
+import { useStudentsSchema } from "../schema/useStudentsSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const StudentsCreatePage = () => {
   const { t } = useTranslation();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const { formSchema } = StudentsSchema();
+  const { formSchema } = useStudentsSchema();
 
   useAddBreadcrumb({
     title: t("students.createTitle"),

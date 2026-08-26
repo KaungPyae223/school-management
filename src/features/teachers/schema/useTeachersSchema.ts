@@ -1,7 +1,7 @@
 import z from "zod";
 import { useTranslation } from "react-i18next";
 
-export const CoursesSchema = () => {
+export const useTeachersSchema = () => {
   const { t } = useTranslation();
 
   const formSchema = z.object({
@@ -19,11 +19,18 @@ export const CoursesSchema = () => {
       .optional(),
     name: z
       .string()
-      .min(1, t("validation.required", { field: t("courses.fields.name") })),
-    description: z.string().optional(),
-    price: z
-      .number( t("validation.required", { field: t("courses.fields.price") }) )
-      .min(1, t("validation.minNumber", { field: t("courses.fields.price"), min: 0 })),
+      .min(1, t("validation.required", { field: t("teachers.fields.name") })),
+    phone: z
+      .string()
+      .min(1, t("validation.required", { field: t("teachers.fields.phone") })),
+    email: z.string().email(t("validation.email")).or(z.literal("")).optional(),
+    address: z
+      .string()
+      .min(
+        1,
+        t("validation.required", { field: t("teachers.fields.address") }),
+      ),
+    nrc: z.string().optional(),
   });
 
   return {

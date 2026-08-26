@@ -14,12 +14,12 @@ import RequiredLabel from "../../../components/form/RequiredLabel";
 import { Input } from "../../../components/ui/input";
 import { useChangePassword } from "../hooks/useChangePassword";
 import { useNavigate } from "react-router";
-import { ChangePasswordSchema } from "../schema/ChangePasswordSchema";
+import { useChangePasswordSchema } from "../schema/useChangePasswordSchema";
 import { useLockForm } from "../../auth/hooks/useLockForm";
 
 const SettingsPasswordChange = () => {
   const { t } = useTranslation();
-  const { formSchema } = ChangePasswordSchema();
+  const { formSchema } = useChangePasswordSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();

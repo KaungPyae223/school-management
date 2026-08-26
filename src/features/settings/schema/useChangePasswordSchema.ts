@@ -1,7 +1,7 @@
 import z from "zod";
 import { useTranslation } from "react-i18next";
 
-export const ChangePasswordSchema = () => {
+export const useChangePasswordSchema = () => {
   const { t } = useTranslation();
 
   const formSchema = z

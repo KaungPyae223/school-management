@@ -1,7 +1,7 @@
 import z from "zod";
 import { useTranslation } from "react-i18next";
 
-export const TwoFactorSchema = () => {
+export const useTwoFactorSchema = () => {
   const { t } = useTranslation();
 
   const formSchema = z.object({

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CreatePasswordSchema } from "../schema/CreatePasswordSchema";
+import { useCreatePasswordSchema } from "../schema/useCreatePasswordSchema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type z from "zod";
@@ -25,7 +25,7 @@ const SettingsPasswordCreate = ({
   back?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { formSchema } = CreatePasswordSchema();
+  const { formSchema } = useCreatePasswordSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();

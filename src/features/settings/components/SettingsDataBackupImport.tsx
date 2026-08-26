@@ -28,7 +28,7 @@ import {
 } from "../../../components/ui/field";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { BackupImportSchema } from "../schema/BackupImportSchema";
+import { useBackupImportSchema } from "../schema/useBackupImportSchema";
 import { cn } from "../../../lib/utils";
 import { useImportBackup } from "../hooks/useImportBackup";
 import FormError from "../../../components/form/FormError";
@@ -36,7 +36,7 @@ import { translateError } from "../../../utils/translate-error";
 
 const SettingsDataBackupImport = () => {
   const { t } = useTranslation();
-  const { formSchema } = BackupImportSchema();
+  const { formSchema } = useBackupImportSchema();
 
   const [isDragging, setIsDragging] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);

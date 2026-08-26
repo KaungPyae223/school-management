@@ -1,10 +1,14 @@
 import z from "zod";
 import { useTranslation } from "react-i18next";
 
-export const TeachersSchema = () => {
+export const usePaymentsSchema = () => {
   const { t } = useTranslation();
 
   const formSchema = z.object({
+    amount: z
+      .number()
+      .min(1, t("validation.required", { field: t("payments.fields.amount") })),
+    description: z.string().optional(),
     image: z
       .instanceof(File)
       .refine((file) => file.size <= 5 * 1024 * 1024, {
@@ -17,17 +21,6 @@ export const TeachersSchema = () => {
         },
       )
       .optional(),
-    name: z
-      .string()
-      .min(1, t("validation.required", { field: t("teachers.fields.name") })),
-    phone: z
-      .string()
-      .min(1, t("validation.required", { field: t("teachers.fields.phone") })),
-    email: z.string().email(t("validation.email")).or(z.literal("")).optional(),
-    address: z
-      .string()
-      .min(1, t("validation.required", { field: t("teachers.fields.address") })),
-    nrc: z.string().optional(),
   });
 
   return {

@@ -1,7 +1,7 @@
 import z from "zod";
 import { useTranslation } from "react-i18next";
 
-export const StudentsSchema = () => {
+export const useStudentsSchema = () => {
   const { t } = useTranslation();
 
   const formSchema = z.object({

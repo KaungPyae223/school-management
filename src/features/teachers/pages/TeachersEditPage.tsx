@@ -23,12 +23,12 @@ import RequiredLabel from "../../../components/form/RequiredLabel";
 import { useLoaderData, useNavigate } from "react-router";
 import { useEditTeacher } from "../hooks/useEditTeacher";
 import FormError from "../../../components/form/FormError";
-import { TeachersSchema } from "../schema/TeachersSchema";
+import { useTeachersSchema } from "../schema/useTeachersSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const TeachersEdit = () => {
   const { t } = useTranslation();
-  const { formSchema } = TeachersSchema();
+  const { formSchema } = useTeachersSchema();
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");

@@ -22,12 +22,12 @@ import { generateImageData } from "../../../utils/generate-image-data";
 import { useCreateTeacher } from "../hooks/useCreateTeacher";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
-import { TeachersSchema } from "../schema/TeachersSchema";
+import { useTeachersSchema } from "../schema/useTeachersSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const TeachersCreatePage = () => {
   const { t } = useTranslation();
-  const { formSchema } = TeachersSchema();
+  const { formSchema } = useTeachersSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 

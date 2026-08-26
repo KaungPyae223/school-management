@@ -16,7 +16,7 @@ import { Input } from "../../../components/ui/input";
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
-import { PasswordSchema } from "../../auth/schema/PasswordSchema";
+import { usePasswordSchema } from "../../auth/schema/usePasswordSchema";
 import { useExportBackup } from "../hooks/useExportBackup";
 import { toast } from "sonner";
 import FormError from "../../../components/form/FormError";
@@ -24,7 +24,7 @@ import { translateError } from "../../../utils/translate-error";
 
 const SettingsDataBackupExport = () => {
   const { t } = useTranslation();
-  const { formSchema } = PasswordSchema();
+  const { formSchema } = usePasswordSchema();
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");

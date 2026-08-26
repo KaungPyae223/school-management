@@ -24,14 +24,14 @@ import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
 import NumberInput from "../../../components/form/NumberInput";
-import { CoursesSchema } from "../schema/CoursesSchema";
+import { useCoursesSchema } from "../schema/useCoursesSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const CourseEditPage = () => {
   const { t } = useTranslation();
   const course = useLoaderData();
   const navigate = useNavigate();
-  const { formSchema } = CoursesSchema();
+  const { formSchema } = useCoursesSchema();
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -121,7 +121,9 @@ const CourseEditPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="name">{t("courses.fields.name")}</RequiredLabel>
+                  <RequiredLabel id="name">
+                    {t("courses.fields.name")}
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="name"
@@ -140,7 +142,9 @@ const CourseEditPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="price">{t("courses.fields.price")}</RequiredLabel>
+                  <RequiredLabel id="price">
+                    {t("courses.fields.price")}
+                  </RequiredLabel>
                   <NumberInput
                     field={field}
                     fieldState={fieldState}
@@ -158,7 +162,9 @@ const CourseEditPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="description">{t("courses.fields.description")}</FieldLabel>
+                  <FieldLabel htmlFor="description">
+                    {t("courses.fields.description")}
+                  </FieldLabel>
                   <Textarea
                     {...field}
                     id="description"

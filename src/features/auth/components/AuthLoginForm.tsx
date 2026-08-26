@@ -13,11 +13,11 @@ import { Input } from "../../../components/ui/input";
 import { useNavigate } from "react-router";
 import { useLogin } from "../hooks/useLogin";
 import { useLockForm } from "../hooks/useLockForm";
-import { PasswordSchema } from "../schema/PasswordSchema";
+import { usePasswordSchema } from "../schema/usePasswordSchema";
 
 const AuthLoginForm = ({ navigateLink }: { navigateLink?: string }) => {
   const { t } = useTranslation();
-  const { formSchema } = PasswordSchema();
+  const { formSchema } = usePasswordSchema();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
 

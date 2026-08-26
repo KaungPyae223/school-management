@@ -12,7 +12,7 @@ import FormFooter from "../../../components/form/FormFooter";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import { Input } from "../../../components/ui/input";
 
-import { TwoFactorSchema } from "../schema/TwoFactorSchema";
+import { useTwoFactorSchema } from "../schema/useTwoFactorSchema";
 import { authService } from "../../../services/auth";
 import { useTwoFactorEnable } from "../hooks/useTwoFactorEnable";
 import SettingsBackupCodeDialog from "./SettingsBackupCodeDialog";
@@ -20,7 +20,7 @@ import { translateError } from "../../../utils/translate-error";
 
 const Settings2FAEnable = () => {
   const { t } = useTranslation();
-  const { formSchema } = TwoFactorSchema();
+  const { formSchema } = useTwoFactorSchema();
   const [backUpDialogOpen, setBackUpDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 

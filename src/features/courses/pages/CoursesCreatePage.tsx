@@ -23,12 +23,12 @@ import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
 import NumberInput from "../../../components/form/NumberInput";
-import { CoursesSchema } from "../schema/CoursesSchema";
+import { useCoursesSchema } from "../schema/useCoursesSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const CoursesCreatePage = () => {
   const { t } = useTranslation();
-  const { formSchema } = CoursesSchema();
+  const { formSchema } = useCoursesSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 

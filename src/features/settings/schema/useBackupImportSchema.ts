@@ -7,7 +7,7 @@ const ZIP_MIME_TYPES = [
   "multipart/x-zip",
 ];
 
-export const BackupImportSchema = () => {
+export const useBackupImportSchema = () => {
   const { t } = useTranslation();
 
   const formSchema = z.object({

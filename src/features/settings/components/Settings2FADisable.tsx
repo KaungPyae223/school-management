@@ -12,7 +12,7 @@ import FormFooter from "../../../components/form/FormFooter";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import { Input } from "../../../components/ui/input";
 
-import { TwoFactorSchema } from "../schema/TwoFactorSchema";
+import { useTwoFactorSchema } from "../schema/useTwoFactorSchema";
 import { useTwoFactorDisable } from "../hooks/useTwoFactorDisable";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import { useNavigate } from "react-router";
@@ -20,7 +20,7 @@ import { translateError } from "../../../utils/translate-error";
 
 const Settings2FADisable = () => {
   const { t } = useTranslation();
-  const { formSchema } = TwoFactorSchema();
+  const { formSchema } = useTwoFactorSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();

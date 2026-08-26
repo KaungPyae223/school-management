@@ -28,13 +28,13 @@ import { useEditClass } from "../hooks/useEditClass";
 import { useLoaderData } from "react-router";
 import { Label } from "../../../components/ui/label";
 import { Input } from "../../../components/ui/input";
-import { ClassesSchema } from "../schema/ClassesSchema";
+import { useClassesSchema } from "../schema/useClassesSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const ClassesEditPage = () => {
   const { t } = useTranslation();
   const classData = useLoaderData();
-  const { formSchema } = ClassesSchema();
+  const { formSchema } = useClassesSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -148,7 +148,9 @@ const ClassesEditPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="days">{t("classes.fields.days")}</RequiredLabel>
+                  <RequiredLabel id="days">
+                    {t("classes.fields.days")}
+                  </RequiredLabel>
                   <ClassesDayInput field={field} fieldState={fieldState} />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -161,7 +163,9 @@ const ClassesEditPage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="startDate">{t("classes.fields.startDate")}</RequiredLabel>
+                  <RequiredLabel id="startDate">
+                    {t("classes.fields.startDate")}
+                  </RequiredLabel>
 
                   <DateInput
                     field={field}
@@ -180,7 +184,9 @@ const ClassesEditPage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="startTime">{t("classes.fields.startTime")}</RequiredLabel>
+                    <RequiredLabel id="startTime">
+                      {t("classes.fields.startTime")}
+                    </RequiredLabel>
 
                     <TimeInput
                       field={field}
@@ -198,7 +204,9 @@ const ClassesEditPage = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <RequiredLabel id="endTime">{t("classes.fields.endTime")}</RequiredLabel>
+                    <RequiredLabel id="endTime">
+                      {t("classes.fields.endTime")}
+                    </RequiredLabel>
                     <TimeInput
                       field={field}
                       fieldState={fieldState}

@@ -35,7 +35,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import { useEditStudent } from "../hooks/useEditStudent";
 import DateInput from "../../../components/form/DateInput";
 import FormError from "../../../components/form/FormError";
-import { StudentsSchema } from "../schema/StudentsSchema";
+import { useStudentsSchema } from "../schema/useStudentsSchema";
 import { translateError } from "../../../utils/translate-error";
 
 const StudentEdit = () => {
@@ -45,7 +45,7 @@ const StudentEdit = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const student = useLoaderData();
 
-  const formSchema = StudentsSchema();
+  const { formSchema } = useStudentsSchema();
 
   useAddBreadcrumb({
     title: t("students.editTitle"),
