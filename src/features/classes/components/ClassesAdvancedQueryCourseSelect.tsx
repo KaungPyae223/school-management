@@ -234,7 +234,7 @@ const ClassesAdvancedQueryCourseSelect = ({
       <div className="flex flex-wrap justify-start items-center gap-3 mt-1.5 p-2 border rounded-md">
         {selectedCourse.length === 0 ? (
           <span className="text-xs text-muted-foreground self-center">
-            There is no course selected.
+            {t("classes.advancedQuery.noCourseSelected")}
           </span>
         ) : (
           selectedCourse.map((course) => (

@@ -1,6 +1,7 @@
 import { Badge } from "../../../components/ui/badge";
 import { Label } from "../../../components/ui/label";
 import { cn } from "../../../lib/utils";
+import { useTranslation } from "react-i18next";
 
 const ClassesAdvancedQueryGroup = ({
   icon,
@@ -17,6 +18,8 @@ const ClassesAdvancedQueryGroup = ({
   numberSelected?: number;
   isSelected?: boolean;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={cn("rounded-lg border bg-card p-3.5 space-y-4", className)}>
       <div className="flex items-center justify-between">
@@ -29,7 +32,7 @@ const ClassesAdvancedQueryGroup = ({
             variant="secondary"
             className="px-2 py-0 text-muted-foreground"
           >
-            {numberSelected} Selected
+            {numberSelected} {t("classes.advancedQuery.selected")}
           </Badge>
         )}
       </div>

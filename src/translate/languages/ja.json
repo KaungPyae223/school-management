@@ -157,6 +157,7 @@
     "cancel": "キャンセル",
     "continue": "続行",
     "searchPlaceholder": "検索...",
+    "advancedSearch": "高度な検索",
     "normalView": "通常表示",
     "trash": "ゴミ箱",
     "help": "ヘルプ",
@@ -480,6 +481,20 @@
       "coursePlaceholder": "コースを検索...",
       "descriptionPlaceholder": "クラスの説明を入力"
     },
+    "advancedQuery": {
+      "timeRange": "時間範囲",
+      "priceRange": "価格範囲",
+      "queryActions": "クエリアクション",
+      "selected": "選択済み",
+      "cancelAll": "すべてキャンセル",
+      "applyFilters": "フィルターを適用",
+      "minPrice": "最低価格",
+      "maxPrice": "最高価格",
+      "min": "最小",
+      "max": "最大",
+      "noCourseSelected": "コースが選択されていません。",
+      "noTeacherSelected": "講師が選択されていません。"
+    },
     "days": {
       "Monday": "月曜日",
       "Tuesday": "火曜日",
@@ -594,6 +609,10 @@
     "startDateFuture": "開始日は今日以降の日付を指定してください。",
     "timeOrder": "開始時刻は終了時刻より前である必要があります。",
     "timeOrderStart": "終了時刻は開始時刻より後である必要があります。",
+    "dateOrder": "開始日は終了日より前である必要があります。",
+    "dateOrderStart": "終了日は開始日より後である必要があります。",
+    "priceOrder": "最低価格は最高価格より低い必要があります。",
+    "priceOrderStart": "最高価格は最低価格より高い必要があります。",
     "passwordNotMatch": "パスワードと確認用パスワードが一致しません。",
     "zipOnly": ".zip 形式のファイルのみ対応しています。"
   }

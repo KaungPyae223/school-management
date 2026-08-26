@@ -234,7 +234,7 @@ const ClassesAdvancedQuery = () => {
                     </ClassesAdvancedQueryGroup>
                     <ClassesAdvancedQueryGroup
                       icon={<Clock className="size-3.5 text-primary" />}
-                      title={`${t("classes.fields.time")} Range`}
+                      title={t("classes.advancedQuery.timeRange")}
                       isSelected={!!(startTime || endTime)}
                     >
                       <div className="grid grid-cols-2 gap-2">
@@ -290,7 +290,7 @@ const ClassesAdvancedQuery = () => {
 
                     <ClassesAdvancedQueryGroup
                       icon={<DollarSign className="size-3.5 text-primary" />}
-                      title={`${t("classes.fields.price")} Range`}
+                      title={t("classes.advancedQuery.priceRange")}
                       isSelected={!!(minPrice || maxPrice)}
                     >
                       <div className="grid grid-cols-2 gap-2">
@@ -303,14 +303,14 @@ const ClassesAdvancedQuery = () => {
                               className="gap-0.5"
                             >
                               <Label className="text-muted-foreground text-xs">
-                                Min Price
+                                {t("classes.advancedQuery.minPrice")}
                               </Label>
 
                               <NumberInput
                                 field={field}
                                 fieldState={fieldState}
                                 id="minPrice"
-                                placeholder={"Min"}
+                                placeholder={t("classes.advancedQuery.min")}
                               />
                               {fieldState.invalid && (
                                 <FieldError errors={[fieldState.error]} />
@@ -327,14 +327,14 @@ const ClassesAdvancedQuery = () => {
                               className="gap-0.5"
                             >
                               <Label className="text-muted-foreground text-xs">
-                                Max Price
+                                {t("classes.advancedQuery.maxPrice")}
                               </Label>
 
                               <NumberInput
                                 field={field}
                                 fieldState={fieldState}
                                 id="maxPrice"
-                                placeholder={"Max"}
+                                placeholder={t("classes.advancedQuery.max")}
                               />
                               {fieldState.invalid && (
                                 <FieldError errors={[fieldState.error]} />
@@ -348,7 +348,7 @@ const ClassesAdvancedQuery = () => {
 
                   <ClassesAdvancedQueryGroup
                     icon={<Filter className="size-3.5 text-primary" />}
-                    title="Query Actions"
+                    title={t("classes.advancedQuery.queryActions")}
                     className="flex flex-row items-center justify-between space-y-0"
                   >
                     <div className="space-x-3 flex items-center">
@@ -357,7 +357,7 @@ const ClassesAdvancedQuery = () => {
                           variant="secondary"
                           className="px-2 py-0 text-muted-foreground"
                         >
-                          Selected
+                          {t("classes.advancedQuery.selected")}
                         </Badge>
                       )}
 
@@ -368,11 +368,11 @@ const ClassesAdvancedQuery = () => {
                         type="button"
                       >
                         <RotateCcw className="size-3.5" />
-                        Cancel All
+                        {t("classes.advancedQuery.cancelAll")}
                       </Button>
                       <Button variant="default" type="submit">
                         <Search className="size-3.5" />
-                        Apply Filters
+                        {t("classes.advancedQuery.applyFilters")}
                       </Button>
                     </div>
                   </ClassesAdvancedQueryGroup>

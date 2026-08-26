@@ -70,7 +70,6 @@ const ClassesAdvancedQueryTeacherSelect = ({
   };
 
   const fetchSelectedTeachers = async (teacherIDs: number[]) => {
-   
     try {
       const response = await teacherService.searchAllTeachers({
         teacherIDs: teacherIDs,
@@ -242,7 +241,7 @@ const ClassesAdvancedQueryTeacherSelect = ({
       <div className="flex flex-wrap justify-start items-center gap-3 mt-1.5 p-2 border rounded-md">
         {selectedTeacher.length === 0 ? (
           <span className="text-xs text-muted-foreground self-center">
-            There is no teacher selected.
+            {t("classes.advancedQuery.noTeacherSelected")}
           </span>
         ) : (
           selectedTeacher.map((teacher) => (

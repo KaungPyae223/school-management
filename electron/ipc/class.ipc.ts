@@ -217,8 +217,6 @@ export const classesIPCs = () => {
 
       const total_pages = Math.ceil(Number(totalData) / Number(limit));
 
-      console.log(classes);
-
       return {
         error: null,
         data: classes.map((classData: any) => ({

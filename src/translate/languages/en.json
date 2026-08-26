@@ -157,6 +157,7 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "searchPlaceholder": "Search...",
+    "advancedSearch": "Advanced Search",
     "normalView": "Normal View",
     "trash": "Trash",
     "help": "Help",
@@ -480,6 +481,20 @@
       "coursePlaceholder": "Search for a course...",
       "descriptionPlaceholder": "Enter class description"
     },
+    "advancedQuery": {
+      "timeRange": "Time Range",
+      "priceRange": "Price Range",
+      "queryActions": "Query Actions",
+      "selected": "Selected",
+      "cancelAll": "Cancel All",
+      "applyFilters": "Apply Filters",
+      "minPrice": "Min Price",
+      "maxPrice": "Max Price",
+      "min": "Min",
+      "max": "Max",
+      "noCourseSelected": "There is no course selected.",
+      "noTeacherSelected": "There is no teacher selected."
+    },
     "days": {
       "Monday": "Monday",
       "Tuesday": "Tuesday",
@@ -594,6 +609,10 @@
     "startDateFuture": "Start date must be greater than or equal to today",
     "timeOrder": "Start time must be before end time",
     "timeOrderStart": "End time must be after start time",
+    "dateOrder": "Start date must be before end date",
+    "dateOrderStart": "End date must be after start date",
+    "priceOrder": "Min price must be less than max price",
+    "priceOrderStart": "Max price must be greater than min price",
     "passwordNotMatch": "The password and confirm password do not match",
     "zipOnly": "Only .zip archive files are supported"
   }
