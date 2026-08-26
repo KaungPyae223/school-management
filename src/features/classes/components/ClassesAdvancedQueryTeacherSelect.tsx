@@ -70,8 +70,7 @@ const ClassesAdvancedQueryTeacherSelect = ({
   };
 
   const fetchSelectedTeachers = async (teacherIDs: number[]) => {
-    console.log("fetching selected teacher");
-
+   
     try {
       const response = await teacherService.searchAllTeachers({
         teacherIDs: teacherIDs,

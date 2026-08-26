@@ -63,8 +63,6 @@ const ClassesAdvancedQueryCourseSelect = ({
   };
 
   const fetchSelectedCourses = async (courseIDs: number[]) => {
-    console.log("fetching selected course");
-
     try {
       const response = await courseService.searchAllCourses({
         courseIDs: courseIDs,
@@ -161,7 +159,7 @@ const ClassesAdvancedQueryCourseSelect = ({
 
   const handleRemoveCourse = (courseID: number) => {
     const newTeacherValue = courseValue
-      .filter((teacher) => teacher !== String(courseID))
+      .filter((teacher) => teacher !== courseID)
       .join(",");
 
     field.onChange(newTeacherValue);

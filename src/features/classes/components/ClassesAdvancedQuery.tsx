@@ -247,7 +247,7 @@ const ClassesAdvancedQuery = () => {
                               className="gap-0.5"
                             >
                               <Label className="text-muted-foreground text-xs">
-                                {t("classes.fields.startDate")}
+                                {t("classes.fields.startTime")}
                               </Label>
 
                               <TimeInput
@@ -271,7 +271,7 @@ const ClassesAdvancedQuery = () => {
                               className="gap-0.5"
                             >
                               <Label className="text-muted-foreground text-xs">
-                                {t("classes.fields.endDate")}
+                                {t("classes.fields.endTime")}
                               </Label>
 
                               <TimeInput

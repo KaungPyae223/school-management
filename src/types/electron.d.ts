@@ -168,6 +168,14 @@ declare global {
         search?: string;
         sort?: string;
         order?: string;
+        courseIds?: string;
+        teacherIds?: string;
+        startTime?: string;
+        endTime?: string;
+        startDate?: string;
+        endDate?: string;
+        minPrice?: number;
+        maxPrice?: number;
         start_month?: string;
         start_year?: string;
         end_month?: string;

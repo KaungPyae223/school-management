@@ -23,16 +23,16 @@ const isTeacherBusy = async (
         SELECT startTime, endTime, days, id 
         FROM classes 
         WHERE teacherId = ${teacherId}
-        AND (endDate IS NULL OR endDate > ${startTime})
+        AND (Date(endDate) IS NULL OR Date(endDate) > Date(${startTime}))
         AND (
           (
-            time(startTime) < time(${startTime})
+            TIME(startTime, 'localtime') < TIME(${startTime}, 'localtime')
             AND
-            time(endTime) > time(${startTime})
+            TIME(endTime, 'localtime') > TIME(${startTime}, 'localtime')
           ) OR (
-            time(startTime) < time(${endTime})
+            TIME(startTime, 'localtime') < TIME(${endTime}, 'localtime')
             AND
-            time(endTime) > time(${endTime})
+            TIME(endTime, 'localtime') > TIME(${endTime}, 'localtime')
           )
         )
         AND (
@@ -59,6 +59,14 @@ export const classesIPCs = () => {
       end_year = null,
       teacherId = null,
       courseId = null,
+      courseIds,
+      teacherIds,
+      startTime,
+      endTime,
+      startDate,
+      endDate,
+      minPrice,
+      maxPrice,
     } = data;
 
     const avilableSort = new Set([
@@ -121,6 +129,52 @@ export const classesIPCs = () => {
       conditions.push(Prisma.sql`cl.courseId = ${courseId}`);
     }
 
+    if (courseIds) {
+      const courseIdsArray = courseIds
+        .split(",")
+        .map((id: string) => id.trim());
+      conditions.push(
+        Prisma.sql`cl.courseId IN (${Prisma.join(courseIdsArray, ",")})`,
+      );
+    }
+
+    if (teacherIds) {
+      const teacherIdsArray = teacherIds
+        .split(",")
+        .map((id: string) => id.trim());
+      conditions.push(
+        Prisma.sql`cl.teacherId IN (${Prisma.join(teacherIdsArray, ",")})`,
+      );
+    }
+
+    if (startTime) {
+      conditions.push(
+        Prisma.sql`TIME(cl.startTime,, 'localtime') >= TIME(${startTime}, 'localtime')`,
+      );
+    }
+
+    if (endTime) {
+      conditions.push(
+        Prisma.sql`TIME(cl.endTime, 'localtime') <= TIME(${endTime}, 'localtime')`,
+      );
+    }
+
+    if (startDate) {
+      conditions.push(Prisma.sql`Date(cl.startDate) >= Date(${startDate})`);
+    }
+
+    if (endDate) {
+      conditions.push(Prisma.sql`Date(cl.endDate) <= Date(${endDate})`);
+    }
+
+    if (minPrice) {
+      conditions.push(Prisma.sql`cl.price >= ${minPrice}`);
+    }
+
+    if (maxPrice) {
+      conditions.push(Prisma.sql`cl.price <= ${maxPrice}`);
+    }
+
     const searchQuery =
       conditions.length > 0
         ? Prisma.sql`WHERE ${Prisma.join(conditions, " AND ")}`
@@ -162,6 +216,8 @@ export const classesIPCs = () => {
       ]);
 
       const total_pages = Math.ceil(Number(totalData) / Number(limit));
+
+      console.log(classes);
 
       return {
         error: null,
