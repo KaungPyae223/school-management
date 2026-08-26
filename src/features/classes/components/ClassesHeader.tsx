@@ -9,6 +9,7 @@ import { AnimatePresence, m } from "framer-motion";
 import ChangeTrashView from "../../../components/header/ChangeTrashView";
 import SearchInput from "../../../components/search-input/SearchInput";
 import ViewChange from "../../../components/header/ViewChange";
+import { AdvancedQueryToggle } from "../../../components/search-input/AdvancedQueryToggle";
 
 const ClassesHeader = ({
   tab,
@@ -36,6 +37,9 @@ const ClassesHeader = ({
       <CardContent className="flex flex-row gap-3 justify-between">
         <div className="flex gap-2">
           <SearchInput />
+
+          <AdvancedQueryToggle />
+
           <AnimatePresence mode="wait" initial={false}>
             {tab === "list" && (
               <m.div

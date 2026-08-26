@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 
 import { useSetQueryParams } from "../../../hooks/use-set-query-params";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import { courseService } from "../../../services/courses";
 
 interface Course {
   id: string;
@@ -51,7 +52,7 @@ const TimetableCourseSelect = () => {
   const fetchCourses = async (value: string, append: boolean = true) => {
     setIsLoading(true);
     try {
-      const response = await window.api.searchAllCourses({
+      const response = await courseService.searchAllCourses({
         search: value,
         page: page,
         limit: 20,
@@ -253,4 +254,3 @@ const TimetableCourseSelect = () => {
 };
 
 export default TimetableCourseSelect;
-

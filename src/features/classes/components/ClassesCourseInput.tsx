@@ -13,6 +13,7 @@ import type {
 } from "react-hook-form";
 import { cn } from "../../../lib/utils";
 import ImageDisplay from "../../../components/image/ImageDisplay";
+import { courseService } from "../../../services/courses";
 
 interface Course {
   id: string;
@@ -48,10 +49,11 @@ const ClassesCourseInput = ({
   const fetchCourses = async (value: string, append: boolean = true) => {
     setIsLoading(true);
     try {
-      const response = await window.api.searchAllCourses({
+      const response = await courseService.searchAllCourses({
         search: value,
         page: page,
         limit: 5,
+        onlyActive: true,
       });
       const results = response?.data ?? [];
       setCourseData((prev) => (append ? [...prev, ...results] : results));

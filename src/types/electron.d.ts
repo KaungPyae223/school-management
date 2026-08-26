@@ -70,6 +70,7 @@ declare global {
         search?: string;
         page?: number;
         limit?: number;
+        onlyActive?: boolean;
       }) => Promise<{ data?: any; error?: string }>;
       getCourse: (id: number) => Promise<{ data?: any; error?: string }>;
       createCourse: (
@@ -137,6 +138,7 @@ declare global {
         search?: string;
         page?: number;
         limit?: number;
+        onlyActive?: boolean;
       }) => Promise<{ data?: any; error?: string }>;
       getTeacher: (id: number) => Promise<{ data?: any; error?: string }>;
       createTeacher: (

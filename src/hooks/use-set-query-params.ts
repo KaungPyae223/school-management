@@ -11,7 +11,13 @@ export const useSetQueryParams = () => {
         const updated = new URLSearchParams(prev);
 
         Object.entries(newParams).forEach(([key, value]) => {
-          if (value === null || value === undefined || value === "") {
+          if (
+            value === null ||
+            value === undefined ||
+            value === "" ||
+            value === 0 ||
+            value === false
+          ) {
             updated.delete(key);
           } else {
             updated.set(key, String(value));

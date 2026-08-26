@@ -13,6 +13,7 @@ import ClassesGrid from "../components/ClassesGrid";
 import { classService } from "../../../services/classes";
 import ClassesList from "../components/ClassesList";
 import DataShow from "../../../components/data/DataShow";
+import ClassesAdvancedQuery from "../components/ClassesAdvancedQuery";
 
 const ClassesPage = () => {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ const ClassesPage = () => {
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">
       <ClassesHeader tab={view} isTrashView={false} />
+      <ClassesAdvancedQuery />
       <DataShow
         isLoading={isLoading}
         dataLength={data?.data.length}

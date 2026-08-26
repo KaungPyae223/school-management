@@ -109,21 +109,37 @@ export const courseIPCs = () => {
     }
   });
 
-  protectedHandle("course:search-all-active", async (_, data) => {
-    const { search = "", page = 1, limit = 10 } = data;
+  protectedHandle("course:search-all", async (_, data) => {
+    const {
+      search = "",
+      page = 1,
+      limit = 10,
+      onlyActive = false,
+      courseIDs = [],
+    } = data;
     const skip = Number(page - 1) * Number(limit);
 
     try {
       const courses = await prisma.course.findMany({
         where: {
-          deleted: false,
+          ...(onlyActive && {
+            deleted: false,
+          }),
           ...(search && {
             name: { contains: search },
           }),
+          ...(courseIDs &&
+            courseIDs.length > 0 && {
+              id: {
+                in: courseIDs,
+              },
+            }),
         },
         select: { id: true, name: true, price: true, image: true },
-        skip,
-        take: limit,
+        ...((!courseIDs || courseIDs.length === 0) && {
+          take: limit,
+          skip: skip,
+        }),
       });
       return {
         data: courses.map((course) => ({

@@ -37,6 +37,18 @@ export const courseService = {
     return data;
   },
 
+  searchAllCourses: async (params: any) => {
+    const data = await window.api.searchAllCourses(params);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
   getCourseDetail: async (id: number) => {
     const data = await window.api.getCourseDetail(id);
 

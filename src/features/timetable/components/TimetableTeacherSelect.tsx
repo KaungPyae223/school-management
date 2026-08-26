@@ -26,6 +26,7 @@ import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { useSetQueryParams } from "../../../hooks/use-set-query-params";
+import { teacherService } from "../../../services/teachers";
 
 interface Teacher {
   id: string;
@@ -55,7 +56,7 @@ const TimetableTeacherSelect = () => {
   const fetchTeachers = async (value: string, append: boolean = true) => {
     setIsLoading(true);
     try {
-      const response = await window.api.searchAllTeachers({
+      const response = await teacherService.searchAllTeachers({
         search: value,
         page: page,
         limit: 20,

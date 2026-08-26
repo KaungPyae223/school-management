@@ -29,6 +29,20 @@ export const teacherService = {
     const data = await window.api.getAllTeachers(params);
 
     if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
+  searchAllTeachers: async (params: any) => {
+    const data = await window.api.searchAllTeachers(params);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -39,6 +53,8 @@ export const teacherService = {
     const data = await window.api.getTeacher(id);
 
     if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -73,6 +89,8 @@ export const teacherService = {
     const data = await window.api.getTeacherClasses(params);
 
     if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 

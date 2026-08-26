@@ -18,6 +18,7 @@ import type {
   ControllerFieldState,
 } from "react-hook-form";
 import { cn } from "../../../lib/utils";
+import { teacherService } from "../../../services/teachers";
 
 interface Teacher {
   id: string;
@@ -51,10 +52,11 @@ const ClassesTeacherInput = ({
   const fetchTeachers = async (value: string, append: boolean = true) => {
     setIsLoading(true);
     try {
-      const response = await window.api.searchAllTeachers({
+      const response = await teacherService.searchAllTeachers({
         search: value,
         page: page,
         limit: 5,
+        onlyActive: true,
       });
       const results: Teacher[] = response?.data ?? [];
       setTeacherData((prev) => (append ? [...prev, ...results] : results));

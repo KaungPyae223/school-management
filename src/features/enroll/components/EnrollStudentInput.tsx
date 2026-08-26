@@ -17,6 +17,7 @@ import type {
   ControllerFieldState,
 } from "react-hook-form";
 import { cn } from "../../../lib/utils";
+import { studentService } from "../../../services/students";
 
 interface Student {
   id: string;
@@ -47,7 +48,7 @@ const EnrollStudentInput = ({
   const fetchStudents = async (value: string, append: boolean = true) => {
     setIsLoading(true);
     try {
-      const response = await window.api.searchAllStudents({
+      const response = await studentService.searchAllStudents({
         search: value,
         page: page,
         limit: 5,

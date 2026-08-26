@@ -37,8 +37,7 @@ contextBridge.exposeInMainWorld("backupAPI", {
 contextBridge.exposeInMainWorld("api", {
   // Course
   getAllCourses: (data) => ipcRenderer.invoke("course:index", data),
-  searchAllCourses: (data) =>
-    ipcRenderer.invoke("course:search-all-active", data),
+  searchAllCourses: (data) => ipcRenderer.invoke("course:search-all", data),
   getCourse: (id) => ipcRenderer.invoke("course:show", id),
   createCourse: (data) => ipcRenderer.invoke("course:create", data),
   updateCourse: (data) => ipcRenderer.invoke("course:update", data),
@@ -61,8 +60,7 @@ contextBridge.exposeInMainWorld("api", {
 
   // Teacher
   getAllTeachers: (data) => ipcRenderer.invoke("teacher:index", data),
-  searchAllTeachers: (data) =>
-    ipcRenderer.invoke("teacher:search-all-active", data),
+  searchAllTeachers: (data) => ipcRenderer.invoke("teacher:search-all", data),
   getTeacher: (id) => ipcRenderer.invoke("teacher:show", id),
   createTeacher: (data) => ipcRenderer.invoke("teacher:create", data),
   updateTeacher: (data) => ipcRenderer.invoke("teacher:update", data),

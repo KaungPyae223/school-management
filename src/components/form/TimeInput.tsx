@@ -1,5 +1,5 @@
-import { CalendarIcon } from "lucide-react";
-import { Input } from "../ui/input";
+import { ClockIcon } from "lucide-react";
+
 import {
   InputGroup,
   InputGroupAddon,
@@ -62,7 +62,7 @@ const TimeInput = ({
         className="cursor-pointer [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
       />
       <InputGroupAddon align="inline-end" title="Open time picker">
-        <CalendarIcon />
+        <ClockIcon />
       </InputGroupAddon>
     </InputGroup>
   );

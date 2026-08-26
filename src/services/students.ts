@@ -29,6 +29,20 @@ export const studentService = {
     const data = await window.api.getAllStudents(params);
 
     if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
+  searchAllStudents: async (params: any) => {
+    const data = await window.api.searchAllStudents(params);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 

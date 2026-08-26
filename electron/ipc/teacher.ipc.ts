@@ -196,15 +196,23 @@ export const teacherIPCs = () => {
     }
   });
 
-  protectedHandle("teacher:search-all-active", async (_, data) => {
-    const { search = "", page = 1, limit = 10 } = data;
+  protectedHandle("teacher:search-all", async (_, data) => {
+    const {
+      search = "",
+      page = 1,
+      limit = 10,
+      onlyActive = false,
+      teacherIDs = [],
+    } = data;
     const skip = Number(page - 1) * Number(limit);
 
     try {
       const teachers = await prisma.teacher.findMany({
         select: { id: true, name: true, image: true },
         where: {
-          deleted: false,
+          ...(onlyActive && {
+            deleted: false,
+          }),
           ...(search && {
             OR: [
               { name: { contains: search } },
@@ -213,9 +221,17 @@ export const teacherIPCs = () => {
               { nrc: { contains: search } },
             ],
           }),
+          ...(teacherIDs &&
+            teacherIDs.length > 0 && {
+              id: {
+                in: teacherIDs,
+              },
+            }),
         },
-        take: 10,
-        skip: skip,
+        ...((!teacherIDs || teacherIDs.length === 0) && {
+          take: limit,
+          skip: skip,
+        }),
       });
       return {
         data: teachers.map((teacher) => ({
