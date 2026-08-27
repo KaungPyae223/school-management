@@ -1,10 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import type { ControllerRenderProps } from "react-hook-form";
-import { debounce } from "lodash";
 import { teacherService } from "../../../../services/teachers";
-import { useFetchTeachersForSelect } from "../api/useFetchTeachersForSelect";
-import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
+import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
 
 export interface Teacher {
   id: number;
@@ -22,39 +20,33 @@ export const useTeacherSelect = (
     [field.value],
   );
 
-  const [searchTerm, setSearchTerm] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedTeachers, setSelectedTeachers] = useState<Teacher[]>([]);
   const [teacherData, setTeacherData] = useState<Teacher[]>([]);
 
   const {
-    fetchTeachers,
-    fetchSelectedTeachers,
-    setPage,
+    fetchData,
+    fetchSelectedData,
     isLoading,
     hasMore,
-    setHasMore,
-  } = useFetchTeachersForSelect({
-    setSelectedTeachers,
-    setTeacherData,
-  });
-
-  const loadingRef = useScrollFetch({
-    hasMore,
-    isLoading,
-    fetchFunction: fetchTeachers,
+    handleSearchChange,
     searchTerm,
+    loadingRef,
+  } = useGetFilterData({
+    setData: setTeacherData,
+    setSelectedData: setSelectedTeachers,
+    fetchFunction: teacherService.searchAllTeachers,
   });
 
   useEffect(() => {
-    fetchTeachers("", false);
+    fetchData("", false);
 
     const teacherIDsFromURL = searchParams.get("teacherIds");
     const urlTeacherValue =
       teacherIDsFromURL?.split(",").filter(Boolean).map(Number) ?? [];
 
     if (urlTeacherValue.length > 0) {
-      fetchSelectedTeachers(urlTeacherValue);
+      fetchSelectedData(urlTeacherValue);
     }
   }, []);
 
@@ -64,26 +56,6 @@ export const useTeacherSelect = (
     }
   }, [field.value]);
 
-  const debouncedSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchTeachers(value, false);
-      }, 750),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedSearch(searchTerm);
-    return () => debouncedSearch.cancel();
-  }, [searchTerm, debouncedSearch]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
-
   const handleSelectTeacher = (teacher: Teacher) => {
     if (teacherValue.includes(teacher.id)) return;
 
@@ -91,7 +63,7 @@ export const useTeacherSelect = (
     field.onChange(updated);
     setSelectedTeachers((prev) => [...prev, teacher]);
     setShowDropDown(false);
-    setSearchTerm("");
+    handleSearchChange("");
   };
 
   const handleRemoveTeacher = (teacherId: number) => {

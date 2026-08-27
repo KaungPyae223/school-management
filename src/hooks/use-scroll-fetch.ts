@@ -3,12 +3,12 @@ import { useEffect, useRef } from "react";
 export const useScrollFetch = ({
   hasMore,
   isLoading,
-  fetchFunction,
+  fetchData,
   searchTerm,
 }: {
   hasMore: boolean;
   isLoading: boolean;
-  fetchFunction: (s: string) => void;
+  fetchData: (s: string, c: boolean) => void;
   searchTerm: string;
 }) => {
   const loadingRef = useRef<HTMLDivElement>(null);
@@ -20,7 +20,7 @@ export const useScrollFetch = ({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore && !isLoading) {
-          fetchFunction(searchTerm);
+          fetchData(searchTerm, true);
         }
       },
       { threshold: 0.1, rootMargin: "100px" },

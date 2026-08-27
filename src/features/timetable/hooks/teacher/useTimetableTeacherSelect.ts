@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { debounce } from "lodash";
+import { useEffect, useState } from "react";
+
 import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
-import { useFetchTeachersForSelect } from "../../../classes/hooks/api/useFetchTeachersForSelect";
-import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
+import { teacherService } from "../../../../services/teachers";
+import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
 
 export interface Teacher {
   id: number;
@@ -22,49 +22,25 @@ export const useTimetableTeacherSelect = () => {
 
   const deSelected = searchParam.get("deSelectedTeachers");
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const [teacherData, setTeacherData] = useState<Teacher[]>([]);
 
   const updateQueryParams = useSetQueryParams();
 
-  const { fetchTeachers, setPage, isLoading, hasMore, setHasMore } =
-    useFetchTeachersForSelect({
-      setTeacherData,
-    });
-
-  const loadingRef = useScrollFetch({
-    hasMore,
+  const {
     isLoading,
-    fetchFunction: fetchTeachers,
+    fetchData,
+    hasMore,
+    handleSearchChange,
     searchTerm,
+    loadingRef,
+  } = useGetFilterData({
+    setData: setTeacherData,
+    fetchFunction: teacherService.searchAllTeachers,
   });
 
   useEffect(() => {
-    fetchTeachers("", false);
+    fetchData("", false);
   }, []);
-
-  const debouncedTeacherSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchTeachers(value, false);
-      }, 750),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedTeacherSearch(searchTerm);
-
-    return () => {
-      debouncedTeacherSearch.cancel();
-    };
-  }, [searchTerm, debouncedTeacherSearch]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
 
   const toggleColumn = (id: string) => {
     const newSelect = selected.includes(id)

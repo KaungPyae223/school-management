@@ -3,8 +3,10 @@ import { debounce } from "lodash";
 import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
-import { useFetchCoursesForSelect } from "../../../classes/hooks/api/useFetchCoursesForSelect";
 import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
+import { useFetchOnScroll } from "../../../../hooks/use-fetch-on-scroll";
+import { courseService } from "../../../../services/courses";
+import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
 
 export interface Course {
   id: number;
@@ -23,49 +25,25 @@ export const useTimetableCourseSelect = () => {
 
   const deSelected = searchParam.get("deSelectedCourses");
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const [courseData, setCourseData] = useState<Course[]>([]);
 
   const updateQueryParams = useSetQueryParams();
 
-  const { fetchCourses, setPage, isLoading, hasMore, setHasMore } =
-    useFetchCoursesForSelect({
-      setCourseData,
-    });
-
-  const loadingRef = useScrollFetch({
-    hasMore,
+  const {
     isLoading,
-    fetchFunction: fetchCourses,
+    hasMore,
+    fetchData,
+    handleSearchChange,
     searchTerm,
+    loadingRef,
+  } = useGetFilterData({
+    setData: setCourseData,
+    fetchFunction: courseService.searchAllCourses,
   });
 
   useEffect(() => {
-    fetchCourses("", false);
+    fetchData("", false);
   }, []);
-
-  const debouncedCourseSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchCourses(value, false);
-      }, 750),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedCourseSearch(searchTerm);
-
-    return () => {
-      debouncedCourseSearch.cancel();
-    };
-  }, [searchTerm, debouncedCourseSearch]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
 
   const toggleColumn = (id: string) => {
     const newSelect = selected.includes(id)

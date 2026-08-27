@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { ControllerRenderProps } from "react-hook-form";
-import { debounce } from "lodash";
-import { useFetchCoursesForSelect } from "../api/useFetchCoursesForSelect";
-import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
+import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
+import { courseService } from "../../../../services/courses";
 
 export interface Course {
   id: number;
@@ -16,26 +15,25 @@ export const useCourseInput = (
   setValue: any,
   defaultSelectedCourse?: Course,
 ) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [courseData, setCourseData] = useState<Course[]>([]);
 
-  const { fetchCourses, setPage, isLoading, hasMore, setHasMore } =
-    useFetchCoursesForSelect({
-      setCourseData,
-      onlyActive: true,
-    });
-
-  const loadingRef = useScrollFetch({
-    hasMore,
+  const {
+    fetchData,
     isLoading,
-    fetchFunction: fetchCourses,
+    hasMore,
+    handleSearchChange,
     searchTerm,
+    loadingRef,
+  } = useGetFilterData({
+    setData: setCourseData,
+    fetchFunction: courseService.searchAllCourses,
+    onlyActive: true,
   });
 
   useEffect(() => {
-    fetchCourses("", false);
+    fetchData("", false);
   }, []);
 
   useEffect(() => {
@@ -46,39 +44,18 @@ export const useCourseInput = (
     }
   }, [field.value, defaultSelectedCourse]);
 
-  const debouncedSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchCourses(value, false);
-      }, 750),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedSearch(searchTerm);
-    return () => debouncedSearch.cancel();
-  }, [searchTerm, debouncedSearch]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
-
   const handleSelectCourse = (course: Course) => {
     field.onChange(course.id);
     setSelectedCourse(course);
     setValue("price", course.price);
     setShowDropDown(false);
-    setSearchTerm("");
+    handleSearchChange("");
   };
 
   const handleRemoveCourse = () => {
     field.onChange(0);
     setSelectedCourse(null);
     setValue("price", 0);
-    setSearchTerm("");
   };
 
   return {

@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { ControllerRenderProps } from "react-hook-form";
-import { debounce } from "lodash";
-import { useFetchTeachersForSelect } from "../api/useFetchTeachersForSelect";
-import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
+import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
+import { teacherService } from "../../../../services/teachers";
 
 export interface Teacher {
   id: number;
@@ -14,26 +13,25 @@ export const useTeacherInput = (
   field: ControllerRenderProps<any, "teacherId">,
   defaultSelectedTeacher?: Teacher,
 ) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
   const [teacherData, setTeacherData] = useState<Teacher[]>([]);
 
-  const { fetchTeachers, setPage, isLoading, hasMore, setHasMore } =
-    useFetchTeachersForSelect({
-      setTeacherData,
-      onlyActive: true,
-    });
-
-  const loadingRef = useScrollFetch({
-    hasMore,
+  const {
+    fetchData,
     isLoading,
-    fetchFunction: fetchTeachers,
+    hasMore,
+    handleSearchChange,
     searchTerm,
+    loadingRef,
+  } = useGetFilterData({
+    setData: setTeacherData,
+    fetchFunction: teacherService.searchAllTeachers,
+    onlyActive: true,
   });
 
   useEffect(() => {
-    fetchTeachers("", false);
+    fetchData("", false);
   }, []);
 
   useEffect(() => {
@@ -44,31 +42,11 @@ export const useTeacherInput = (
     }
   }, [field.value, defaultSelectedTeacher]);
 
-  const debouncedSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchTeachers(value, false);
-      }, 750),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedSearch(searchTerm);
-    return () => debouncedSearch.cancel();
-  }, [searchTerm, debouncedSearch]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
-
   const handleSelectTeacher = (teacher: Teacher) => {
     field.onChange(teacher.id);
     setSelectedTeacher(teacher);
     setShowDropDown(false);
-    setSearchTerm("");
+    handleSearchChange("");
   };
 
   const handleRemoveTeacher = () => {
