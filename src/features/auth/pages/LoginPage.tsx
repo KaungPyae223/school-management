@@ -1,11 +1,11 @@
-import AuthLogInForm from "../components/AuthLoginForm";
+import AuthLoginForm from "../components/forms/AuthLoginForm";
 
-const LogInPage = () => {
+const LoginPage = () => {
   return (
     <div className="h-dvh flex items-center justify-center">
-      <AuthLogInForm navigateLink="/" />
+      <AuthLoginForm navigateLink="/" />
     </div>
   );
 };
 
-export default LogInPage;
+export default LoginPage;

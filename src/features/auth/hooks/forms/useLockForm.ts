@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { authService } from "../../../services/auth";
+import { authService } from "../../../../services/auth";
 
 export const formatTime = (
   totalSeconds: number,
@@ -37,7 +37,7 @@ export const useLockForm = (
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
-          setErrorMessage(""); // Clear lockout error when timer hits 0
+          setErrorMessage("");
           return 0;
         }
         const next = prev - 1;
@@ -70,4 +70,3 @@ export const useLockForm = (
     getLockoutMessage,
   };
 };
-

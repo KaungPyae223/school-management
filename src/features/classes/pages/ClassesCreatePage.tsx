@@ -1,8 +1,5 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-
 import { Card, CardContent } from "../../../components/ui/card";
 import {
   Field,
@@ -13,26 +10,20 @@ import {
 import { Textarea } from "../../../components/ui/textarea";
 import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
-import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useState } from "react";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import TimeInput from "../../../components/form/TimeInput";
 import DateInput from "../../../components/form/DateInput";
+import FormError from "../../../components/form/FormError";
+import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
+
 import ClassesCourseInput from "../components/forms/ClassesCourseInput";
 import ClassesTeacherInput from "../components/forms/ClassesTeacherInput";
 import ClassesDayInput from "../components/forms/ClassesDayInput";
-import { useCreateClass } from "../hooks/api/useCreateClass";
-import { toast } from "sonner";
-import FormError from "../../../components/form/FormError";
-import { useClassesSchema } from "../schema/useClassesSchema";
-import { translateError } from "../../../utils/translate-error";
+import { useClassCreateForm } from "../hooks/forms/useClassCreateForm";
 
 const ClassesCreatePage = () => {
   const { t } = useTranslation();
-  const { formSchema } = useClassesSchema();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
     title: t("classes.createBreadcrumb"),
@@ -48,49 +39,16 @@ const ClassesCreatePage = () => {
     ],
   });
 
-  type FormValues = z.infer<typeof formSchema>;
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      courseId: "" as unknown as number,
-      teacherId: "" as unknown as number,
-      startDate: new Date(),
-      startTime: undefined,
-      endTime: undefined,
-      days: undefined,
-      description: undefined,
-    },
-  });
-
-  const onSubmit = () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const { mutateAsync, isPending } = useCreateClass();
-
-  const createClass = async () => {
-    setErrorMessage("");
-    try {
-      const data = form.getValues();
-
-      await mutateAsync(data);
-
-      toast.success(t("classes.alerts.createSuccess"));
-      form.reset();
-    } catch (error: unknown) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    errorMessage,
+    isPending,
+    onSubmit,
+    createClass,
+    resetForm,
+  } = useClassCreateForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">

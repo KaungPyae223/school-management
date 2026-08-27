@@ -1,8 +1,5 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-
 import { Card, CardContent } from "../../../components/ui/card";
 import {
   Field,
@@ -13,30 +10,22 @@ import {
 import { Textarea } from "../../../components/ui/textarea";
 import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
-import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useState } from "react";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import TimeInput from "../../../components/form/TimeInput";
 import DateInput from "../../../components/form/DateInput";
+import FormError from "../../../components/form/FormError";
+import { Label } from "../../../components/ui/label";
+import { Input } from "../../../components/ui/input";
+import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
+
 import ClassesCourseInput from "../components/forms/ClassesCourseInput";
 import ClassesTeacherInput from "../components/forms/ClassesTeacherInput";
 import ClassesDayInput from "../components/forms/ClassesDayInput";
-import { toast } from "sonner";
-import FormError from "../../../components/form/FormError";
-import { useEditClass } from "../hooks/api/useEditClass";
-import { useLoaderData } from "react-router";
-import { Label } from "../../../components/ui/label";
-import { Input } from "../../../components/ui/input";
-import { useClassesSchema } from "../schema/useClassesSchema";
-import { translateError } from "../../../utils/translate-error";
+import { useClassEditForm } from "../hooks/forms/useClassEditForm";
 
 const ClassesEditPage = () => {
   const { t } = useTranslation();
-  const classData = useLoaderData();
-  const { formSchema } = useClassesSchema();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
     title: t("classes.editBreadcrumb"),
@@ -52,50 +41,17 @@ const ClassesEditPage = () => {
     ],
   });
 
-  type FormValues = z.infer<typeof formSchema>;
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      teacherId: classData.teacher.id,
-      courseId: classData.course.id,
-      startDate: classData.startDate,
-      startTime: classData.startTime,
-      endTime: classData.endTime,
-      days: classData.days,
-      description: classData.description ?? "",
-      price: classData.price,
-    },
-  });
-
-  const onSubmit = () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const { mutateAsync, isPending } = useEditClass();
-
-  const editClass = async () => {
-    setErrorMessage("");
-    try {
-      const data = form.getValues();
-
-      await mutateAsync(data);
-
-      toast.success(t("classes.alerts.editSuccess"));
-      form.reset();
-    } catch (error: unknown) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    classData,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    errorMessage,
+    isPending,
+    onSubmit,
+    editClass,
+    resetForm,
+  } = useClassEditForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
@@ -107,7 +63,6 @@ const ClassesEditPage = () => {
 
             <Field>
               <Label>{t("students.batch")}</Label>
-
               <Input value={classData.batch} readOnly />
             </Field>
 
