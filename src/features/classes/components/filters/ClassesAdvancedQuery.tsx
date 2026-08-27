@@ -1,6 +1,6 @@
-import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, m } from "framer-motion";
+import { Controller } from "react-hook-form";
 import {
   Calendar as CalendarIcon,
   Clock,
@@ -15,114 +15,35 @@ import {
 import { Card, CardContent } from "../../../../components/ui/card";
 import { Button } from "../../../../components/ui/button";
 import { Badge } from "../../../../components/ui/badge";
-
-import ClassesAdvancedQueryGroup from "./ClassesAdvancedQueryGroup";
-import { useClassesAdvancedQuerySchema } from "../../schema/useClassesAdvancedQuerySchema";
-import type z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
 import { Field, FieldError, FieldGroup } from "../../../../components/ui/field";
-import DateInput from "../../../../components/form/DateInput";
 import { Label } from "../../../../components/ui/label";
+import DateInput from "../../../../components/form/DateInput";
 import TimeInput from "../../../../components/form/TimeInput";
 import NumberInput from "../../../../components/form/NumberInput";
+
+import ClassesAdvancedQueryGroup from "./ClassesAdvancedQueryGroup";
 import ClassesAdvancedQueryTeacherSelect from "./ClassesAdvancedQueryTeacherSelect";
 import ClassesAdvancedQueryCourseSelect from "./ClassesAdvancedQueryCourseSelect";
-import { useGetQueryParams } from "../../../../hooks/use-get-query-params";
-import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
-import { useEffect } from "react";
+import { useClassesAdvancedQuery } from "../../hooks/filters/useClassesAdvancedQuery";
 
 const ClassesAdvancedQuery = () => {
   const { t } = useTranslation();
 
-  const { formSchema } = useClassesAdvancedQuerySchema();
-
-  type FormInput = z.input<typeof formSchema>;
-  type FormOutput = z.output<typeof formSchema>;
-
-  const form = useForm<FormInput, any, FormOutput>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      courseIds: "",
-      teacherIds: "",
-      startTime: undefined,
-      endTime: undefined,
-      startDate: undefined,
-      endDate: undefined,
-      minPrice: "" as unknown as number,
-      maxPrice: "" as unknown as number,
-    },
-  });
-
-  const [searchParams] = useSearchParams();
-
-  const { activeQueryParams } = useGetQueryParams();
-  const updateQueryParams = useSetQueryParams();
-
-  const isAdvancedQuery = searchParams.get("advancedQuery");
-
-  const selectedCourses = form.watch("courseIds");
-  const selectedTeachers = form.watch("teacherIds");
-  const startDate = form.watch("startDate");
-  const endDate = form.watch("endDate");
-  const startTime = form.watch("startTime");
-  const endTime = form.watch("endTime");
-  const minPrice = form.watch("minPrice");
-  const maxPrice = form.watch("maxPrice");
-
-  useEffect(() => {
-    form.reset({
-      ...activeQueryParams,
-      startTime: activeQueryParams.startTime
-        ? new Date(activeQueryParams.startTime)
-        : undefined,
-      endTime: activeQueryParams.endTime
-        ? new Date(activeQueryParams.endTime)
-        : undefined,
-      startDate: activeQueryParams.startDate
-        ? new Date(activeQueryParams.startDate)
-        : undefined,
-      endDate: activeQueryParams.endDate
-        ? new Date(activeQueryParams.endDate)
-        : undefined,
-      minPrice: activeQueryParams.minPrice as unknown as number,
-      maxPrice: activeQueryParams.maxPrice as unknown as number,
-    });
-  }, []);
-
-  const handleCancelAll = () => {
-    form.reset();
-    updateQueryParams({
-      courseIds: "",
-      teacherIds: "",
-      startTime: "",
-      endTime: "",
-      startDate: "",
-      endDate: "",
-      minPrice: "",
-      maxPrice: "",
-    });
-  };
-
-  const hasActiveFilters =
-    selectedTeachers !== "" ||
-    selectedCourses.length > 0 ||
-    startDate !== undefined ||
-    endDate !== undefined ||
-    startTime !== undefined ||
-    endTime !== undefined ||
-    minPrice !== ("" as unknown as number) ||
-    maxPrice !== ("" as unknown as number);
-
-  const onSubmit = (data: FormOutput) => {
-    updateQueryParams({
-      ...data,
-      startTime: data.startTime?.toISOString(),
-      endTime: data.endTime?.toISOString(),
-      startDate: data.startDate?.toISOString(),
-      endDate: data.endDate?.toISOString(),
-    });
-  };
+  const {
+    form,
+    isAdvancedQuery,
+    selectedCourses,
+    selectedTeachers,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    minPrice,
+    maxPrice,
+    hasActiveFilters,
+    handleCancelAll,
+    onSubmit,
+  } = useClassesAdvancedQuery();
 
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -131,9 +52,7 @@ const ClassesAdvancedQuery = () => {
           initial={{ opacity: 0, y: -20, height: 0 }}
           animate={{ opacity: 1, y: 0, height: "auto" }}
           exit={{ opacity: 0, y: -20, height: 0 }}
-          transition={{
-            duration: 0.2,
-          }}
+          transition={{ duration: 0.2 }}
           className="overflow-hidden p-0.5"
         >
           <form id="query-form" onSubmit={form.handleSubmit(onSubmit)}>
@@ -144,7 +63,7 @@ const ClassesAdvancedQuery = () => {
                     <ClassesAdvancedQueryGroup
                       icon={<UserPen className="size-3.5 text-primary" />}
                       title={t("classes.fields.teacher")}
-                      isSelected={!!selectedTeachers}
+                      isSelected={Boolean(selectedTeachers)}
                     >
                       <Controller
                         name="teacherIds"
@@ -161,7 +80,7 @@ const ClassesAdvancedQuery = () => {
                     <ClassesAdvancedQueryGroup
                       icon={<LibraryBig className="size-3.5 text-primary" />}
                       title={t("classes.fields.course")}
-                      isSelected={!!selectedCourses}
+                      isSelected={Boolean(selectedCourses?.length)}
                     >
                       <Controller
                         name="courseIds"
@@ -180,7 +99,7 @@ const ClassesAdvancedQuery = () => {
                     <ClassesAdvancedQueryGroup
                       icon={<CalendarIcon className="size-3.5 text-primary" />}
                       title={`${t("classes.fields.startDate")} & ${t("classes.fields.endDate")}`}
-                      isSelected={!!(startDate || endDate)}
+                      isSelected={Boolean(startDate || endDate)}
                     >
                       <div className="grid grid-cols-2 gap-2">
                         <Controller
@@ -194,7 +113,6 @@ const ClassesAdvancedQuery = () => {
                               <Label className="text-muted-foreground text-xs">
                                 {t("classes.fields.startDate")}
                               </Label>
-
                               <DateInput
                                 field={field}
                                 label={t("classes.fields.startDate")}
@@ -218,7 +136,6 @@ const ClassesAdvancedQuery = () => {
                               <Label className="text-muted-foreground text-xs">
                                 {t("classes.fields.endDate")}
                               </Label>
-
                               <DateInput
                                 field={field}
                                 label={t("classes.fields.endDate")}
@@ -232,10 +149,11 @@ const ClassesAdvancedQuery = () => {
                         />
                       </div>
                     </ClassesAdvancedQueryGroup>
+
                     <ClassesAdvancedQueryGroup
                       icon={<Clock className="size-3.5 text-primary" />}
                       title={t("classes.advancedQuery.timeRange")}
-                      isSelected={!!(startTime || endTime)}
+                      isSelected={Boolean(startTime || endTime)}
                     >
                       <div className="grid grid-cols-2 gap-2">
                         <Controller
@@ -249,7 +167,6 @@ const ClassesAdvancedQuery = () => {
                               <Label className="text-muted-foreground text-xs">
                                 {t("classes.fields.startTime")}
                               </Label>
-
                               <TimeInput
                                 field={field}
                                 fieldState={fieldState}
@@ -273,7 +190,6 @@ const ClassesAdvancedQuery = () => {
                               <Label className="text-muted-foreground text-xs">
                                 {t("classes.fields.endTime")}
                               </Label>
-
                               <TimeInput
                                 field={field}
                                 fieldState={fieldState}
@@ -291,7 +207,7 @@ const ClassesAdvancedQuery = () => {
                     <ClassesAdvancedQueryGroup
                       icon={<DollarSign className="size-3.5 text-primary" />}
                       title={t("classes.advancedQuery.priceRange")}
-                      isSelected={!!(minPrice || maxPrice)}
+                      isSelected={Boolean(minPrice || maxPrice)}
                     >
                       <div className="grid grid-cols-2 gap-2">
                         <Controller
@@ -305,7 +221,6 @@ const ClassesAdvancedQuery = () => {
                               <Label className="text-muted-foreground text-xs">
                                 {t("classes.advancedQuery.minPrice")}
                               </Label>
-
                               <NumberInput
                                 field={field}
                                 fieldState={fieldState}
@@ -318,6 +233,7 @@ const ClassesAdvancedQuery = () => {
                             </Field>
                           )}
                         />
+
                         <Controller
                           name="maxPrice"
                           control={form.control}
@@ -329,7 +245,6 @@ const ClassesAdvancedQuery = () => {
                               <Label className="text-muted-foreground text-xs">
                                 {t("classes.advancedQuery.maxPrice")}
                               </Label>
-
                               <NumberInput
                                 field={field}
                                 fieldState={fieldState}

@@ -24,7 +24,7 @@ import ClassesTeacherInput from "../components/forms/ClassesTeacherInput";
 import ClassesDayInput from "../components/forms/ClassesDayInput";
 import { toast } from "sonner";
 import FormError from "../../../components/form/FormError";
-import { useEditClass } from "../hooks/useEditClass";
+import { useEditClass } from "../hooks/api/useEditClass";
 import { useLoaderData } from "react-router";
 import { Label } from "../../../components/ui/label";
 import { Input } from "../../../components/ui/input";

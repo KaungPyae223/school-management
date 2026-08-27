@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { CreditCard } from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableActionButton from "../../../../components/table/TableActionButton";
@@ -7,66 +6,24 @@ import TableBody from "../../../../components/table/TableBody";
 import TableCell from "../../../../components/table/TableCell";
 import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
 import TableRow from "../../../../components/table/TableRow";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../../../components/ui/avatar";
-import type { TableHeadType } from "../../../../types/TableHeader";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../../components/ui/avatar";
 import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
-import ClassesEnrollmentDeleteAlert from "../alerts/ClassesEnrollmentDeleteAlert";
-import { useState } from "react";
-import { useNavigate } from "react-router";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import ClassesEnrollmentDeleteAlert from "../alerts/ClassesEnrollmentDeleteAlert";
+import { useClassesEnrolledStudents } from "../../hooks/list/useClassesEnrolledStudents";
 
 const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
-  const { t } = useTranslation();
-  const [enrolledID, setEnrolledID] = useState<number>(0);
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-
-  const headers: TableHeadType[] = [
-    {
-      title: t("students.fields.name"),
-      key: "Name",
-      sortable: true,
-      sortKey: "studentName",
-    },
-    {
-      title: t("students.fields.phone"),
-      key: "Phone",
-      sortable: true,
-      sortKey: "studentPhone",
-    },
-    {
-      title: t("students.fields.email"),
-      key: "Email",
-      sortable: true,
-      sortKey: "studentEmail",
-    },
-    {
-      title: t("classes.fields.paidAmount"),
-      key: "Paid Amount",
-      sortable: true,
-      sortKey: "paidAmount",
-      align: "right",
-    },
-    {
-      title: t("classes.fields.remainingAmount"),
-      key: "Remaining Amount",
-      sortable: true,
-      sortKey: "remainingAmount",
-      align: "right",
-    },
-  ];
-
-  const handleDelete = (id: number) => {
-    setEnrolledID(id);
-    setConfirmDialogOpen(true);
-  };
-
-  const navigate = useNavigate();
+  const {
+    headers,
+    enrolledID,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    handleDelete,
+    navigate,
+    t,
+  } = useClassesEnrolledStudents();
 
   return (
     <>
@@ -98,25 +55,31 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
                     </AvatarFallback>
                   </Avatar>
                   <div className="space-y-0.5">
-                    <p className="text-sm font-medium  line-clamp-1">
+                    <p className="text-sm font-medium line-clamp-1">
                       {enrollmentData.studentName}
                     </p>
                   </div>
                 </div>
               </TableCell>
+
               <TableCell>{replaceLocalDigit(enrollmentData.studentPhone)}</TableCell>
+
               <TableCell>
                 {enrollmentData.studentEmail
                   ? enrollmentData.studentEmail
                   : t("students.na")}
               </TableCell>
+
               <TableCell align="right">
                 {formatCurrency(enrollmentData.paidAmount)}
               </TableCell>
+
               <TableCell align="right">
                 {formatCurrency(enrollmentData.remainingAmount)}
               </TableCell>
+
               <TableCell>{formatDate(enrollmentData.createdAt)}</TableCell>
+
               <TableCell>
                 <TableActionButtonsContainer
                   onDelete={() => handleDelete(enrollmentData.id)}
@@ -136,6 +99,7 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
           ))}
         </TableBody>
       </Table>
+
       <ClassesEnrollmentDeleteAlert
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
@@ -146,4 +110,3 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
 };
 
 export default ClassesEnrolledStudentsList;
-

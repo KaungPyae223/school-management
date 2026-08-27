@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { enrollmentService } from "../../../services/enrollment";
+import { enrollmentService } from "../../../../services/enrollment";
 
 export const useDeleteEnrollment = (id: number) => {
   const queryClient = useQueryClient();

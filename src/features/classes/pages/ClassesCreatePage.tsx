@@ -22,13 +22,13 @@ import DateInput from "../../../components/form/DateInput";
 import ClassesCourseInput from "../components/forms/ClassesCourseInput";
 import ClassesTeacherInput from "../components/forms/ClassesTeacherInput";
 import ClassesDayInput from "../components/forms/ClassesDayInput";
-import { useCreateClass } from "../hooks/useCreateClass";
+import { useCreateClass } from "../hooks/api/useCreateClass";
 import { toast } from "sonner";
 import FormError from "../../../components/form/FormError";
 import { useClassesSchema } from "../schema/useClassesSchema";
 import { translateError } from "../../../utils/translate-error";
 
-const ClassesCratePage = () => {
+const ClassesCreatePage = () => {
   const { t } = useTranslation();
   const { formSchema } = useClassesSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -236,4 +236,4 @@ const ClassesCratePage = () => {
   );
 };
 
-export default ClassesCratePage;
+export default ClassesCreatePage;

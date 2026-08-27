@@ -1,135 +1,43 @@
 import { useTranslation } from "react-i18next";
+import type { ControllerFieldState, ControllerRenderProps } from "react-hook-form";
+import { Trash } from "lucide-react";
+
 import { Field, FieldError } from "../../../../components/ui/field";
 import { Input } from "../../../../components/ui/input";
-import RequiredLabel from "../../../../components/form/RequiredLabel";
-import { ScrollArea } from "../../../../components/ui/scroll-area";
 import { Button } from "../../../../components/ui/button";
-import { Trash } from "lucide-react";
-import { debounce } from "lodash";
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../../../components/ui/avatar";
-import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
-import type {
-  ControllerRenderProps,
-  ControllerFieldState,
-} from "react-hook-form";
+import { ScrollArea } from "../../../../components/ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../../components/ui/avatar";
+import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { cn } from "../../../../lib/utils";
-import { teacherService } from "../../../../services/teachers";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import { useTeacherInput, type Teacher } from "../../hooks/forms/useTeacherInput";
 
-interface Teacher {
-  id: string;
-  name: string;
-  image?: string;
+interface ClassesTeacherInputProps {
+  field: ControllerRenderProps<any, "teacherId">;
+  fieldState: ControllerFieldState;
+  defaultSelectedTeacher?: Teacher;
 }
 
 const ClassesTeacherInput = ({
   field,
   fieldState,
   defaultSelectedTeacher,
-}: {
-  field: ControllerRenderProps<any, "teacherId">;
-  fieldState: ControllerFieldState;
-  defaultSelectedTeacher?: Teacher;
-}) => {
+}: ClassesTeacherInputProps) => {
   const { t } = useTranslation();
-  const teacherValue = field.value;
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [showTeacherDropDown, setShowTeacherDropDown] =
-    useState<boolean>(false);
-  const [selectedTeacher, setSelectedTeacher] = useState<Teacher>(null);
-  const [teacherData, setTeacherData] = useState<Teacher[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-
-  const loadingRef = useRef<HTMLDivElement>(null);
-
-  const fetchTeachers = async (value: string, append: boolean = true) => {
-    setIsLoading(true);
-    try {
-      const response = await teacherService.searchAllTeachers({
-        search: value,
-        page: page,
-        limit: 5,
-        onlyActive: true,
-      });
-      const results: Teacher[] = response?.data ?? [];
-      setTeacherData((prev) => (append ? [...prev, ...results] : results));
-      setHasMore(results.length === 5);
-      setPage(page + 1);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTeachers("", false);
-  }, []);
-
-  useEffect(() => {
-    if (defaultSelectedTeacher && field.value == defaultSelectedTeacher.id) {
-      setSelectedTeacher(defaultSelectedTeacher);
-    } else if (field.value == 0) {
-      setSelectedTeacher(null);
-    }
-  }, [field.value]);
-
-  useEffect(() => {
-    const currentLoadingRef = loadingRef.current;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const firstEntry = entries[0];
-        if (
-          firstEntry.isIntersecting &&
-          hasMore &&
-          !isLoading &&
-          teacherData.length > 0
-        ) {
-          fetchTeachers(searchTerm);
-        }
-      },
-      { threshold: 0.1, rootMargin: "100px" },
-    );
-
-    if (currentLoadingRef) {
-      observer.observe(currentLoadingRef);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [hasMore]);
-
-  const debouncedTeacherSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchTeachers(value, false);
-      }, 750),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedTeacherSearch(searchTerm);
-
-    return () => {
-      debouncedTeacherSearch.cancel();
-    };
-  }, [searchTerm]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
+  const {
+    searchTerm,
+    showDropDown,
+    setShowDropDown,
+    selectedTeacher,
+    teacherData,
+    isLoading,
+    hasMore,
+    loadingRef,
+    handleSearchChange,
+    handleSelectTeacher,
+    handleRemoveTeacher,
+  } = useTeacherInput(field, defaultSelectedTeacher);
 
   return (
     <Field data-invalid={fieldState.invalid}>
@@ -141,29 +49,23 @@ const ClassesTeacherInput = ({
         <Input
           id="teacherID"
           value={searchTerm}
-          onChange={(e) => {
-            handleSearchChange(e.target.value);
-          }}
-          onFocus={() => setShowTeacherDropDown(true)}
-          onBlur={() => setShowTeacherDropDown(false)}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          onFocus={() => setShowDropDown(true)}
+          onBlur={() => setShowDropDown(false)}
           aria-invalid={fieldState.invalid}
           placeholder={t("classes.fields.teacherPlaceholder")}
           autoComplete="off"
           className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
-        {showTeacherDropDown && teacherData.length > 0 && (
+
+        {showDropDown && teacherData.length > 0 && (
           <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1 shadow-lg dark:shadow-gray-900/30">
             <ScrollArea className="max-h-72">
               {teacherData.map((data) => (
                 <div
-                  className="flex items-center gap-3 p-2 hover:bg-muted cursor-pointer"
                   key={data.id}
-                  onMouseDown={() => {
-                    field.onChange(data.id);
-                    setSelectedTeacher(data);
-                    setShowTeacherDropDown(false);
-                    setSearchTerm("");
-                  }}
+                  className="flex items-center gap-3 p-2 hover:bg-muted cursor-pointer"
+                  onMouseDown={() => handleSelectTeacher(data)}
                 >
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={data.image} alt={data.name} />
@@ -182,6 +84,7 @@ const ClassesTeacherInput = ({
                   </div>
                 </div>
               ))}
+
               {hasMore && (
                 <div ref={loadingRef} className="py-2 text-center">
                   {isLoading && (
@@ -199,8 +102,8 @@ const ClassesTeacherInput = ({
 
       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 
-      {selectedTeacher && teacherValue !== 0 && (
-        <div className="mt-2 flex items-center justify-between rounded-lg bg-card border border-border  p-3 ">
+      {selectedTeacher && field.value !== 0 && (
+        <div className="mt-2 flex items-center justify-between rounded-lg bg-card border border-border p-3">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10">
               <AvatarImage
@@ -225,10 +128,7 @@ const ClassesTeacherInput = ({
             type="button"
             size="icon-sm"
             variant="outline"
-            onClick={() => {
-              field.onChange(0);
-              setSelectedTeacher(null);
-            }}
+            onClick={handleRemoveTeacher}
           >
             <Trash className="h-4 w-4" />
           </Button>

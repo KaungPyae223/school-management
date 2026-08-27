@@ -26,8 +26,6 @@ const ClassesPage = () => {
 
   const { activeQueryParams } = useGetQueryParams();
 
-  console.log(activeQueryParams)
-
   const { data, isLoading } = useAppQuery({
     queryKey: ["classes", activeQueryParams],
     queryFn: () => classService.getAllClasses(activeQueryParams),

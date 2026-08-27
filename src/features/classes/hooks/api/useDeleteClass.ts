@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { classService } from "../../../services/classes";
+import { classService } from "../../../../services/classes";
 
 export const useDeleteClass = () => {
   const queryClient = useQueryClient();
