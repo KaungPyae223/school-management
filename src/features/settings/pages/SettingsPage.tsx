@@ -6,12 +6,12 @@ import {
   CardTitle,
 } from "../../../components/ui/card";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import SettingsChangeAppearance from "../components/SettingsChangeAppearance";
-import SettingsChangeLanguage from "../components/SettingsChangeLanguage";
-import SettingsChangeTheme from "../components/SettingsChangeTheme";
-import SettingsManagePassword from "../components/SettingsManagePassword";
-import Settings2FA from "../components/Settings2FA";
-import SettingsDataBackup from "../components/SettingsDataBackup";
+import SettingsChangeAppearance from "../components/preferences/SettingsChangeAppearance";
+import SettingsChangeLanguage from "../components/preferences/SettingsChangeLanguage";
+import SettingsChangeTheme from "../components/preferences/SettingsChangeTheme";
+import SettingsManagePassword from "../components/password/SettingsManagePassword";
+import Settings2FA from "../components/2fa/Settings2FA";
+import SettingsDataBackup from "../components/backup/SettingsDataBackup";
 
 const SettingsPage = () => {
   const { t } = useTranslation();

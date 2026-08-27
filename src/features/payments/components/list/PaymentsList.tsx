@@ -7,27 +7,27 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
-import Table from "../../../components/table/Table";
-import TableBody from "../../../components/table/TableBody";
-import TableCell from "../../../components/table/TableCell";
-import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
-import TableRow from "../../../components/table/TableRow";
+import Table from "../../../../components/table/Table";
+import TableBody from "../../../../components/table/TableBody";
+import TableCell from "../../../../components/table/TableCell";
+import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import TableRow from "../../../../components/table/TableRow";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
-import type { TableHeadType } from "../../../types/TableHeader";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import TableIconContent from "../../../components/table/TableIconContent";
-import { formatCurrency } from "../../../utils/format-currency";
-import { formatDate } from "../../../utils/format-date";
-import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
-import TableActionButton from "../../../components/table/TableActionButton";
+} from "../../../../components/ui/avatar";
+import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
+import type { TableHeadType } from "../../../../types/TableHeader";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import TableIconContent from "../../../../components/table/TableIconContent";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { formatDate } from "../../../../utils/format-date";
+import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
+import TableActionButton from "../../../../components/table/TableActionButton";
 import { useNavigate } from "react-router";
-import ImageDisplay from "../../../components/image/ImageDisplay";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const PaymentsList = ({
   data,

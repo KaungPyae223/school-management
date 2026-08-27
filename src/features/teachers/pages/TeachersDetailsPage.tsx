@@ -2,17 +2,17 @@ import { useTranslation } from "react-i18next";
 import { useLoaderData, useNavigate } from "react-router";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useState } from "react";
-import TeachersDeleteAlert from "../components/TeachersDeleteAlert";
-import TeachersDetailsCard from "../components/TeachersDetailsCard";
+import TeachersDeleteAlert from "../components/alerts/TeachersDeleteAlert";
+import TeachersDetailsCard from "../components/details/TeachersDetailsCard";
 import DetailsHeader from "../../../components/details/DetailsHeader";
-import TeachersRestoreAlert from "../components/TeachersRestoreAlert";
+import TeachersRestoreAlert from "../components/alerts/TeachersRestoreAlert";
 import { Separator } from "../../../components/ui/separator";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import { Tabs } from "../../../components/ui/tabs";
 import { AnimatePresence, m } from "framer-motion";
-import TeachersDetailsHeader from "../components/TeachersDetailsHeader";
-import TeachersClassesTab from "../components/TeachersClassesTab";
-import TeachersTimetableTab from "../components/TeachersTimetableTab";
+import TeachersDetailsHeader from "../components/details/TeachersDetailsHeader";
+import TeachersClassesTab from "../components/details/TeachersClassesTab";
+import TeachersTimetableTab from "../components/details/TeachersTimetableTab";
 
 const TeachersDetailsPage = () => {
   const { t } = useTranslation();

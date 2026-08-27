@@ -1,20 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { Calendar, CalendarDays, Mail, MapPin, Phone } from "lucide-react";
-import { Card, CardContent, CardHeader } from "../../../components/ui/card";
+import { Card, CardContent, CardHeader } from "../../../../components/ui/card";
 
-import { formatDate } from "../../../utils/format-date";
-import { Separator } from "../../../components/ui/separator";
+import { formatDate } from "../../../../utils/format-date";
+import { Separator } from "../../../../components/ui/separator";
 
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import DetailsData from "../../../components/details/DetailsData";
+} from "../../../../components/ui/avatar";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import DetailsData from "../../../../components/details/DetailsData";
 import { Mars, Venus, VenusAndMars } from "lucide-react";
 
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const StudentsDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();

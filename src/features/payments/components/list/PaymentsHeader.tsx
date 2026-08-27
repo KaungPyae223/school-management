@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { Card, CardHeader } from "../../../components/ui/card";
-import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
+import { Card, CardHeader } from "../../../../components/ui/card";
+import { TabsList, TabsTrigger } from "../../../../components/ui/tabs";
 
-import ColumnSelector from "../../../components/header/ColumnSelector";
-import { useViewTabChange } from "../../../hooks/use-view-tab-change";
-import SearchInput from "../../../components/search-input/SearchInput";
+import ColumnSelector from "../../../../components/header/ColumnSelector";
+import { useViewTabChange } from "../../../../hooks/use-view-tab-change";
+import SearchInput from "../../../../components/search-input/SearchInput";
 
 const PaymentsHeader = () => {
   const { t } = useTranslation();

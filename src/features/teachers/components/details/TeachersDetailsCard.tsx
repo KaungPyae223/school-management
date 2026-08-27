@@ -1,16 +1,16 @@
 import { useTranslation } from "react-i18next";
 import { IdCard, Mail, MapPin, Phone } from "lucide-react";
-import DetailsData from "../../../components/details/DetailsData";
+import DetailsData from "../../../../components/details/DetailsData";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { Card, CardContent, CardHeader } from "../../../components/ui/card";
-import { Separator } from "../../../components/ui/separator";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import { formatDate } from "../../../utils/format-date";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+} from "../../../../components/ui/avatar";
+import { Card, CardContent, CardHeader } from "../../../../components/ui/card";
+import { Separator } from "../../../../components/ui/separator";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import { formatDate } from "../../../../utils/format-date";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const TeachersDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();

@@ -6,25 +6,25 @@ import {
   PlayCircle,
   UserPen,
 } from "lucide-react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../../components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card";
-import { Badge } from "../../../components/ui/badge";
+} from "../../../../components/ui/card";
+import { Badge } from "../../../../components/ui/badge";
 
-import { formatCurrency } from "../../../utils/format-currency";
+import { formatCurrency } from "../../../../utils/format-currency";
 import { useState } from "react";
-import CoursesDeleteAlert from "./CoursesDeleteAlert";
+import CoursesDeleteAlert from "../alerts/CoursesDeleteAlert";
 import { useNavigate } from "react-router";
-import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
-import CardMenu from "../../../components/card-utils/CardMenu";
-import CardData from "../../../components/card-utils/CardData";
-import CoursesRestoreAlert from "./CoursesRestoreAlert";
-import ImageDisplay from "../../../components/image/ImageDisplay";
+import CardCretedUpdated from "../../../../components/card-utils/CardCretedUpdated";
+import CardMenu from "../../../../components/card-utils/CardMenu";
+import CardData from "../../../../components/card-utils/CardData";
+import CoursesRestoreAlert from "../alerts/CoursesRestoreAlert";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
 
 const CoursesCard = ({ course }: { course: any }) => {
   const { t } = useTranslation();

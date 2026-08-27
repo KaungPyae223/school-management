@@ -7,9 +7,9 @@ import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import { paymentService } from "../../../services/payments";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
-import PaymentsHeader from "../components/PaymentsHeader";
+import PaymentsHeader from "../components/list/PaymentsHeader";
 import { AnimatePresence, m } from "framer-motion";
-import PaymentsList from "../components/PaymentsList";
+import PaymentsList from "../components/list/PaymentsList";
 import Paginate from "../../../components/paginate/Paginate";
 import DataShow from "../../../components/data/DataShow";
 

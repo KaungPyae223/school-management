@@ -1,9 +1,9 @@
 import { useLoaderData, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Button } from "../../../components/ui/button";
-import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
+import { Button } from "../../../../components/ui/button";
+import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
 import { useState } from "react";
-import { AlertDialogAction } from "../../../components/ui/alert-dialog";
+import { AlertDialogAction } from "../../../../components/ui/alert-dialog";
 
 const SettingsManagePassword = () => {
   const { t } = useTranslation();

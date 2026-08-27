@@ -12,27 +12,27 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-import { Card, CardContent } from "../../../components/ui/card";
+import { Card, CardContent } from "../../../../components/ui/card";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "../../../components/ui/alert";
-import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
+} from "../../../../components/ui/alert";
+import { Button } from "../../../../components/ui/button";
+import { Input } from "../../../../components/ui/input";
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "../../../components/ui/field";
-import RequiredLabel from "../../../components/form/RequiredLabel";
-import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { useBackupImportSchema } from "../schema/useBackupImportSchema";
-import { cn } from "../../../lib/utils";
-import { useImportBackup } from "../hooks/useImportBackup";
-import FormError from "../../../components/form/FormError";
-import { translateError } from "../../../utils/translate-error";
+} from "../../../../components/ui/field";
+import RequiredLabel from "../../../../components/form/RequiredLabel";
+import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
+import { useBackupImportSchema } from "../../schema/useBackupImportSchema";
+import { cn } from "../../../../lib/utils";
+import { useImportBackup } from "../../hooks/useImportBackup";
+import FormError from "../../../../components/form/FormError";
+import { translateError } from "../../../../utils/translate-error";
 
 const SettingsDataBackupImport = () => {
   const { t } = useTranslation();

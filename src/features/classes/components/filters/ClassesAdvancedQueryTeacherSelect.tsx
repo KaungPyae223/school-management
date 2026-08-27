@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Field } from "../../../components/ui/field";
-import { Input } from "../../../components/ui/input";
-import { ScrollArea } from "../../../components/ui/scroll-area";
-import { Button } from "../../../components/ui/button";
+import { Field } from "../../../../components/ui/field";
+import { Input } from "../../../../components/ui/input";
+import { ScrollArea } from "../../../../components/ui/scroll-area";
+import { Button } from "../../../../components/ui/button";
 import { X } from "lucide-react";
 import { debounce } from "lodash";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -10,14 +10,14 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+} from "../../../../components/ui/avatar";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import type {
   ControllerRenderProps,
   ControllerFieldState,
 } from "react-hook-form";
-import { cn } from "../../../lib/utils";
-import { teacherService } from "../../../services/teachers";
+import { cn } from "../../../../lib/utils";
+import { teacherService } from "../../../../services/teachers";
 import { useSearchParams } from "react-router";
 
 interface Teacher {

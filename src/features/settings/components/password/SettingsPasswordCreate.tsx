@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { useCreatePasswordSchema } from "../schema/useCreatePasswordSchema";
+import { useCreatePasswordSchema } from "../../schema/useCreatePasswordSchema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type z from "zod";
-import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
+import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "../../../components/ui/card";
-import FormHeader from "../../../components/form/FormHeader";
-import { Field, FieldError, FieldGroup } from "../../../components/ui/field";
-import FormError from "../../../components/form/FormError";
-import FormFooter from "../../../components/form/FormFooter";
-import RequiredLabel from "../../../components/form/RequiredLabel";
-import { Input } from "../../../components/ui/input";
-import { useCreatePassword } from "../hooks/useCreatePassword";
+import { Card, CardContent } from "../../../../components/ui/card";
+import FormHeader from "../../../../components/form/FormHeader";
+import { Field, FieldError, FieldGroup } from "../../../../components/ui/field";
+import FormError from "../../../../components/form/FormError";
+import FormFooter from "../../../../components/form/FormFooter";
+import RequiredLabel from "../../../../components/form/RequiredLabel";
+import { Input } from "../../../../components/ui/input";
+import { useCreatePassword } from "../../hooks/useCreatePassword";
 import { useNavigate } from "react-router";
-import { translateError } from "../../../utils/translate-error";
+import { translateError } from "../../../../utils/translate-error";
 
 const SettingsPasswordCreate = ({
   navigateLink,

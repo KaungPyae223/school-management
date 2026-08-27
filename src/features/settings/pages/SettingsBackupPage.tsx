@@ -1,8 +1,8 @@
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { Navigate, useLoaderData } from "react-router";
 import { useTranslation } from "react-i18next";
-import Settings2FAVerify from "../components/Settings2FAVerify";
-import SettingsDataBackupForm from "../components/SettingsDataBackupForm";
+import Settings2FAVerify from "../components/2fa/Settings2FAVerify";
+import SettingsDataBackupForm from "../components/backup/SettingsDataBackupForm";
 
 const SettingsBackupPage = () => {
   const { t } = useTranslation();

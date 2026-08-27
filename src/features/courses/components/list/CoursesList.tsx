@@ -1,24 +1,24 @@
 import { useTranslation } from "react-i18next";
 import { BookOpen, ClipboardList, PlayCircle, UserPen } from "lucide-react";
 
-import Table from "../../../components/table/Table";
-import TableBody from "../../../components/table/TableBody";
-import TableRow from "../../../components/table/TableRow";
-import TableCell from "../../../components/table/TableCell";
+import Table from "../../../../components/table/Table";
+import TableBody from "../../../../components/table/TableBody";
+import TableRow from "../../../../components/table/TableRow";
+import TableCell from "../../../../components/table/TableCell";
 
-import { formatCurrency } from "../../../utils/format-currency";
-import { formatDate } from "../../../utils/format-date";
-import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
-import CoursesDeleteAlert from "./CoursesDeleteAlert";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { formatDate } from "../../../../utils/format-date";
+import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
+import CoursesDeleteAlert from "../alerts/CoursesDeleteAlert";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import TableIconContent from "../../../components/table/TableIconContent";
-import type { TableHeadType } from "../../../types/TableHeader";
-import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
-import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
-import CoursesRestoreAlert from "./CoursesRestoreAlert";
-import ImageDisplay from "../../../components/image/ImageDisplay";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import TableIconContent from "../../../../components/table/TableIconContent";
+import type { TableHeadType } from "../../../../types/TableHeader";
+import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
+import CoursesRestoreAlert from "../alerts/CoursesRestoreAlert";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const CoursesList = ({ data }: { data: any }) => {
   const { t } = useTranslation();

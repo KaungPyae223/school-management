@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../../components/ui/button";
 
 const Settings2FA = () => {
   const { t } = useTranslation();

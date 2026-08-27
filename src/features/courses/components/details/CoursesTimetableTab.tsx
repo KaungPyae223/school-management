@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useTimetableChange } from "../../timetable/hooks/useTimetableChange";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { classService } from "../../../services/classes";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
+import { useAppQuery } from "../../../../hooks/use-app-query";
+import { classService } from "../../../../services/classes";
+import type { ResponseDataType } from "../../../../types/ResponseTypes";
 import { useFormatData } from "../../timetable/hooks/useFormatData";
 import TimetableDetailsContent from "../../timetable/components/TimetableDetailsContent";
-import { Drawer } from "../../../components/ui/drawer";
+import { Drawer } from "../../../../components/ui/drawer";
 import TimetableTeacher from "../../timetable/components/TimetableTeacher";
 
 const CoursesTimetableTab = ({ id }: { id: number }) => {

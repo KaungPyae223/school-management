@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
-import DataShow from "../../../components/data/DataShow";
+import { useAppQuery } from "../../../../hooks/use-app-query";
+import { useGetQueryParams } from "../../../../hooks/use-get-query-params";
+import type { ResponseDataType } from "../../../../types/ResponseTypes";
+import DataShow from "../../../../components/data/DataShow";
 import { BookOpen } from "lucide-react";
-import Paginate from "../../../components/paginate/Paginate";
-import { courseService } from "../../../services/courses";
+import Paginate from "../../../../components/paginate/Paginate";
+import { courseService } from "../../../../services/courses";
 import CoursesClassesList from "./CoursesClassesList";
 
 const CoursesClassesTab = ({ id }: { id: number }) => {

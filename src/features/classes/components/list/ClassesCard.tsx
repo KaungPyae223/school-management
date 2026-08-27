@@ -10,35 +10,35 @@ import {
   Layers,
   UserPlus,
 } from "lucide-react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../../components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card";
-import { Badge } from "../../../components/ui/badge";
+} from "../../../../components/ui/card";
+import { Badge } from "../../../../components/ui/badge";
 
-import { formatCurrency } from "../../../utils/format-currency";
+import { formatCurrency } from "../../../../utils/format-currency";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
-import CardMenu from "../../../components/card-utils/CardMenu";
+import CardCretedUpdated from "../../../../components/card-utils/CardCretedUpdated";
+import CardMenu from "../../../../components/card-utils/CardMenu";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "../../../components/ui/tooltip";
-import { formatDate } from "../../../utils/format-date";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
-import ClassesDeleteAlert from "./ClassesDeleteAlert";
-import ClassesStatus from "./ClassesStatus";
-import ClassesTeacherCard from "./ClassesTeacherCard";
-import { changeTime } from "../../../utils/change-time";
-import CardData from "../../../components/card-utils/CardData";
-import ImageDisplay from "../../../components/image/ImageDisplay";
-import CardDayBadge from "../../../components/card-utils/CardDayBadge";
+} from "../../../../components/ui/tooltip";
+import { formatDate } from "../../../../utils/format-date";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import ClassesDeleteAlert from "../alerts/ClassesDeleteAlert";
+import ClassesStatus from "../shared/ClassesStatus";
+import ClassesTeacherCard from "../details/ClassesTeacherCard";
+import { changeTime } from "../../../../utils/change-time";
+import CardData from "../../../../components/card-utils/CardData";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
+import CardDayBadge from "../../../../components/card-utils/CardDayBadge";
 
 const ClassesCard = ({ classData }: { classData: any }) => {
   const { t } = useTranslation();

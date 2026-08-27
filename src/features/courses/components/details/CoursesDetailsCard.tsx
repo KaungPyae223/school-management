@@ -10,14 +10,14 @@ import {
   Users,
   XLineTop,
 } from "lucide-react";
-import { Card, CardContent, CardHeader } from "../../../components/ui/card";
-import { formatCurrency } from "../../../utils/format-currency";
-import { formatDate } from "../../../utils/format-date";
-import { Separator } from "../../../components/ui/separator";
-import DetailsData from "../../../components/details/DetailsData";
-import ImageDisplay from "../../../components/image/ImageDisplay";
+import { Card, CardContent, CardHeader } from "../../../../components/ui/card";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { formatDate } from "../../../../utils/format-date";
+import { Separator } from "../../../../components/ui/separator";
+import DetailsData from "../../../../components/details/DetailsData";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
 
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const CoursesDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();

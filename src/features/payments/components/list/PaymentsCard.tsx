@@ -11,15 +11,15 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card";
-import { Separator } from "../../../components/ui/separator";
-import { formatCurrency } from "../../../utils/format-currency";
-import { Badge } from "../../../components/ui/badge";
-import { formatDate } from "../../../utils/format-date";
-import DetailsData from "../../../components/details/DetailsData";
+} from "../../../../components/ui/card";
+import { Separator } from "../../../../components/ui/separator";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { Badge } from "../../../../components/ui/badge";
+import { formatDate } from "../../../../utils/format-date";
+import DetailsData from "../../../../components/details/DetailsData";
 import { useState } from "react";
-import PaymentsDeleteAlert from "./PaymentsDeleteAlert";
-import { Button } from "../../../components/ui/button";
+import PaymentsDeleteAlert from "../alerts/PaymentsDeleteAlert";
+import { Button } from "../../../../components/ui/button";
 
 const PaymentsCard = ({
   data,

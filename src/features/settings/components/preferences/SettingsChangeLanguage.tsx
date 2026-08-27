@@ -7,7 +7,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select";
+} from "../../../../components/ui/select";
 import { useTranslation } from "react-i18next";
 import { SUPPORTED_LANGUAGES } from "../../../translate/i18n";
 import { useLanguageStore } from "../../../stores/useLanguageStore";

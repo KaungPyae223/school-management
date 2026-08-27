@@ -7,26 +7,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
-import { Button } from "../../../components/ui/button";
-import { ScrollArea } from "../../../components/ui/scroll-area";
+} from "../../../../components/ui/dropdown-menu";
+import { Button } from "../../../../components/ui/button";
+import { ScrollArea } from "../../../../components/ui/scroll-area";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
+} from "../../../../components/ui/avatar";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "../../../components/ui/input-group";
+} from "../../../../components/ui/input-group";
 import { debounce } from "lodash";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { useSetQueryParams } from "../../../hooks/use-set-query-params";
-import { teacherService } from "../../../services/teachers";
+import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
+import { teacherService } from "../../../../services/teachers";
 
 interface Teacher {
   id: string;

@@ -3,10 +3,10 @@ import DetailsHeader from "../../../components/details/DetailsHeader";
 
 import { BookOpen } from "lucide-react";
 import { useLoaderData, useNavigate } from "react-router";
-import StudentDeleteAlert from "../components/StudentsDeleteAlert";
+import StudentDeleteAlert from "../components/alerts/StudentsDeleteAlert";
 import { useState } from "react";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import StudentsDetailsCard from "../components/StudentsDetailsCard";
+import StudentsDetailsCard from "../components/details/StudentsDetailsCard";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
@@ -17,7 +17,7 @@ import SearchInput from "../../../components/search-input/SearchInput";
 import Paginate from "../../../components/paginate/Paginate";
 import EmptyComponent from "../../../components/empty/EmptyComponent";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
-import StudentsEnrolledClassesLists from "../components/StudentsEnrolledClassesLists";
+import StudentsEnrolledClassesLists from "../components/details/StudentsEnrolledClassesLists";
 import DataShow from "../../../components/data/DataShow";
 
 const StudentsDetailsPage = () => {

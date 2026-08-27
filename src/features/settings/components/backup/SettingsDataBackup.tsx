@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../../components/ui/button";
 
-import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { AlertDialogAction } from "../../../components/ui/alert-dialog";
+import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
+import { AlertDialogAction } from "../../../../components/ui/alert-dialog";
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router";
 

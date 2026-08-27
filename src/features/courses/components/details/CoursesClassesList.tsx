@@ -1,25 +1,25 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import type { TableHeadType } from "../../../types/TableHeader";
-import Table from "../../../components/table/Table";
-import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
-import TableBody from "../../../components/table/TableBody";
-import TableRow from "../../../components/table/TableRow";
-import TableCell from "../../../components/table/TableCell";
+import type { TableHeadType } from "../../../../types/TableHeader";
+import Table from "../../../../components/table/Table";
+import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import TableBody from "../../../../components/table/TableBody";
+import TableRow from "../../../../components/table/TableRow";
+import TableCell from "../../../../components/table/TableCell";
 import { DollarSign, Users } from "lucide-react";
-import TableIconContent from "../../../components/table/TableIconContent";
-import { formatCurrency } from "../../../utils/format-currency";
-import { formatDate } from "../../../utils/format-date";
-import { changeTime } from "../../../utils/change-time";
-import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
+import TableIconContent from "../../../../components/table/TableIconContent";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { formatDate } from "../../../../utils/format-date";
+import { changeTime } from "../../../../utils/change-time";
+import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
 import ClassesStatus from "../../classes/components/ClassesStatus";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+} from "../../../../components/ui/avatar";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 
 const CoursesClassesList = ({ data }: { data: any }) => {
   const { t } = useTranslation();

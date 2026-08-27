@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "../../../components/ui/card";
-import { Separator } from "../../../components/ui/separator";
-import { Badge } from "../../../components/ui/badge";
+import { Card, CardContent } from "../../../../components/ui/card";
+import { Separator } from "../../../../components/ui/separator";
+import { Badge } from "../../../../components/ui/badge";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import { formatCurrency } from "../../../utils/format-currency";
+} from "../../../../components/ui/avatar";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import { formatCurrency } from "../../../../utils/format-currency";
 import {
   DollarSign,
   Wallet,
@@ -16,11 +16,11 @@ import {
   Hash,
   BookOpen,
 } from "lucide-react";
-import FormHeader from "../../../components/form/FormHeader";
-import DetailsData from "../../../components/details/DetailsData";
-import ImageDisplay from "../../../components/image/ImageDisplay";
+import FormHeader from "../../../../components/form/FormHeader";
+import DetailsData from "../../../../components/details/DetailsData";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
 
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const PaymentsDetailsInfoCard = ({
   enrollment,

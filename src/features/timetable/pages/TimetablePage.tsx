@@ -6,15 +6,15 @@ import { m, AnimatePresence } from "framer-motion";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { classService } from "../../../services/classes";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
-import TimetableHeader from "../components/TimetableHeader";
+import TimetableHeader from "../components/views/TimetableHeader";
 import { useFormatData } from "../hooks/useFormatData";
 import { Drawer } from "../../../components/ui/drawer";
 
 import { useState } from "react";
 
-import TimetableDetailsContent from "../components/TimetableDetailsContent";
-import TimetableTeacher from "../components/TimetableTeacher";
-import TimetableCourse from "../components/TimetableCourse";
+import TimetableDetailsContent from "../components/views/TimetableDetailsContent";
+import TimetableTeacher from "../components/teacher/TimetableTeacher";
+import TimetableCourse from "../components/course/TimetableCourse";
 import { useTimetableChange } from "../hooks/useTimetableChange";
 
 const TimetablePage = () => {

@@ -3,20 +3,20 @@ import themePlugin from "@fullcalendar/react/themes/monarch";
 import timeGridPlugin from "@fullcalendar/react/timegrid";
 import dayGridPlugin from "@fullcalendar/react/daygrid";
 import rrulePlugin from "@fullcalendar/rrule";
-import { changeTime } from "../../../utils/change-time";
+import { changeTime } from "../../../../utils/change-time";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import { useTimetableChange } from "../hooks/useTimetableChange";
-import { useFilterData } from "../hooks/useFilterData";
+} from "../../../../components/ui/avatar";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import { useTimetableChange } from "../../hooks/useTimetableChange";
+import { useFilterData } from "../../hooks/useFilterData";
 import { useModeStore } from "../../../stores/useModeStore";
 import i18n from "../../../translate/i18n";
 import { calendarLocales, myLocale } from "../utils/calendar-locales";
-import { myanmarMonths } from "../../../utils/format-date";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import { myanmarMonths } from "../../../../utils/format-date";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const TimetableTeacher = ({
   data,

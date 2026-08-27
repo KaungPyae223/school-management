@@ -4,17 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type z from "zod";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "../../../components/ui/card";
-import FormHeader from "../../../components/form/FormHeader";
-import { Field, FieldError, FieldGroup } from "../../../components/ui/field";
-import FormError from "../../../components/form/FormError";
-import FormFooter from "../../../components/form/FormFooter";
-import RequiredLabel from "../../../components/form/RequiredLabel";
-import { Input } from "../../../components/ui/input";
-import { useTwoFactorSchema } from "../schema/useTwoFactorSchema";
-import { useTwoFactorVerifiy } from "../hooks/useTwoFactorVerifiy";
+import { Card, CardContent } from "../../../../components/ui/card";
+import FormHeader from "../../../../components/form/FormHeader";
+import { Field, FieldError, FieldGroup } from "../../../../components/ui/field";
+import FormError from "../../../../components/form/FormError";
+import FormFooter from "../../../../components/form/FormFooter";
+import RequiredLabel from "../../../../components/form/RequiredLabel";
+import { Input } from "../../../../components/ui/input";
+import { useTwoFactorSchema } from "../../schema/useTwoFactorSchema";
+import { useTwoFactorVerifiy } from "../../hooks/useTwoFactorVerifiy";
 import { useRevalidator } from "react-router";
-import { translateError } from "../../../utils/translate-error";
+import { translateError } from "../../../../utils/translate-error";
 
 const Settings2FAVerify = () => {
   const { t } = useTranslation();

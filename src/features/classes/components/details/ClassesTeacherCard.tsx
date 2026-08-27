@@ -3,9 +3,9 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { cn } from "../../../lib/utils";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+} from "../../../../components/ui/avatar";
+import { cn } from "../../../../lib/utils";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 
 const ClassesTeacherCard = ({
   image,

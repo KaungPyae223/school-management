@@ -4,8 +4,8 @@ import { useLoaderData, useNavigate } from "react-router";
 import DetailsHeader from "../../../components/details/DetailsHeader";
 import { Separator } from "../../../components/ui/separator";
 
-import ClassesDetailsCard from "../components/ClassesDetailsCard";
-import ClassesDeleteAlert from "../components/ClassesDeleteAlert";
+import ClassesDetailsCard from "../components/details/ClassesDetailsCard";
+import ClassesDeleteAlert from "../components/alerts/ClassesDeleteAlert";
 import { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { GraduationCap, UserPlus } from "lucide-react";
@@ -16,11 +16,11 @@ import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { enrollmentService } from "../../../services/enrollment";
-import ClassesEnrolledStudentsList from "../components/ClassesEnrolledStudentsList";
+import ClassesEnrolledStudentsList from "../components/details/ClassesEnrolledStudentsList";
 import Paginate from "../../../components/paginate/Paginate";
 import SearchInput from "../../../components/search-input/SearchInput";
 import DataShow from "../../../components/data/DataShow";
-import ClassesCompleteAlert from "../components/ClassesCompleteAlert";
+import ClassesCompleteAlert from "../components/alerts/ClassesCompleteAlert";
 
 const ClassesDetailsPage = () => {
   const { t } = useTranslation();

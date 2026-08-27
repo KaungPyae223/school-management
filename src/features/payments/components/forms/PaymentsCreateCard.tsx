@@ -4,31 +4,31 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card";
+} from "../../../../components/ui/card";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { generateImageData } from "../../../utils/generate-image-data";
-import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import FormFooter from "../../../components/form/FormFooter";
+import { generateImageData } from "../../../../utils/generate-image-data";
+import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
+import FormFooter from "../../../../components/form/FormFooter";
 import {
   FieldGroup,
   FieldError,
   Field,
   FieldLabel,
-} from "../../../components/ui/field";
-import FormError from "../../../components/form/FormError";
-import RequiredLabel from "../../../components/form/RequiredLabel";
-import { Input } from "../../../components/ui/input";
-import { Label } from "../../../components/ui/label";
-import ImageInput from "../../../components/form/ImageInput";
-import { Textarea } from "../../../components/ui/textarea";
-import { useCreatePayment } from "../hooks/useCreatePayment";
-import NumberInput from "../../../components/form/NumberInput";
-import { usePaymentsSchema } from "../schema/usePaymentsSchema";
-import { translateError } from "../../../utils/translate-error";
+} from "../../../../components/ui/field";
+import FormError from "../../../../components/form/FormError";
+import RequiredLabel from "../../../../components/form/RequiredLabel";
+import { Input } from "../../../../components/ui/input";
+import { Label } from "../../../../components/ui/label";
+import ImageInput from "../../../../components/form/ImageInput";
+import { Textarea } from "../../../../components/ui/textarea";
+import { useCreatePayment } from "../../hooks/useCreatePayment";
+import NumberInput from "../../../../components/form/NumberInput";
+import { usePaymentsSchema } from "../../schema/usePaymentsSchema";
+import { translateError } from "../../../../utils/translate-error";
 
 const PaymentsCreateCard = ({
   amountDue,

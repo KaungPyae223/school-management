@@ -1,14 +1,14 @@
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-import { Button } from "../../../components/ui/button";
-import { ButtonGroup } from "../../../components/ui/button-group";
+import { Button } from "../../../../components/ui/button";
+import { ButtonGroup } from "../../../../components/ui/button-group";
 import { useModeStore } from "../../../stores/useModeStore";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "../../../components/ui/tooltip";
+} from "../../../../components/ui/tooltip";
 
 const SettingsChangeAppearance = () => {
   const { t } = useTranslation();

@@ -12,25 +12,25 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { Button } from "../../../components/ui/button";
+} from "../../../../components/ui/avatar";
+import { Button } from "../../../../components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardTitle,
-} from "../../../components/ui/card";
-import CardCretedUpdated from "../../../components/card-utils/CardCretedUpdated";
+} from "../../../../components/ui/card";
+import CardCretedUpdated from "../../../../components/card-utils/CardCretedUpdated";
 
 import { useNavigate } from "react-router";
-import TeachersDeleteAlert from "./TeachersDeleteAlert";
+import TeachersDeleteAlert from "../alerts/TeachersDeleteAlert";
 import { useState } from "react";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import CardMenu from "../../../components/card-utils/CardMenu";
-import CardInfo from "../../../components/card-utils/CardInfo";
-import CardMeta from "../../../components/card-utils/CardMeta";
-import TeachersRestoreAlert from "./TeachersRestoreAlert";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import CardMenu from "../../../../components/card-utils/CardMenu";
+import CardInfo from "../../../../components/card-utils/CardInfo";
+import CardMeta from "../../../../components/card-utils/CardMeta";
+import TeachersRestoreAlert from "../alerts/TeachersRestoreAlert";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const TeacherCard = ({ teacher }: { teacher: any }) => {
   const { t } = useTranslation();

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { CheckCircle2, Circle, PlayCircle } from "lucide-react";
-import { Badge } from "../../../components/ui/badge";
-import { cn } from "../../../lib/utils";
+import { Badge } from "../../../../components/ui/badge";
+import { cn } from "../../../../lib/utils";
 
 const ClassesStatus = ({ status }: { status: string }) => {
   const { t } = useTranslation();

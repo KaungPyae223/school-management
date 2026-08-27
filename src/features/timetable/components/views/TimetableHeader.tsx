@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { Card, CardHeader } from "../../../components/ui/card";
+import { Card, CardHeader } from "../../../../components/ui/card";
 import { AnimatePresence, m } from "framer-motion";
-import TimetableTeacherSelect from "./TimetableTeacherSelect";
-import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
-import TimetableCourseSelect from "./TimetableCourseSelect";
+import TimetableTeacherSelect from "../teacher/TimetableTeacherSelect";
+import { TabsList, TabsTrigger } from "../../../../components/ui/tabs";
+import TimetableCourseSelect from "../course/TimetableCourseSelect";
 
 const TimetableHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();

@@ -1,13 +1,13 @@
 import { Download, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
+import { Card, CardContent } from "../../../../components/ui/card";
+import { Button } from "../../../../components/ui/button";
 import { Link } from "react-router";
 
-import ColumnSelector from "../../../components/header/ColumnSelector";
+import ColumnSelector from "../../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
-import SearchInput from "../../../components/search-input/SearchInput";
-import ViewChange from "../../../components/header/ViewChange";
+import SearchInput from "../../../../components/search-input/SearchInput";
+import ViewChange from "../../../../components/header/ViewChange";
 
 const StudentsHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();

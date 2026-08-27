@@ -1,13 +1,13 @@
 import { DatabaseBackup, FileArchive } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import FormHeader from "../../../components/form/FormHeader";
-import { Card, CardContent } from "../../../components/ui/card";
+import FormHeader from "../../../../components/form/FormHeader";
+import { Card, CardContent } from "../../../../components/ui/card";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../../../components/ui/tabs";
+} from "../../../../components/ui/tabs";
 import SettingsDataBackupExport from "./SettingsDataBackupExport";
 import SettingsDataBackupImport from "./SettingsDataBackupImport";
 

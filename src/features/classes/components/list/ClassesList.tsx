@@ -6,33 +6,33 @@ import {
   Clock,
   UserPlus,
 } from "lucide-react";
-import Table from "../../../components/table/Table";
-import TableBody from "../../../components/table/TableBody";
-import TableCell from "../../../components/table/TableCell";
-import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
-import TableRow from "../../../components/table/TableRow";
-import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
-import type { TableHeadType } from "../../../types/TableHeader";
+import Table from "../../../../components/table/Table";
+import TableBody from "../../../../components/table/TableBody";
+import TableCell from "../../../../components/table/TableCell";
+import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import TableRow from "../../../../components/table/TableRow";
+import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
+import type { TableHeadType } from "../../../../types/TableHeader";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import { Badge } from "../../../components/ui/badge";
-import { formatCurrency } from "../../../utils/format-currency";
-import { formatDate } from "../../../utils/format-date";
-import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
+} from "../../../../components/ui/avatar";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import { Badge } from "../../../../components/ui/badge";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { formatDate } from "../../../../utils/format-date";
+import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import ClassesDeleteAlert from "./ClassesDeleteAlert";
-import TableActionButton from "../../../components/table/TableActionButton";
-import ClassesStatus from "./ClassesStatus";
-import { changeTime } from "../../../utils/change-time";
-import TableIconContent from "../../../components/table/TableIconContent";
-import ImageDisplay from "../../../components/image/ImageDisplay";
-import CardDayBadge from "../../../components/card-utils/CardDayBadge";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import ClassesDeleteAlert from "../alerts/ClassesDeleteAlert";
+import TableActionButton from "../../../../components/table/TableActionButton";
+import ClassesStatus from "../shared/ClassesStatus";
+import { changeTime } from "../../../../utils/change-time";
+import TableIconContent from "../../../../components/table/TableIconContent";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
+import CardDayBadge from "../../../../components/card-utils/CardDayBadge";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const ClassesList = ({ data }: { data: any[] }) => {
   const { t } = useTranslation();

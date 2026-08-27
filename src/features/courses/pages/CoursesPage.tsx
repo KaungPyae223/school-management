@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { Tabs } from "../../../components/ui/tabs";
-import CoursesHeader from "../components/CoursesHeader";
-import CoursesGrid from "../components/CoursesGrid";
-import CoursesList from "../components/CoursesList";
+import CoursesHeader from "../components/list/CoursesHeader";
+import CoursesGrid from "../components/list/CoursesGrid";
+import CoursesList from "../components/list/CoursesList";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
 

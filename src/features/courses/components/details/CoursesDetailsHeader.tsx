@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "../../../components/ui/card";
+import { Card, CardContent } from "../../../../components/ui/card";
 import { AnimatePresence, m } from "framer-motion";
-import SearchInput from "../../../components/search-input/SearchInput";
-import { TabsList, TabsTrigger } from "../../../components/ui/tabs";
+import SearchInput from "../../../../components/search-input/SearchInput";
+import { TabsList, TabsTrigger } from "../../../../components/ui/tabs";
 
 const CoursesDetailsHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();

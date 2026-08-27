@@ -4,15 +4,15 @@ import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useState } from "react";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import DetailsHeader from "../../../components/details/DetailsHeader";
-import CoursesDeleteAlert from "../components/CoursesDeleteAlert";
-import CoursesRestoreAlert from "../components/CoursesRestoreAlert";
-import CoursesDetailsCard from "../components/CoursesDetailsCard";
+import CoursesDeleteAlert from "../components/alerts/CoursesDeleteAlert";
+import CoursesRestoreAlert from "../components/alerts/CoursesRestoreAlert";
+import CoursesDetailsCard from "../components/details/CoursesDetailsCard";
 import { Separator } from "../../../components/ui/separator";
 import { Tabs } from "../../../components/ui/tabs";
-import CoursesDetailsHeader from "../components/CoursesDetailsHeader";
+import CoursesDetailsHeader from "../components/details/CoursesDetailsHeader";
 import { AnimatePresence, m } from "framer-motion";
-import CoursesTimetableTab from "../components/CoursesTimetableTab";
-import CoursesClassesTab from "../components/CoursesClassesTab";
+import CoursesTimetableTab from "../components/details/CoursesTimetableTab";
+import CoursesClassesTab from "../components/details/CoursesClassesTab";
 
 const CoursesDetailPage = () => {
   const { t } = useTranslation();

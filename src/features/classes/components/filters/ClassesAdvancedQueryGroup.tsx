@@ -1,6 +1,6 @@
-import { Badge } from "../../../components/ui/badge";
-import { Label } from "../../../components/ui/label";
-import { cn } from "../../../lib/utils";
+import { Badge } from "../../../../components/ui/badge";
+import { Label } from "../../../../components/ui/label";
+import { cn } from "../../../../lib/utils";
 import { useTranslation } from "react-i18next";
 
 const ClassesAdvancedQueryGroup = ({

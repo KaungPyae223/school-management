@@ -7,22 +7,22 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
-import { Button } from "../../../components/ui/button";
-import { ScrollArea } from "../../../components/ui/scroll-area";
+} from "../../../../components/ui/dropdown-menu";
+import { Button } from "../../../../components/ui/button";
+import { ScrollArea } from "../../../../components/ui/scroll-area";
 
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "../../../components/ui/input-group";
+} from "../../../../components/ui/input-group";
 import { debounce } from "lodash";
 import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { useSetQueryParams } from "../../../hooks/use-set-query-params";
-import ImageDisplay from "../../../components/image/ImageDisplay";
-import { courseService } from "../../../services/courses";
+import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
+import { courseService } from "../../../../services/courses";
 
 interface Course {
   id: string;

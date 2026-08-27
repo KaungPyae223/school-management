@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Field } from "../../../components/ui/field";
-import { Input } from "../../../components/ui/input";
-import { ScrollArea } from "../../../components/ui/scroll-area";
-import { Button } from "../../../components/ui/button";
+import { Field } from "../../../../components/ui/field";
+import { Input } from "../../../../components/ui/input";
+import { ScrollArea } from "../../../../components/ui/scroll-area";
+import { Button } from "../../../../components/ui/button";
 import { BookOpen, X } from "lucide-react";
 import { debounce } from "lodash";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -10,9 +10,9 @@ import type {
   ControllerRenderProps,
   ControllerFieldState,
 } from "react-hook-form";
-import { cn } from "../../../lib/utils";
-import ImageDisplay from "../../../components/image/ImageDisplay";
-import { courseService } from "../../../services/courses";
+import { cn } from "../../../../lib/utils";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
+import { courseService } from "../../../../services/courses";
 import { useSearchParams } from "react-router";
 
 interface Course {

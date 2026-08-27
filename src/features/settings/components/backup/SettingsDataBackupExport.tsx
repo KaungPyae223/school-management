@@ -1,26 +1,26 @@
 import { Download, FileArchive } from "lucide-react";
 
-import { Button } from "../../../components/ui/button";
-import { Card, CardContent } from "../../../components/ui/card";
+import { Button } from "../../../../components/ui/button";
+import { Card, CardContent } from "../../../../components/ui/card";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "../../../components/ui/alert";
-import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
+} from "../../../../components/ui/alert";
+import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
 import { useState } from "react";
-import { Field, FieldError, FieldGroup } from "../../../components/ui/field";
+import { Field, FieldError, FieldGroup } from "../../../../components/ui/field";
 import { Controller, useForm } from "react-hook-form";
-import RequiredLabel from "../../../components/form/RequiredLabel";
-import { Input } from "../../../components/ui/input";
+import RequiredLabel from "../../../../components/form/RequiredLabel";
+import { Input } from "../../../../components/ui/input";
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { usePasswordSchema } from "../../auth/schema/usePasswordSchema";
-import { useExportBackup } from "../hooks/useExportBackup";
+import { useExportBackup } from "../../hooks/useExportBackup";
 import { toast } from "sonner";
-import FormError from "../../../components/form/FormError";
-import { translateError } from "../../../utils/translate-error";
+import FormError from "../../../../components/form/FormError";
+import { translateError } from "../../../../utils/translate-error";
 
 const SettingsDataBackupExport = () => {
   const { t } = useTranslation();

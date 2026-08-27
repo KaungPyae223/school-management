@@ -1,15 +1,15 @@
 import { useTranslation } from "react-i18next";
 import { Download, Plus } from "lucide-react";
-import { Card, CardContent } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
+import { Card, CardContent } from "../../../../components/ui/card";
+import { Button } from "../../../../components/ui/button";
 import { Link } from "react-router";
 
-import ColumnSelector from "../../../components/header/ColumnSelector";
+import ColumnSelector from "../../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
-import ChangeTrashView from "../../../components/header/ChangeTrashView";
-import SearchInput from "../../../components/search-input/SearchInput";
-import ViewChange from "../../../components/header/ViewChange";
-import { AdvancedQueryToggle } from "../../../components/search-input/AdvancedQueryToggle";
+import ChangeTrashView from "../../../../components/header/ChangeTrashView";
+import SearchInput from "../../../../components/search-input/SearchInput";
+import ViewChange from "../../../../components/header/ViewChange";
+import { AdvancedQueryToggle } from "../../../../components/search-input/AdvancedQueryToggle";
 
 const ClassesHeader = ({
   tab,

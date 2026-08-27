@@ -1,25 +1,25 @@
 import { useTranslation } from "react-i18next";
 import { CreditCard } from "lucide-react";
-import Table from "../../../components/table/Table";
-import TableActionButton from "../../../components/table/TableActionButton";
-import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
-import TableBody from "../../../components/table/TableBody";
-import TableCell from "../../../components/table/TableCell";
-import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
-import TableRow from "../../../components/table/TableRow";
+import Table from "../../../../components/table/Table";
+import TableActionButton from "../../../../components/table/TableActionButton";
+import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
+import TableBody from "../../../../components/table/TableBody";
+import TableCell from "../../../../components/table/TableCell";
+import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import TableRow from "../../../../components/table/TableRow";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import type { TableHeadType } from "../../../types/TableHeader";
-import { formatCurrency } from "../../../utils/format-currency";
-import { formatDate } from "../../../utils/format-date";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import ClassesEnrollmentDeleteAlert from "./ClassesEnrollmentDeleteAlert";
+} from "../../../../components/ui/avatar";
+import type { TableHeadType } from "../../../../types/TableHeader";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { formatDate } from "../../../../utils/format-date";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import ClassesEnrollmentDeleteAlert from "../alerts/ClassesEnrollmentDeleteAlert";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
   const { t } = useTranslation();

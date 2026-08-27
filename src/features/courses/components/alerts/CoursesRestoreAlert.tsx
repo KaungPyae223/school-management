@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { useRestoreCourse } from "../hooks/useRestoreCourse";
+import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
+import { useRestoreCourse } from "../../hooks/useRestoreCourse";
 import { useNavigate } from "react-router";
-import { translateError } from "../../../utils/translate-error";
+import { translateError } from "../../../../utils/translate-error";
 
 const CoursesRestoreAlert = ({
   id,

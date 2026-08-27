@@ -12,24 +12,24 @@ import {
   UserPen,
 } from "lucide-react";
 
-import { Card, CardContent } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
-import { Badge } from "../../../components/ui/badge";
+import { Card, CardContent } from "../../../../components/ui/card";
+import { Button } from "../../../../components/ui/button";
+import { Badge } from "../../../../components/ui/badge";
 
 import ClassesAdvancedQueryGroup from "./ClassesAdvancedQueryGroup";
-import { useClassesAdvancedQuerySchema } from "../schema/useClassesAdvancedQuerySchema";
+import { useClassesAdvancedQuerySchema } from "../../schema/useClassesAdvancedQuerySchema";
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { Field, FieldError, FieldGroup } from "../../../components/ui/field";
-import DateInput from "../../../components/form/DateInput";
-import { Label } from "../../../components/ui/label";
-import TimeInput from "../../../components/form/TimeInput";
-import NumberInput from "../../../components/form/NumberInput";
+import { Field, FieldError, FieldGroup } from "../../../../components/ui/field";
+import DateInput from "../../../../components/form/DateInput";
+import { Label } from "../../../../components/ui/label";
+import TimeInput from "../../../../components/form/TimeInput";
+import NumberInput from "../../../../components/form/NumberInput";
 import ClassesAdvancedQueryTeacherSelect from "./ClassesAdvancedQueryTeacherSelect";
 import ClassesAdvancedQueryCourseSelect from "./ClassesAdvancedQueryCourseSelect";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
-import { useSetQueryParams } from "../../../hooks/use-set-query-params";
+import { useGetQueryParams } from "../../../../hooks/use-get-query-params";
+import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
 import { useEffect } from "react";
 
 const ClassesAdvancedQuery = () => {

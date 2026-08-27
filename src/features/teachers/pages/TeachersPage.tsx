@@ -9,9 +9,9 @@ import { UserRoundPen } from "lucide-react";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
 import { teacherService } from "../../../services/teachers";
-import TeachersHeader from "../components/TeachersHeader";
-import TeachersGrid from "../components/TeachersGrid";
-import TeachersList from "../components/TeachersList";
+import TeachersHeader from "../components/list/TeachersHeader";
+import TeachersGrid from "../components/list/TeachersGrid";
+import TeachersList from "../components/list/TeachersList";
 import DataShow from "../../../components/data/DataShow";
 
 const TeachersPage = () => {

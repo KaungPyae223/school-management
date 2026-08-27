@@ -1,9 +1,9 @@
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useLoaderData } from "react-router";
 import { useTranslation } from "react-i18next";
-import SettingsPasswordCreate from "../components/SettingsPasswordCreate";
-import SettingsPasswordChange from "../components/SettingsPasswordChange";
-import Settings2FAVerify from "../components/Settings2FAVerify";
+import SettingsPasswordCreate from "../components/password/SettingsPasswordCreate";
+import SettingsPasswordChange from "../components/password/SettingsPasswordChange";
+import Settings2FAVerify from "../components/2fa/Settings2FAVerify";
 
 const SettingsManagePasswordPage = () => {
   const { t } = useTranslation();

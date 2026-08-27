@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import CoursesCard from "./CoursesCard";
-import CardSort from "../../../components/card-utils/CardSort";
+import CardSort from "../../../../components/card-utils/CardSort";
 
 const CoursesGrid = ({ data }: { data: any[] }) => {
   const { t } = useTranslation();

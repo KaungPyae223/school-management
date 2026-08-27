@@ -8,12 +8,12 @@ import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { BookOpen } from "lucide-react";
 import Paginate from "../../../components/paginate/Paginate";
 import { AnimatePresence, m } from "framer-motion";
-import ClassesHeader from "../components/ClassesHeader";
-import ClassesGrid from "../components/ClassesGrid";
+import ClassesHeader from "../components/list/ClassesHeader";
+import ClassesGrid from "../components/list/ClassesGrid";
 import { classService } from "../../../services/classes";
-import ClassesList from "../components/ClassesList";
+import ClassesList from "../components/list/ClassesList";
 import DataShow from "../../../components/data/DataShow";
-import ClassesAdvancedQuery from "../components/ClassesAdvancedQuery";
+import ClassesAdvancedQuery from "../components/filters/ClassesAdvancedQuery";
 
 const ClassesPage = () => {
   const { t } = useTranslation();

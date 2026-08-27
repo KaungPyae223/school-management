@@ -1,20 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import type { TableHeadType } from "../../../types/TableHeader";
-import Table from "../../../components/table/Table";
-import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
-import TableBody from "../../../components/table/TableBody";
-import TableRow from "../../../components/table/TableRow";
-import TableCell from "../../../components/table/TableCell";
+import type { TableHeadType } from "../../../../types/TableHeader";
+import Table from "../../../../components/table/Table";
+import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import TableBody from "../../../../components/table/TableBody";
+import TableRow from "../../../../components/table/TableRow";
+import TableCell from "../../../../components/table/TableCell";
 import { BookOpen, DollarSign, Users } from "lucide-react";
-import TableIconContent from "../../../components/table/TableIconContent";
-import { formatCurrency } from "../../../utils/format-currency";
-import { formatDate } from "../../../utils/format-date";
-import { changeTime } from "../../../utils/change-time";
-import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
+import TableIconContent from "../../../../components/table/TableIconContent";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { formatDate } from "../../../../utils/format-date";
+import { changeTime } from "../../../../utils/change-time";
+import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
 import ClassesStatus from "../../classes/components/ClassesStatus";
-import ImageDisplay from "../../../components/image/ImageDisplay";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const TeachersClassesList = ({ data }: { data: any }) => {
   const { t } = useTranslation();

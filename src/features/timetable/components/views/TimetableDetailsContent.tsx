@@ -3,8 +3,8 @@ import {
   DrawerClose,
   DrawerContent,
   DrawerFooter,
-} from "../../../components/ui/drawer";
-import { Button } from "../../../components/ui/button";
+} from "../../../../components/ui/drawer";
+import { Button } from "../../../../components/ui/button";
 import {
   BookOpen,
   Calendar,
@@ -19,18 +19,18 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "../../../components/ui/tooltip";
-import { Badge } from "../../../components/ui/badge";
-import { changeTime } from "../../../utils/change-time";
+} from "../../../../components/ui/tooltip";
+import { Badge } from "../../../../components/ui/badge";
+import { changeTime } from "../../../../utils/change-time";
 import ClassesTeacherCard from "../../classes/components/ClassesTeacherCard";
-import { formatDate } from "../../../utils/format-date";
-import { formatCurrency } from "../../../utils/format-currency";
-import { cn } from "../../../lib/utils";
-import ImageDisplay from "../../../components/image/ImageDisplay";
+import { formatDate } from "../../../../utils/format-date";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { cn } from "../../../../lib/utils";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const TimetableDetailsContent = ({ classData }: { classData: any }) => {
   const { t } = useTranslation();

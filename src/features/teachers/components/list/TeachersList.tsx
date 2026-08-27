@@ -7,27 +7,27 @@ import {
   MapPin,
   Phone,
 } from "lucide-react";
-import Table from "../../../components/table/Table";
-import TableBody from "../../../components/table/TableBody";
-import TableCell from "../../../components/table/TableCell";
-import TableRow from "../../../components/table/TableRow";
-import { useGetSelectedColumns } from "../../../hooks/use-get-selected-columns";
+import Table from "../../../../components/table/Table";
+import TableBody from "../../../../components/table/TableBody";
+import TableCell from "../../../../components/table/TableCell";
+import TableRow from "../../../../components/table/TableRow";
+import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
-import TableIconContent from "../../../components/table/TableIconContent";
-import type { TableHeadType } from "../../../types/TableHeader";
-import { formatDate } from "../../../utils/format-date";
+} from "../../../../components/ui/avatar";
+import TableIconContent from "../../../../components/table/TableIconContent";
+import type { TableHeadType } from "../../../../types/TableHeader";
+import { formatDate } from "../../../../utils/format-date";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import TeachersDeleteAlert from "./TeachersDeleteAlert";
-import { generateImageFallBack } from "../../../utils/generate-image-fallback";
-import TableHeaderGenerator from "../../../components/table/TableHeaderGenerator";
-import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
-import TeachersRestoreAlert from "./TeachersRestoreAlert";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import TeachersDeleteAlert from "../alerts/TeachersDeleteAlert";
+import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
+import TeachersRestoreAlert from "../alerts/TeachersRestoreAlert";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const TeachersList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
