@@ -1,47 +1,36 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ControllerRenderProps } from "react-hook-form";
 import { debounce } from "lodash";
-import { teacherService } from "../../../../services/teachers";
+import { useFetchTeachersForSelect } from "../api/useFetchTeachersForSelect";
+import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
 
 export interface Teacher {
-  id: string;
+  id: number;
   name: string;
   image?: string;
 }
 
 export const useTeacherInput = (
   field: ControllerRenderProps<any, "teacherId">,
-  defaultSelectedTeacher?: Teacher
+  defaultSelectedTeacher?: Teacher,
 ) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
   const [teacherData, setTeacherData] = useState<Teacher[]>([]);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
 
-  const loadingRef = useRef<HTMLDivElement>(null);
+  const { fetchTeachers, setPage, isLoading, hasMore, setHasMore } =
+    useFetchTeachersForSelect({
+      setTeacherData,
+      onlyActive: true,
+    });
 
-  const fetchTeachers = async (value: string, append: boolean = true) => {
-    setIsLoading(true);
-    try {
-      const response = await teacherService.searchAllTeachers({
-        search: value,
-        page,
-        limit: 5,
-        onlyActive: true,
-      });
-      const results: Teacher[] = response?.data ?? [];
-      setTeacherData((prev) => (append ? [...prev, ...results] : results));
-      setHasMore(results.length === 5);
-      setPage((prevPage) => prevPage + 1);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const loadingRef = useScrollFetch({
+    hasMore,
+    isLoading,
+    fetchFunction: fetchTeachers,
+    searchTerm,
+  });
 
   useEffect(() => {
     fetchTeachers("", false);
@@ -55,24 +44,6 @@ export const useTeacherInput = (
     }
   }, [field.value, defaultSelectedTeacher]);
 
-  useEffect(() => {
-    const currentLoadingRef = loadingRef.current;
-    if (!currentLoadingRef) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading && teacherData.length > 0) {
-          fetchTeachers(searchTerm);
-        }
-      },
-      { threshold: 0.1, rootMargin: "100px" }
-    );
-
-    observer.observe(currentLoadingRef);
-
-    return () => observer.disconnect();
-  }, [hasMore, isLoading, teacherData.length, searchTerm]);
-
   const debouncedSearch = useMemo(
     () =>
       debounce((value: string) => {
@@ -80,7 +51,7 @@ export const useTeacherInput = (
         setHasMore(true);
         fetchTeachers(value, false);
       }, 750),
-    []
+    [],
   );
 
   useEffect(() => {

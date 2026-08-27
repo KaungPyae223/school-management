@@ -13,7 +13,7 @@ import FormError from "../../../../components/form/FormError";
 import FormFooter from "../../../../components/form/FormFooter";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
-import { useCreatePassword } from "../../hooks/useCreatePassword";
+import { useCreatePassword } from "../../hooks/api/useCreatePassword";
 import { useNavigate } from "react-router";
 import { translateError } from "../../../../utils/translate-error";
 

@@ -1,16 +1,10 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "../../../../components/ui/card";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
-import { generateImageData } from "../../../../utils/generate-image-data";
 import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
 import FormFooter from "../../../../components/form/FormFooter";
 import {
@@ -25,79 +19,32 @@ import { Input } from "../../../../components/ui/input";
 import { Label } from "../../../../components/ui/label";
 import ImageInput from "../../../../components/form/ImageInput";
 import { Textarea } from "../../../../components/ui/textarea";
-import { useCreatePayment } from "../../hooks/useCreatePayment";
 import NumberInput from "../../../../components/form/NumberInput";
-import { usePaymentsSchema } from "../../schema/usePaymentsSchema";
-import { translateError } from "../../../../utils/translate-error";
+import { usePaymentCreateForm } from "../../hooks/forms/usePaymentCreateForm";
+
+interface PaymentsCreateCardProps {
+  amountDue: number;
+  classId: number;
+  enrollmentId: number;
+}
 
 const PaymentsCreateCard = ({
   amountDue,
   classId,
   enrollmentId,
-}: {
-  amountDue: number;
-  classId: number;
-  enrollmentId: number;
-}) => {
-  const { t } = useTranslation();
-  const { formSchema } = usePaymentsSchema();
-
-  type FormValues = z.infer<typeof formSchema>;
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      amount: "" as undefined as number,
-      image: undefined,
-      description: "",
-    },
-  });
-
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
-  const { mutateAsync, isPending } = useCreatePayment(classId);
-
-  const enrollClass = async () => {
-    setErrorMessage("");
-    try {
-      const data = form.getValues();
-
-      if (amountDue < data.amount) {
-        toast.error(t("payments.exceedAmountDue"));
-        return;
-      }
-
-      const imageData = await generateImageData(data.image);
-
-      await mutateAsync({
-        ...data,
-        image: imageData,
-        enrollmentId: enrollmentId,
-      });
-
-      toast.success(t("payments.alerts.createSuccess"));
-      form.reset();
-    } catch (error: unknown) {
-      console.log(error);
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const onSubmit = () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
-
-  const amountWatch = form.watch("amount");
+}: PaymentsCreateCardProps) => {
+  const {
+    form,
+    amountWatch,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    errorMessage,
+    isPending,
+    onSubmit,
+    enrollClass,
+    resetForm,
+    t,
+  } = usePaymentCreateForm({ amountDue, classId, enrollmentId });
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
@@ -132,7 +79,7 @@ const PaymentsCreateCard = ({
                 </Field>
               )}
             />
-            {amountWatch && amountDue - amountWatch != 0 && (
+            {amountWatch && amountDue - amountWatch !== 0 && (
               <Field>
                 <Label>{t("payments.fields.remainAmount")}</Label>
                 <Input value={amountDue - amountWatch} readOnly />
@@ -141,7 +88,7 @@ const PaymentsCreateCard = ({
 
             <Controller
               control={form.control}
-              name={"image"}
+              name="image"
               render={({ field, fieldState }) => (
                 <ImageInput
                   label={t("payments.fields.image")}

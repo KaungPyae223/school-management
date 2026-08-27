@@ -1,12 +1,4 @@
-import { useTranslation } from "react-i18next";
-import {
-  BookOpen,
-  CreditCard,
-  DollarSign,
-  Hash,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { BookOpen, CreditCard, DollarSign, Hash, Mail, Phone } from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableCell from "../../../../components/table/TableCell";
@@ -17,109 +9,23 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../../components/ui/avatar";
-import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
-import type { TableHeadType } from "../../../../types/TableHeader";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import TableIconContent from "../../../../components/table/TableIconContent";
 import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
 import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
 import TableActionButton from "../../../../components/table/TableActionButton";
-import { useNavigate } from "react-router";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { usePaymentsList } from "../../hooks/list/usePaymentsList";
 
-const PaymentsList = ({
-  data,
-  view,
-}: {
+interface PaymentsListProps {
   data: any;
   view: "initial" | "all";
-}) => {
-  const { t } = useTranslation();
+}
 
-  const selectedColumns = useGetSelectedColumns([
-    "Name",
-    "Course",
-    "Price",
-    "Phone",
-    "Paid Amount",
-    "Remaining Amount",
-    "Payment Times",
-  ]);
-
-  const headers: TableHeadType[] = [
-    {
-      title: t("students.fields.name"),
-      key: "Name",
-      sortable: true,
-      sortKey: "studentName",
-    },
-    {
-      title: t("students.table.course"),
-      key: "Course",
-      sortable: true,
-      sortKey: "courseName",
-    },
-    {
-      title: t("students.fields.email"),
-      key: "Email",
-      sortable: true,
-      sortKey: "studentEmail",
-    },
-    {
-      title: t("students.fields.phone"),
-      key: "Phone",
-      sortable: true,
-      sortKey: "studentPhone",
-    },
-    {
-      title: t("students.table.price"),
-      key: "Price",
-      sortable: true,
-      sortKey: "e.price",
-      align: "right",
-    },
-    {
-      title: t("payments.firstPaidDate"),
-      key: "First Paid Date",
-      sortable: true,
-      sortKey: "firstPaidAt",
-    },
-    {
-      title: t("payments.lastPaidDate"),
-      key: "Last Paid Date",
-      sortable: true,
-      sortKey: "lastPaidAt",
-    },
-    ...(view === "initial"
-      ? [
-          {
-            title: t("payments.paidAmount"),
-            key: "Paid Amount",
-            sortable: true,
-            sortKey: "paidAmount",
-            align: "right" as const,
-          },
-          {
-            title: t("payments.remainingAmount"),
-            key: "Remaining Amount",
-            sortable: true,
-            sortKey: "remainingAmount",
-            align: "right" as const,
-          },
-        ]
-      : []),
-    {
-      title: t("payments.paymentTimes"),
-      key: "Payment Times",
-      sortable: true,
-      sortKey: "paymentTimes",
-      align: "right",
-    },
-  ];
-
-  const navigate = useNavigate();
+const PaymentsList = ({ data, view }: PaymentsListProps) => {
+  const { headers, selectedColumns, navigate, t } = usePaymentsList(view);
 
   return (
     <Table>
@@ -144,6 +50,7 @@ const PaymentsList = ({
                 </p>
               </div>
             </TableCell>
+
             <TableCell hidden={!selectedColumns.includes("Name")}>
               <div className="flex items-center gap-3">
                 <ImageDisplay
@@ -164,15 +71,18 @@ const PaymentsList = ({
                 </div>
               </div>
             </TableCell>
+
             <TableCell hidden={!selectedColumns.includes("Email")}>
               <TableIconContent icon={Mail} value={payment.studentEmail} />
             </TableCell>
+
             <TableCell hidden={!selectedColumns.includes("Phone")}>
               <TableIconContent
                 icon={Phone}
                 value={replaceLocalDigit(payment.studentPhone)}
               />
             </TableCell>
+
             <TableCell
               hidden={!selectedColumns.includes("Price")}
               align="right"
@@ -183,19 +93,22 @@ const PaymentsList = ({
                 align="right"
               />
             </TableCell>
+
             <TableCell
               hidden={!selectedColumns.includes("First Paid Date")}
               align="right"
             >
               {formatDate(new Date(payment.firstPaidAt))}
             </TableCell>
+
             <TableCell
               hidden={!selectedColumns.includes("Last Paid Date")}
               align="right"
             >
               {formatDate(new Date(payment.lastPaidAt))}
             </TableCell>
-            {view == "initial" && (
+
+            {view === "initial" && (
               <>
                 <TableCell
                   hidden={!selectedColumns.includes("Paid Amount")}
@@ -222,18 +135,19 @@ const PaymentsList = ({
                 align="right"
               />
             </TableCell>
+
             <TableCell hidden={!selectedColumns.includes("Created At")}>
               {formatDate(payment.createdAt)}
             </TableCell>
+
             <TableCell hidden={!selectedColumns.includes("Updated At")}>
               {formatDate(payment.updatedAt)}
             </TableCell>
+
             <TableCell>
               <TableActionButtonsContainer>
                 <TableActionButton
-                  onClick={() => {
-                    navigate(`/payments/${payment.id}`);
-                  }}
+                  onClick={() => navigate(`/payments/${payment.id}`)}
                   variant={payment.remainingAmount > 0 ? "default" : "outline"}
                   icon={CreditCard}
                   tooltip={t("payments.viewPaymentDetails")}

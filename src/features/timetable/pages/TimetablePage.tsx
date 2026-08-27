@@ -7,7 +7,7 @@ import { useAppQuery } from "../../../hooks/use-app-query";
 import { classService } from "../../../services/classes";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
 import TimetableHeader from "../components/views/TimetableHeader";
-import { useFormatData } from "../hooks/useFormatData";
+import { useFormatData } from "../hooks/views/useFormatData";
 import { Drawer } from "../../../components/ui/drawer";
 
 import { useState } from "react";
@@ -15,7 +15,7 @@ import { useState } from "react";
 import TimetableDetailsContent from "../components/views/TimetableDetailsContent";
 import TimetableTeacher from "../components/teacher/TimetableTeacher";
 import TimetableCourse from "../components/course/TimetableCourse";
-import { useTimetableChange } from "../hooks/useTimetableChange";
+import { useTimetableChange } from "../hooks/views/useTimetableChange";
 
 const TimetablePage = () => {
   const { t } = useTranslation();

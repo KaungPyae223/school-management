@@ -10,11 +10,11 @@ import {
   AvatarImage,
 } from "../../../../components/ui/avatar";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
-import { useTimetableChange } from "../../hooks/useTimetableChange";
-import { useFilterData } from "../../hooks/useFilterData";
-import { useModeStore } from "../../../stores/useModeStore";
-import i18n from "../../../translate/i18n";
-import { calendarLocales, myLocale } from "../utils/calendar-locales";
+import { useTimetableChange } from "../../hooks/views/useTimetableChange";
+import { useFilterData } from "../../hooks/views/useFilterData";
+import { useModeStore } from "../../../../stores/useModeStore";
+import i18n from "../../../../translate/i18n";
+import { calendarLocales, myLocale } from "../../utils/calendar-locales";
 import { myanmarMonths } from "../../../../utils/format-date";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 

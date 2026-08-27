@@ -7,7 +7,7 @@ const ImageDisplay = ({
   fallbackIcon: Icon,
   display = "card",
 }: {
-  image: string;
+  image?: string | null;
   alt: string;
   fallbackIcon: LucideIcon;
   display?: "card" | "list" | "details" | "data" | "timetable";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
 import type { TableHeadType } from "../../../../types/TableHeader";
@@ -7,7 +7,6 @@ import type { TableHeadType } from "../../../../types/TableHeader";
 export const useClassesList = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [classId, setClassId] = useState(0);
@@ -85,8 +84,6 @@ export const useClassesList = () => {
     setConfirmDialogOpen(true);
   };
 
-  const isTrashView = Boolean(searchParams.get("trash"));
-
   return {
     headers,
     selectedColumns,
@@ -94,7 +91,6 @@ export const useClassesList = () => {
     setConfirmDialogOpen,
     classId,
     handleDelete,
-    isTrashView,
     navigate,
     t,
   };

@@ -1,6 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import {
@@ -15,26 +13,16 @@ import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
 import ImageInput from "../../../components/form/ImageInput";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useState } from "react";
-import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { useLoaderData, useNavigate } from "react-router";
-import { useEditCourse } from "../hooks/useEditCourse";
-import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
 import NumberInput from "../../../components/form/NumberInput";
-import { useCoursesSchema } from "../schema/useCoursesSchema";
-import { translateError } from "../../../utils/translate-error";
+import { useLoaderData } from "react-router";
+import { useCourseEditForm } from "../hooks/forms/useCourseEditForm";
 
 const CourseEditPage = () => {
   const { t } = useTranslation();
-  const course = useLoaderData();
-  const navigate = useNavigate();
-  const { formSchema } = useCoursesSchema();
-
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const course = useLoaderData() as any;
 
   useAddBreadcrumb({
     title: t("courses.editBreadcrumb"),
@@ -50,51 +38,16 @@ const CourseEditPage = () => {
     ],
   });
 
-  type FormValues = z.infer<typeof formSchema>;
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: course.name,
-      price: course.price,
-      description: course.description ?? "",
-      image: undefined,
-    },
-  });
-
-  const onSubmit = () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const { mutateAsync, isPending } = useEditCourse();
-
-  const editCourse = async () => {
-    setErrorMessage("");
-    try {
-      const data = form.getValues();
-      const imageData = await generateImageData(data.image);
-
-      await mutateAsync({
-        ...data,
-        ...imageData,
-        id: course.id,
-      });
-
-      toast.success(t("courses.alerts.editSuccess"));
-      navigate("/courses");
-    } catch (error: any) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    errorMessage,
+    isPending,
+    onSubmit,
+    editCourse,
+    resetForm,
+  } = useCourseEditForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
@@ -105,7 +58,7 @@ const CourseEditPage = () => {
             <FormError errorMessage={errorMessage} />
             <Controller
               control={form.control}
-              name={"image"}
+              name="image"
               render={({ field, fieldState }) => (
                 <ImageInput
                   label={t("courses.fields.image")}

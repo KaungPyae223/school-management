@@ -13,7 +13,7 @@ import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
 
 import { useTwoFactorSchema } from "../../schema/useTwoFactorSchema";
-import { useTwoFactorDisable } from "../../hooks/useTwoFactorDisable";
+import { useTwoFactorDisable } from "../../hooks/api/useTwoFactorDisable";
 import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
 import { useNavigate } from "react-router";
 import { translateError } from "../../../../utils/translate-error";

@@ -1,23 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { enrollmentService } from "../../../services/enrollment";
+import { enrollmentService } from "../../../../services/enrollment";
 
 export const useEnrollClass = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: enrollmentService.createEnrollment,
+    mutationFn: enrollmentService.enrollStudent,
     onSuccess: () => {
       return Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["classes"] }),
+        queryClient.invalidateQueries({ queryKey: ["classes", id] }),
         queryClient.invalidateQueries({
-          queryKey: ["enrollments", id],
+          queryKey: ["classes", "students", id],
         }),
         queryClient.invalidateQueries({
-          queryKey: ["payments"],
+          queryKey: ["classes", "remaining-amount", id],
         }),
-        queryClient.invalidateQueries({
-          queryKey: ["classes_enrollments", id],
-        }),
-        queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
       ]);
     },
   });

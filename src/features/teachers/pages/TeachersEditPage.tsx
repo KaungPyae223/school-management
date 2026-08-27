@@ -1,6 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import {
@@ -15,25 +13,15 @@ import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
 import ImageInput from "../../../components/form/ImageInput";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useState } from "react";
-import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { generateImageData } from "../../../utils/generate-image-data";
 import RequiredLabel from "../../../components/form/RequiredLabel";
-import { useLoaderData, useNavigate } from "react-router";
-import { useEditTeacher } from "../hooks/useEditTeacher";
 import FormError from "../../../components/form/FormError";
-import { useTeachersSchema } from "../schema/useTeachersSchema";
-import { translateError } from "../../../utils/translate-error";
+import { useLoaderData } from "react-router";
+import { useTeacherEditForm } from "../hooks/forms/useTeacherEditForm";
 
-const TeachersEdit = () => {
+const TeachersEditPage = () => {
   const { t } = useTranslation();
-  const { formSchema } = useTeachersSchema();
-  const navigate = useNavigate();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
-  const teacher = useLoaderData();
+  const teacher = useLoaderData() as any;
 
   useAddBreadcrumb({
     title: t("teachers.editTitle"),
@@ -44,67 +32,32 @@ const TeachersEdit = () => {
       },
       {
         name: t("teachers.editBreadcrumb"),
-        link: "/teachers/edit",
+        link: `/teachers/edit/${teacher.id}`,
       },
     ],
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      image: undefined,
-      name: teacher.name,
-      address: teacher.address ?? "",
-      email: teacher.email ?? "",
-      phone: teacher.phone,
-      nrc: teacher.nrc ?? "",
-    },
-  });
-
-  const onSubmit = () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const { mutateAsync, isPending } = useEditTeacher();
-
-  const editTeacher = async () => {
-    setErrorMessage("");
-    try {
-      const data = form.getValues();
-      const imageData = await generateImageData(data.image);
-
-      await mutateAsync({
-        ...data,
-        ...imageData,
-        id: teacher.id,
-      });
-
-      toast.success(t("teachers.alerts.editSuccess"));
-      navigate("/teachers");
-    } catch (error: any) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    errorMessage,
+    isPending,
+    onSubmit,
+    editTeacher,
+    resetForm,
+  } = useTeacherEditForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
       <FormHeader title={t("teachers.editTitle")} />
       <CardContent>
-        <form id="edit-teacher-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="create-teacher-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <FormError errorMessage={errorMessage} />
             <Controller
               control={form.control}
-              name={"image"}
+              name="image"
               render={({ field, fieldState }) => (
                 <ImageInput
                   label={t("teachers.fields.image")}
@@ -120,7 +73,7 @@ const TeachersEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"name"}>
+                  <RequiredLabel id="name">
                     {t("teachers.fields.name")}
                   </RequiredLabel>
                   <Input
@@ -141,10 +94,9 @@ const TeachersEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"phone"}>
+                  <RequiredLabel id="phone">
                     {t("teachers.fields.phone")}
                   </RequiredLabel>
-
                   <Input
                     {...field}
                     id="phone"
@@ -163,35 +115,14 @@ const TeachersEdit = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="email">
+                  <RequiredLabel id="email">
                     {t("teachers.fields.email")}
-                  </FieldLabel>
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="email"
                     aria-invalid={fieldState.invalid}
                     placeholder={t("teachers.fields.emailPlaceholder")}
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="address"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"address"}>
-                    {t("teachers.fields.address")}
-                  </RequiredLabel>
-                  <Textarea
-                    {...field}
-                    id="address"
-                    aria-invalid={fieldState.invalid}
-                    placeholder={t("teachers.fields.addressPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -221,13 +152,34 @@ const TeachersEdit = () => {
                 </Field>
               )}
             />
+            <Controller
+              name="address"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="address">
+                    {t("teachers.fields.address")}
+                  </FieldLabel>
+                  <Textarea
+                    {...field}
+                    id="address"
+                    aria-invalid={fieldState.invalid}
+                    placeholder={t("teachers.fields.addressPlaceholder")}
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
           </FieldGroup>
         </form>
       </CardContent>
       <FormFooter
-        resetForm={resetForm}
-        formID="edit-teacher-form"
+        formID="create-teacher-form"
         isSubmitting={isPending}
+        resetForm={resetForm}
       />
 
       <ConfirmDialog
@@ -242,4 +194,4 @@ const TeachersEdit = () => {
   );
 };
 
-export default TeachersEdit;
+export default TeachersEditPage;

@@ -1,9 +1,5 @@
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-
-import * as z from "zod";
-
 import { Card, CardContent } from "../../../components/ui/card";
 import {
   Field,
@@ -17,11 +13,7 @@ import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
 import ImageInput from "../../../components/form/ImageInput";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useState } from "react";
-import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { generateImageData } from "../../../utils/generate-image-data";
-import { useCreateStudent } from "../hooks/useCreateStudent";
 import {
   Select,
   SelectContent,
@@ -34,14 +26,10 @@ import {
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import DateInput from "../../../components/form/DateInput";
 import FormError from "../../../components/form/FormError";
-import { useStudentsSchema } from "../schema/useStudentsSchema";
-import { translateError } from "../../../utils/translate-error";
+import { useStudentCreateForm } from "../hooks/forms/useStudentCreateForm";
 
 const StudentsCreatePage = () => {
   const { t } = useTranslation();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const { formSchema } = useStudentsSchema();
 
   useAddBreadcrumb({
     title: t("students.createTitle"),
@@ -57,51 +45,16 @@ const StudentsCreatePage = () => {
     ],
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      image: undefined,
-      name: "",
-      address: "",
-      email: "",
-      phone: "",
-      dob: undefined,
-      gender: undefined,
-    },
-  });
-
-  const onSubmit = () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const { mutateAsync, isPending } = useCreateStudent();
-
-  const createStudent = async () => {
-    setErrorMessage("");
-    try {
-      const data = form.getValues();
-      const imageData = await generateImageData(data.image);
-
-      await mutateAsync({
-        ...data,
-        ...imageData,
-      });
-
-      toast.success(t("students.alerts.createSuccess"));
-      form.reset();
-    } catch (error: any) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    errorMessage,
+    isPending,
+    onSubmit,
+    createStudent,
+    resetForm,
+  } = useStudentCreateForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
@@ -112,7 +65,7 @@ const StudentsCreatePage = () => {
             <FormError errorMessage={errorMessage} />
             <Controller
               control={form.control}
-              name={"image"}
+              name="image"
               render={({ field, fieldState }) => (
                 <ImageInput
                   label={t("students.fields.image")}
@@ -127,7 +80,7 @@ const StudentsCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"name"}>
+                  <RequiredLabel id="name">
                     {t("students.fields.name")}
                   </RequiredLabel>
                   <Input
@@ -148,10 +101,9 @@ const StudentsCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"phone"}>
+                  <RequiredLabel id="phone">
                     {t("students.fields.phone")}
                   </RequiredLabel>
-
                   <Input
                     {...field}
                     id="phone"
@@ -186,6 +138,70 @@ const StudentsCreatePage = () => {
                 </Field>
               )}
             />
+            <div className="grid grid-cols-2 gap-4">
+              <Controller
+                name="dob"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="dob">
+                      {t("students.fields.dob")}
+                    </FieldLabel>
+                    <DateInput
+                      field={field}
+                      label={t("students.fields.dob")}
+                      ariaInvalid={fieldState.invalid}
+                      yearDropDown
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              <Controller
+                name="gender"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="gender">
+                      {t("students.fields.gender")}
+                    </FieldLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      aria-invalid={fieldState.invalid}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue
+                          placeholder={t("students.fields.genderPlaceholder")}
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>
+                            {t("students.fields.gender")}
+                          </SelectLabel>
+                          <SelectItem value="male">
+                            {t("students.fields.male")}
+                          </SelectItem>
+                          <SelectItem value="female">
+                            {t("students.fields.female")}
+                          </SelectItem>
+                          <SelectItem value="other">
+                            {t("students.fields.other")}
+                          </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </div>
             <Controller
               name="address"
               control={form.control}
@@ -207,72 +223,13 @@ const StudentsCreatePage = () => {
                 </Field>
               )}
             />
-            <div className="grid grid-cols-2 gap-3">
-              <Controller
-                name="dob"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="dob">
-                      {t("students.fields.dob")}
-                    </FieldLabel>
-                    <DateInput
-                      ariaInvalid={fieldState.invalid}
-                      field={field}
-                      label={t("students.fields.pickDob")}
-                      disabledDate={(date) => date >= new Date()}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-              <Controller
-                name="gender"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="gender">
-                      {t("students.fields.gender")}
-                    </FieldLabel>
-                    <Select
-                      value={field.value ?? ""}
-                      onValueChange={field.onChange}
-                    >
-                      <SelectTrigger className="w-full ">
-                        <SelectValue
-                          placeholder={t("students.fields.selectGender")}
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>
-                            {t("students.fields.gender")}
-                          </SelectLabel>
-                          <SelectItem value="MALE">
-                            {t("students.fields.male")}
-                          </SelectItem>
-                          <SelectItem value="FEMALE">
-                            {t("students.fields.female")}
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-            </div>
           </FieldGroup>
         </form>
       </CardContent>
       <FormFooter
-        resetForm={resetForm}
         formID="create-student-form"
         isSubmitting={isPending}
+        resetForm={resetForm}
       />
 
       <ConfirmDialog

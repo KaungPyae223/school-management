@@ -1,84 +1,35 @@
-import { useTranslation } from "react-i18next";
-import {
-  BookOpen,
-  Calendar,
-  Mail,
-  MapPin,
-  Mars,
-  Phone,
-  Venus,
-  VenusAndMars,
-} from "lucide-react";
+import { BookOpen, Calendar, Mail, MapPin, Phone } from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableCell from "../../../../components/table/TableCell";
 import TableRow from "../../../../components/table/TableRow";
-import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "../../../../components/ui/avatar";
 import TableIconContent from "../../../../components/table/TableIconContent";
-import type { TableHeadType } from "../../../../types/TableHeader";
 import { formatDate } from "../../../../utils/format-date";
-import { useNavigate } from "react-router";
-import { useState } from "react";
 import StudentDeleteAlert from "../alerts/StudentsDeleteAlert";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
 import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import { useStudentsList } from "../../hooks/list/useStudentsList";
 
 const StudentsList = ({ data }: { data: any }) => {
-  const { t } = useTranslation();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [studentId, setStudentId] = useState<number>(0);
-  const navigate = useNavigate();
-
-  const handleDelete = (id: number) => {
-    setStudentId(id);
-    setConfirmDialogOpen(true);
-  };
-
-  const selectedColumns = useGetSelectedColumns([
-    "Name",
-    "Phone",
-    "Email",
-    "Address",
-    "Total Classes",
-    "Created At",
-  ]);
-
-  const headers: TableHeadType[] = [
-    { title: t("students.fields.name"), key: "Name", sortable: true, sortKey: "s.name" },
-    { title: t("students.fields.phone"), key: "Phone", sortable: true, sortKey: "s.phone" },
-    { title: t("students.fields.email"), key: "Email", sortable: true, sortKey: "s.email" },
-    { title: t("students.fields.address"), key: "Address", sortable: true, sortKey: "s.address" },
-    { title: t("students.fields.gender"), key: "Gender", sortable: true, sortKey: "s.gender" },
-    {
-      title: t("students.fields.dob"),
-      key: "Date of Birth",
-      sortable: true,
-      sortKey: "s.dob",
-    },
-    {
-      title: t("students.totalClasses"),
-      key: "Total Classes",
-      sortable: true,
-      sortKey: "total_classes",
-    },
-  ];
-
-  const generateGenderIcon = (gender: string) => {
-    return gender ? (gender === "FEMALE" ? Venus : Mars) : VenusAndMars;
-  };
-
-  const getGenderLabel = (gender: string) => {
-    if (gender === "FEMALE") return t("students.fields.female");
-    if (gender === "MALE") return t("students.fields.male");
-    return gender;
-  };
+  const {
+    headers,
+    selectedColumns,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    studentId,
+    handleDelete,
+    generateGenderIcon,
+    getGenderLabel,
+    navigate,
+    t,
+  } = useStudentsList();
 
   return (
     <>
@@ -93,8 +44,8 @@ const StudentsList = ({ data }: { data: any }) => {
             <TableRow key={student.id}>
               <TableCell hidden={!selectedColumns.includes("Name")}>
                 <div className="flex items-center gap-3">
-                  <Avatar className="size-9">
-                    <AvatarImage src={student.image} />
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={student.image} alt={student.name} />
                     <AvatarFallback>
                       {generateImageFallBack(student.name)}
                     </AvatarFallback>
@@ -109,10 +60,16 @@ const StudentsList = ({ data }: { data: any }) => {
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Email")}>
-                <TableIconContent icon={Mail} value={student.email} />
+                <TableIconContent
+                  icon={Mail}
+                  value={student.email || t("students.na")}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Address")}>
-                <TableIconContent icon={MapPin} value={student.address} />
+                <TableIconContent
+                  icon={MapPin}
+                  value={student.address || t("students.na")}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Gender")}>
                 <TableIconContent
@@ -123,13 +80,21 @@ const StudentsList = ({ data }: { data: any }) => {
               <TableCell hidden={!selectedColumns.includes("Date of Birth")}>
                 <TableIconContent
                   icon={Calendar}
-                  value={student.dob && formatDate(student.dob)}
+                  value={
+                    student.dob
+                      ? formatDate(student.dob)
+                      : t("students.tba")
+                  }
                 />
               </TableCell>
-              <TableCell hidden={!selectedColumns.includes("Total Classes")}>
+              <TableCell
+                hidden={!selectedColumns.includes("Total Classes")}
+                align="right"
+              >
                 <TableIconContent
                   icon={BookOpen}
                   value={replaceLocalDigit(student.total_classes)}
+                  align="right"
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
@@ -138,7 +103,8 @@ const StudentsList = ({ data }: { data: any }) => {
               <TableCell hidden={!selectedColumns.includes("Updated At")}>
                 {formatDate(student.updatedAt)}
               </TableCell>
-              <TableCell className="py-4 pl-3 pr-6 text-right">
+
+              <TableCell>
                 <TableActionButtonsContainer
                   onView={() => navigate(`/students/details/${student.id}`)}
                   onEdit={() => navigate(`/students/edit/${student.id}`)}

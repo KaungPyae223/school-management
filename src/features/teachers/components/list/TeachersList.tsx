@@ -1,82 +1,36 @@
-import { useTranslation } from "react-i18next";
-import {
-  BookOpen,
-  GraduationCap,
-  IdCard,
-  Mail,
-  MapPin,
-  Phone,
-} from "lucide-react";
+import { BookOpen, GraduationCap, IdCard, Mail, MapPin, Phone } from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableCell from "../../../../components/table/TableCell";
 import TableRow from "../../../../components/table/TableRow";
-import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "../../../../components/ui/avatar";
 import TableIconContent from "../../../../components/table/TableIconContent";
-import type { TableHeadType } from "../../../../types/TableHeader";
 import { formatDate } from "../../../../utils/format-date";
-import { useNavigate } from "react-router";
-import { useState } from "react";
 import TeachersDeleteAlert from "../alerts/TeachersDeleteAlert";
+import TeachersRestoreAlert from "../alerts/TeachersRestoreAlert";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
 import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
-import TeachersRestoreAlert from "../alerts/TeachersRestoreAlert";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { useTeachersList } from "../../hooks/list/useTeachersList";
 
 const TeachersList = ({ data }: { data: any }) => {
-  const { t } = useTranslation();
-  const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
-    useState<boolean>(false);
-  const [restoreConfirmDialogOpen, setRestoreConfirmDialogOpen] =
-    useState<boolean>(false);
-  const [teacherId, setTeacherId] = useState<number>(0);
-
-  const navigate = useNavigate();
-
-  const handleDelete = (id: number) => {
-    setTeacherId(id);
-    setDeleteConfirmDialogOpen(true);
-  };
-
-  const handleRestore = (id: number) => {
-    setTeacherId(id);
-    setRestoreConfirmDialogOpen(true);
-  };
-
-  const selectedColumns = useGetSelectedColumns([
-    "Name",
-    "Phone",
-    "Email",
-    "Address",
-    "Total Classes",
-    "Created At",
-  ]);
-
-  const headers: TableHeadType[] = [
-    { title: t("teachers.fields.name"), key: "Name", sortable: true, sortKey: "t.name" },
-    { title: t("teachers.fields.phone"), key: "Phone", sortable: true, sortKey: "t.phone" },
-    { title: t("teachers.fields.email"), key: "Email", sortable: true, sortKey: "t.email" },
-    { title: t("teachers.fields.address"), key: "Address", sortable: false, sortKey: "t.address" },
-    { title: t("teachers.fields.nrc"), key: "NRC", sortable: true, sortKey: "t.nrc" },
-    {
-      title: t("teachers.totalClasses"),
-      key: "Total Classes",
-      sortable: true,
-      sortKey: "total_classes",
-    },
-    {
-      title: t("teachers.totalStudents"),
-      key: "Total Students",
-      sortable: true,
-      sortKey: "total_students",
-    },
-  ];
+  const {
+    headers,
+    selectedColumns,
+    deleteConfirmDialogOpen,
+    setDeleteConfirmDialogOpen,
+    restoreConfirmDialogOpen,
+    setRestoreConfirmDialogOpen,
+    teacherId,
+    handleDelete,
+    handleRestore,
+    navigate,
+  } = useTeachersList();
 
   return (
     <>
@@ -91,8 +45,8 @@ const TeachersList = ({ data }: { data: any }) => {
             <TableRow key={teacher.id}>
               <TableCell hidden={!selectedColumns.includes("Name")}>
                 <div className="flex items-center gap-3">
-                  <Avatar className="size-9">
-                    <AvatarImage src={teacher.image} />
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={teacher.image} alt={teacher.name} />
                     <AvatarFallback>
                       {generateImageFallBack(teacher.name)}
                     </AvatarFallback>
@@ -110,21 +64,35 @@ const TeachersList = ({ data }: { data: any }) => {
                 <TableIconContent icon={Mail} value={teacher.email} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Address")}>
-                <TableIconContent icon={MapPin} value={teacher.address} />
+                <TableIconContent
+                  icon={MapPin}
+                  value={teacher.address}
+                />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("NRC")}>
-                <TableIconContent icon={IdCard} value={teacher.nrc} />
+                <TableIconContent
+                  icon={IdCard}
+                  value={replaceLocalDigit(teacher.nrc)}
+                />
               </TableCell>
-              <TableCell hidden={!selectedColumns.includes("Total Classes")}>
+              <TableCell
+                hidden={!selectedColumns.includes("Total Classes")}
+                align="right"
+              >
                 <TableIconContent
                   icon={BookOpen}
                   value={replaceLocalDigit(teacher.total_classes)}
+                  align="right"
                 />
               </TableCell>
-              <TableCell hidden={!selectedColumns.includes("Total Students")}>
+              <TableCell
+                hidden={!selectedColumns.includes("Total Students")}
+                align="right"
+              >
                 <TableIconContent
                   icon={GraduationCap}
                   value={replaceLocalDigit(teacher.total_students)}
+                  align="right"
                 />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Created At")}>
@@ -133,6 +101,7 @@ const TeachersList = ({ data }: { data: any }) => {
               <TableCell hidden={!selectedColumns.includes("Updated At")}>
                 {formatDate(teacher.updatedAt)}
               </TableCell>
+
               <TableCell className="py-4 pl-3 pr-6 text-right">
                 <TableActionButtonsContainer
                   onView={() => navigate(`/teachers/details/${teacher.id}`)}

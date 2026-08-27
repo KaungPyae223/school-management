@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { teacherService } from "../../../services/teachers";
+import { teacherService } from "../../../../services/teachers";
 
 export const useEditTeacher = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: teacherService.updateTeacher,
+    mutationFn: teacherService.editTeacher,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["teachers"] });
+      return queryClient.invalidateQueries({ queryKey: ["teachers"] });
     },
   });
 };

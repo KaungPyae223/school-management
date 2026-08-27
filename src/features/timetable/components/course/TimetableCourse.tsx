@@ -4,11 +4,11 @@ import timeGridPlugin from "@fullcalendar/react/timegrid";
 import dayGridPlugin from "@fullcalendar/react/daygrid";
 import rrulePlugin from "@fullcalendar/rrule";
 import { changeTime } from "../../../../utils/change-time";
-import { useTimetableChange } from "../../hooks/useTimetableChange";
-import { useFilterData } from "../../hooks/useFilterData";
-import { useModeStore } from "../../../stores/useModeStore";
+import { useTimetableChange } from "../../hooks/views/useTimetableChange";
+import { useFilterData } from "../../hooks/views/useFilterData";
+import { useModeStore } from "../../../../stores/useModeStore";
 import { useTranslation } from "react-i18next";
-import { calendarLocales, myLocale } from "../utils/calendar-locales";
+import { calendarLocales, myLocale } from "../../utils/calendar-locales";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import { myanmarMonths } from "../../../../utils/format-date";
 

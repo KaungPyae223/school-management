@@ -27,7 +27,6 @@ const ClassesList = ({ data }: { data: any[] }) => {
     setConfirmDialogOpen,
     classId,
     handleDelete,
-    isTrashView,
     navigate,
     t,
   } = useClassesList();
@@ -154,7 +153,7 @@ const ClassesList = ({ data }: { data: any[] }) => {
                   onEdit={() => navigate(`/classes/edit/${classData.id}`)}
                   onDelete={() => handleDelete(classData.id)}
                 >
-                  {!isTrashView && classData.status !== "complete" && (
+                  {classData.status !== "complete" && (
                     <TableActionButton
                       onClick={() => navigate(`/classes/enroll/${classData.id}`)}
                       icon={UserPlus}

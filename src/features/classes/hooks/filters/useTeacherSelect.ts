@@ -3,6 +3,8 @@ import { useSearchParams } from "react-router";
 import type { ControllerRenderProps } from "react-hook-form";
 import { debounce } from "lodash";
 import { teacherService } from "../../../../services/teachers";
+import { useFetchTeachersForSelect } from "../api/useFetchTeachersForSelect";
+import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
 
 export interface Teacher {
   id: number;
@@ -10,52 +12,39 @@ export interface Teacher {
   image?: string;
 }
 
-export const useTeacherSelect = (field: ControllerRenderProps<any, "teacherIds">) => {
+export const useTeacherSelect = (
+  field: ControllerRenderProps<any, "teacherIds">,
+) => {
   const [searchParams] = useSearchParams();
 
   const teacherValue = useMemo(
     () => field.value?.split(",").filter(Boolean).map(Number) ?? [],
-    [field.value]
+    [field.value],
   );
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedTeachers, setSelectedTeachers] = useState<Teacher[]>([]);
   const [teacherData, setTeacherData] = useState<Teacher[]>([]);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
 
-  const loadingRef = useRef<HTMLDivElement>(null);
+  const {
+    fetchTeachers,
+    fetchSelectedTeachers,
+    setPage,
+    isLoading,
+    hasMore,
+    setHasMore,
+  } = useFetchTeachersForSelect({
+    setSelectedTeachers,
+    setTeacherData,
+  });
 
-  const fetchTeachers = async (value: string, append: boolean = true) => {
-    setIsLoading(true);
-    try {
-      const response = await teacherService.searchAllTeachers({
-        search: value,
-        page,
-        limit: 5,
-      });
-      const results: Teacher[] = response?.data ?? [];
-      setTeacherData((prev) => (append ? [...prev, ...results] : results));
-      setHasMore(results.length === 5);
-      setPage((prevPage) => prevPage + 1);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchSelectedTeachers = async (teacherIDs: number[]) => {
-    try {
-      const response = await teacherService.searchAllTeachers({ teacherIDs });
-      const results: Teacher[] = response?.data ?? [];
-      setSelectedTeachers(results);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const loadingRef = useScrollFetch({
+    hasMore,
+    isLoading,
+    fetchFunction: fetchTeachers,
+    searchTerm,
+  });
 
   useEffect(() => {
     fetchTeachers("", false);
@@ -75,24 +64,6 @@ export const useTeacherSelect = (field: ControllerRenderProps<any, "teacherIds">
     }
   }, [field.value]);
 
-  useEffect(() => {
-    const currentLoadingRef = loadingRef.current;
-    if (!currentLoadingRef) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading && teacherData.length > 0) {
-          fetchTeachers(searchTerm);
-        }
-      },
-      { threshold: 0.1, rootMargin: "100px" }
-    );
-
-    observer.observe(currentLoadingRef);
-
-    return () => observer.disconnect();
-  }, [hasMore, isLoading, teacherData.length, searchTerm]);
-
   const debouncedSearch = useMemo(
     () =>
       debounce((value: string) => {
@@ -100,7 +71,7 @@ export const useTeacherSelect = (field: ControllerRenderProps<any, "teacherIds">
         setHasMore(true);
         fetchTeachers(value, false);
       }, 750),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -130,7 +101,7 @@ export const useTeacherSelect = (field: ControllerRenderProps<any, "teacherIds">
   };
 
   const displayTeachers = teacherData.filter(
-    (teacher) => !teacherValue.includes(teacher?.id)
+    (teacher) => !teacherValue.includes(teacher?.id),
   );
 
   return {

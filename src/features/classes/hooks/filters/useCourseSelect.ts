@@ -2,60 +2,49 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import type { ControllerRenderProps } from "react-hook-form";
 import { debounce } from "lodash";
-import { courseService } from "../../../../services/courses";
+import { useFetchCoursesForSelect } from "../api/useFetchCoursesForSelect";
+import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
 
 export interface Course {
   id: number;
   name: string;
   image?: string;
+  price?: string;
 }
 
-export const useCourseSelect = (field: ControllerRenderProps<any, "courseIds">) => {
+export const useCourseSelect = (
+  field: ControllerRenderProps<any, "courseIds">,
+) => {
   const [searchParams] = useSearchParams();
 
   const courseValue = useMemo(
     () => field.value?.split(",").filter(Boolean).map(Number) ?? [],
-    [field.value]
+    [field.value],
   );
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [courseData, setCourseData] = useState<Course[]>([]);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
 
-  const loadingRef = useRef<HTMLDivElement>(null);
+  const {
+    fetchCourses,
+    fetchSelectedCourses,
+    setPage,
+    isLoading,
+    hasMore,
+    setHasMore,
+  } = useFetchCoursesForSelect({
+    setSelectedCourses,
+    setCourseData,
+  });
 
-  const fetchCourses = async (value: string, append: boolean = true) => {
-    setIsLoading(true);
-    try {
-      const response = await courseService.searchAllCourses({
-        search: value,
-        page,
-        limit: 5,
-      });
-      const results: Course[] = response?.data ?? [];
-      setCourseData((prev) => (append ? [...prev, ...results] : results));
-      setHasMore(results.length === 5);
-      setPage((prevPage) => prevPage + 1);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchSelectedCourses = async (courseIDs: number[]) => {
-    try {
-      const response = await courseService.searchAllCourses({ courseIDs });
-      const results: Course[] = response?.data ?? [];
-      setSelectedCourses(results);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const loadingRef = useScrollFetch({
+    hasMore,
+    isLoading,
+    fetchFunction: fetchCourses,
+    searchTerm,
+  });
 
   useEffect(() => {
     fetchCourses("", false);
@@ -75,24 +64,6 @@ export const useCourseSelect = (field: ControllerRenderProps<any, "courseIds">) 
     }
   }, [field.value]);
 
-  useEffect(() => {
-    const currentLoadingRef = loadingRef.current;
-    if (!currentLoadingRef) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading && courseData.length > 0) {
-          fetchCourses(searchTerm);
-        }
-      },
-      { threshold: 0.1, rootMargin: "100px" }
-    );
-
-    observer.observe(currentLoadingRef);
-
-    return () => observer.disconnect();
-  }, [hasMore, isLoading, courseData.length, searchTerm]);
-
   const debouncedSearch = useMemo(
     () =>
       debounce((value: string) => {
@@ -100,7 +71,7 @@ export const useCourseSelect = (field: ControllerRenderProps<any, "courseIds">) 
         setHasMore(true);
         fetchCourses(value, false);
       }, 750),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -130,7 +101,7 @@ export const useCourseSelect = (field: ControllerRenderProps<any, "courseIds">) 
   };
 
   const displayCourses = courseData.filter(
-    (course) => !courseValue.includes(course?.id)
+    (course) => !courseValue.includes(course?.id),
   );
 
   return {

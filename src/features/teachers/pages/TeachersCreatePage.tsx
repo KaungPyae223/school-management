@@ -1,6 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../components/ui/card";
 import {
@@ -15,21 +13,13 @@ import FormHeader from "../../../components/form/FormHeader";
 import FormFooter from "../../../components/form/FormFooter";
 import ImageInput from "../../../components/form/ImageInput";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useState } from "react";
-import { toast } from "sonner";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import { generateImageData } from "../../../utils/generate-image-data";
-import { useCreateTeacher } from "../hooks/useCreateTeacher";
 import RequiredLabel from "../../../components/form/RequiredLabel";
 import FormError from "../../../components/form/FormError";
-import { useTeachersSchema } from "../schema/useTeachersSchema";
-import { translateError } from "../../../utils/translate-error";
+import { useTeacherCreateForm } from "../hooks/forms/useTeacherCreateForm";
 
 const TeachersCreatePage = () => {
   const { t } = useTranslation();
-  const { formSchema } = useTeachersSchema();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useAddBreadcrumb({
     title: t("teachers.createTitle"),
@@ -45,50 +35,16 @@ const TeachersCreatePage = () => {
     ],
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      image: undefined,
-      name: "",
-      address: "",
-      email: "",
-      phone: "",
-      nrc: "",
-    },
-  });
-
-  const onSubmit = () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const { mutateAsync, isPending } = useCreateTeacher();
-
-  const createTeacher = async () => {
-    setErrorMessage("");
-    try {
-      const data = form.getValues();
-      const imageData = await generateImageData(data.image);
-
-      await mutateAsync({
-        ...data,
-        ...imageData,
-      });
-
-      toast.success(t("teachers.alerts.createSuccess"));
-      form.reset();
-    } catch (error: any) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    confirmDialogOpen,
+    setConfirmDialogOpen,
+    errorMessage,
+    isPending,
+    onSubmit,
+    createTeacher,
+    resetForm,
+  } = useTeacherCreateForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
@@ -99,7 +55,7 @@ const TeachersCreatePage = () => {
             <FormError errorMessage={errorMessage} />
             <Controller
               control={form.control}
-              name={"image"}
+              name="image"
               render={({ field, fieldState }) => (
                 <ImageInput
                   label={t("teachers.fields.image")}
@@ -114,7 +70,7 @@ const TeachersCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"name"}>
+                  <RequiredLabel id="name">
                     {t("teachers.fields.name")}
                   </RequiredLabel>
                   <Input
@@ -135,10 +91,9 @@ const TeachersCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"phone"}>
+                  <RequiredLabel id="phone">
                     {t("teachers.fields.phone")}
                   </RequiredLabel>
-
                   <Input
                     {...field}
                     id="phone"
@@ -157,35 +112,14 @@ const TeachersCreatePage = () => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="email">
+                  <RequiredLabel id="email">
                     {t("teachers.fields.email")}
-                  </FieldLabel>
+                  </RequiredLabel>
                   <Input
                     {...field}
                     id="email"
                     aria-invalid={fieldState.invalid}
                     placeholder={t("teachers.fields.emailPlaceholder")}
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="address"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id={"address"}>
-                    {t("teachers.fields.address")}
-                  </RequiredLabel>
-                  <Textarea
-                    {...field}
-                    id="address"
-                    aria-invalid={fieldState.invalid}
-                    placeholder={t("teachers.fields.addressPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -215,13 +149,34 @@ const TeachersCreatePage = () => {
                 </Field>
               )}
             />
+            <Controller
+              name="address"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="address">
+                    {t("teachers.fields.address")}
+                  </FieldLabel>
+                  <Textarea
+                    {...field}
+                    id="address"
+                    aria-invalid={fieldState.invalid}
+                    placeholder={t("teachers.fields.addressPlaceholder")}
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
           </FieldGroup>
         </form>
       </CardContent>
       <FormFooter
-        resetForm={resetForm}
         formID="create-teacher-form"
         isSubmitting={isPending}
+        resetForm={resetForm}
       />
 
       <ConfirmDialog

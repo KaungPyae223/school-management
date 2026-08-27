@@ -22,10 +22,12 @@ import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import ClassesCourseInput from "../components/forms/ClassesCourseInput";
 import ClassesTeacherInput from "../components/forms/ClassesTeacherInput";
 import ClassesDayInput from "../components/forms/ClassesDayInput";
+import { useLoaderData } from "react-router";
 import { useClassEditForm } from "../hooks/forms/useClassEditForm";
 
 const ClassesEditPage = () => {
   const { t } = useTranslation();
+  const classData = useLoaderData() as any;
 
   useAddBreadcrumb({
     title: t("classes.editBreadcrumb"),
@@ -43,7 +45,6 @@ const ClassesEditPage = () => {
 
   const {
     form,
-    classData,
     confirmDialogOpen,
     setConfirmDialogOpen,
     errorMessage,

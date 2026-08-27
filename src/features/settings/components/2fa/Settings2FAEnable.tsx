@@ -14,7 +14,7 @@ import { Input } from "../../../../components/ui/input";
 
 import { useTwoFactorSchema } from "../../schema/useTwoFactorSchema";
 import { authService } from "../../../../services/auth";
-import { useTwoFactorEnable } from "../../hooks/useTwoFactorEnable";
+import { useTwoFactorEnable } from "../../hooks/api/useTwoFactorEnable";
 import SettingsBackupCodeDialog from "./SettingsBackupCodeDialog";
 import { translateError } from "../../../../utils/translate-error";
 

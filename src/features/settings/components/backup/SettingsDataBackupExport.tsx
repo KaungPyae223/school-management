@@ -17,7 +17,7 @@ import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { usePasswordSchema } from "../../auth/schema/usePasswordSchema";
-import { useExportBackup } from "../../hooks/useExportBackup";
+import { useExportBackup } from "../../hooks/api/useExportBackup";
 import { toast } from "sonner";
 import FormError from "../../../../components/form/FormError";
 import { translateError } from "../../../../utils/translate-error";

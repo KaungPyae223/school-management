@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { UserPen, Search } from "lucide-react";
+import { Search, UserPen } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -20,145 +19,23 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../../../../components/ui/input-group";
-import { debounce } from "lodash";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
-import { useSearchParams } from "react-router";
-import { useTranslation } from "react-i18next";
-
-import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
-import { teacherService } from "../../../../services/teachers";
-
-interface Teacher {
-  id: string;
-  name: string;
-  image?: string;
-}
+import { useTimetableTeacherSelect } from "../../hooks/teacher/useTimetableTeacherSelect";
 
 const TimetableTeacherSelect = () => {
-  const { t } = useTranslation();
-  const [searchParam] = useSearchParams();
-
-  const selected = searchParam.get("selectedTeachers")
-    ? searchParam.get("selectedTeachers").split(",")
-    : [];
-
-  const deSelected = searchParam.get("deSelectedTeachers");
-
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [teacherData, setTeacherData] = useState<Teacher[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-
-  const loadingRef = useRef<HTMLDivElement>(null);
-  const updateQueryParams = useSetQueryParams();
-
-  const fetchTeachers = async (value: string, append: boolean = true) => {
-    setIsLoading(true);
-    try {
-      const response = await teacherService.searchAllTeachers({
-        search: value,
-        page: page,
-        limit: 20,
-      });
-      const results: Teacher[] = response?.data ?? [];
-      setTeacherData((prev) => (append ? [...prev, ...results] : results));
-      setHasMore(results.length === 20);
-      setPage(page + 1);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTeachers("", false);
-  }, []);
-
-  useEffect(() => {
-    const currentLoadingRef = loadingRef.current;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const firstEntry = entries[0];
-        if (
-          firstEntry.isIntersecting &&
-          hasMore &&
-          !isLoading &&
-          teacherData.length > 0
-        ) {
-          fetchTeachers(searchTerm);
-        }
-      },
-      { threshold: 0.1, rootMargin: "100px" },
-    );
-
-    if (currentLoadingRef) {
-      observer.observe(currentLoadingRef);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [hasMore]);
-
-  const debouncedTeacherSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchTeachers(value, false);
-      }, 750),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedTeacherSearch(searchTerm);
-
-    return () => {
-      debouncedTeacherSearch.cancel();
-    };
-  }, [searchTerm]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
-
-  const toggleColumn = (id: string) => {
-    const newSelect = selected.includes(id)
-      ? selected.filter((item) => item !== id)
-      : [...selected, id];
-
-    updateQueryParams({
-      selectedTeachers: newSelect.join(","),
-    });
-  };
-
-  const selectAllFiltered = () => {
-    updateQueryParams({
-      selectedTeachers: null,
-      deSelectedTeachers: null,
-    });
-  };
-
-  const deselectAllFiltered = () => {
-    updateQueryParams({
-      deSelectedTeachers: true,
-      selectedTeachers: null,
-    });
-  };
-
-  const checkSelect = (id: string): boolean => {
-    if (selected.length == 0 && !deSelected) {
-      return true;
-    } else if (deSelected) {
-      return selected.includes(id);
-    } else {
-      return !selected.includes(id);
-    }
-  };
+  const {
+    searchTerm,
+    teacherData,
+    isLoading,
+    hasMore,
+    loadingRef,
+    handleSearchChange,
+    toggleColumn,
+    selectAllFiltered,
+    deselectAllFiltered,
+    checkSelect,
+    t,
+  } = useTimetableTeacherSelect();
 
   return (
     <DropdownMenu>
@@ -258,4 +135,3 @@ const TimetableTeacherSelect = () => {
 };
 
 export default TimetableTeacherSelect;
-

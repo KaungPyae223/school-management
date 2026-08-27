@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, LibraryBig, BookOpen } from "lucide-react";
+import { BookOpen, LibraryBig, Search } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -10,151 +9,28 @@ import {
 } from "../../../../components/ui/dropdown-menu";
 import { Button } from "../../../../components/ui/button";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
-
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "../../../../components/ui/input-group";
-import { debounce } from "lodash";
-import { useSearchParams } from "react-router";
-import { useTranslation } from "react-i18next";
-
-import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
-import { courseService } from "../../../../services/courses";
-
-interface Course {
-  id: string;
-  name: string;
-  image?: string;
-}
+import { useTimetableCourseSelect } from "../../hooks/course/useTimetableCourseSelect";
 
 const TimetableCourseSelect = () => {
-  const { t } = useTranslation();
-  const [searchParam] = useSearchParams();
-
-  const selected = searchParam.get("selectedCourses")
-    ? searchParam.get("selectedCourses").split(",")
-    : [];
-
-  const deSelected = searchParam.get("deSelectedCourses");
-
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [courseData, setCourseData] = useState<Course[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-
-  const loadingRef = useRef<HTMLDivElement>(null);
-  const updateQueryParams = useSetQueryParams();
-
-  const fetchCourses = async (value: string, append: boolean = true) => {
-    setIsLoading(true);
-    try {
-      const response = await courseService.searchAllCourses({
-        search: value,
-        page: page,
-        limit: 20,
-      });
-      const results: Course[] = response?.data ?? [];
-      setCourseData((prev) => (append ? [...prev, ...results] : results));
-      setHasMore(results.length === 20);
-      setPage(page + 1);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCourses("", false);
-  }, []);
-
-  useEffect(() => {
-    const currentLoadingRef = loadingRef.current;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const firstEntry = entries[0];
-        if (
-          firstEntry.isIntersecting &&
-          hasMore &&
-          !isLoading &&
-          courseData.length > 0
-        ) {
-          fetchCourses(searchTerm);
-        }
-      },
-      { threshold: 0.1, rootMargin: "100px" },
-    );
-
-    if (currentLoadingRef) {
-      observer.observe(currentLoadingRef);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [hasMore]);
-
-  const debouncedCourseSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchCourses(value, false);
-      }, 750),
-    [],
-  );
-
-  useEffect(() => {
-    debouncedCourseSearch(searchTerm);
-
-    return () => {
-      debouncedCourseSearch.cancel();
-    };
-  }, [searchTerm]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
-  };
-
-  const toggleColumn = (id: string) => {
-    const newSelect = selected.includes(id)
-      ? selected.filter((item) => item !== id)
-      : [...selected, id];
-
-    updateQueryParams({
-      selectedCourses: newSelect.join(","),
-    });
-  };
-
-  const selectAllFiltered = () => {
-    updateQueryParams({
-      selectedCourses: null,
-      deSelectedCourses: null,
-    });
-  };
-
-  const deselectAllFiltered = () => {
-    updateQueryParams({
-      deSelectedCourses: true,
-      selectedCourses: null,
-    });
-  };
-
-  const checkSelect = (id: string): boolean => {
-    if (selected.length == 0 && !deSelected) {
-      return true;
-    } else if (deSelected) {
-      return selected.includes(id);
-    } else {
-      return !selected.includes(id);
-    }
-  };
+  const {
+    searchTerm,
+    courseData,
+    isLoading,
+    hasMore,
+    loadingRef,
+    handleSearchChange,
+    toggleColumn,
+    selectAllFiltered,
+    deselectAllFiltered,
+    checkSelect,
+    t,
+  } = useTimetableCourseSelect();
 
   return (
     <DropdownMenu>
@@ -203,9 +79,9 @@ const TimetableCourseSelect = () => {
                   onSelect={(e) => e.preventDefault()}
                 >
                   <ImageDisplay
-                    image={course.image}
                     alt={course.name}
                     fallbackIcon={BookOpen}
+                    image={course.image}
                     display="list"
                   />
                   <span className="font-medium text-sm truncate">

@@ -12,7 +12,7 @@ import FormFooter from "../../../../components/form/FormFooter";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
 import { useTwoFactorSchema } from "../../schema/useTwoFactorSchema";
-import { useTwoFactorVerifiy } from "../../hooks/useTwoFactorVerifiy";
+import { useTwoFactorVerifiy } from "../../hooks/api/useTwoFactorVerifiy";
 import { useRevalidator } from "react-router";
 import { translateError } from "../../../../utils/translate-error";
 

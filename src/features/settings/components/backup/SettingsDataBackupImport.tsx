@@ -30,7 +30,7 @@ import RequiredLabel from "../../../../components/form/RequiredLabel";
 import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
 import { useBackupImportSchema } from "../../schema/useBackupImportSchema";
 import { cn } from "../../../../lib/utils";
-import { useImportBackup } from "../../hooks/useImportBackup";
+import { useImportBackup } from "../../hooks/api/useImportBackup";
 import FormError from "../../../../components/form/FormError";
 import { translateError } from "../../../../utils/translate-error";
 

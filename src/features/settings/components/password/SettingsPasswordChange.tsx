@@ -12,10 +12,10 @@ import FormError from "../../../../components/form/FormError";
 import FormFooter from "../../../../components/form/FormFooter";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
-import { useChangePassword } from "../../hooks/useChangePassword";
+import { useChangePassword } from "../../hooks/api/useChangePassword";
 import { useNavigate } from "react-router";
 import { useChangePasswordSchema } from "../../schema/useChangePasswordSchema";
-import { useLockForm } from "../../auth/hooks/useLockForm";
+import { useLockForm } from "../../../auth/hooks/forms/useLockForm";
 
 const SettingsPasswordChange = () => {
   const { t } = useTranslation();
