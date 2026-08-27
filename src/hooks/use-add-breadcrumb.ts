@@ -9,13 +9,13 @@ const useAddBreadcrumb = ({
   title?: string;
   params?: { name: string; link: string }[];
 }) => {
-const { setTitle, setParams } = useBreadCrumbStore();
-  const { t } = useTranslation();
+  const { setTitle, setParams } = useBreadCrumbStore();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     setTitle(title || "");
     setParams(params || []);
-  }, [setTitle, setParams, t]);
+  }, [setTitle, setParams, i18n.language]);
 };
 
 export default useAddBreadcrumb;

@@ -1,10 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-import { debounce } from "lodash";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { useTranslation } from "react-i18next";
 import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
-import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
-import { useFetchOnScroll } from "../../../../hooks/use-fetch-on-scroll";
 import { courseService } from "../../../../services/courses";
 import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
 
@@ -16,7 +12,6 @@ export interface Course {
 }
 
 export const useTimetableCourseSelect = () => {
-  const { t } = useTranslation();
   const [searchParam] = useSearchParams();
 
   const selected = searchParam.get("selectedCourses")
@@ -90,6 +85,5 @@ export const useTimetableCourseSelect = () => {
     selectAllFiltered,
     deselectAllFiltered,
     checkSelect,
-    t,
   };
 };

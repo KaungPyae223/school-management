@@ -19,6 +19,7 @@ import { Input } from "../../../../components/ui/input";
 import { Label } from "../../../../components/ui/label";
 import ImageInput from "../../../../components/form/ImageInput";
 import { Textarea } from "../../../../components/ui/textarea";
+import { useTranslation } from "react-i18next";
 import NumberInput from "../../../../components/form/NumberInput";
 import { usePaymentCreateForm } from "../../hooks/forms/usePaymentCreateForm";
 
@@ -33,6 +34,7 @@ const PaymentsCreateCard = ({
   classId,
   enrollmentId,
 }: PaymentsCreateCardProps) => {
+  const { t } = useTranslation();
   const {
     form,
     amountWatch,
@@ -43,7 +45,6 @@ const PaymentsCreateCard = ({
     onSubmit,
     enrollClass,
     resetForm,
-    t,
   } = usePaymentCreateForm({ amountDue, classId, enrollmentId });
 
   return (

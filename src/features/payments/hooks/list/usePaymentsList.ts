@@ -92,6 +92,5 @@ export const usePaymentsList = (view: "initial" | "all") => {
     headers,
     selectedColumns,
     navigate,
-    t,
   };
 };

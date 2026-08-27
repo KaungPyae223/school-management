@@ -73,6 +73,5 @@ export const useAuthLoginForm = (navigateLink?: string) => {
     errorMessage,
     onSubmit,
     resetForm,
-    t,
   };
 };

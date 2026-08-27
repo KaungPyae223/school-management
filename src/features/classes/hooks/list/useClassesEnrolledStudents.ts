@@ -57,6 +57,5 @@ export const useClassesEnrolledStudents = () => {
     setConfirmDialogOpen,
     handleDelete,
     navigate,
-    t,
   };
 };

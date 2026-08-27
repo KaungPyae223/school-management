@@ -90,6 +90,5 @@ export const usePaymentCreateForm = ({
     onSubmit,
     enrollClass,
     resetForm,
-    t,
   };
 };

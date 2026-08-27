@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-
 import { useSearchParams } from "react-router";
-import { useTranslation } from "react-i18next";
 import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
 import { teacherService } from "../../../../services/teachers";
 import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
@@ -13,7 +11,6 @@ export interface Teacher {
 }
 
 export const useTimetableTeacherSelect = () => {
-  const { t } = useTranslation();
   const [searchParam] = useSearchParams();
 
   const selected = searchParam.get("selectedTeachers")
@@ -87,6 +84,5 @@ export const useTimetableTeacherSelect = () => {
     selectAllFiltered,
     deselectAllFiltered,
     checkSelect,
-    t,
   };
 };

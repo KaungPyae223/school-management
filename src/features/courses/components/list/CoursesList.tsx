@@ -11,11 +11,13 @@ import TableActionButtonsContainer from "../../../../components/table/TableActio
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
+import { useTranslation } from "react-i18next";
 import CoursesDeleteAlert from "../alerts/CoursesDeleteAlert";
 import CoursesRestoreAlert from "../alerts/CoursesRestoreAlert";
 import { useCoursesList } from "../../hooks/list/useCoursesList";
 
 const CoursesList = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
   const {
     headers,
     selectedColumns,
@@ -27,7 +29,6 @@ const CoursesList = ({ data }: { data: any }) => {
     handleDelete,
     handleRestore,
     navigate,
-    t,
   } = useCoursesList();
 
   return (

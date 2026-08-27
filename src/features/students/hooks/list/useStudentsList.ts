@@ -90,6 +90,5 @@ export const useStudentsList = () => {
     generateGenderIcon,
     getGenderLabel,
     navigate,
-    t,
   };
 };

@@ -87,6 +87,5 @@ export const useCoursesList = () => {
     handleDelete,
     handleRestore,
     navigate,
-    t,
   };
 };

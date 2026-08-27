@@ -15,11 +15,13 @@ import ImageDisplay from "../../../../components/image/ImageDisplay";
 import CardDayBadge from "../../../../components/card-utils/CardDayBadge";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import { changeTime } from "../../../../utils/change-time";
+import { useTranslation } from "react-i18next";
 import ClassesDeleteAlert from "../alerts/ClassesDeleteAlert";
 import ClassesStatus from "../shared/ClassesStatus";
 import { useClassesList } from "../../hooks/list/useClassesList";
 
 const ClassesList = ({ data }: { data: any[] }) => {
+  const { t } = useTranslation();
   const {
     headers,
     selectedColumns,
@@ -28,7 +30,6 @@ const ClassesList = ({ data }: { data: any[] }) => {
     classId,
     handleDelete,
     navigate,
-    t,
   } = useClassesList();
 
   return (

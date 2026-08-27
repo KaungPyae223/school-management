@@ -89,6 +89,5 @@ export const useTeachersList = () => {
     handleDelete,
     handleRestore,
     navigate,
-    t,
   };
 };

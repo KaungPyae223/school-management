@@ -19,10 +19,12 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../../../../components/ui/input-group";
+import { useTranslation } from "react-i18next";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import { useTimetableTeacherSelect } from "../../hooks/teacher/useTimetableTeacherSelect";
 
 const TimetableTeacherSelect = () => {
+  const { t } = useTranslation();
   const {
     searchTerm,
     teacherData,
@@ -34,7 +36,6 @@ const TimetableTeacherSelect = () => {
     selectAllFiltered,
     deselectAllFiltered,
     checkSelect,
-    t,
   } = useTimetableTeacherSelect();
 
   return (

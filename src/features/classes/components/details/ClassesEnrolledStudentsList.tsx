@@ -11,10 +11,12 @@ import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { useTranslation } from "react-i18next";
 import ClassesEnrollmentDeleteAlert from "../alerts/ClassesEnrollmentDeleteAlert";
 import { useClassesEnrolledStudents } from "../../hooks/list/useClassesEnrolledStudents";
 
 const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
   const {
     headers,
     enrolledID,
@@ -22,7 +24,6 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
     setConfirmDialogOpen,
     handleDelete,
     navigate,
-    t,
   } = useClassesEnrolledStudents();
 
   return (

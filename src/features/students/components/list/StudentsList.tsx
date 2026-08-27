@@ -15,9 +15,11 @@ import { generateImageFallBack } from "../../../../utils/generate-image-fallback
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
 import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
+import { useTranslation } from "react-i18next";
 import { useStudentsList } from "../../hooks/list/useStudentsList";
 
 const StudentsList = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
   const {
     headers,
     selectedColumns,
@@ -28,7 +30,6 @@ const StudentsList = ({ data }: { data: any }) => {
     generateGenderIcon,
     getGenderLabel,
     navigate,
-    t,
   } = useStudentsList();
 
   return (

@@ -14,10 +14,12 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../../../../components/ui/input-group";
+import { useTranslation } from "react-i18next";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { useTimetableCourseSelect } from "../../hooks/course/useTimetableCourseSelect";
 
 const TimetableCourseSelect = () => {
+  const { t } = useTranslation();
   const {
     searchTerm,
     courseData,
@@ -29,7 +31,6 @@ const TimetableCourseSelect = () => {
     selectAllFiltered,
     deselectAllFiltered,
     checkSelect,
-    t,
   } = useTimetableCourseSelect();
 
   return (

@@ -17,6 +17,7 @@ import TableActionButtonsContainer from "../../../../components/table/TableActio
 import TableActionButton from "../../../../components/table/TableActionButton";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { useTranslation } from "react-i18next";
 import { usePaymentsList } from "../../hooks/list/usePaymentsList";
 
 interface PaymentsListProps {
@@ -25,7 +26,8 @@ interface PaymentsListProps {
 }
 
 const PaymentsList = ({ data, view }: PaymentsListProps) => {
-  const { headers, selectedColumns, navigate, t } = usePaymentsList(view);
+  const { t } = useTranslation();
+  const { headers, selectedColumns, navigate } = usePaymentsList(view);
 
   return (
     <Table>

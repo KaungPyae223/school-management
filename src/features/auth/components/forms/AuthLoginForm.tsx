@@ -5,6 +5,7 @@ import { Field, FieldError, FieldGroup } from "../../../../components/ui/field";
 import FormError from "../../../../components/form/FormError";
 import FormFooter from "../../../../components/form/FormFooter";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
+import { useTranslation } from "react-i18next";
 import { Input } from "../../../../components/ui/input";
 import { useAuthLoginForm } from "../../hooks/forms/useAuthLoginForm";
 
@@ -13,7 +14,8 @@ interface AuthLoginFormProps {
 }
 
 const AuthLoginForm = ({ navigateLink }: AuthLoginFormProps) => {
-  const { form, isLocked, isPending, errorMessage, onSubmit, resetForm, t } =
+  const { t } = useTranslation();
+  const { form, isLocked, isPending, errorMessage, onSubmit, resetForm } =
     useAuthLoginForm(navigateLink);
 
   return (

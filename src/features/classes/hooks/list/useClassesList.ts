@@ -92,6 +92,5 @@ export const useClassesList = () => {
     classId,
     handleDelete,
     navigate,
-    t,
   };
 };
