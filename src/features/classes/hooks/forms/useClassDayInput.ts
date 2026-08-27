@@ -20,7 +20,7 @@ const DAY_ORDER: Record<string, number> = {
   Sunday: 7,
 };
 
-export const useDayInput = (field: ControllerRenderProps<any, "days">) => {
+export const useClassDayInput = (field: ControllerRenderProps<any, "days">) => {
   const selectedDays = field.value?.split(",").filter(Boolean) ?? [];
 
   const toggleDay = (day: string) => {
@@ -30,7 +30,7 @@ export const useDayInput = (field: ControllerRenderProps<any, "days">) => {
       : [...selectedDays, day];
 
     const sorted = updated.sort(
-      (a, b) => (DAY_ORDER[a] ?? 0) - (DAY_ORDER[b] ?? 0)
+      (a, b) => (DAY_ORDER[a] ?? 0) - (DAY_ORDER[b] ?? 0),
     );
 
     field.onChange(sorted.join(","));

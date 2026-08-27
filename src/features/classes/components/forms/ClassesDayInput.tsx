@@ -1,7 +1,10 @@
 import { useTranslation } from "react-i18next";
-import type { ControllerFieldState, ControllerRenderProps } from "react-hook-form";
+import type {
+  ControllerFieldState,
+  ControllerRenderProps,
+} from "react-hook-form";
 import { Button } from "../../../../components/ui/button";
-import { useDayInput } from "../../hooks/forms/useDayInput";
+import { useClassDayInput } from "../../hooks/forms/useClassDayInput";
 
 interface ClassesDayInputProps {
   field: ControllerRenderProps<any, "days">;
@@ -10,7 +13,7 @@ interface ClassesDayInputProps {
 
 const ClassesDayInput = ({ field, fieldState }: ClassesDayInputProps) => {
   const { t } = useTranslation();
-  const { days, selectedDays, toggleDay } = useDayInput(field);
+  const { days, selectedDays, toggleDay } = useClassDayInput(field);
 
   return (
     <div

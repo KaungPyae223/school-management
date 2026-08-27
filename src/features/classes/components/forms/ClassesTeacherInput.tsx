@@ -1,16 +1,26 @@
 import { useTranslation } from "react-i18next";
-import type { ControllerFieldState, ControllerRenderProps } from "react-hook-form";
+import type {
+  ControllerFieldState,
+  ControllerRenderProps,
+} from "react-hook-form";
 import { Trash } from "lucide-react";
 
 import { Field, FieldError } from "../../../../components/ui/field";
 import { Input } from "../../../../components/ui/input";
 import { Button } from "../../../../components/ui/button";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../../components/ui/avatar";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { cn } from "../../../../lib/utils";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
-import { useTeacherInput, type Teacher } from "../../hooks/forms/useTeacherInput";
+import {
+  useClassTeacherInput,
+  type Teacher,
+} from "../../hooks/forms/useClasssTeacherInput";
 
 interface ClassesTeacherInputProps {
   field: ControllerRenderProps<any, "teacherId">;
@@ -37,7 +47,7 @@ const ClassesTeacherInput = ({
     handleSearchChange,
     handleSelectTeacher,
     handleRemoveTeacher,
-  } = useTeacherInput(field, defaultSelectedTeacher);
+  } = useClassTeacherInput(field, defaultSelectedTeacher);
 
   return (
     <Field data-invalid={fieldState.invalid}>

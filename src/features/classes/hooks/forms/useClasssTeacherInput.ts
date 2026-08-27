@@ -9,7 +9,7 @@ export interface Teacher {
   image?: string;
 }
 
-export const useTeacherInput = (
+export const useClassTeacherInput = (
   field: ControllerRenderProps<any, "teacherId">,
   defaultSelectedTeacher?: Teacher,
 ) => {

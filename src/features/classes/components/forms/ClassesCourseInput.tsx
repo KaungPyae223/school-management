@@ -1,5 +1,8 @@
 import { useTranslation } from "react-i18next";
-import type { ControllerFieldState, ControllerRenderProps } from "react-hook-form";
+import type {
+  ControllerFieldState,
+  ControllerRenderProps,
+} from "react-hook-form";
 import { BookOpen, Trash } from "lucide-react";
 
 import { Field, FieldError } from "../../../../components/ui/field";
@@ -9,7 +12,10 @@ import { ScrollArea } from "../../../../components/ui/scroll-area";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { cn } from "../../../../lib/utils";
-import { useCourseInput, type Course } from "../../hooks/forms/useCourseInput";
+import {
+  useClassCourseInput,
+  type Course,
+} from "../../hooks/forms/useClassCourseInput";
 
 interface ClassesCourseInputProps {
   field: ControllerRenderProps<any, "courseId">;
@@ -38,7 +44,7 @@ const ClassesCourseInput = ({
     handleSearchChange,
     handleSelectCourse,
     handleRemoveCourse,
-  } = useCourseInput(field, setValue, defaultSelectedCourse);
+  } = useClassCourseInput(field, setValue, defaultSelectedCourse);
 
   return (
     <Field data-invalid={fieldState.invalid}>

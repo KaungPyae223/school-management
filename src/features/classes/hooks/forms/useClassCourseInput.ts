@@ -10,7 +10,7 @@ export interface Course {
   price?: string;
 }
 
-export const useCourseInput = (
+export const useClassCourseInput = (
   field: ControllerRenderProps<any, "courseId">,
   setValue: any,
   defaultSelectedCourse?: Course,
