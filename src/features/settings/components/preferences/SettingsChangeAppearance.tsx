@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "../../../../components/ui/button";
 import { ButtonGroup } from "../../../../components/ui/button-group";
-import { useModeStore } from "../../../stores/useModeStore";
+import { useModeStore } from "../../../../stores/useModeStore";
 import {
   Tooltip,
   TooltipContent,

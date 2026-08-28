@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useColorSchemeStore } from "../../../stores/useColorSchemeStore";
+import { useColorSchemeStore } from "../../../../stores/useColorSchemeStore";
 import {
   Tooltip,
   TooltipContent,

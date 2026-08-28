@@ -9,8 +9,8 @@ import {
   SelectValue,
 } from "../../../../components/ui/select";
 import { useTranslation } from "react-i18next";
-import { SUPPORTED_LANGUAGES } from "../../../translate/i18n";
-import { useLanguageStore } from "../../../stores/useLanguageStore";
+import { SUPPORTED_LANGUAGES } from "../../../../translate/i18n";
+import { useLanguageStore } from "../../../../stores/useLanguageStore";
 
 const SettingsChangeLanguage = () => {
   const { t } = useTranslation();
