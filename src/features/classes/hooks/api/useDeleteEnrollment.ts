@@ -17,6 +17,7 @@ export const useDeleteEnrollment = () => {
         queryClient.invalidateQueries({
           queryKey: ["classes_enrollments"],
         }),
+        queryClient.invalidateQueries({ queryKey: ["students"] }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
       ]);
     },

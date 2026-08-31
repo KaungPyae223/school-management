@@ -1,30 +1,30 @@
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
-import { useToggleLeaveEnrollment } from "../../hooks/api/useToggleLeaveEnrollment";
+import { useToggleWithdrawEnrollment } from "../../hooks/api/useToggleWithdrawEnrollment";
 import { translateError } from "../../../../utils/translate-error";
 
-const ClassesEnrollmentLeaveAlert = ({
+const ClassesEnrollmentWithdrawAlert = ({
   id,
-  isLeave,
+  isWithdraw,
   confirmDialogOpen,
   setConfirmDialogOpen,
 }: {
   id: number;
-  isLeave: boolean;
+  isWithdraw: boolean;
   confirmDialogOpen: boolean;
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useToggleLeaveEnrollment();
+  const { mutateAsync, isPending } = useToggleWithdrawEnrollment();
 
-  const handleToggleLeave = async () => {
+  const handleToggleWithdraw = async () => {
     try {
       await mutateAsync(id);
       toast.success(
-        isLeave
+        isWithdraw
           ? t("classes.alerts.rejoinEnrollmentSuccess")
-          : t("classes.alerts.leaveEnrollmentSuccess"),
+          : t("classes.alerts.withdrawEnrollmentSuccess"),
       );
     } catch (error: any) {
       toast.error(translateError(error, t));
@@ -37,26 +37,26 @@ const ClassesEnrollmentLeaveAlert = ({
     <ConfirmDialog
       confirmDialogOpen={confirmDialogOpen}
       setConfirmDialogOpen={setConfirmDialogOpen}
-      onConfirm={handleToggleLeave}
-      variant={isLeave ? "default" : "destructive"}
+      onConfirm={handleToggleWithdraw}
+      variant={isWithdraw ? "default" : "destructive"}
       title={
-        isLeave
+        isWithdraw
           ? t("classes.alerts.rejoinEnrollmentTitle")
-          : t("classes.alerts.leaveEnrollmentTitle")
+          : t("classes.alerts.withdrawEnrollmentTitle")
       }
       description={
-        isLeave
+        isWithdraw
           ? t("classes.alerts.rejoinEnrollmentDesc")
-          : t("classes.alerts.leaveEnrollmentDesc")
+          : t("classes.alerts.withdrawEnrollmentDesc")
       }
       confirmButtonText={
-        isLeave
+        isWithdraw
           ? t("classes.alerts.rejoinEnrollmentButton")
-          : t("classes.alerts.leaveEnrollmentButton")
+          : t("classes.alerts.withdrawEnrollmentButton")
       }
       isPending={isPending}
     />
   );
 };
 
-export default ClassesEnrollmentLeaveAlert;
+export default ClassesEnrollmentWithdrawAlert;

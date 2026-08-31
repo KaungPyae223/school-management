@@ -1,4 +1,11 @@
-import { BookOpen, CreditCard, DollarSign, Hash, Mail, Phone } from "lucide-react";
+import {
+  BookOpen,
+  CreditCard,
+  DollarSign,
+  Hash,
+  Mail,
+  Phone,
+} from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableCell from "../../../../components/table/TableCell";
@@ -22,12 +29,11 @@ import { usePaymentsList } from "../../hooks/list/usePaymentsList";
 
 interface PaymentsListProps {
   data: any;
-  view: "initial" | "all";
 }
 
-const PaymentsList = ({ data, view }: PaymentsListProps) => {
+const PaymentsList = ({ data }: PaymentsListProps) => {
   const { t } = useTranslation();
-  const { headers, selectedColumns, navigate } = usePaymentsList(view);
+  const { headers, selectedColumns, navigate } = usePaymentsList();
 
   return (
     <Table>
@@ -38,7 +44,13 @@ const PaymentsList = ({ data, view }: PaymentsListProps) => {
       />
       <TableBody>
         {data.map((payment: any) => (
-          <TableRow key={payment.id}>
+          <TableRow
+            key={payment.id}
+            className={
+              payment.withdraw &&
+              "bg-destructive/10 hover:bg-destructive/15 text-muted-foreground"
+            }
+          >
             <TableCell hidden={!selectedColumns.includes("Name")}>
               <div className="flex items-center gap-3">
                 <Avatar className="size-9">
@@ -109,23 +121,18 @@ const PaymentsList = ({ data, view }: PaymentsListProps) => {
             >
               {formatDate(new Date(payment.lastPaidAt))}
             </TableCell>
-
-            {view === "initial" && (
-              <>
-                <TableCell
-                  hidden={!selectedColumns.includes("Paid Amount")}
-                  align="right"
-                >
-                  {formatCurrency(payment.paidAmount)}
-                </TableCell>
-                <TableCell
-                  hidden={!selectedColumns.includes("Remaining Amount")}
-                  align="right"
-                >
-                  {formatCurrency(payment.remainingAmount)}
-                </TableCell>
-              </>
-            )}
+            <TableCell
+              hidden={!selectedColumns.includes("Paid Amount")}
+              align="right"
+            >
+              {formatCurrency(payment.paidAmount)}
+            </TableCell>
+            <TableCell
+              hidden={!selectedColumns.includes("Remaining Amount")}
+              align="right"
+            >
+              {formatCurrency(payment.remainingAmount)}
+            </TableCell>
 
             <TableCell
               hidden={!selectedColumns.includes("Payment Times")}
@@ -138,11 +145,17 @@ const PaymentsList = ({ data, view }: PaymentsListProps) => {
               />
             </TableCell>
 
-            <TableCell align="right" hidden={!selectedColumns.includes("Created At")}>
+            <TableCell
+              align="right"
+              hidden={!selectedColumns.includes("Created At")}
+            >
               {formatDate(payment.createdAt)}
             </TableCell>
 
-            <TableCell align="right" hidden={!selectedColumns.includes("Updated At")}>
+            <TableCell
+              align="right"
+              hidden={!selectedColumns.includes("Updated At")}
+            >
               {formatDate(payment.updatedAt)}
             </TableCell>
 

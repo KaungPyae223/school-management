@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { enrollmentService } from "../../../../services/enrollment";
 
-export const useToggleLeaveEnrollment = () => {
+export const useToggleWithdrawEnrollment = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: enrollmentService.toggleLeaveEnrollment,
+    mutationFn: enrollmentService.toggleWithdrawEnrollment,
     onSuccess: () => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["classes"] }),
@@ -18,6 +18,7 @@ export const useToggleLeaveEnrollment = () => {
           queryKey: ["classes_enrollments"],
         }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
+        queryClient.invalidateQueries({ queryKey: ["students"] }),
         queryClient.invalidateQueries({ queryKey: ["dashboard"] }),
       ]);
     },

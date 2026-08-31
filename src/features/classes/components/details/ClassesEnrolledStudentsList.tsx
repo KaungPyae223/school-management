@@ -18,7 +18,7 @@ import { generateImageFallBack } from "../../../../utils/generate-image-fallback
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import { useTranslation } from "react-i18next";
 import ClassesEnrollmentDeleteAlert from "../alerts/ClassesEnrollmentDeleteAlert";
-import ClassesEnrollmentLeaveAlert from "../alerts/ClassesEnrollmentLeaveAlert";
+import ClassesEnrollmentWithdrawAlert from "../alerts/ClassesEnrollmentWithdrawAlert";
 import { useClassesEnrolledStudents } from "../../hooks/list/useClassesEnrolledStudents";
 
 const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
@@ -29,11 +29,11 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
     confirmDialogOpen,
     setConfirmDialogOpen,
     handleDelete,
-    leaveEnrolledID,
-    isLeaveStatus,
-    leaveDialogOpen,
-    setLeaveDialogOpen,
-    handleLeave,
+    withdrawEnrolledID,
+    isWithdrawStatus,
+    withdrawDialogOpen,
+    setWithdrawDialogOpen,
+    handleWithdraw,
     navigate,
   } = useClassesEnrolledStudents();
 
@@ -54,15 +54,14 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
         />
         <TableBody>
           {data.map((enrollmentData: any) => {
-            const isLeave = Boolean(enrollmentData.leave);
+            const isWithdraw = Boolean(enrollmentData.withdraw);
 
             return (
               <TableRow
                 key={enrollmentData.id}
                 className={
-                  isLeave
-                    ? "bg-destructive/10 hover:bg-destructive/15 text-muted-foreground"
-                    : undefined
+                  isWithdraw &&
+                  "bg-destructive/10 hover:bg-destructive/15 text-muted-foreground"
                 }
               >
                 <TableCell>
@@ -81,12 +80,12 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
                         <p className="text-sm font-medium line-clamp-1">
                           {enrollmentData.studentName}
                         </p>
-                        {isLeave && (
+                        {isWithdraw && (
                           <Badge
                             variant="destructive"
                             className="text-[10px] px-1.5 py-0 font-normal"
                           >
-                            {t("students.table.leave")}
+                            {t("students.table.withdraw")}
                           </Badge>
                         )}
                       </div>
@@ -124,13 +123,15 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
                     }}
                   >
                     <TableActionButton
-                      onClick={() => handleLeave(enrollmentData.id, isLeave)}
-                      variant={isLeave ? "outline" : "destructive"}
-                      icon={isLeave ? LogIn : DoorOpen}
+                      onClick={() =>
+                        handleWithdraw(enrollmentData.id, isWithdraw)
+                      }
+                      variant={isWithdraw ? "outline" : "destructive"}
+                      icon={isWithdraw ? LogIn : DoorOpen}
                       tooltip={
-                        isLeave
+                        isWithdraw
                           ? t("students.table.rejoin")
-                          : t("students.table.leave")
+                          : t("students.table.withdraw")
                       }
                     />
                     <TableActionButton
@@ -155,11 +156,11 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
         id={enrolledID}
       />
 
-      <ClassesEnrollmentLeaveAlert
-        confirmDialogOpen={leaveDialogOpen}
-        setConfirmDialogOpen={setLeaveDialogOpen}
-        id={leaveEnrolledID}
-        isLeave={isLeaveStatus}
+      <ClassesEnrollmentWithdrawAlert
+        confirmDialogOpen={withdrawDialogOpen}
+        setConfirmDialogOpen={setWithdrawDialogOpen}
+        id={withdrawEnrolledID}
+        isWithdraw={isWithdrawStatus}
       />
     </>
   );

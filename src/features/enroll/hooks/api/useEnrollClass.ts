@@ -18,6 +18,7 @@ export const useEnrollClass = (id: number) => {
         queryClient.invalidateQueries({
           queryKey: ["classes_enrollments", id],
         }),
+        queryClient.invalidateQueries({ queryKey: ["students"] }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
       ]);
     },

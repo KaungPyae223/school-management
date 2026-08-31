@@ -8,22 +8,21 @@ import SearchInput from "../../../../components/search-input/SearchInput";
 
 const PaymentsHeader = () => {
   const { t } = useTranslation();
-  const { view } = useViewTabChange("initial");
+  const { view } = useViewTabChange("outstanding");
 
   const columns = [
     { title: t("students.fields.name"), key: "Name" },
     { title: t("students.table.course"), key: "Course" },
     { title: t("students.table.price"), key: "Price" },
     { title: t("students.fields.phone"), key: "Phone" },
-
+    { title: t("payments.paidAmount"), key: "Paid Amount" },
+    { title: t("payments.remainingAmount"), key: "Remaining Amount" },
     { title: t("payments.paymentTimes"), key: "Payment Times" },
 
-    ...(view === "initial"
+    ...(view === "outstanding"
       ? [
           { title: t("payments.firstPaidDate"), key: "First Paid Date" },
           { title: t("payments.lastPaidDate"), key: "Last Paid Date" },
-          { title: t("payments.paidAmount"), key: "Paid Amount" },
-          { title: t("payments.remainingAmount"), key: "Remaining Amount" },
         ]
       : []),
   ];
@@ -33,7 +32,8 @@ const PaymentsHeader = () => {
     "Course",
     "Price",
     "Phone",
-    ...(view === "initial" ? ["Paid Amount", "Remaining Amount"] : []),
+    "Paid Amount",
+    "Remaining Amount",
     "Payment Times",
   ];
 
@@ -50,8 +50,8 @@ const PaymentsHeader = () => {
         </div>
 
         <TabsList>
-          <TabsTrigger value="initial">
-            {t("payments.initialPayments")}
+          <TabsTrigger value="outstanding">
+            {t("payments.outstandingPayments")}
           </TabsTrigger>
           <TabsTrigger value="all">{t("payments.allPayments")}</TabsTrigger>
         </TabsList>

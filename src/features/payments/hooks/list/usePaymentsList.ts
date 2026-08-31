@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
 import type { TableHeadType } from "../../../../types/TableHeader";
 
-export const usePaymentsList = (view: "initial" | "all") => {
+export const usePaymentsList = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -61,24 +61,20 @@ export const usePaymentsList = (view: "initial" | "all") => {
       sortable: true,
       sortKey: "lastPaidAt",
     },
-    ...(view === "initial"
-      ? [
-          {
-            title: t("payments.paidAmount"),
-            key: "Paid Amount",
-            sortable: true,
-            sortKey: "paidAmount",
-            align: "right" as const,
-          },
-          {
-            title: t("payments.remainingAmount"),
-            key: "Remaining Amount",
-            sortable: true,
-            sortKey: "remainingAmount",
-            align: "right" as const,
-          },
-        ]
-      : []),
+    {
+      title: t("payments.paidAmount"),
+      key: "Paid Amount",
+      sortable: true,
+      sortKey: "paidAmount",
+      align: "right" as const,
+    },
+    {
+      title: t("payments.remainingAmount"),
+      key: "Remaining Amount",
+      sortable: true,
+      sortKey: "remainingAmount",
+      align: "right" as const,
+    },
     {
       title: t("payments.paymentTimes"),
       key: "Payment Times",

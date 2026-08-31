@@ -206,7 +206,7 @@ declare global {
       deleteEnrollment: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
-      toggleLeaveEnrollment: (
+      toggleWithdrawEnrollment: (
         id: number,
       ) => Promise<{ success: boolean; data?: any; error?: string }>;
       getEnrollmentByClass: (data: {

@@ -20,7 +20,7 @@ const PaymentsPage = () => {
     title: t("payments.title"),
   });
 
-  const { view, changeView } = useViewTabChange("initial");
+  const { view, changeView } = useViewTabChange("outstanding");
 
   const { activeQueryParams } = useGetQueryParams();
 
@@ -34,7 +34,7 @@ const PaymentsPage = () => {
     <Tabs
       value={view}
       onValueChange={changeView}
-      defaultValue="initial"
+      defaultValue="outstanding"
       className="space-y-4"
     >
       <PaymentsHeader />
@@ -46,15 +46,15 @@ const PaymentsPage = () => {
         emptyIcon={CreditCardIcon}
       >
         <AnimatePresence mode="wait" initial={false}>
-          {view === "initial" && (
+          {view === "outstanding" && (
             <m.div
-              key="initial"
+              key="outstanding"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <PaymentsList data={data?.data} view="initial" />
+              <PaymentsList data={data?.data} />
             </m.div>
           )}
 
@@ -66,7 +66,7 @@ const PaymentsPage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <PaymentsList data={data?.data} view="all" />
+              <PaymentsList data={data?.data} />
             </m.div>
           )}
         </AnimatePresence>

@@ -84,8 +84,8 @@ contextBridge.exposeInMainWorld("api", {
   // Enrollment
   createEnrollment: (data) => ipcRenderer.invoke("enrollment:create", data),
   deleteEnrollment: (id) => ipcRenderer.invoke("enrollment:delete", id),
-  toggleLeaveEnrollment: (id) =>
-    ipcRenderer.invoke("enrollment:toggleLeave", id),
+  toggleWithdrawEnrollment: (id) =>
+    ipcRenderer.invoke("enrollment:toggleWithdraw", id),
   getEnrollmentByClass: (data) =>
     ipcRenderer.invoke("enrollment:getEnrollmentByClass", data),
   getEnrollment: (id) => ipcRenderer.invoke("enrollment:show", id),

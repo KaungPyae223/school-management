@@ -6,6 +6,7 @@ import {
   CalendarCheck2,
   CalendarClock,
   CalendarOff,
+  DoorOpen,
   GraduationCap,
   Layers,
   UserPlus,
@@ -174,10 +175,10 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs ">
                     {t("classes.fields.totalStudents")}
                   </p>
-                  <p className="text-xs text-muted-foreground/60">
+                  <p className="text-xs text-muted-foreground">
                     {t("classes.enrolledStudents")}
                   </p>
                 </div>
@@ -187,6 +188,27 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 className="font-medium text-foreground"
               >
                 {replaceLocalDigit(classData.total_students)}
+              </Badge>
+            </div>
+            <div className="col-span-2 flex w-full items-center justify-between rounded-lg border border-border px-3 py-2">
+              <div className="flex items-center gap-3">
+                <div className="rounded-md bg-destructive/10 p-1.5 dark:bg-destructive/20">
+                  <DoorOpen size={16} className="text-destructive" />
+                </div>
+
+                <div>
+                  <p className="text-xs">Withdrawn Students</p>
+                  <p className="text-xs text-muted-foreground">
+                    Students who stopped attending
+                  </p>
+                </div>
+              </div>
+
+              <Badge
+                variant="secondary"
+                className="font-medium text-foreground"
+              >
+                {replaceLocalDigit(classData.withdraw_students)}
               </Badge>
             </div>
             <CardData

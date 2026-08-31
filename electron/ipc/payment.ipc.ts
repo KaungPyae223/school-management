@@ -13,7 +13,7 @@ export const paymentIPCs = () => {
       search = "",
       sort = "createdAt",
       sortDirection = "asc",
-      view = "initial",
+      view = "outstanding",
     } = data;
 
     const avilableSort = new Set([
@@ -38,19 +38,32 @@ export const paymentIPCs = () => {
 
     const skip = Number(page - 1) * Number(limit);
 
-    const searchFilter = search
-      ? Prisma.sql`AND (
-      LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR
-      LOWER(s.email) LIKE LOWER(${`%${search}%`}) OR
-      LOWER(s.phone) LIKE LOWER(${`%${search}%`}) OR
-      LOWER(c.name) LIKE LOWER(${`%${search}%`})
-    )`
-      : Prisma.empty;
+    const conditions = [];
+
+    if (search) {
+      conditions.push(
+        Prisma.sql`(
+          LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR
+          LOWER(s.email) LIKE LOWER(${`%${search}%`}) OR
+          LOWER(s.phone) LIKE LOWER(${`%${search}%`}) OR
+          LOWER(c.name) LIKE LOWER(${`%${search}%`})
+        )`,
+      );
+    }
+
+    if (view === "outstanding") {
+      conditions.push(Prisma.sql`e.withdraw = 0`);
+    }
+
+    const searchQuery =
+      conditions.length > 0
+        ? Prisma.sql`WHERE ${Prisma.join(conditions, " AND ")}`
+        : Prisma.empty;
 
     const havingFilter =
-      view === "initial"
+      view === "outstanding"
         ? Prisma.sql`HAVING SUM(p.amount) IS NULL OR e.price - SUM(p.amount) > 0`
-        : Prisma.sql`HAVING SUM(p.amount) IS NOT NULL AND e.price - SUM(p.amount) = 0`;
+        : Prisma.empty;
 
     try {
       const [enrollments, totalData] = await Promise.all([
@@ -68,13 +81,14 @@ export const paymentIPCs = () => {
             s.image as studentImage,
             c.name as courseName,
             c.image as courseImage,
-            cl.batch as batch
+            cl.batch as batch,
+            e.withdraw
           FROM enrollments e
           LEFT JOIN payments p ON e.id = p.enrollmentId
           LEFT JOIN students s ON e.studentId = s.id
           LEFT JOIN classes cl ON e.classId = cl.id
           LEFT JOIN courses c ON cl.courseId = c.id
-          ${searchFilter}
+          ${searchQuery}
           GROUP BY e.id
           ${havingFilter}
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}

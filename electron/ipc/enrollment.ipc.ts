@@ -104,7 +104,7 @@ export const enrollmentIPCs = () => {
     }
   });
 
-  protectedHandle("enrollment:toggleLeave", async (_, id: number) => {
+  protectedHandle("enrollment:toggleWithdraw", async (_, id: number) => {
     try {
       const enrollment = await prisma.enrollment.findUnique({
         where: {
@@ -121,7 +121,7 @@ export const enrollmentIPCs = () => {
           id: Number(id),
         },
         data: {
-          leave: !enrollment.leave,
+          withdraw: !enrollment.withdraw,
         },
       });
 
