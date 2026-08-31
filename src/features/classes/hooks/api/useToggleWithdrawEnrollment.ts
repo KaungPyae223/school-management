@@ -19,7 +19,6 @@ export const useToggleWithdrawEnrollment = () => {
         }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
         queryClient.invalidateQueries({ queryKey: ["students"] }),
-        queryClient.invalidateQueries({ queryKey: ["dashboard"] }),
       ]);
     },
   });

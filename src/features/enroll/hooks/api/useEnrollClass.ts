@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { enrollmentService } from "../../../../services/enrollment";
 
-export const useEnrollClass = (id: number) => {
+export const useEnrollClass = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: enrollmentService.createEnrollment,
     onSuccess: () => {
       return Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["classes", id] }),
+        queryClient.invalidateQueries({ queryKey: ["classes"] }),
 
         queryClient.invalidateQueries({
           queryKey: ["enrollments"],
@@ -16,7 +16,7 @@ export const useEnrollClass = (id: number) => {
           queryKey: ["payments"],
         }),
         queryClient.invalidateQueries({
-          queryKey: ["classes_enrollments", id],
+          queryKey: ["classes_enrollments"],
         }),
         queryClient.invalidateQueries({ queryKey: ["students"] }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),

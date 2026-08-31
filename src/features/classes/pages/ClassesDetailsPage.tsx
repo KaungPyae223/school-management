@@ -58,8 +58,7 @@ const ClassesDetailsPage = () => {
       }),
   }) as { data: ResponseDataType; isLoading: boolean };
 
-  console.log(data)
-
+ 
   return (
     <>
       <div className="space-y-6">
@@ -115,7 +114,9 @@ const ClassesDetailsPage = () => {
             link: `/classes/enroll/${classData.id}`,
           }}
         >
-          <ClassesEnrolledStudentsList data={data?.data} />
+          <ClassesEnrolledStudentsList
+            data={data?.data}
+          />
 
           <Paginate meta={data?.meta} />
         </DataShow>

@@ -23,7 +23,7 @@ export const enrollFormSchema = z.object({
       (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
       {
         message: "Only .jpg, .jpeg, .png and .webp formats are supported",
-      }
+      },
     )
     .optional(),
   description: z.string().optional(),
@@ -49,7 +49,7 @@ export const useEnrollForm = () => {
     },
   });
 
-  const { mutateAsync, isPending } = useEnrollClass(data.id);
+  const { mutateAsync, isPending } = useEnrollClass();
 
   const onSubmit = () => {
     setConfirmDialogOpen(true);
