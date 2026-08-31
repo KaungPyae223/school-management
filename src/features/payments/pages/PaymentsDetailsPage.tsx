@@ -3,13 +3,14 @@ import { useLoaderData, useParams } from "react-router";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 
 import PaymentsDetailsInfoCard from "../components/details/PaymentsDetailsInfoCard";
-import PaymentsCard from "../components/PaymentsCard";
+
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { paymentService } from "../../../services/payments";
 import DataShow from "../../../components/data/DataShow";
 import { CreditCard } from "lucide-react";
 import PaymentsCreateCard from "../components/forms/PaymentsCreateCard";
 import { Separator } from "../../../components/ui/separator";
+import PaymentsCard from "../components/list/PaymentsCard";
 
 const PaymentsDetailsPage = () => {
   const { t } = useTranslation();

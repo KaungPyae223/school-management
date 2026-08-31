@@ -58,6 +58,8 @@ const ClassesDetailsPage = () => {
       }),
   }) as { data: ResponseDataType; isLoading: boolean };
 
+  console.log(data)
+
   return (
     <>
       <div className="space-y-6">

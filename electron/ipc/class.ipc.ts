@@ -185,7 +185,7 @@ export const classesIPCs = () => {
         prisma.$queryRaw<any[]>`
           SELECT 
             cl.*,
-            COUNT(DISTINCT e.id) as total_students,
+            COUNT(DISTINCT CASE WHEN e.leave = 0 THEN e.id END) as total_students,
             t.name as teacher_name,
             t.email as teacher_email,
             t.image as teacher_image,
@@ -273,7 +273,11 @@ export const classesIPCs = () => {
           },
           _count: {
             select: {
-              enrollments: true,
+              enrollments: {
+                where: {
+                  leave: false,
+                },
+              },
             },
           },
         },

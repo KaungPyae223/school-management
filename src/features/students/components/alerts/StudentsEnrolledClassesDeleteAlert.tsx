@@ -14,7 +14,7 @@ const StudentsEnrolledClassesDeleteAlert = ({
   setConfirmDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useDeleteEnrollment(id);
+  const { mutateAsync, isPending } = useDeleteEnrollment();
 
   const handleDelete = async () => {
     try {

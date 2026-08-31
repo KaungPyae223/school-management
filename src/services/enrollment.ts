@@ -43,4 +43,16 @@ export const enrollmentService = {
 
     return data;
   },
+
+  toggleLeaveEnrollment: async (id: number) => {
+    const data = await window.api.toggleLeaveEnrollment(id);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
 };

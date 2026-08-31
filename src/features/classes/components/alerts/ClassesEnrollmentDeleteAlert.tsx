@@ -17,7 +17,7 @@ const ClassesEnrollmentDeleteAlert = ({
   back?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useDeleteEnrollment(id);
+  const { mutateAsync, isPending } = useDeleteEnrollment();
   const navigate = useNavigate();
 
   const handleDelete = async () => {

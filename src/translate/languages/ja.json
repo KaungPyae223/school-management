@@ -309,7 +309,9 @@
       "period": "期間",
       "time": "時間",
       "remaining": "残金",
-      "paymentHistory": "支払い履歴"
+      "paymentHistory": "支払い履歴",
+      "leave": "退会",
+      "rejoin": "復帰"
     },
     "alerts": {
       "deleteTitle": "この生徒を削除しますか？",
@@ -518,6 +520,14 @@
       "deleteEnrollmentDesc": "この受講登録を削除することを確認してください。この操作は取り消せません。",
       "deleteEnrollmentButton": "受講登録を削除",
       "deleteEnrollmentSuccess": "受講登録を削除しました",
+      "leaveEnrollmentTitle": "クラスを退会しますか？",
+      "leaveEnrollmentDesc": "この生徒をクラスから退会させることを確認してください。",
+      "leaveEnrollmentButton": "退会する",
+      "leaveEnrollmentSuccess": "生徒が正常に退会しました",
+      "rejoinEnrollmentTitle": "クラスに復帰しますか？",
+      "rejoinEnrollmentDesc": "この生徒をクラスに復帰させることを確認してください。",
+      "rejoinEnrollmentButton": "復帰する",
+      "rejoinEnrollmentSuccess": "生徒が正常に復帰しました",
       "createConfirmTitle": "このクラスを登録しますか？",
       "createConfirmDesc": "入力された情報でクラスを登録することを確認してください。後から編集も可能です。",
       "createConfirmButton": "クラスを作成",

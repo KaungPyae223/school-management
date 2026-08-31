@@ -104,6 +104,33 @@ export const enrollmentIPCs = () => {
     }
   });
 
+  protectedHandle("enrollment:toggleLeave", async (_, id: number) => {
+    try {
+      const enrollment = await prisma.enrollment.findUnique({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      if (!enrollment) {
+        return { success: false, error: "Enrollment not found" };
+      }
+
+      const updatedEnrollment = await prisma.enrollment.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          leave: !enrollment.leave,
+        },
+      });
+
+      return { success: true, data: updatedEnrollment };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  });
+
   protectedHandle("enrollment:getEnrollmentByClass", async (_, data) => {
     const {
       page = 1,

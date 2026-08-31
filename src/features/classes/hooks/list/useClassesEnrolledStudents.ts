@@ -45,9 +45,19 @@ export const useClassesEnrolledStudents = () => {
     },
   ];
 
+  const [leaveEnrolledID, setLeaveEnrolledID] = useState<number>(0);
+  const [isLeaveStatus, setIsLeaveStatus] = useState<boolean>(false);
+  const [leaveDialogOpen, setLeaveDialogOpen] = useState<boolean>(false);
+
   const handleDelete = (id: number) => {
     setEnrolledID(id);
     setConfirmDialogOpen(true);
+  };
+
+  const handleLeave = (id: number, currentLeave: boolean) => {
+    setLeaveEnrolledID(id);
+    setIsLeaveStatus(currentLeave);
+    setLeaveDialogOpen(true);
   };
 
   return {
@@ -56,6 +66,11 @@ export const useClassesEnrolledStudents = () => {
     confirmDialogOpen,
     setConfirmDialogOpen,
     handleDelete,
+    leaveEnrolledID,
+    isLeaveStatus,
+    leaveDialogOpen,
+    setLeaveDialogOpen,
+    handleLeave,
     navigate,
   };
 };

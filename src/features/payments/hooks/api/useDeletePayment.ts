@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { paymentService } from "../../../../services/payment";
+import { paymentService } from "../../../../services/payments";
 
 export const useDeletePayment = (classId: number) => {
   const queryClient = useQueryClient();
@@ -7,10 +7,18 @@ export const useDeletePayment = (classId: number) => {
     mutationFn: paymentService.deletePayment,
     onSuccess: () => {
       return Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["payments"] }),
+        queryClient.invalidateQueries({ queryKey: ["classes", classId] }),
+
         queryClient.invalidateQueries({
-          queryKey: ["classes", "remaining-amount", classId],
+          queryKey: ["enrollments"],
         }),
+        queryClient.invalidateQueries({
+          queryKey: ["payments"],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["classes_enrollments", classId],
+        }),
+        queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
       ]);
     },
   });

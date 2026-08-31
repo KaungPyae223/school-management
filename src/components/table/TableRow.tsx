@@ -1,10 +1,13 @@
+import { cn } from "../../lib/utils";
+
 interface TableRowProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-const TableRow = ({ children }: TableRowProps) => {
+const TableRow = ({ children, className }: TableRowProps) => {
   return (
-    <tr className="hover:bg-muted transition-colors group">
+    <tr className={cn("hover:bg-muted transition-colors group", className)}>
       {children}
     </tr>
   );

@@ -61,7 +61,7 @@ const PaymentsDetailsInfoCard = ({
               <div className="flex items-center gap-3 rounded-md border p-3">
                 <Avatar className="h-10 w-10">
                   <AvatarImage
-                    src={enrollment.student.image}
+                    src={enrollment.studentImage}
                     alt={enrollment.student.name}
                   />
                   <AvatarFallback>

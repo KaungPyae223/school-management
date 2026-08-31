@@ -8,12 +8,17 @@ export const useEnrollClass = (id: number) => {
     onSuccess: () => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["classes", id] }),
+
         queryClient.invalidateQueries({
-          queryKey: ["classes", "students", id],
+          queryKey: ["enrollments"],
         }),
         queryClient.invalidateQueries({
-          queryKey: ["classes", "remaining-amount", id],
+          queryKey: ["payments"],
         }),
+        queryClient.invalidateQueries({
+          queryKey: ["classes_enrollments", id],
+        }),
+        queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
       ]);
     },
   });
