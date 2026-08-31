@@ -58,3 +58,7 @@ export const useClassesSchema = () => {
     formSchema,
   };
 };
+
+export type ClassesFormValues = z.infer<
+  ReturnType<typeof useClassesSchema>["formSchema"]
+>;

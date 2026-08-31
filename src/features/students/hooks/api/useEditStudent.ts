@@ -4,7 +4,7 @@ import { studentService } from "../../../../services/students";
 export const useEditStudent = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: studentService.editStudent,
+    mutationFn: studentService.updateStudent,
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: ["students"] });
     },

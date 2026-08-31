@@ -33,3 +33,7 @@ export const useStudentsSchema = () => {
     formSchema,
   };
 };
+
+export type StudentsFormValues = z.infer<
+  ReturnType<typeof useStudentsSchema>["formSchema"]
+>;

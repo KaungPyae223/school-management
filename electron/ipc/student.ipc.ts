@@ -148,7 +148,31 @@ export const studentIPCs = () => {
 
   protectedHandle("student:create", async (_, data) => {
     try {
-      const { image, imageName, ...restData } = data;
+      const { image, imageName, email, phone, ...restData } = data;
+
+      if (email !== null) {
+        const checEmail = await prisma.student.findFirst({
+          where: {
+            email,
+          },
+        });
+
+        if (checEmail) {
+          return { success: false, error: "Email already exists" };
+        }
+      }
+
+      if (phone !== null) {
+        const checPhone = await prisma.student.findFirst({
+          where: {
+            phone,
+          },
+        });
+
+        if (checPhone) {
+          return { success: false, error: "Phone already exists" };
+        }
+      }
 
       let imageUrl = undefined;
       if (image && imageName) {
@@ -158,6 +182,8 @@ export const studentIPCs = () => {
       await prisma.student.create({
         data: {
           ...restData,
+          phone,
+          email,
           ...(imageUrl ? { image: imageUrl } : {}),
         },
       });
@@ -169,7 +195,33 @@ export const studentIPCs = () => {
 
   protectedHandle("student:update", async (_, data) => {
     try {
-      const { id, image, imageName, ...restData } = data;
+      const { id, image, imageName, email, phone, ...restData } = data;
+
+      if (email !== null && email !== undefined) {
+        const checkEmail = await prisma.student.findFirst({
+          where: {
+            email,
+            id: { not: id },
+          },
+        });
+
+        if (checkEmail) {
+          return { success: false, error: "Email already exists" };
+        }
+      }
+
+      if (phone !== null && phone !== undefined) {
+        const checkPhone = await prisma.student.findFirst({
+          where: {
+            phone,
+            id: { not: id },
+          },
+        });
+
+        if (checkPhone) {
+          return { success: false, error: "Phone already exists" };
+        }
+      }
 
       let imageUrl = undefined;
       if (image && imageName) {
@@ -193,6 +245,8 @@ export const studentIPCs = () => {
         where: { id },
         data: {
           ...restData,
+          phone,
+          email,
           ...(imageUrl ? { image: imageUrl } : {}),
         },
       });

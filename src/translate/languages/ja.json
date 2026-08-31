@@ -258,7 +258,12 @@
     "deletedTeacherCannotUpdate": "削除された講師は更新できません。",
     "enrollmentAlreadyExists": "この生徒は既にこのクラスに受講登録されています。",
     "paymentNotFound": "支払い履歴が見つかりません。",
-    "paymentExceedsPrice": "支払金額がコース料金を超えることはできません。"
+    "paymentExceedsPrice": "支払金額がコース料金を超えることはできません。",
+    "phoneAlreadyExists": "電話番号は既に登録されています。",
+    "emailAlreadyExists": "メールアドレスは既に登録されています。",
+    "nrcAlreadyExists": "身分証番号(NRC)は既に登録されています。",
+    "nameAlreadyExists": "名前は既に登録されています。",
+    "enrollmentNotFound": "受講登録が見つかりません。"
   },
   "students": {
     "title": "生徒",

@@ -44,6 +44,8 @@ export const useStudentCreateForm = () => {
 
       await mutateAsync({
         ...data,
+        phone: data.phone?.trim() ? data.phone.trim() : null,
+        email: data.email?.trim() ? data.email.trim() : null,
         ...imageData,
       });
 

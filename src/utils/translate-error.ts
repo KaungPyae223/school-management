@@ -68,7 +68,16 @@ export const translateError = (
     });
   }
 
-  // 4. Exact & substring matching for known Electron error messages
+  // 4. Prisma unique constraint errors
+  if (rawMessage.toLowerCase().includes("unique constraint failed")) {
+    const lower = rawMessage.toLowerCase();
+    if (lower.includes("nrc")) return t("errors.nrcAlreadyExists");
+    if (lower.includes("email")) return t("errors.emailAlreadyExists");
+    if (lower.includes("phone")) return t("errors.phoneAlreadyExists");
+    if (lower.includes("name")) return t("errors.nameAlreadyExists");
+  }
+
+  // 5. Exact & substring matching for known Electron error messages
   const errorMap: Record<string, string> = {
     unauthorized: "errors.unauthorized",
     "please verify two-factor authentication first.": "errors.verify2FAFirst",
@@ -126,10 +135,20 @@ export const translateError = (
       "errors.teacherHasLinkedClasses",
     "deleted teacher cannot be updated": "errors.deletedTeacherCannotUpdate",
     "enrollment already exists": "errors.enrollmentAlreadyExists",
+    "enrollment not found": "errors.enrollmentNotFound",
+    "enrollment not found.": "errors.enrollmentNotFound",
     "payment not found": "errors.paymentNotFound",
     "payment not found.": "errors.paymentNotFound",
     "you pay exceed the price": "errors.paymentExceedsPrice",
     "payment exceeds course price": "errors.paymentExceedsPrice",
+    "phone already exists": "errors.phoneAlreadyExists",
+    "phone already exists.": "errors.phoneAlreadyExists",
+    "email already exists": "errors.emailAlreadyExists",
+    "email already exists.": "errors.emailAlreadyExists",
+    "nrc already exists": "errors.nrcAlreadyExists",
+    "nrc already exists.": "errors.nrcAlreadyExists",
+    "name already exists": "errors.nameAlreadyExists",
+    "name already exists.": "errors.nameAlreadyExists",
   };
 
   const normalized = rawMessage.toLowerCase().trim();

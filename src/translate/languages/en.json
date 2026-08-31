@@ -258,7 +258,12 @@
     "deletedTeacherCannotUpdate": "Deleted teacher cannot be updated.",
     "enrollmentAlreadyExists": "Student is already enrolled in this class.",
     "paymentNotFound": "Payment record not found.",
-    "paymentExceedsPrice": "Payment amount cannot exceed the total course price."
+    "paymentExceedsPrice": "Payment amount cannot exceed the total course price.",
+    "phoneAlreadyExists": "Phone number already exists.",
+    "emailAlreadyExists": "Email address already exists.",
+    "nrcAlreadyExists": "NRC already exists.",
+    "nameAlreadyExists": "Name already exists.",
+    "enrollmentNotFound": "Enrollment record not found."
   },
   "students": {
     "title": "Students",
