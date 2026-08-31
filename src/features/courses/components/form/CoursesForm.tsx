@@ -1,5 +1,6 @@
 import { Controller, type UseFormReturn } from "react-hook-form";
-import ImageInput from "../../../../components/form/ImageInput";
+import type { CoursesFormValues } from "../../schema/useCoursesSchema";
+import { useTranslation } from "react-i18next";
 import { CardContent } from "../../../../components/ui/card";
 import {
   Field,
@@ -7,14 +8,15 @@ import {
   FieldGroup,
   FieldLabel,
 } from "../../../../components/ui/field";
+import FormError from "../../../../components/form/FormError";
+import ImageInput from "../../../../components/form/ImageInput";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
+import NumberInput from "../../../../components/form/NumberInput";
 import { Textarea } from "../../../../components/ui/textarea";
-import FormError from "../../../../components/form/FormError";
-import { useTranslation } from "react-i18next";
 import FormFooter from "../../../../components/form/FormFooter";
 
-const TeacherForm = ({
+const CoursesForm = ({
   form,
   errorMessage,
   isPending,
@@ -22,7 +24,7 @@ const TeacherForm = ({
   resetForm,
   oldImageURL,
 }: {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<CoursesFormValues>;
   errorMessage: string;
   isPending: boolean;
   onSubmit: () => void;
@@ -34,15 +36,16 @@ const TeacherForm = ({
   return (
     <>
       <CardContent>
-        <form id="teacher-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="course-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <FormError errorMessage={errorMessage} />
+
             <Controller
               control={form.control}
               name="image"
               render={({ field, fieldState }) => (
                 <ImageInput
-                  label={t("teachers.fields.image")}
+                  label={t("courses.fields.image")}
                   id="image"
                   field={field}
                   fieldState={fieldState}
@@ -56,13 +59,13 @@ const TeacherForm = ({
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <RequiredLabel id="name">
-                    {t("teachers.fields.name")}
+                    {t("courses.fields.name")}
                   </RequiredLabel>
                   <Input
                     {...field}
                     id="name"
                     aria-invalid={fieldState.invalid}
-                    placeholder={t("teachers.fields.namePlaceholder")}
+                    placeholder={t("courses.fields.namePlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -72,19 +75,18 @@ const TeacherForm = ({
               )}
             />
             <Controller
-              name="phone"
+              name="price"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="phone">
-                    {t("teachers.fields.phone")}
+                  <RequiredLabel id="price">
+                    {t("courses.fields.price")}
                   </RequiredLabel>
-                  <Input
-                    {...field}
-                    id="phone"
-                    aria-invalid={fieldState.invalid}
-                    placeholder={t("teachers.fields.phonePlaceholder")}
-                    autoComplete="off"
+                  <NumberInput
+                    field={field}
+                    fieldState={fieldState}
+                    id="price"
+                    placeholder={t("courses.fields.pricePlaceholder")}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -93,60 +95,18 @@ const TeacherForm = ({
               )}
             />
             <Controller
-              name="email"
+              name="description"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="email">
-                    {t("teachers.fields.email")}
-                  </RequiredLabel>
-                  <Input
-                    {...field}
-                    id="email"
-                    aria-invalid={fieldState.invalid}
-                    placeholder={t("teachers.fields.emailPlaceholder")}
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="address"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="address">
-                    {t("teachers.fields.address")}
-                  </RequiredLabel>
+                  <FieldLabel htmlFor="description">
+                    {t("courses.fields.description")}
+                  </FieldLabel>
                   <Textarea
                     {...field}
-                    id="address"
+                    id="description"
                     aria-invalid={fieldState.invalid}
-                    placeholder={t("teachers.fields.addressPlaceholder")}
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="nrc"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="nrc">
-                    {t("teachers.fields.nrc")}
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id="nrc"
-                    aria-invalid={fieldState.invalid}
-                    placeholder={t("teachers.fields.nrcPlaceholder")}
+                    placeholder={t("courses.fields.descriptionPlaceholder")}
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -159,7 +119,7 @@ const TeacherForm = ({
         </form>
       </CardContent>
       <FormFooter
-        formID="teacher-form"
+        formID="course-form"
         isSubmitting={isPending}
         resetForm={resetForm}
       />
@@ -167,4 +127,4 @@ const TeacherForm = ({
   );
 };
 
-export default TeacherForm;
+export default CoursesForm;

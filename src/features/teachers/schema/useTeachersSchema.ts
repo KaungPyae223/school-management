@@ -37,3 +37,7 @@ export const useTeachersSchema = () => {
     formSchema,
   };
 };
+
+export type TeacherFormValues = z.infer<
+  ReturnType<typeof useTeachersSchema>["formSchema"]
+>;

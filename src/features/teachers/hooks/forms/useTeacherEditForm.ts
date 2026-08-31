@@ -47,6 +47,7 @@ export const useTeacherEditForm = () => {
 
       await mutateAsync({
         ...data,
+        nrc: data.nrc.trim() ? data.nrc.trim() : null,
         ...imageData,
         id: teacher.id,
       });

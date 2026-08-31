@@ -43,6 +43,7 @@ export const useTeacherCreateForm = () => {
 
       await mutateAsync({
         ...data,
+        nrc: data.nrc.trim() ? data.nrc.trim() : null,
         ...imageData,
       });
 

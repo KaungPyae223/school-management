@@ -1,24 +1,11 @@
-import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "../../../components/ui/card";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "../../../components/ui/field";
-import { Input } from "../../../components/ui/input";
-import { Textarea } from "../../../components/ui/textarea";
+import { Card } from "../../../components/ui/card";
 import FormHeader from "../../../components/form/FormHeader";
-import FormFooter from "../../../components/form/FormFooter";
-import ImageInput from "../../../components/form/ImageInput";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
-import RequiredLabel from "../../../components/form/RequiredLabel";
-import FormError from "../../../components/form/FormError";
 import { useLoaderData } from "react-router";
 import { useTeacherEditForm } from "../hooks/forms/useTeacherEditForm";
-import TeacherForm from "../components/form/TeacherForm";
+import TeachersForm from "../components/form/TeachersForm";
 
 const TeachersEditPage = () => {
   const { t } = useTranslation();
@@ -52,7 +39,7 @@ const TeachersEditPage = () => {
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("teachers.editTitle")} />
-      <TeacherForm
+      <TeachersForm
         form={form}
         errorMessage={errorMessage}
         isPending={isPending}

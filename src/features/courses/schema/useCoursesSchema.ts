@@ -33,3 +33,8 @@ export const useCoursesSchema = () => {
     formSchema,
   };
 };
+
+export type CoursesFormValues = z.infer<
+  ReturnType<typeof useCoursesSchema>["formSchema"]
+>;
+

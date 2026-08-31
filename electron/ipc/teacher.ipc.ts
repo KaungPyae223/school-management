@@ -265,7 +265,43 @@ export const teacherIPCs = () => {
 
   protectedHandle("teacher:create", async (_, data) => {
     try {
-      const { image, imageName, ...restData } = data;
+      const { image, imageName, nrc, email, phone, ...restData } = data;
+
+      if (nrc !== null) {
+        const checkNRC = await prisma.teacher.findFirst({
+          where: {
+            nrc,
+          },
+        });
+
+        if (checkNRC) {
+          return { success: false, error: "NRC already exists" };
+        }
+      }
+
+      if (email !== null) {
+        const checEmail = await prisma.teacher.findFirst({
+          where: {
+            email,
+          },
+        });
+
+        if (checEmail) {
+          return { success: false, error: "Email already exists" };
+        }
+      }
+
+      if (phone !== null) {
+        const checPhone = await prisma.teacher.findFirst({
+          where: {
+            phone,
+          },
+        });
+
+        if (checPhone) {
+          return { success: false, error: "Phone already exists" };
+        }
+      }
 
       let imageUrl = undefined;
       if (image && imageName) {
@@ -276,6 +312,9 @@ export const teacherIPCs = () => {
         data: {
           ...restData,
           ...(imageUrl ? { image: imageUrl } : {}),
+          phone,
+          email,
+          nrc,
         },
       });
       return { success: true };
@@ -286,7 +325,46 @@ export const teacherIPCs = () => {
 
   protectedHandle("teacher:update", async (_, data) => {
     try {
-      const { id, image, imageName, ...restData } = data;
+      const { id, image, imageName, nrc, email, phone, ...restData } = data;
+
+      if (nrc !== null) {
+        const checkNRC = await prisma.teacher.findFirst({
+          where: {
+            nrc,
+            id: { not: id },
+          },
+        });
+
+        if (checkNRC) {
+          return { success: false, error: "NRC already exists" };
+        }
+      }
+
+      if (email !== null) {
+        const checEmail = await prisma.teacher.findFirst({
+          where: {
+            email,
+            id: { not: id },
+          },
+        });
+
+        if (checEmail) {
+          return { success: false, error: "Email already exists" };
+        }
+      }
+
+      if (phone !== null) {
+        const checPhone = await prisma.teacher.findFirst({
+          where: {
+            phone,
+            id: { not: id },
+          },
+        });
+
+        if (checPhone) {
+          return { success: false, error: "Phone already exists" };
+        }
+      }
 
       const existingTeacher = await prisma.teacher.findUnique({
         where: { id },
