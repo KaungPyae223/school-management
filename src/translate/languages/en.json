@@ -299,7 +299,8 @@
       "namePlaceholder": "Enter student name",
       "phonePlaceholder": "Enter phone number",
       "emailPlaceholder": "Enter email address",
-      "addressPlaceholder": "Enter address"
+      "addressPlaceholder": "Enter address",
+      "genderPlaceholder": "Select a gender"
     },
     "table": {
       "course": "Course",

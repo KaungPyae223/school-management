@@ -8,7 +8,7 @@ const LoadingComponent = ({ className }: { className?: string }) => {
   return (
     <Card
       className={cn(
-        "h-[80vh] flex flex-col items-center justify-center px-4 shadow-sm",
+        "h-[80vh] flex flex-col items-center justify-center px-4 shadow-xs",
         className,
       )}
     >
@@ -18,7 +18,9 @@ const LoadingComponent = ({ className }: { className?: string }) => {
             {t("loading.pleaseWait")}
           </p>
 
-          <h1 className="text-4xl font-bold text-primary">{t("loading.title")}</h1>
+          <h1 className="text-4xl font-bold text-primary">
+            {t("loading.title")}
+          </h1>
 
           <p className="text-muted-foreground mt-3 mb-8">
             {t("loading.fetchingContent")}
@@ -45,4 +47,3 @@ const LoadingComponent = ({ className }: { className?: string }) => {
 };
 
 export default LoadingComponent;
-

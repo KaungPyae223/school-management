@@ -82,9 +82,7 @@ const StudentsList = ({ data }: { data: any }) => {
                 <TableIconContent
                   icon={Calendar}
                   value={
-                    student.dob
-                      ? formatDate(student.dob)
-                      : t("students.tba")
+                    student.dob ? formatDate(student.dob) : t("students.tba")
                   }
                 />
               </TableCell>
@@ -98,10 +96,16 @@ const StudentsList = ({ data }: { data: any }) => {
                   align="right"
                 />
               </TableCell>
-              <TableCell hidden={!selectedColumns.includes("Created At")}>
+              <TableCell
+                align="right"
+                hidden={!selectedColumns.includes("Created At")}
+              >
                 {formatDate(student.createdAt)}
               </TableCell>
-              <TableCell hidden={!selectedColumns.includes("Updated At")}>
+              <TableCell
+                align="right"
+                hidden={!selectedColumns.includes("Updated At")}
+              >
                 {formatDate(student.updatedAt)}
               </TableCell>
 

@@ -48,7 +48,7 @@ const CoursesCreatePage = () => {
   } = useCourseCreateForm();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("courses.createTitle")} />
       <CardContent>
         <form id="create-course-form" onSubmit={form.handleSubmit(onSubmit)}>

@@ -27,7 +27,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();
 
   return (
-    <Card className="shadow-sm flex flex-row gap-1.5">
+    <Card className="shadow-xs flex flex-row gap-1.5">
       <CardHeader className="w-lg items-center justify-center h-full">
         <ImageDisplay
           image={data.course_image}

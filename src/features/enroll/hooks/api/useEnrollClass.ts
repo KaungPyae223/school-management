@@ -4,7 +4,7 @@ import { enrollmentService } from "../../../../services/enrollment";
 export const useEnrollClass = (id: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: enrollmentService.enrollStudent,
+    mutationFn: enrollmentService.createEnrollment,
     onSuccess: () => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["classes", id] }),

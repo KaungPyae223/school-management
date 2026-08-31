@@ -28,7 +28,7 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
       : 0;
 
   return (
-    <Card className="shadow-sm flex flex-row gap-1.5">
+    <Card className="shadow-xs flex flex-row gap-1.5">
       <CardHeader className="w-lg">
         <ImageDisplay
           image={data.image}
@@ -48,30 +48,49 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
             <p className="font-medium">{formatCurrency(data.price)}</p>
           </DetailsData>
           <DetailsData icon={UserPen} label={t("courses.totalTeachers")}>
-            <p className="font-medium">{replaceLocalDigit(data.total_teachers)}</p>
+            <p className="font-medium">
+              {replaceLocalDigit(data.total_teachers)}
+            </p>
           </DetailsData>
           <DetailsData icon={Users} label={t("courses.totalEnrollments")}>
-            <p className="font-medium">{replaceLocalDigit(data.total_enrollments)}</p>
+            <p className="font-medium">
+              {replaceLocalDigit(data.total_enrollments)}
+            </p>
           </DetailsData>
           <DetailsData icon={BookOpen} label={t("courses.totalClasses")}>
-            <p className="font-medium">{replaceLocalDigit(data.total_classes)}</p>
+            <p className="font-medium">
+              {replaceLocalDigit(data.total_classes)}
+            </p>
           </DetailsData>
-          <DetailsData icon={PlayCircle} label={t("courses.totalActiveClasses")}>
-            <p className="font-medium">{replaceLocalDigit(data.total_active_classes)}</p>
+          <DetailsData
+            icon={PlayCircle}
+            label={t("courses.totalActiveClasses")}
+          >
+            <p className="font-medium">
+              {replaceLocalDigit(data.total_active_classes)}
+            </p>
           </DetailsData>
           <DetailsData icon={Circle} label={t("courses.totalUpcomingClasses")}>
-            <p className="font-medium">{replaceLocalDigit(data.total_upcoming_classes)}</p>
+            <p className="font-medium">
+              {replaceLocalDigit(data.total_upcoming_classes)}
+            </p>
           </DetailsData>
-          <DetailsData icon={CheckCircle2} label={t("courses.totalCompletedClasses")}>
-            <p className="font-medium">{replaceLocalDigit(data.total_complete_classes)}</p>
+          <DetailsData
+            icon={CheckCircle2}
+            label={t("courses.totalCompletedClasses")}
+          >
+            <p className="font-medium">
+              {replaceLocalDigit(data.total_complete_classes)}
+            </p>
           </DetailsData>
           <DetailsData icon={Currency} label={t("courses.totalRevenue")}>
             <p className="font-medium">{formatCurrency(data.total_revenue)}</p>
           </DetailsData>
-          <DetailsData icon={XLineTop} label={t("courses.averageStudentsPerClass")}>
-            <p className="font-medium">
-              {replaceLocalDigit(avgStudents)}
-            </p>
+          <DetailsData
+            icon={XLineTop}
+            label={t("courses.averageStudentsPerClass")}
+          >
+            <p className="font-medium">{replaceLocalDigit(avgStudents)}</p>
           </DetailsData>
         </div>
         <Separator />

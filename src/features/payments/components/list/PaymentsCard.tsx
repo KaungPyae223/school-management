@@ -40,14 +40,16 @@ const PaymentsCard = ({
 
   return (
     <>
-      <Card className="mx-auto w-full overflow-hidden shadow-sm sm:max-w-lg">
+      <Card className="mx-auto w-full overflow-hidden shadow-xs sm:max-w-lg">
         <CardHeader className="border-b bg-muted/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="text-sm py-3 px-3">
                 <span className="text-muted-foreground">#</span> {index}
               </Badge>
-              <CardTitle className="text-lg">{t("payments.detailsTitle")}</CardTitle>
+              <CardTitle className="text-lg">
+                {t("payments.detailsTitle")}
+              </CardTitle>
             </div>
             <div className="flex items-center gap-2">
               <Button
@@ -63,7 +65,10 @@ const PaymentsCard = ({
 
         <CardContent className="space-y-5 ">
           {data.description && (
-            <DetailsData icon={StickyNote} label={t("payments.fields.description")}>
+            <DetailsData
+              icon={StickyNote}
+              label={t("payments.fields.description")}
+            >
               <p className="font-medium">{data.description}</p>
             </DetailsData>
           )}
@@ -96,7 +101,9 @@ const PaymentsCard = ({
 
               <div className="space-y-3">
                 <div>
-                  <h3 className="text-sm font-semibold">{t("payments.paymentReceipt")}</h3>
+                  <h3 className="text-sm font-semibold">
+                    {t("payments.paymentReceipt")}
+                  </h3>
                 </div>
 
                 <img

@@ -55,7 +55,7 @@ const StudentCard = ({ student }: { student: any }) => {
 
   return (
     <>
-      <Card className="shadow-sm hover:shadow-md  relative transition-shadow duration-200 group overflow-hidden">
+      <Card className="shadow-xs hover:shadow-md  relative transition-shadow duration-200 group overflow-hidden">
         <CardMenu
           onEdit={() => navigate(`/students/edit/${student.id}`)}
           onDelete={() => setConfirmDialogOpen(true)}
@@ -73,9 +73,21 @@ const StudentCard = ({ student }: { student: any }) => {
           </div>
         </CardHeader>
         <CardContent className="pb-3 flex-1 space-y-3.5">
-          <CardInfo icon={Phone} label={t("students.fields.phone")} value={replaceLocalDigit(student.phone)} />
-          <CardInfo icon={Mail} label={t("students.fields.email")} value={student.email} />
-          <CardInfo icon={MapPin} label={t("students.fields.address")} value={student.address} />
+          <CardInfo
+            icon={Phone}
+            label={t("students.fields.phone")}
+            value={replaceLocalDigit(student.phone)}
+          />
+          <CardInfo
+            icon={Mail}
+            label={t("students.fields.email")}
+            value={student.email}
+          />
+          <CardInfo
+            icon={MapPin}
+            label={t("students.fields.address")}
+            value={student.address}
+          />
           <CardInfo
             icon={Calendar}
             label={t("students.fields.dob")}

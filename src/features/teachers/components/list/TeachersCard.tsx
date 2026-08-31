@@ -42,7 +42,7 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
 
   return (
     <>
-      <Card className="shadow-sm flex flex-row hover:shadow-md pt-0 gap-0  transition-shadow duration-200 group overflow-hidden">
+      <Card className="shadow-xs flex flex-row hover:shadow-md pt-0 gap-0  transition-shadow duration-200 group overflow-hidden">
         <div className="relative w-72 bg-linear-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20 flex flex-col items-center p-6 border-r">
           <CardMenu
             onEdit={() => navigate(`/teachers/edit/${teacher.id}`)}
@@ -76,9 +76,21 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
 
         <div className="flex flex-1 flex-col  justify-between gap-3">
           <CardContent className="pt-4 flex-1 space-y-3.5">
-            <CardInfo icon={Phone} label={t("teachers.fields.phone")} value={replaceLocalDigit(teacher.phone)} />
-            <CardInfo icon={Mail} label={t("teachers.fields.email")} value={teacher.email} />
-            <CardInfo icon={MapPin} label={t("teachers.fields.address")} value={teacher.address} />
+            <CardInfo
+              icon={Phone}
+              label={t("teachers.fields.phone")}
+              value={replaceLocalDigit(teacher.phone)}
+            />
+            <CardInfo
+              icon={Mail}
+              label={t("teachers.fields.email")}
+              value={teacher.email}
+            />
+            <CardInfo
+              icon={MapPin}
+              label={t("teachers.fields.address")}
+              value={teacher.address}
+            />
             <CardInfo
               icon={IdCard}
               label={t("teachers.fields.nrc")}

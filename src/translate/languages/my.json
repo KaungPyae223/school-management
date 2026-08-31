@@ -299,7 +299,8 @@
       "namePlaceholder": "ကျောင်းသားအမည် ရိုက်ထည့်ပါ",
       "phonePlaceholder": "ဖုန်းနံပါတ် ရိုက်ထည့်ပါ",
       "emailPlaceholder": "အီးမေးလ် ရိုက်ထည့်ပါ",
-      "addressPlaceholder": "လိပ်စာ ရိုက်ထည့်ပါ"
+      "addressPlaceholder": "လိပ်စာ ရိုက်ထည့်ပါ",
+      "genderPlaceholder": "ကျား/မ ရွေးချယ်ပါ"
     },
     "table": {
       "course": "သင်တန်း",

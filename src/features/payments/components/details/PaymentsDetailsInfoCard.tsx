@@ -34,7 +34,7 @@ const PaymentsDetailsInfoCard = ({
   const { t } = useTranslation();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("payments.historyTitle")} />
       <CardContent>
         <div className="overflow-hidden rounded-xl border border-border">
@@ -69,7 +69,9 @@ const PaymentsDetailsInfoCard = ({
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-xs text-muted-foreground">{t("payments.student")}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("payments.student")}
+                  </p>
                   <p className="text-sm font-medium">
                     {enrollment.student.name}
                   </p>
@@ -97,7 +99,9 @@ const PaymentsDetailsInfoCard = ({
                 className="rounded-none"
                 border={false}
               >
-                <p className="font-medium">{replaceLocalDigit(paymentsTimes)}</p>
+                <p className="font-medium">
+                  {replaceLocalDigit(paymentsTimes)}
+                </p>
               </DetailsData>
             </div>
 
@@ -130,4 +134,3 @@ const PaymentsDetailsInfoCard = ({
 };
 
 export default PaymentsDetailsInfoCard;
-

@@ -23,7 +23,7 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
   ];
 
   return (
-    <Card className="shadow-sm">
+    <Card className="shadow-xs">
       <CardContent className="flex flex-row gap-3 justify-between">
         <div className="flex gap-2">
           <SearchInput />

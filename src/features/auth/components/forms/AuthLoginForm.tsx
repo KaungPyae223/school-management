@@ -19,7 +19,7 @@ const AuthLoginForm = ({ navigateLink }: AuthLoginFormProps) => {
     useAuthLoginForm(navigateLink);
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("auth.login.title")} back={false} />
       <CardContent>
         <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>

@@ -15,7 +15,7 @@ const SettingsDataBackupForm = () => {
   const { t } = useTranslation();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("settings.backup.manageTitle")} />
       <CardContent>
         <Tabs defaultValue="export" className="space-y-3">

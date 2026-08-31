@@ -102,11 +102,17 @@ const CoursesList = ({ data }: { data: any }) => {
                 />
               </TableCell>
 
-              <TableCell hidden={!selectedColumns.includes("Created At")}>
+              <TableCell
+                align="right"
+                hidden={!selectedColumns.includes("Created At")}
+              >
                 {formatDate(course.createdAt)}
               </TableCell>
 
-              <TableCell hidden={!selectedColumns.includes("Updated At")}>
+              <TableCell
+                align="right"
+                hidden={!selectedColumns.includes("Updated At")}
+              >
                 {formatDate(course.updatedAt)}
               </TableCell>
 

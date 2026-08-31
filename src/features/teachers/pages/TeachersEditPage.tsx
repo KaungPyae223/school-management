@@ -49,7 +49,7 @@ const TeachersEditPage = () => {
   } = useTeacherEditForm();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("teachers.editTitle")} />
       <CardContent>
         <form id="create-teacher-form" onSubmit={form.handleSubmit(onSubmit)}>

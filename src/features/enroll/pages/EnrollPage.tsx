@@ -54,7 +54,7 @@ const EnrollPage = () => {
   } = useEnrollForm();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("enroll.title")} />
       <CardContent>
         <form id="enroll-class" onSubmit={form.handleSubmit(onSubmit)}>

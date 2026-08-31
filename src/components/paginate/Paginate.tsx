@@ -59,7 +59,7 @@ const Paginate: React.FC<Props> = ({ meta }) => {
   };
 
   return (
-    <Card className="shadow-sm">
+    <Card className="shadow-xs">
       <CardContent className="flex flex-col-reverse gap-4 px-6 md:flex-row items-center md:justify-between">
         {/* Page info */}
         <div className="flex items-center gap-4">

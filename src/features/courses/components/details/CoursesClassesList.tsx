@@ -12,7 +12,6 @@ import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
 import { changeTime } from "../../../../utils/change-time";
 import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
-import ClassesStatus from "../../classes/components/ClassesStatus";
 import {
   Avatar,
   AvatarFallback,
@@ -20,6 +19,7 @@ import {
 } from "../../../../components/ui/avatar";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
+import ClassesStatus from "../../../classes/components/shared/ClassesStatus";
 
 const CoursesClassesList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -155,7 +155,9 @@ const CoursesClassesList = ({ data }: { data: any }) => {
                 align="right"
               />
             </TableCell>
-            <TableCell>{formatDate(classData.createdAt)}</TableCell>
+            <TableCell align="right">
+              {formatDate(classData.createdAt)}
+            </TableCell>
 
             <TableCell>
               <TableActionButtonsContainer

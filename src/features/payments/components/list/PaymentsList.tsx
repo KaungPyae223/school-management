@@ -138,11 +138,11 @@ const PaymentsList = ({ data, view }: PaymentsListProps) => {
               />
             </TableCell>
 
-            <TableCell hidden={!selectedColumns.includes("Created At")}>
+            <TableCell align="right" hidden={!selectedColumns.includes("Created At")}>
               {formatDate(payment.createdAt)}
             </TableCell>
 
-            <TableCell hidden={!selectedColumns.includes("Updated At")}>
+            <TableCell align="right" hidden={!selectedColumns.includes("Updated At")}>
               {formatDate(payment.updatedAt)}
             </TableCell>
 

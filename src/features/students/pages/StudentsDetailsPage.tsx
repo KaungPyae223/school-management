@@ -67,7 +67,7 @@ const StudentsDetailsPage = () => {
         />
         <StudentsDetailsCard data={studentData} />
         <Separator />
-        <Card className="shadow-sm">
+        <Card className="shadow-xs">
           <CardContent className="flex flex-wrap items-center justify-between gap-4">
             <SearchInput />
           </CardContent>

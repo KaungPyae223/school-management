@@ -6,6 +6,10 @@ contextBridge.exposeInMainWorld("electronStore", {
   delete: (key) => ipcRenderer.invoke("store:delete", key),
 });
 
+contextBridge.exposeInMainWorld("dashboardAPI", {
+  getKPI: (data) => ipcRenderer.invoke("dashboard:kpi", data),
+});
+
 contextBridge.exposeInMainWorld("authAPI", {
   getRemainTime: () => ipcRenderer.invoke("auth:get-remain-time"),
   isAuthenticated: () => ipcRenderer.invoke("auth:is-authenticated"),

@@ -31,7 +31,7 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
   };
 
   return (
-    <Card className="shadow-sm flex flex-row gap-1.5">
+    <Card className="shadow-xs flex flex-row gap-1.5">
       <CardHeader className="w-lg items-center justify-center h-full">
         <Avatar className="size-56">
           <AvatarImage src={data.image} />

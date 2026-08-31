@@ -8,6 +8,9 @@ declare global {
       set: (key: string, value: string) => Promise<void>;
       delete: (key: string) => Promise<void>;
     };
+    dashboardAPI: {
+      getKPI: () => Promise<{ data?: any; error?: string }>;
+    };
     authAPI: {
       isAuthenticated: () => Promise<boolean>;
       hasPassword: () => Promise<boolean>;

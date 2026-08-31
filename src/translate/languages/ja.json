@@ -299,7 +299,8 @@
       "namePlaceholder": "生徒名を入力",
       "phonePlaceholder": "電話番号を入力",
       "emailPlaceholder": "メールアドレスを入力",
-      "addressPlaceholder": "住所を入力"
+      "addressPlaceholder": "住所を入力",
+      "genderPlaceholder": "性別を選択"
     },
     "table": {
       "course": "コース",

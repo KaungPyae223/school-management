@@ -52,7 +52,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
 
   return (
     <>
-      <Card className="shadow-sm hover:shadow-md pt-0 transition-shadow duration-200 group overflow-hidden">
+      <Card className="shadow-xs hover:shadow-md pt-0 transition-shadow duration-200 group overflow-hidden">
         <div className="relative">
           <ImageDisplay
             image={classData.course_image}
@@ -82,7 +82,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
             onDelete={() => setConfirmDialogOpen(true)}
           />
           <div className="absolute bottom-3 left-3">
-            <Badge variant="secondary" className="text-sm shadow-sm ">
+            <Badge variant="secondary" className="text-sm shadow-xs ">
               {formatCurrency(classData.price)}
             </Badge>
           </div>

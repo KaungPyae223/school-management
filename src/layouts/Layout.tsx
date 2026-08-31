@@ -19,7 +19,7 @@ const Layout = () => {
           <div className="border-b bg-background">
             <Header />
           </div>
-          <div className="p-6 container mx-auto">
+          <div className="p-6 container mx-auto ">
             {isLoading ? <LoadingPage /> : <Outlet />}
           </div>
         </main>

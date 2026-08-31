@@ -21,7 +21,7 @@ const DetailsHeader = ({
   const navigate = useNavigate();
 
   return (
-    <Card className="shadow-sm">
+    <Card className="shadow-xs">
       <CardHeader className="flex flex-row justify-between items-center">
         <Button variant="outline" onClick={() => navigate(-1)}>
           <ChevronLeft /> {t("general.back")}

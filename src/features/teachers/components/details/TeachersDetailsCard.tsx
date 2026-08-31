@@ -16,7 +16,7 @@ const TeachersDetailsCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();
 
   return (
-    <Card className="shadow-sm flex flex-row gap-1.5">
+    <Card className="shadow-xs flex flex-row gap-1.5">
       <CardHeader className="w-lg items-center justify-center h-full">
         <Avatar className="size-56">
           <AvatarImage src={data.image} />
@@ -41,7 +41,11 @@ const TeachersDetailsCard = ({ data }: { data: any }) => {
           <DetailsData icon={IdCard} label={t("teachers.fields.nrc")}>
             <p className="font-medium">{data.nrc || t("students.tba")}</p>
           </DetailsData>
-          <DetailsData icon={MapPin} label={t("teachers.fields.address")} className="col-span-3">
+          <DetailsData
+            icon={MapPin}
+            label={t("teachers.fields.address")}
+            className="col-span-3"
+          >
             <p className="font-medium">{data.address || t("students.tba")}</p>
           </DetailsData>
         </div>

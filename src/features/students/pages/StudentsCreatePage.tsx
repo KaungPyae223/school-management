@@ -57,7 +57,7 @@ const StudentsCreatePage = () => {
   } = useStudentCreateForm();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("students.createTitle")} />
       <CardContent>
         <form id="create-student-form" onSubmit={form.handleSubmit(onSubmit)}>
@@ -183,15 +183,13 @@ const StudentsCreatePage = () => {
                           <SelectLabel>
                             {t("students.fields.gender")}
                           </SelectLabel>
-                          <SelectItem value="male">
+                          <SelectItem value="MALE">
                             {t("students.fields.male")}
                           </SelectItem>
-                          <SelectItem value="female">
+                          <SelectItem value="FEMALE">
                             {t("students.fields.female")}
                           </SelectItem>
-                          <SelectItem value="other">
-                            {t("students.fields.other")}
-                          </SelectItem>
+                         
                         </SelectGroup>
                       </SelectContent>
                     </Select>

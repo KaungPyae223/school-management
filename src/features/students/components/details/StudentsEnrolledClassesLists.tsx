@@ -109,7 +109,8 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                       {enrollmentData.course_name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {t("students.batch")} {replaceLocalDigit(enrollmentData.batch)}
+                      {t("students.batch")}{" "}
+                      {replaceLocalDigit(enrollmentData.batch)}
                     </p>
                   </div>
                 </div>
@@ -179,7 +180,9 @@ const StudentsEnrolledClassesLists = ({ data }: { data: any[] }) => {
                 {formatCurrency(enrollmentData.remainingAmount)}
               </TableCell>
 
-              <TableCell>{formatDate(enrollmentData.createdAt)}</TableCell>
+              <TableCell align="right">
+                {formatDate(enrollmentData.createdAt)}
+              </TableCell>
 
               <TableCell>
                 <TableActionButtonsContainer

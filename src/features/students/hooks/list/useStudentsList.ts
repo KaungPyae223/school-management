@@ -67,6 +67,7 @@ export const useStudentsList = () => {
       key: "Total Classes",
       sortable: true,
       sortKey: "total_classes",
+      align: "right",
     },
   ];
 

@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
-import { useDeleteEnrollment } from "../../classes/hooks/useDeleteEnrollment";
 import { translateError } from "../../../../utils/translate-error";
+import { useDeleteEnrollment } from "../../../classes/hooks/api/useDeleteEnrollment";
 
 const StudentsEnrolledClassesDeleteAlert = ({
   id,

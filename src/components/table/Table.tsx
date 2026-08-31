@@ -2,7 +2,7 @@ import { Card, CardContent } from "../ui/card";
 
 const Table = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Card className="shadow-sm">
+    <Card className="shadow-xs">
       <CardContent className="p-0">
         <div className="relative overflow-x-auto">
           <table className="w-full overflow-x-auto text-sm">{children}</table>

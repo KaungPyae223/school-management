@@ -85,7 +85,9 @@ const ImageInput = <T extends FieldValues = FieldValues>({
           <div className="flex flex-row justify-between items-center">
             {label}
             {required && (
-              <span className="text-muted-foreground text-xs">{t("form.required")}</span>
+              <span className="text-muted-foreground text-xs">
+                {t("form.required")}
+              </span>
             )}
           </div>
           <div
@@ -104,7 +106,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
                 <img
                   src={selectedImage}
                   alt="Project cover"
-                  className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-sm"
+                  className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-xs"
                 />
                 <Button
                   type="button"
@@ -124,7 +126,7 @@ const ImageInput = <T extends FieldValues = FieldValues>({
               <img
                 src={oldImageURL}
                 alt="Project cover"
-                className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-sm"
+                className="w-full mx-auto max-h-64 object-cover rounded-lg shadow-xs"
               />
             ) : (
               <div>

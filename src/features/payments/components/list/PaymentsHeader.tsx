@@ -38,7 +38,7 @@ const PaymentsHeader = () => {
   ];
 
   return (
-    <Card className="shadow-sm ">
+    <Card className="shadow-xs ">
       <CardHeader className="flex flex-row items-center justify-between gap-3">
         <div className="flex flex-row items-center gap-3">
           <SearchInput />
@@ -50,7 +50,9 @@ const PaymentsHeader = () => {
         </div>
 
         <TabsList>
-          <TabsTrigger value="initial">{t("payments.initialPayments")}</TabsTrigger>
+          <TabsTrigger value="initial">
+            {t("payments.initialPayments")}
+          </TabsTrigger>
           <TabsTrigger value="all">{t("payments.allPayments")}</TabsTrigger>
         </TabsList>
       </CardHeader>
@@ -59,4 +61,3 @@ const PaymentsHeader = () => {
 };
 
 export default PaymentsHeader;
-

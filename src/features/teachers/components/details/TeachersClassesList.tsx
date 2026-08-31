@@ -12,9 +12,9 @@ import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
 import { changeTime } from "../../../../utils/change-time";
 import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
-import ClassesStatus from "../../classes/components/ClassesStatus";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import ClassesStatus from "../../../classes/components/shared/ClassesStatus";
 
 const TeachersClassesList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -107,13 +107,19 @@ const TeachersClassesList = ({ data }: { data: any }) => {
             <TableCell>
               <div className="flex flex-col gap-1">
                 <span>
-                  <span className="text-xs text-muted-foreground">{t("students.start")}:</span>{" "}
+                  <span className="text-xs text-muted-foreground">
+                    {t("students.start")}:
+                  </span>{" "}
                   {formatDate(classData.startDate)}
                 </span>
 
                 <span>
-                  <span className="text-xs text-muted-foreground">{t("students.end")}:</span>{" "}
-                  {classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
+                  <span className="text-xs text-muted-foreground">
+                    {t("students.end")}:
+                  </span>{" "}
+                  {classData.endDate
+                    ? formatDate(classData.endDate)
+                    : t("students.tba")}
                 </span>
               </div>
             </TableCell>
@@ -141,7 +147,9 @@ const TeachersClassesList = ({ data }: { data: any }) => {
                 align="right"
               />
             </TableCell>
-            <TableCell>{formatDate(classData.createdAt)}</TableCell>
+            <TableCell align="right">
+              {formatDate(classData.createdAt)}
+            </TableCell>
 
             <TableCell>
               <TableActionButtonsContainer

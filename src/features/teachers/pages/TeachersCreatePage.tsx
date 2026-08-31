@@ -47,7 +47,7 @@ const TeachersCreatePage = () => {
   } = useTeacherCreateForm();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("teachers.createTitle")} />
       <CardContent>
         <form id="create-teacher-form" onSubmit={form.handleSubmit(onSubmit)}>

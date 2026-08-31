@@ -79,7 +79,7 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
                 {formatCurrency(enrollmentData.remainingAmount)}
               </TableCell>
 
-              <TableCell>{formatDate(enrollmentData.createdAt)}</TableCell>
+              <TableCell align="right">{formatDate(enrollmentData.createdAt)}</TableCell>
 
               <TableCell>
                 <TableActionButtonsContainer

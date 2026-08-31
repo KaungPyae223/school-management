@@ -1,17 +1,18 @@
+import { type LucideIcon } from "lucide-react";
 import { Badge } from "../../../../components/ui/badge";
 import { Label } from "../../../../components/ui/label";
 import { cn } from "../../../../lib/utils";
 import { useTranslation } from "react-i18next";
 
 const ClassesAdvancedQueryGroup = ({
-  icon,
+  icon: Icon,
   title,
   children,
   className,
   numberSelected,
   isSelected,
 }: {
-  icon?: React.ReactNode;
+  icon?: LucideIcon;
   title: React.ReactNode;
   children: React.ReactNode;
   className?: string;
@@ -24,7 +25,7 @@ const ClassesAdvancedQueryGroup = ({
     <div className={cn("rounded-lg border bg-card p-3.5 space-y-4", className)}>
       <div className="flex items-center justify-between">
         <Label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          {icon}
+          <Icon className="size-3.5 text-primary" />
           {title}
         </Label>
         {isSelected && (

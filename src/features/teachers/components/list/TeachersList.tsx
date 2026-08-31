@@ -1,4 +1,11 @@
-import { BookOpen, GraduationCap, IdCard, Mail, MapPin, Phone } from "lucide-react";
+import {
+  BookOpen,
+  GraduationCap,
+  IdCard,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableCell from "../../../../components/table/TableCell";
@@ -64,10 +71,7 @@ const TeachersList = ({ data }: { data: any }) => {
                 <TableIconContent icon={Mail} value={teacher.email} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("Address")}>
-                <TableIconContent
-                  icon={MapPin}
-                  value={teacher.address}
-                />
+                <TableIconContent icon={MapPin} value={teacher.address} />
               </TableCell>
               <TableCell hidden={!selectedColumns.includes("NRC")}>
                 <TableIconContent
@@ -95,10 +99,16 @@ const TeachersList = ({ data }: { data: any }) => {
                   align="right"
                 />
               </TableCell>
-              <TableCell hidden={!selectedColumns.includes("Created At")}>
+              <TableCell
+                align="right"
+                hidden={!selectedColumns.includes("Created At")}
+              >
                 {formatDate(teacher.createdAt)}
               </TableCell>
-              <TableCell hidden={!selectedColumns.includes("Updated At")}>
+              <TableCell
+                align="right"
+                hidden={!selectedColumns.includes("Updated At")}
+              >
                 {formatDate(teacher.updatedAt)}
               </TableCell>
 

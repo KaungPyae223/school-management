@@ -9,7 +9,7 @@ const TimetableHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();
 
   return (
-    <Card className="shadow-sm ">
+    <Card className="shadow-xs ">
       <CardHeader className="flex flex-row items-center justify-between gap-3">
         <AnimatePresence mode="wait" initial={false}>
           {tab === "teachers" && (
@@ -45,4 +45,3 @@ const TimetableHeader = ({ tab }: { tab: string }) => {
 };
 
 export default TimetableHeader;
-

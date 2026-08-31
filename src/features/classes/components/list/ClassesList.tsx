@@ -1,10 +1,20 @@
-import { BookOpen, CalendarCheck2, CalendarOff, Clock, UserPlus } from "lucide-react";
+import {
+  BookOpen,
+  CalendarCheck2,
+  CalendarOff,
+  Clock,
+  UserPlus,
+} from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableCell from "../../../../components/table/TableCell";
 import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
 import TableRow from "../../../../components/table/TableRow";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../../components/ui/avatar";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
@@ -140,11 +150,17 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 />
               </TableCell>
 
-              <TableCell hidden={!selectedColumns.includes("Created At")}>
+              <TableCell
+                align="right"
+                hidden={!selectedColumns.includes("Created At")}
+              >
                 {formatDate(classData.createdAt)}
               </TableCell>
 
-              <TableCell hidden={!selectedColumns.includes("Updated At")}>
+              <TableCell
+                align="right"
+                hidden={!selectedColumns.includes("Updated At")}
+              >
                 {formatDate(classData.updatedAt)}
               </TableCell>
 
@@ -156,7 +172,9 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 >
                   {classData.status !== "complete" && (
                     <TableActionButton
-                      onClick={() => navigate(`/classes/enroll/${classData.id}`)}
+                      onClick={() =>
+                        navigate(`/classes/enroll/${classData.id}`)
+                      }
                       icon={UserPlus}
                       tooltip={t("classes.enrolledStudent")}
                       className="text-white hover:text-white bg-green-600 hover:bg-green-700"

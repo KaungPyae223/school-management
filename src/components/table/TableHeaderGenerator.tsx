@@ -31,11 +31,13 @@ const TableHeaderGenerator = ({
           {header.title}
         </TableHead>
       ))}
+
       <TableHead
         key="created-at"
         sortable={true}
         sortKey={`${prefix}createdAt`}
         hidden={!selectedColumns.includes("Created At")}
+        align="right"
       >
         {t("general.createdAt")}
       </TableHead>
@@ -44,9 +46,11 @@ const TableHeaderGenerator = ({
         sortable={true}
         sortKey={`${prefix}updatedAt`}
         hidden={!selectedColumns.includes("Updated At")}
+        align="right"
       >
         {isTrashView ? t("general.deletedAt") : t("general.updatedAt")}
       </TableHead>
+
       <TableHead align="right">{t("general.actions")}</TableHead>
     </TableHeader>
   );

@@ -8,7 +8,7 @@ const TeachersDetailsHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();
 
   return (
-    <Card className="shadow-sm">
+    <Card className="shadow-xs">
       <CardContent className="flex flex-wrap items-center justify-between gap-4">
         <AnimatePresence mode="wait" initial={false}>
           {tab === "classes" && (

@@ -72,7 +72,7 @@ const Settings2FAEnable = () => {
   };
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("settings.twoFactor.enableTitle")} />
       <CardContent>
         <form id="enable-2FA-form" onSubmit={form.handleSubmit(onSubmit)}>

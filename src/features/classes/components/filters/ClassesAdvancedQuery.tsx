@@ -57,11 +57,11 @@ const ClassesAdvancedQuery = () => {
         >
           <form id="query-form" onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
-              <Card className="shadow-sm">
+              <Card className="shadow-xs">
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <ClassesAdvancedQueryGroup
-                      icon={<UserPen className="size-3.5 text-primary" />}
+                      icon={UserPen}
                       title={t("classes.fields.teacher")}
                       isSelected={Boolean(selectedTeachers)}
                     >
@@ -78,7 +78,7 @@ const ClassesAdvancedQuery = () => {
                     </ClassesAdvancedQueryGroup>
 
                     <ClassesAdvancedQueryGroup
-                      icon={<LibraryBig className="size-3.5 text-primary" />}
+                      icon={LibraryBig}
                       title={t("classes.fields.course")}
                       isSelected={Boolean(selectedCourses?.length)}
                     >
@@ -97,7 +97,7 @@ const ClassesAdvancedQuery = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <ClassesAdvancedQueryGroup
-                      icon={<CalendarIcon className="size-3.5 text-primary" />}
+                      icon={CalendarIcon}
                       title={`${t("classes.fields.startDate")} & ${t("classes.fields.endDate")}`}
                       isSelected={Boolean(startDate || endDate)}
                     >
@@ -151,7 +151,7 @@ const ClassesAdvancedQuery = () => {
                     </ClassesAdvancedQueryGroup>
 
                     <ClassesAdvancedQueryGroup
-                      icon={<Clock className="size-3.5 text-primary" />}
+                      icon={Clock}
                       title={t("classes.advancedQuery.timeRange")}
                       isSelected={Boolean(startTime || endTime)}
                     >
@@ -205,7 +205,7 @@ const ClassesAdvancedQuery = () => {
                     </ClassesAdvancedQueryGroup>
 
                     <ClassesAdvancedQueryGroup
-                      icon={<DollarSign className="size-3.5 text-primary" />}
+                      icon={DollarSign}
                       title={t("classes.advancedQuery.priceRange")}
                       isSelected={Boolean(minPrice || maxPrice)}
                     >
@@ -262,7 +262,7 @@ const ClassesAdvancedQuery = () => {
                   </div>
 
                   <ClassesAdvancedQueryGroup
-                    icon={<Filter className="size-3.5 text-primary" />}
+                    icon={Filter}
                     title={t("classes.advancedQuery.queryActions")}
                     className="flex flex-row items-center justify-between space-y-0"
                   >

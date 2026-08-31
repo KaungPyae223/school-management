@@ -1,5 +1,4 @@
-import React from "react";
-import { Badge } from "../../../components/ui/badge";
+import { Badge } from "../../../../components/ui/badge";
 
 import {
   BookOpen,
@@ -7,19 +6,18 @@ import {
   CalendarDays,
   Clock,
   DollarSign,
-  type LucideIcon,
 } from "lucide-react";
-import { formatDate } from "../../../utils/format-date";
-import { formatCurrency } from "../../../utils/format-currency";
-import ClassesTeacherCard from "../../classes/components/ClassesTeacherCard";
-import { Separator } from "../../../components/ui/separator";
-import { changeTime } from "../../../utils/change-time";
-import DetailsData from "../../../components/details/DetailsData";
-import ImageDisplay from "../../../components/image/ImageDisplay";
-import CardDayBadge from "../../../components/card-utils/CardDayBadge";
+import { formatDate } from "../../../../utils/format-date";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { Separator } from "../../../../components/ui/separator";
+import { changeTime } from "../../../../utils/change-time";
+import DetailsData from "../../../../components/details/DetailsData";
+import ImageDisplay from "../../../../components/image/ImageDisplay";
+import CardDayBadge from "../../../../components/card-utils/CardDayBadge";
 
 import { useTranslation } from "react-i18next";
-import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import ClassesTeacherCard from "../../../classes/components/details/ClassesTeacherCard";
 
 const EnrollClassDataCard = ({ data }: { data: any }) => {
   const { t } = useTranslation();

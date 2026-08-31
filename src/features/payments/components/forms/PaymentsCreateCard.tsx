@@ -48,7 +48,7 @@ const PaymentsCreateCard = ({
   } = usePaymentCreateForm({ amountDue, classId, enrollmentId });
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <CardHeader className="border-b bg-muted/30">
         <CardTitle className="text-lg">{t("payments.createPayment")}</CardTitle>
       </CardHeader>

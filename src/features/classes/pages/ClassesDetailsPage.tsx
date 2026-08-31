@@ -91,7 +91,7 @@ const ClassesDetailsPage = () => {
         </DetailsHeader>
         <ClassesDetailsCard data={classData} />
         <Separator />
-        <Card className="shadow-sm">
+        <Card className="shadow-xs">
           <CardContent className="flex flex-wrap items-center justify-between gap-4">
             <SearchInput />
             <div className="flex items-center gap-2 whitespace-nowrap">

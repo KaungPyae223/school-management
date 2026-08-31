@@ -51,7 +51,7 @@ const Settings2FAVerify = () => {
   };
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("settings.twoFactor.verifyTitle")} />
       <CardContent>
         <form id="verify-2FA-form" onSubmit={form.handleSubmit(onSubmit)}>

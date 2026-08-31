@@ -50,7 +50,7 @@ const CourseEditPage = () => {
   } = useCourseEditForm();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("courses.editTitle")} />
       <CardContent>
         <form id="edit-course-form" onSubmit={form.handleSubmit(onSubmit)}>

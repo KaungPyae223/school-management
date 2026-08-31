@@ -69,7 +69,7 @@ const SettingsPasswordCreate = ({
   };
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-sm">
+    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <FormHeader title={t("settings.createPassword.title")} back={back} />
       <CardContent>
         <form id="create-password-form" onSubmit={form.handleSubmit(onSubmit)}>
