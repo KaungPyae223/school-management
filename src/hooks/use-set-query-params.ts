@@ -28,6 +28,7 @@ export const useSetQueryParams = () => {
       },
       {
         replace: true,
+        preventScrollReset: true,
       },
     );
   };

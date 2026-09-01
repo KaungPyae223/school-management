@@ -1,4 +1,4 @@
-import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
+import { keepPreviousData, useQuery, type UseQueryOptions } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 export const useAppQuery = (options: UseQueryOptions) => {
@@ -10,6 +10,7 @@ export const useAppQuery = (options: UseQueryOptions) => {
     gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    placeholderData: keepPreviousData,
     ...options,
     throwOnError: (error: Error) => {
       if (error.message === "UNAUTHORIZED") {

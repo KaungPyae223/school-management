@@ -17,6 +17,8 @@ export const useCoursesList = () => {
   const selectedColumns = useGetSelectedColumns([
     "Name",
     "Price",
+    "Total Students",
+    "Withdrawn",
     "Description",
     "Created At",
   ]);
@@ -60,7 +62,7 @@ export const useCoursesList = () => {
       title: t("courses.withdrawn"),
       key: "Withdrawn",
       sortable: true,
-      sortKey: "total_withdrawn_students",
+      sortKey: "withdrawn_students",
     },
     {
       title: t("courses.teachers"),

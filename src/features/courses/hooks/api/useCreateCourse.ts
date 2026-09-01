@@ -6,7 +6,10 @@ export const useCreateCourse = () => {
   return useMutation({
     mutationFn: courseService.createCourse,
     onSuccess: () => {
-      return queryClient.invalidateQueries({ queryKey: ["courses"] });
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["courses"] }),
+        queryClient.invalidateQueries({ queryKey: ["courses-details"] }),
+      ]);
     },
   });
 };

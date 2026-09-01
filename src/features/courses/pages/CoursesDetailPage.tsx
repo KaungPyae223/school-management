@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useLoaderData, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useState } from "react";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
@@ -13,6 +13,9 @@ import CoursesDetailsHeader from "../components/details/CoursesDetailsHeader";
 import { AnimatePresence, m } from "framer-motion";
 import CoursesTimetableTab from "../components/details/CoursesTimetableTab";
 import CoursesClassesTab from "../components/details/CoursesClassesTab";
+import { useAppQuery } from "../../../hooks/use-app-query";
+import { courseService } from "../../../services/courses";
+import LoadingPage from "../../../components/loading/LoadingPage";
 
 const CoursesDetailPage = () => {
   const { t } = useTranslation();
@@ -31,9 +34,9 @@ const CoursesDetailPage = () => {
     ],
   });
 
-  const navigate = useNavigate();
+  const { courseId } = useParams();
 
-  const courseData = useLoaderData();
+  const navigate = useNavigate();
 
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
@@ -41,8 +44,6 @@ const CoursesDetailPage = () => {
     useState<boolean>(false);
 
   const { view, changeView } = useViewTabChange("classes");
-
-  console.log(courseData);
 
   return (
     <>
@@ -52,14 +53,14 @@ const CoursesDetailPage = () => {
             setDeleteConfirmDialogOpen(true);
           }}
           onUpdate={() => {
-            navigate(`/courses/edit/${courseData.id}`);
+            navigate(`/courses/edit/${courseId}`);
           }}
           onRestore={() => {
             setRestoreConfirmDialogOpen(true);
           }}
-          isDeleted={courseData.deleted}
+          isDeleted={false}
         />
-        <CoursesDetailsCard data={courseData} />
+        <CoursesDetailsCard id={Number(courseId)} />
         <Separator />
         <Tabs
           value={view}
@@ -78,7 +79,7 @@ const CoursesDetailPage = () => {
                 transition={{ duration: 0.3 }}
                 className="space-y-6"
               >
-                <CoursesClassesTab id={courseData.id} />
+                <CoursesClassesTab id={Number(courseId)} />
               </m.div>
             )}
             {view === "timetable" && (
@@ -89,7 +90,7 @@ const CoursesDetailPage = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <CoursesTimetableTab id={courseData.id} />
+                <CoursesTimetableTab id={Number(courseId)} />
               </m.div>
             )}
           </AnimatePresence>
@@ -98,13 +99,13 @@ const CoursesDetailPage = () => {
       <CoursesDeleteAlert
         confirmDialogOpen={deleteConfirmDialogOpen}
         setConfirmDialogOpen={setDeleteConfirmDialogOpen}
-        id={courseData.id}
+        id={Number(courseId)}
         back
       />
       <CoursesRestoreAlert
         confirmDialogOpen={restoreConfirmDialogOpen}
         setConfirmDialogOpen={setRestoreConfirmDialogOpen}
-        id={courseData.id}
+        id={Number(courseId)}
         back
       />
     </>

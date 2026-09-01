@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useLoaderData, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import DetailsHeader from "../../../components/details/DetailsHeader";
 import { Separator } from "../../../components/ui/separator";
 
@@ -11,14 +11,10 @@ import { Button } from "../../../components/ui/button";
 import { GraduationCap, UserPlus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 
-import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { useAppQuery } from "../../../hooks/use-app-query";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
-import { enrollmentService } from "../../../services/enrollment";
+import { classService } from "../../../services/classes";
 import ClassesEnrolledStudentsList from "../components/details/ClassesEnrolledStudentsList";
-import Paginate from "../../../components/paginate/Paginate";
 import SearchInput from "../../../components/search-input/SearchInput";
-import DataShow from "../../../components/data/DataShow";
 import ClassesCompleteAlert from "../components/alerts/ClassesCompleteAlert";
 
 const ClassesDetailsPage = () => {
@@ -38,7 +34,7 @@ const ClassesDetailsPage = () => {
     ],
   });
 
-  const classData = useLoaderData();
+  const { classId } = useParams();
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
   const [completeConfirmDialogOpen, setCompleteConfirmDialogOpen] =
@@ -46,16 +42,12 @@ const ClassesDetailsPage = () => {
 
   const navigate = useNavigate();
 
-  const { activeQueryParams } = useGetQueryParams();
+  const { data: classDetailsData } = useAppQuery({
+    queryKey: ["classes-details", Number(classId)],
+    queryFn: () => classService.getClassDetails(Number(classId)),
+  }) as { data: { data: any } };
 
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["classes_enrollments", classData.id, activeQueryParams],
-    queryFn: () =>
-      enrollmentService.getEnrollmentByClass({
-        ...activeQueryParams,
-        classId: classData.id,
-      }),
-  }) as { data: ResponseDataType; isLoading: boolean };
+  const classData = classDetailsData?.data;
 
   return (
     <>
@@ -65,11 +57,11 @@ const ClassesDetailsPage = () => {
             setDeleteConfirmDialogOpen(true);
           }}
           onUpdate={() => {
-            navigate(`/classes/edit/${classData.id}`);
+            navigate(`/classes/edit/${classId}`);
           }}
           isDeleted={false}
         >
-          {classData.status == "ongoing" && (
+          {classData?.status == "ongoing" && (
             <Button
               variant="outline"
               onClick={() => setCompleteConfirmDialogOpen(true)}
@@ -78,50 +70,36 @@ const ClassesDetailsPage = () => {
               {t("classes.completeClass")}
             </Button>
           )}
-          {classData.status != "complete" && (
+          {classData?.status != "complete" && (
             <Button
               variant="default"
-              onClick={() => navigate(`/classes/enroll/${classData.id}`)}
+              onClick={() => navigate(`/classes/enroll/${classId}`)}
             >
               <UserPlus className="size-3.5" />
               {t("classes.enrolledStudent")}
             </Button>
           )}
         </DetailsHeader>
-        <ClassesDetailsCard data={classData} />
+        <ClassesDetailsCard id={Number(classId)} />
         <Separator />
         <Card className="shadow-xs">
           <CardContent className="flex flex-wrap items-center justify-between gap-4">
             <SearchInput />
           </CardContent>
         </Card>
-        <DataShow
-          isLoading={isLoading}
-          dataLength={data?.data.length}
-          emptyDescription={t("classes.noEnrolledStudentsDesc")}
-          emptyTitle={t("classes.noEnrolledStudentsTitle")}
-          emptyIcon={GraduationCap}
-          action={{
-            label: t("students.addStudent"),
-            link: `/classes/enroll/${classData.id}`,
-          }}
-        >
-          <ClassesEnrolledStudentsList data={data?.data} />
-
-          <Paginate meta={data?.meta} />
-        </DataShow>
+        <ClassesEnrolledStudentsList classId={Number(classId)} />
       </div>
 
       <ClassesDeleteAlert
         confirmDialogOpen={deleteConfirmDialogOpen}
         setConfirmDialogOpen={setDeleteConfirmDialogOpen}
-        id={classData.id}
+        id={Number(classId)}
         back
       />
       <ClassesCompleteAlert
         confirmDialogOpen={completeConfirmDialogOpen}
         setConfirmDialogOpen={setCompleteConfirmDialogOpen}
-        id={classData.id}
+        id={Number(classId)}
         back
       />
     </>

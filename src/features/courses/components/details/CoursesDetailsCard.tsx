@@ -19,56 +19,85 @@ import DetailsData from "../../../../components/details/DetailsData";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
-
-const CoursesDetailsCard = ({ data }: { data: any }) => {
+import { courseService } from "../../../../services/courses";
+import { useAppQuery } from "../../../../hooks/use-app-query";
+import LoadingComponent from "../../../../components/loading/LoadingComponent";
+const CoursesDetailsCard = ({ id }: { id: number }) => {
   const { t } = useTranslation();
 
+  const { data, isLoading } = useAppQuery({
+    queryKey: ["courses-details", id],
+    queryFn: () => courseService.getCourseDetail(id),
+  }) as { data: { data: any }; isLoading: boolean };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  const detailsData = data?.data;
+
   const avgStudents =
-    data.total_classes > 0
-      ? Math.round(Number(data.total_students) / Number(data.total_classes))
+    detailsData.total_classes > 0
+      ? Math.round(
+          Number(detailsData.total_students) /
+            Number(detailsData.total_classes),
+        )
       : 0;
 
   return (
     <Card className="shadow-xs flex flex-row gap-1.5">
       <CardHeader className="w-lg">
         <ImageDisplay
-          image={data.image}
-          alt={data.name}
+          image={detailsData.image}
+          alt={detailsData.name}
           fallbackIcon={BookOpen}
           display="details"
         />
       </CardHeader>
       <CardContent className=" space-y-3 w-full">
         <div className="flex items-center gap-2">
-          <h3 className="text-2xl font-semibold line-clamp-1">{data.name}</h3>
+          <h3 className="text-2xl font-semibold line-clamp-1">
+            {detailsData.name}
+          </h3>
         </div>
-        <p className="text-sm text-muted-foreground "> {data.description}</p>
+        <p className="text-sm text-muted-foreground ">
+          {" "}
+          {detailsData.description}
+        </p>
 
         <div className="grid grid-cols-3 gap-3">
           <DetailsData icon={DollarSign} label={t("courses.fields.price")}>
-            <p className="font-medium">{formatCurrency(data.price)}</p>
+            <p className="font-medium">{formatCurrency(detailsData.price)}</p>
+          </DetailsData>
+          <DetailsData icon={Currency} label={t("courses.totalRevenue")}>
+            <p className="font-medium">
+              {formatCurrency(detailsData.total_revenue)}
+            </p>
+          </DetailsData>
+          <DetailsData
+            icon={XLineTop}
+            label={t("courses.averageStudentsPerClass")}
+          >
+            <p className="font-medium">{replaceLocalDigit(avgStudents)}</p>
           </DetailsData>
           <DetailsData icon={UserPen} label={t("courses.totalTeachers")}>
             <p className="font-medium">
-              {replaceLocalDigit(data.total_teachers)}
+              {replaceLocalDigit(detailsData.total_teachers)}
             </p>
           </DetailsData>
           <DetailsData icon={Users} label={t("courses.totalStudents")}>
             <p className="font-medium">
-              {replaceLocalDigit(data.total_students)}
+              {replaceLocalDigit(detailsData.total_students)}
             </p>
           </DetailsData>
-          <DetailsData
-            icon={DoorOpen}
-            label={t("courses.totalWithdrawnStudents")}
-          >
+          <DetailsData icon={DoorOpen} label={"Total Withdrawn Students"}>
             <p className="font-medium">
-              {replaceLocalDigit(data.total_withdrawn_students)}
+              {replaceLocalDigit(detailsData.withdrawn_students)}
             </p>
           </DetailsData>
           <DetailsData icon={BookOpen} label={t("courses.totalClasses")}>
             <p className="font-medium">
-              {replaceLocalDigit(data.total_classes)}
+              {replaceLocalDigit(detailsData.total_classes)}
             </p>
           </DetailsData>
           <DetailsData
@@ -76,30 +105,17 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
             label={t("courses.totalActiveClasses")}
           >
             <p className="font-medium">
-              {replaceLocalDigit(data.total_active_classes)}
+              {replaceLocalDigit(detailsData.total_active_classes)}
             </p>
           </DetailsData>
-          <DetailsData icon={Circle} label={t("courses.totalUpcomingClasses")}>
-            <p className="font-medium">
-              {replaceLocalDigit(data.total_upcoming_classes)}
-            </p>
-          </DetailsData>
+
           <DetailsData
             icon={CheckCircle2}
             label={t("courses.totalCompletedClasses")}
           >
             <p className="font-medium">
-              {replaceLocalDigit(data.total_complete_classes)}
+              {replaceLocalDigit(detailsData.total_complete_classes)}
             </p>
-          </DetailsData>
-          <DetailsData icon={Currency} label={t("courses.totalRevenue")}>
-            <p className="font-medium">{formatCurrency(data.total_revenue)}</p>
-          </DetailsData>
-          <DetailsData
-            icon={XLineTop}
-            label={t("courses.averageStudentsPerClass")}
-          >
-            <p className="font-medium">{replaceLocalDigit(avgStudents)}</p>
           </DetailsData>
         </div>
         <Separator />
@@ -108,7 +124,7 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
             <div>
               <p className="text-[11px]">{t("general.createdAt")}</p>
               <p className="font-medium text-foreground">
-                {formatDate(data.createdAt)}
+                {formatDate(detailsData.createdAt)}
               </p>
             </div>
           </div>
@@ -117,7 +133,7 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
             <div className="text-right">
               <p className="text-[11px]">{t("general.updatedAt")}</p>
               <p className="font-medium text-foreground">
-                {formatDate(data.updatedAt)}
+                {formatDate(detailsData.updatedAt)}
               </p>
             </div>
           </div>

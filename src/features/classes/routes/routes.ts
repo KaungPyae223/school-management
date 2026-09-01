@@ -16,15 +16,6 @@ const routes = [
       const module = await import("../pages/ClassesDetailsPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
-      const result = await classService.getClassDetails(Number(params.classId));
-
-      if (result.error) {
-        throw new Error(result.error);
-      }
-
-      return result.data;
-    },
     ErrorBoundary: ErrorPage,
   },
   {

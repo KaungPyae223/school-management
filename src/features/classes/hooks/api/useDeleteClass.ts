@@ -8,6 +8,7 @@ export const useDeleteClass = () => {
     onSuccess: () => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["classes"] }),
+        queryClient.invalidateQueries({ queryKey: ["classes-details"] }),
         queryClient.invalidateQueries({ queryKey: ["teachers_classes"] }),
         queryClient.invalidateQueries({ queryKey: ["courses_classes"] }),
       ]);

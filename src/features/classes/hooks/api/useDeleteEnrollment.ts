@@ -8,6 +8,7 @@ export const useDeleteEnrollment = () => {
     onSuccess: () => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["classes"] }),
+        queryClient.invalidateQueries({ queryKey: ["classes-details"] }),
         queryClient.invalidateQueries({
           queryKey: ["enrollments"],
         }),

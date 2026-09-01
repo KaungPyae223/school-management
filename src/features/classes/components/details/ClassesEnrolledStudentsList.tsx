@@ -1,4 +1,4 @@
-import { CreditCard, DoorOpen, LogIn } from "lucide-react";
+import { CreditCard, DoorOpen, GraduationCap, LogIn } from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableActionButton from "../../../../components/table/TableActionButton";
 import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
@@ -20,9 +20,26 @@ import { useTranslation } from "react-i18next";
 import ClassesEnrollmentDeleteAlert from "../alerts/ClassesEnrollmentDeleteAlert";
 import ClassesEnrollmentWithdrawAlert from "../alerts/ClassesEnrollmentWithdrawAlert";
 import { useClassesEnrolledStudents } from "../../hooks/list/useClassesEnrolledStudents";
+import { useAppQuery } from "../../../../hooks/use-app-query";
+import { useGetQueryParams } from "../../../../hooks/use-get-query-params";
+import { enrollmentService } from "../../../../services/enrollment";
+import type { ResponseDataType } from "../../../../types/ResponseTypes";
+import DataShow from "../../../../components/data/DataShow";
+import Paginate from "../../../../components/paginate/Paginate";
 
-const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
+const ClassesEnrolledStudentsList = ({ classId }: { classId: number }) => {
   const { t } = useTranslation();
+  const { activeQueryParams } = useGetQueryParams();
+
+  const { data, isLoading } = useAppQuery({
+    queryKey: ["classes_enrollments", classId, activeQueryParams],
+    queryFn: () =>
+      enrollmentService.getEnrollmentByClass({
+        ...activeQueryParams,
+        classId,
+      }),
+  }) as { data: ResponseDataType; isLoading: boolean };
+
   const {
     headers,
     enrolledID,
@@ -39,21 +56,32 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
 
   return (
     <>
-      <Table>
-        <TableHeaderGenerator
-          headers={headers}
-          selectedColumns={[
-            "Name",
-            "Phone",
-            "Email",
-            "Paid Amount",
-            "Remaining Amount",
-            "Created At",
-          ]}
-          prefix="e."
-        />
-        <TableBody>
-          {data.map((enrollmentData: any) => {
+      <DataShow
+        isLoading={isLoading}
+        dataLength={data?.data.length}
+        emptyDescription={t("classes.noEnrolledStudentsDesc")}
+        emptyTitle={t("classes.noEnrolledStudentsTitle")}
+        emptyIcon={GraduationCap}
+        action={{
+          label: t("students.addStudent"),
+          link: `/classes/enroll/${classId}`,
+        }}
+      >
+        <Table>
+          <TableHeaderGenerator
+            headers={headers}
+            selectedColumns={[
+              "Name",
+              "Phone",
+              "Email",
+              "Paid Amount",
+              "Remaining Amount",
+              "Created At",
+            ]}
+            prefix="e."
+          />
+          <TableBody>
+            {data?.data.map((enrollmentData: any) => {
             const isWithdraw = Boolean(enrollmentData.withdrawn);
 
             return (
@@ -149,6 +177,9 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
           })}
         </TableBody>
       </Table>
+
+      <Paginate meta={data?.meta} />
+    </DataShow>
 
       <ClassesEnrollmentDeleteAlert
         confirmDialogOpen={confirmDialogOpen}

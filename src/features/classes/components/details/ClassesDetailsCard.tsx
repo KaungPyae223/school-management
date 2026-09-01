@@ -25,16 +25,30 @@ import ImageDisplay from "../../../../components/image/ImageDisplay";
 import CardDayBadge from "../../../../components/card-utils/CardDayBadge";
 
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { classService } from "../../../../services/classes";
+import { useAppQuery } from "../../../../hooks/use-app-query";
+import LoadingComponent from "../../../../components/loading/LoadingComponent";
 
-const ClassesDetailsCard = ({ data }: { data: any }) => {
+const ClassesDetailsCard = ({ id }: { id: number }) => {
   const { t } = useTranslation();
+
+  const { data, isLoading } = useAppQuery({
+    queryKey: ["classes-details", id],
+    queryFn: () => classService.getClassDetails(id),
+  }) as { data: { data: any }; isLoading: boolean };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  const classData = data?.data;
 
   return (
     <Card className="shadow-xs flex flex-row gap-1.5">
-      <CardHeader className="w-lg items-center justify-center h-full">
+      <CardHeader className="w-lg">
         <ImageDisplay
-          image={data.course_image}
-          alt={data.course_name}
+          image={classData.course_image}
+          alt={classData.course_name}
           fallbackIcon={BookOpen}
           display="details"
         />
@@ -42,61 +56,61 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
       <CardContent className=" space-y-3 w-full">
         <div className="flex items-center gap-2">
           <h3 className="text-2xl font-semibold line-clamp-1">
-            {data.course_name}
+            {classData.course_name}
           </h3>
           <Badge variant="outline">
-            {t("classes.batch", { batch: replaceLocalDigit(data.batch) })}
+            {t("classes.batch", { batch: replaceLocalDigit(classData.batch) })}
           </Badge>
         </div>
-        <p className="text-sm text-muted-foreground "> {data.description}</p>
+        <p className="text-sm text-muted-foreground "> {classData.description}</p>
 
         <ClassesTeacherCard
-          image={data.teacher_image}
-          name={data.teacher_name}
+          image={classData.teacher_image}
+          name={classData.teacher_name}
         />
 
         <div className="grid grid-cols-3 gap-3">
           <DetailsData icon={CalendarDays} label={t("classes.openingDays")}>
             <div className="space-x-1 space-y-1">
-              {data.days.split(",").map((day: string) => (
+              {classData.days.split(",").map((day: string) => (
                 <CardDayBadge day={day} variant="outline" key={day} />
               ))}
             </div>
           </DetailsData>
           <DetailsData icon={Clock} label={t("classes.fields.time")}>
             <p className="font-medium">
-              {changeTime(data.startTime)} - {changeTime(data.endTime)}
+              {changeTime(classData.startTime)} - {changeTime(classData.endTime)}
             </p>
           </DetailsData>
           <DetailsData icon={DollarSign} label={t("classes.fields.price")}>
-            <p className="font-medium">{formatCurrency(data.price)}</p>
+            <p className="font-medium">{formatCurrency(classData.price)}</p>
           </DetailsData>
           <DetailsData icon={BadgeCheck} label={t("classes.fields.status")}>
-            <ClassesStatus status={data.status} />
+            <ClassesStatus status={classData.status} />
           </DetailsData>
           <DetailsData
             icon={CalendarCheck2}
             label={t("classes.fields.startDate")}
           >
-            <p className="font-medium">{formatDate(data.startDate)}</p>
+            <p className="font-medium">{formatDate(classData.startDate)}</p>
           </DetailsData>
           <DetailsData icon={CalendarOff} label={t("classes.fields.endDate")}>
             <p className="font-medium">
-              {data.endDate ? formatDate(data.endDate) : t("students.tba")}
+              {classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
             </p>
           </DetailsData>
           <DetailsData icon={GraduationCap} label={"Total Students"}>
             <p className="font-medium">
-              {replaceLocalDigit(data.total_students)}
+              {replaceLocalDigit(classData.total_students)}
             </p>
           </DetailsData>
-          <DetailsData icon={DoorOpen} label={"Total Withdrawn"}>
+          <DetailsData icon={DoorOpen} label={"Total Withdrawn Students"}>
             <p className="font-medium">
-              {replaceLocalDigit(data.withdrawn_students)}
+              {replaceLocalDigit(classData.withdrawn_students)}
             </p>
           </DetailsData>
           <DetailsData icon={Coins} label={"Total Revenue"}>
-            <p className="font-medium">{formatCurrency(data.total_revenue)}</p>
+            <p className="font-medium">{formatCurrency(classData.total_revenue)}</p>
           </DetailsData>
         </div>
         <Separator />
@@ -105,7 +119,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
             <div>
               <p className="text-[11px]">{t("general.createdAt")}</p>
               <p className="font-medium text-foreground">
-                {formatDate(data.createdAt)}
+                {formatDate(classData.createdAt)}
               </p>
             </div>
           </div>
@@ -114,7 +128,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
             <div className="text-right">
               <p className="text-[11px]">{t("general.updatedAt")}</p>
               <p className="font-medium text-foreground">
-                {formatDate(data.updatedAt)}
+                {formatDate(classData.updatedAt)}
               </p>
             </div>
           </div>

@@ -137,7 +137,7 @@ const CoursesCard = ({ course }: { course: any }) => {
                 variant="secondary"
                 className="font-medium text-foreground"
               >
-                {replaceLocalDigit(course.total_withdrawn_students)}
+                {replaceLocalDigit(course.withdrawn_students)}
               </Badge>
             </div>
           </div>

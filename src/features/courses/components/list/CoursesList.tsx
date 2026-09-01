@@ -1,4 +1,10 @@
-import { BookOpen, ClipboardList, DoorOpen, PlayCircle, UserPen } from "lucide-react";
+import {
+  BookOpen,
+  ClipboardList,
+  DoorOpen,
+  PlayCircle,
+  UserPen,
+} from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableRow from "../../../../components/table/TableRow";
@@ -84,7 +90,7 @@ const CoursesList = ({ data }: { data: any }) => {
               <TableCell hidden={!selectedColumns.includes("Withdrawn")}>
                 <TableIconContent
                   icon={DoorOpen}
-                  value={replaceLocalDigit(course.total_withdrawn_students)}
+                  value={replaceLocalDigit(course.withdrawn_students)}
                 />
               </TableCell>
 

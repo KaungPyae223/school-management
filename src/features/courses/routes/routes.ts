@@ -24,17 +24,6 @@ const routes = [
       const module = await import("../pages/CoursesDetailPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
-      const result = await courseService.getCourseDetail(
-        Number(params.courseId),
-      );
-
-      if (result.error) {
-        throw new Error(result.error);
-      }
-
-      return result.data;
-    },
     ErrorBoundary: ErrorPage,
   },
   {
