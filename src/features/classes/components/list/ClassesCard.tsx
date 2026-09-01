@@ -208,7 +208,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                 variant="secondary"
                 className="font-medium text-foreground"
               >
-                {replaceLocalDigit(classData.withdraw_students)}
+                {replaceLocalDigit(classData.withdrawn_students)}
               </Badge>
             </div>
             <CardData
@@ -218,6 +218,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   className="text-blue-600 dark:text-blue-400"
                 />
               }
+              border
               iconBg="bg-blue-100 dark:bg-blue-900/30"
               label={t("classes.fields.startDate")}
               value={formatDate(classData.startDate)}
@@ -230,6 +231,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   className="text-red-600 dark:text-red-400"
                 />
               }
+              border
               iconBg="bg-red-100 dark:bg-red-900/30"
               label={t("classes.fields.endDate")}
               value={

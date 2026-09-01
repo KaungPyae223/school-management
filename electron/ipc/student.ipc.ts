@@ -47,7 +47,7 @@ export const studentIPCs = () => {
         prisma.$queryRaw<any[]>`
           SELECT 
             s.*,
-            COUNT(DISTINCT CASE WHEN e.withdraw = 0 THEN e.id END) as total_classes
+            COUNT(DISTINCT CASE WHEN e.withdrawn = 0 THEN e.id END) as total_classes
           FROM students s
           LEFT JOIN enrollments e ON s.id = e.studentID
           ${searchFilter}
@@ -347,7 +347,7 @@ export const studentIPCs = () => {
             e.id as enrollment_id,
             c.image as course_image,
             e.price - SUM(p.amount) as remainingAmount,
-            e.withdraw
+            e.withdrawn
           FROM enrollments e
           LEFT JOIN payments p ON e.id = p.enrollmentId
           LEFT JOIN classes cl ON e.classId = cl.id

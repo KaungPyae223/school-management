@@ -15,6 +15,7 @@ export const useClassesList = () => {
     "Name",
     "Teacher",
     "Total Students",
+    "Withdrawn",
     "Days",
     "Price",
     "Status",
@@ -39,6 +40,13 @@ export const useClassesList = () => {
       key: "Total Students",
       sortable: true,
       sortKey: "total_students",
+      align: "right",
+    },
+    {
+      title: "Withdrawn",
+      key: "Withdrawn",
+      sortable: true,
+      sortKey: "withdrawn_students",
       align: "right",
     },
     {

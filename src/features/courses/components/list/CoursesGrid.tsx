@@ -8,7 +8,8 @@ const CoursesGrid = ({ data }: { data: any[] }) => {
   const sortOptions = [
     { field: "c.name", label: t("courses.fields.name") },
     { field: "c.price", label: t("courses.fields.price") },
-    { field: "total_enrollments", label: t("courses.enrollments") },
+    { field: "total_students", label: t("courses.totalStudents") },
+    { field: "total_withdrawn_students", label: t("courses.withdrawn") },
     { field: "total_teachers", label: t("courses.teachers") },
     { field: "total_classes", label: t("courses.classes") },
     { field: "total_active_classes", label: t("courses.active") },

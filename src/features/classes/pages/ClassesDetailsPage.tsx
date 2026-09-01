@@ -11,7 +11,6 @@ import { Button } from "../../../components/ui/button";
 import { GraduationCap, UserPlus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 
-import { Badge } from "../../../components/ui/badge";
 import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { useGetQueryParams } from "../../../hooks/use-get-query-params";
@@ -58,7 +57,6 @@ const ClassesDetailsPage = () => {
       }),
   }) as { data: ResponseDataType; isLoading: boolean };
 
- 
   return (
     <>
       <div className="space-y-6">
@@ -95,12 +93,6 @@ const ClassesDetailsPage = () => {
         <Card className="shadow-xs">
           <CardContent className="flex flex-wrap items-center justify-between gap-4">
             <SearchInput />
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <span className="text-sm font-medium text-muted-foreground">
-                {t("classes.fields.totalStudents")}:
-              </span>
-              <Badge variant="secondary">{classData._count.enrollments}</Badge>
-            </div>
           </CardContent>
         </Card>
         <DataShow
@@ -114,9 +106,7 @@ const ClassesDetailsPage = () => {
             link: `/classes/enroll/${classData.id}`,
           }}
         >
-          <ClassesEnrolledStudentsList
-            data={data?.data}
-          />
+          <ClassesEnrolledStudentsList data={data?.data} />
 
           <Paginate meta={data?.meta} />
         </DataShow>

@@ -14,6 +14,7 @@ import {
   GraduationCap,
   Layers,
   DollarSign,
+  DoorOpen,
 } from "lucide-react";
 import {
   Tooltip,
@@ -123,7 +124,7 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
             className="rounded-lg col-span-2 px-2"
           />
 
-          <div className="flex items-center col-span-2 w-full justify-between rounded-lg border border-border px-3 py-2">
+          <div className="flex items-center col-span-2 w-full justify-between rounded-lg border border-border px-3 py-2 ">
             <div className="flex items-center gap-3">
               <div className="p-1.5 rounded-md bg-green-100 dark:bg-green-900/30">
                 <GraduationCap
@@ -132,16 +133,33 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
                 />
               </div>
               <div>
+                <p className="text-xs ">{t("classes.fields.totalStudents")}</p>
                 <p className="text-xs text-muted-foreground">
-                  {t("classes.fields.totalStudents")}
-                </p>
-                <p className="text-xs text-muted-foreground/60">
-                  {t("timetable.enrolled")}
+                  {t("classes.enrolledStudents")}
                 </p>
               </div>
             </div>
             <Badge variant="secondary" className="font-medium text-foreground">
               {replaceLocalDigit(classData.total_students)}
+            </Badge>
+          </div>
+
+          <div className="col-span-2 flex w-full items-center justify-between rounded-lg border border-border px-3 py-2">
+            <div className="flex items-center gap-3">
+              <div className="rounded-md bg-destructive/10 p-1.5 dark:bg-destructive/20">
+                <DoorOpen size={16} className="text-destructive" />
+              </div>
+
+              <div>
+                <p className="text-xs">Withdrawn Students</p>
+                <p className="text-xs text-muted-foreground">
+                  Students who stopped attending
+                </p>
+              </div>
+            </div>
+
+            <Badge variant="secondary" className="font-medium text-foreground">
+              {replaceLocalDigit(classData.withdrawn_students)}
             </Badge>
           </div>
 
@@ -182,10 +200,8 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
                 />
               </div>
               <div>
+                <p className="text-xs">{t("courses.fields.price")}</p>
                 <p className="text-xs text-muted-foreground">
-                  {t("courses.fields.price")}
-                </p>
-                <p className="text-xs text-muted-foreground/60">
                   {t("timetable.perStudent")}
                 </p>
               </div>

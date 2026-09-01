@@ -5,6 +5,7 @@ import {
   Circle,
   Currency,
   DollarSign,
+  DoorOpen,
   PlayCircle,
   UserPen,
   Users,
@@ -24,7 +25,7 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
 
   const avgStudents =
     data.total_classes > 0
-      ? Math.round(Number(data.total_enrollments) / Number(data.total_classes))
+      ? Math.round(Number(data.total_students) / Number(data.total_classes))
       : 0;
 
   return (
@@ -52,9 +53,17 @@ const CoursesDetailsCard = ({ data }: { data: any }) => {
               {replaceLocalDigit(data.total_teachers)}
             </p>
           </DetailsData>
-          <DetailsData icon={Users} label={t("courses.totalEnrollments")}>
+          <DetailsData icon={Users} label={t("courses.totalStudents")}>
             <p className="font-medium">
-              {replaceLocalDigit(data.total_enrollments)}
+              {replaceLocalDigit(data.total_students)}
+            </p>
+          </DetailsData>
+          <DetailsData
+            icon={DoorOpen}
+            label={t("courses.totalWithdrawnStudents")}
+          >
+            <p className="font-medium">
+              {replaceLocalDigit(data.total_withdrawn_students)}
             </p>
           </DetailsData>
           <DetailsData icon={BookOpen} label={t("courses.totalClasses")}>

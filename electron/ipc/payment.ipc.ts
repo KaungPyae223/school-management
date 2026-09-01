@@ -52,7 +52,7 @@ export const paymentIPCs = () => {
     }
 
     if (view === "outstanding") {
-      conditions.push(Prisma.sql`e.withdraw = 0`);
+      conditions.push(Prisma.sql`e.withdrawn = 0`);
     }
 
     const searchQuery =
@@ -82,7 +82,7 @@ export const paymentIPCs = () => {
             c.name as courseName,
             c.image as courseImage,
             cl.batch as batch,
-            e.withdraw
+            e.withdrawn
           FROM enrollments e
           LEFT JOIN payments p ON e.id = p.enrollmentId
           LEFT JOIN students s ON e.studentId = s.id

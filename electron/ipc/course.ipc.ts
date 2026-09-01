@@ -24,7 +24,8 @@ export const courseIPCs = () => {
       "c.updatedAt",
       "total_classes",
       "total_active_classes",
-      "total_enrollments",
+      "total_students",
+      "total_withdrawn_students",
       "total_teachers",
     ]);
     const avilableSortDirection = new Set(["asc", "desc"]);
@@ -53,7 +54,9 @@ export const courseIPCs = () => {
             GROUP BY cl.courseId
           ),
           enrollment_counts AS (
-            SELECT cl.courseId, COUNT(e.id) AS total_enrollments
+            SELECT cl.courseId,
+              COUNT(e.id) as total_students,
+              COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as total_withdrawn_students
             FROM enrollments e
             LEFT JOIN classes cl ON cl.id = e.classId
             GROUP BY cl.courseId
@@ -62,7 +65,8 @@ export const courseIPCs = () => {
             c.*,
             COALESCE(cc.total_classes, 0) AS total_classes,
             COALESCE(cc.total_active_classes, 0) AS total_active_classes,
-            COALESCE(ec.total_enrollments, 0) AS total_enrollments,
+            COALESCE(ec.total_students, 0) AS total_students,
+            COALESCE(ec.total_withdrawn_students, 0) AS total_withdrawn_students,
             COALESCE(cc.total_teachers, 0) AS total_teachers
           FROM courses c
           LEFT JOIN class_counts cc ON cc.courseId = c.id
@@ -186,8 +190,10 @@ export const courseIPCs = () => {
             GROUP BY cl.courseId
           ),
           enrollment_counts AS (
-            SELECT cl.courseId, COUNT(e.id) AS total_enrollments,
-            SUM(e.price) AS total_revenue
+            SELECT cl.courseId,
+              COUNT(e.id) AS total_students,
+              COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) AS total_withdrawn_students,
+              SUM(e.price) AS total_revenue
             FROM enrollments e
             LEFT JOIN classes cl ON cl.id = e.classId
             GROUP BY cl.courseId
@@ -196,7 +202,8 @@ export const courseIPCs = () => {
             c.*,
             COALESCE(cc.total_active_classes, 0) AS total_active_classes,
             COALESCE(cc.total_classes, 0) AS total_classes,
-            COALESCE(ec.total_enrollments, 0) AS total_enrollments,
+            COALESCE(ec.total_students, 0) AS total_students,
+            COALESCE(ec.total_withdrawn_students, 0) AS total_withdrawn_students,
             COALESCE(cc.total_teachers, 0) AS total_teachers,
             COALESCE(cc.total_upcoming_classes, 0) AS total_upcoming_classes,
             COALESCE(cc.total_complete_classes, 0) AS total_complete_classes,

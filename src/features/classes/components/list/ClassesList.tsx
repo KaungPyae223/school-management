@@ -3,6 +3,8 @@ import {
   CalendarCheck2,
   CalendarOff,
   Clock,
+  DoorOpen,
+  GraduationCap,
   UserPlus,
 } from "lucide-react";
 import Table from "../../../../components/table/Table";
@@ -100,9 +102,22 @@ const ClassesList = ({ data }: { data: any[] }) => {
                 hidden={!selectedColumns.includes("Total Students")}
                 align="right"
               >
-                {replaceLocalDigit(classData.total_students)}
+                <TableIconContent
+                  align="right"
+                  icon={GraduationCap}
+                  value={replaceLocalDigit(classData.total_students)}
+                />
               </TableCell>
-
+              <TableCell
+                hidden={!selectedColumns.includes("Withdrawn")}
+                align="right"
+              >
+                <TableIconContent
+                  align="right"
+                  icon={DoorOpen}
+                  value={replaceLocalDigit(classData.withdrawn_students)}
+                />
+              </TableCell>
               <TableCell
                 hidden={!selectedColumns.includes("Days")}
                 className="space-x-1 max-w-52"

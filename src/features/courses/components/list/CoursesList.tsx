@@ -1,4 +1,4 @@
-import { BookOpen, ClipboardList, PlayCircle, UserPen } from "lucide-react";
+import { BookOpen, ClipboardList, DoorOpen, PlayCircle, UserPen } from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableRow from "../../../../components/table/TableRow";
@@ -74,10 +74,17 @@ const CoursesList = ({ data }: { data: any }) => {
                 </p>
               </TableCell>
 
-              <TableCell hidden={!selectedColumns.includes("Enrollments")}>
+              <TableCell hidden={!selectedColumns.includes("Total Students")}>
                 <TableIconContent
                   icon={ClipboardList}
-                  value={replaceLocalDigit(course.total_enrollments)}
+                  value={replaceLocalDigit(course.total_students)}
+                />
+              </TableCell>
+
+              <TableCell hidden={!selectedColumns.includes("Withdrawn")}>
+                <TableIconContent
+                  icon={DoorOpen}
+                  value={replaceLocalDigit(course.total_withdrawn_students)}
                 />
               </TableCell>
 

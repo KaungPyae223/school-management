@@ -6,7 +6,10 @@ import {
   CalendarDays,
   CalendarOff,
   Clock,
+  Coins,
   DollarSign,
+  DoorOpen,
+  GraduationCap,
 } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../../../../components/ui/card";
 import { Badge } from "../../../../components/ui/badge";
@@ -31,7 +34,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
       <CardHeader className="w-lg items-center justify-center h-full">
         <ImageDisplay
           image={data.course_image}
-          alt={data.course.name}
+          alt={data.course_name}
           fallbackIcon={BookOpen}
           display="details"
         />
@@ -39,7 +42,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
       <CardContent className=" space-y-3 w-full">
         <div className="flex items-center gap-2">
           <h3 className="text-2xl font-semibold line-clamp-1">
-            {data.course.name}
+            {data.course_name}
           </h3>
           <Badge variant="outline">
             {t("classes.batch", { batch: replaceLocalDigit(data.batch) })}
@@ -49,7 +52,7 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
 
         <ClassesTeacherCard
           image={data.teacher_image}
-          name={data.teacher.name}
+          name={data.teacher_name}
         />
 
         <div className="grid grid-cols-3 gap-3">
@@ -81,6 +84,19 @@ const ClassesDetailsCard = ({ data }: { data: any }) => {
             <p className="font-medium">
               {data.endDate ? formatDate(data.endDate) : t("students.tba")}
             </p>
+          </DetailsData>
+          <DetailsData icon={GraduationCap} label={"Total Students"}>
+            <p className="font-medium">
+              {replaceLocalDigit(data.total_students)}
+            </p>
+          </DetailsData>
+          <DetailsData icon={DoorOpen} label={"Total Withdrawn"}>
+            <p className="font-medium">
+              {replaceLocalDigit(data.withdrawn_students)}
+            </p>
+          </DetailsData>
+          <DetailsData icon={Coins} label={"Total Revenue"}>
+            <p className="font-medium">{formatCurrency(data.total_revenue)}</p>
           </DetailsData>
         </div>
         <Separator />

@@ -41,7 +41,7 @@ const StudentsList = ({ data }: { data: any }) => {
           prefix="s."
         />
         <TableBody>
-          {data.map((student: any) => (
+          {data?.map((student: any) => (
             <TableRow key={student.id}>
               <TableCell hidden={!selectedColumns.includes("Name")}>
                 <div className="flex items-center gap-3">

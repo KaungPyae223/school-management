@@ -54,7 +54,7 @@ const ClassesEnrolledStudentsList = ({ data }: { data: any }) => {
         />
         <TableBody>
           {data.map((enrollmentData: any) => {
-            const isWithdraw = Boolean(enrollmentData.withdraw);
+            const isWithdraw = Boolean(enrollmentData.withdrawn);
 
             return (
               <TableRow

@@ -3,6 +3,7 @@ import {
   ArrowRight,
   BookOpen,
   ClipboardList,
+  DoorOpen,
   PlayCircle,
   UserPen,
 } from "lucide-react";
@@ -25,6 +26,7 @@ import CardMenu from "../../../../components/card-utils/CardMenu";
 import CardData from "../../../../components/card-utils/CardData";
 import CoursesRestoreAlert from "../alerts/CoursesRestoreAlert";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const CoursesCard = ({ course }: { course: any }) => {
   const { t } = useTranslation();
@@ -74,8 +76,8 @@ const CoursesCard = ({ course }: { course: any }) => {
                 />
               }
               iconBg="bg-blue-100 dark:bg-blue-900/30"
-              label={t("courses.enrollments")}
-              value={course.total_enrollments}
+              label={t("courses.totalStudents")}
+              value={replaceLocalDigit(course.total_students)}
               border
             />
 
@@ -88,7 +90,7 @@ const CoursesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-purple-100 dark:bg-purple-900/30"
               label={t("courses.teachers")}
-              value={course.total_teachers}
+              value={replaceLocalDigit(course.total_teachers)}
               border
             />
 
@@ -101,7 +103,7 @@ const CoursesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label={t("courses.classes")}
-              value={course.total_classes}
+              value={replaceLocalDigit(course.total_classes)}
               border
             />
 
@@ -114,9 +116,30 @@ const CoursesCard = ({ course }: { course: any }) => {
               }
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label={t("courses.active")}
-              value={course.total_active_classes}
+              value={replaceLocalDigit(course.total_active_classes)}
               border
             />
+            <div className="col-span-2 flex w-full items-center justify-between rounded-lg border border-border px-3 py-2">
+              <div className="flex items-center gap-3">
+                <div className="rounded-md bg-destructive/10 p-1.5 dark:bg-destructive/20">
+                  <DoorOpen size={16} className="text-destructive" />
+                </div>
+
+                <div>
+                  <p className="text-xs">Withdrawn Students</p>
+                  <p className="text-xs text-muted-foreground">
+                    Students who stopped attending
+                  </p>
+                </div>
+              </div>
+
+              <Badge
+                variant="secondary"
+                className="font-medium text-foreground"
+              >
+                {replaceLocalDigit(course.total_withdrawn_students)}
+              </Badge>
+            </div>
           </div>
         </CardContent>
 

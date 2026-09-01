@@ -47,7 +47,7 @@ const PaymentsList = ({ data }: PaymentsListProps) => {
           <TableRow
             key={payment.id}
             className={
-              payment.withdraw &&
+              payment.withdrawn &&
               "bg-destructive/10 hover:bg-destructive/15 text-muted-foreground"
             }
           >

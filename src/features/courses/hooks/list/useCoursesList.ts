@@ -51,10 +51,16 @@ export const useCoursesList = () => {
       sortKey: "c.description",
     },
     {
-      title: t("courses.enrollments"),
-      key: "Enrollments",
+      title: t("courses.totalStudents"),
+      key: "Total Students",
       sortable: true,
-      sortKey: "total_enrollments",
+      sortKey: "total_students",
+    },
+    {
+      title: t("courses.withdrawn"),
+      key: "Withdrawn",
+      sortable: true,
+      sortKey: "total_withdrawn_students",
     },
     {
       title: t("courses.teachers"),

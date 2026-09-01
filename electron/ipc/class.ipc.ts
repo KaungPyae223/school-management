@@ -78,6 +78,7 @@ export const classesIPCs = () => {
       "cl.createdAt",
       "cl.updatedAt",
       "total_students",
+      "withdrawn_students",
       "teacher_name",
       "course_name",
     ]);
@@ -185,8 +186,8 @@ export const classesIPCs = () => {
         prisma.$queryRaw<any[]>`
           SELECT 
             cl.*,
-            COUNT(DISTINCT CASE WHEN e.withdraw = 0 THEN e.id END) as total_students,
-            COUNT(DISTINCT CASE WHEN e.withdraw = 1 THEN e.id END) as withdraw_students,
+            COUNT(e.id) as total_students,
+            COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students,
             t.name as teacher_name,
             t.email as teacher_email,
             t.image as teacher_image,
@@ -244,54 +245,44 @@ export const classesIPCs = () => {
 
   protectedHandle("class:show", async (_, id) => {
     try {
-      const classes = await prisma.class.findUnique({
-        where: { id },
-        select: {
-          id: true,
-          batch: true,
-          startDate: true,
-          startTime: true,
-          endTime: true,
-          endDate: true,
-          days: true,
-          price: true,
-          description: true,
-          createdAt: true,
-          updatedAt: true,
-          course: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
-            },
-          },
-          teacher: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
-            },
-          },
-          _count: {
-            select: {
-              enrollments: {
-                where: {
-                  withdraw: false,
-                },
-              },
-            },
-          },
-        },
-      });
+      const classes = await prisma.$queryRaw<any[]>`
+      WITH  total_revenue AS (
+        select 
+        e.classId,
+        COUNT(e.id) as total_students,
+        COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdraw_students,
+        SUM(p.amount) as total_revenue   
+        FROM enrollments e
+        LEFT JOIN payments p on e.id = p.enrollmentId
+        WHERE e.classId = ${id}
+        GROUP BY e.classId
+      )
+        SELECT 
+            cl.*,
+            t.name as teacher_name,
+            t.email as teacher_email,
+            t.image as teacher_image,
+            c.name as course_name,
+            c.image as course_image,
+            COALESCE(tr.total_students, 0) as total_students,
+            COALESCE(tr.withdraw_students, 0) as withdrawn_students,
+            COALESCE(tr.total_revenue, 0) as total_revenue
+          FROM classes cl
+          LEFT JOIN total_revenue tr ON cl.id = tr.classId 
+          LEFT JOIN teachers t ON cl.teacherId = t.id 
+          LEFT JOIN courses c ON cl.courseId = c.id 
+          WHERE cl.id = ${id}
+          
+        `;
       if (!classes) {
         return { error: "Class not found" };
       }
       return {
         data: {
-          ...classes,
-          course_image: showImage(classes.course.image),
-          teacher_image: showImage(classes.teacher.image),
-          status: generateStatus(classes.startDate, classes.endDate),
+          ...classes[0],
+          course_image: showImage(classes[0].course_image),
+          teacher_image: showImage(classes[0].teacher_image),
+          status: generateStatus(classes[0].startDate, classes[0].endDate),
         },
       };
     } catch (error: any) {

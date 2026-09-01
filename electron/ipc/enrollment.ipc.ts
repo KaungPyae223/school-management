@@ -121,7 +121,7 @@ export const enrollmentIPCs = () => {
           id: Number(id),
         },
         data: {
-          withdraw: !enrollment.withdraw,
+          withdrawn: !enrollment.withdrawn,
         },
       });
 
