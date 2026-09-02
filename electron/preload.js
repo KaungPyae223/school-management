@@ -66,6 +66,7 @@ contextBridge.exposeInMainWorld("api", {
   getAllTeachers: (data) => ipcRenderer.invoke("teacher:index", data),
   searchAllTeachers: (data) => ipcRenderer.invoke("teacher:search-all", data),
   getTeacher: (id) => ipcRenderer.invoke("teacher:show", id),
+  getTeacherDetail: (id) => ipcRenderer.invoke("teacher:show-detail", id),
   createTeacher: (data) => ipcRenderer.invoke("teacher:create", data),
   updateTeacher: (data) => ipcRenderer.invoke("teacher:update", data),
   deleteTeacher: (id) => ipcRenderer.invoke("teacher:delete", id),

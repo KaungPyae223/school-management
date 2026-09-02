@@ -17,7 +17,7 @@ const TeachersDeleteAlert = ({
   back?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useDeleteTeacher();
+  const { mutateAsync, isPending } = useDeleteTeacher(id);
 
   const navigate = useNavigate();
 

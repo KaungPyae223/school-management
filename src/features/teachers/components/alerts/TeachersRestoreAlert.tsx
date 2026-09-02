@@ -17,7 +17,7 @@ const TeachersRestoreAlert = ({
   back?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useRestoreTeacher();
+  const { mutateAsync, isPending } = useRestoreTeacher(id);
 
   const navigate = useNavigate();
 

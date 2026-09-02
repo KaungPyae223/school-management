@@ -37,11 +37,6 @@ const routes = [
       const module = await import("../pages/TeachersDetailsPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
-      const result = await teacherService.getTeacher(Number(params.teacherId));
-
-      return result.data;
-    },
     ErrorBoundary: ErrorPage,
   },
 ];

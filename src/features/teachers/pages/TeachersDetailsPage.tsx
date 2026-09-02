@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useLoaderData, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useState } from "react";
 import TeachersDeleteAlert from "../components/alerts/TeachersDeleteAlert";
@@ -13,6 +13,9 @@ import { AnimatePresence, m } from "framer-motion";
 import TeachersDetailsHeader from "../components/details/TeachersDetailsHeader";
 import TeachersClassesTab from "../components/details/TeachersClassesTab";
 import TeachersTimetableTab from "../components/details/TeachersTimetableTab";
+import { useAppQuery } from "../../../hooks/use-app-query";
+import LoadingComponent from "../../../components/loading/LoadingComponent";
+import { teacherService } from "../../../services/teachers";
 
 const TeachersDetailsPage = () => {
   const { t } = useTranslation();
@@ -33,7 +36,7 @@ const TeachersDetailsPage = () => {
 
   const navigate = useNavigate();
 
-  const teacherData = useLoaderData();
+  const { teacherId } = useParams();
 
   const [deleteConfirmDialogOpen, setDeleteConfirmDialogOpen] =
     useState<boolean>(false);
@@ -42,22 +45,34 @@ const TeachersDetailsPage = () => {
 
   const { view, changeView } = useViewTabChange("classes");
 
+  const { data, isLoading } = useAppQuery({
+    queryKey: ["teachers-details", Number(teacherId)],
+    queryFn: () => teacherService.getTeacherDetail(Number(teacherId)),
+  }) as { data: any; isLoading: boolean };
+
   return (
     <>
       <div className="space-y-6">
-        <DetailsHeader
-          onDelete={() => {
-            setDeleteConfirmDialogOpen(true);
-          }}
-          onUpdate={() => {
-            navigate(`/teachers/edit/${teacherData.id}`);
-          }}
-          onRestore={() => {
-            setRestoreConfirmDialogOpen(true);
-          }}
-          isDeleted={teacherData.deleted}
-        />
-        <TeachersDetailsCard data={teacherData} />
+        {isLoading ? (
+          <LoadingComponent />
+        ) : (
+          <>
+            <DetailsHeader
+              onDelete={() => {
+                setDeleteConfirmDialogOpen(true);
+              }}
+              onUpdate={() => {
+                navigate(`/teachers/edit/${teacherId}`);
+              }}
+              onRestore={() => {
+                setRestoreConfirmDialogOpen(true);
+              }}
+              isDeleted={data?.data.deleted}
+            />
+            <TeachersDetailsCard teacherData={data?.data} />
+          </>
+        )}
+
         <Separator />
         <Tabs
           value={view}
@@ -76,7 +91,7 @@ const TeachersDetailsPage = () => {
                 transition={{ duration: 0.3 }}
                 className="space-y-6"
               >
-                <TeachersClassesTab id={teacherData.id} />
+                <TeachersClassesTab id={Number(teacherId)} />
               </m.div>
             )}
             {view === "timetable" && (
@@ -87,7 +102,7 @@ const TeachersDetailsPage = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <TeachersTimetableTab id={teacherData.id} />
+                <TeachersTimetableTab id={Number(teacherId)} />
               </m.div>
             )}
           </AnimatePresence>
@@ -97,13 +112,13 @@ const TeachersDetailsPage = () => {
       <TeachersDeleteAlert
         confirmDialogOpen={deleteConfirmDialogOpen}
         setConfirmDialogOpen={setDeleteConfirmDialogOpen}
-        id={teacherData.id}
+        id={Number(teacherId)}
         back
       />
       <TeachersRestoreAlert
         confirmDialogOpen={restoreConfirmDialogOpen}
         setConfirmDialogOpen={setRestoreConfirmDialogOpen}
-        id={teacherData.id}
+        id={Number(teacherId)}
         back
       />
     </>

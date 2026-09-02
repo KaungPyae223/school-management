@@ -182,7 +182,7 @@ export const courseIPCs = () => {
             SELECT
               cl.courseId,
               COUNT(cl.id) AS total_classes,
-              COUNT(CASE WHEN cl.startDate <= datetime('now') AND cl.endDate IS NULL THEN cl.id END) AS total_active_classes,
+              COUNT(CASE WHEN cl.endDate IS NULL THEN cl.id END) AS total_active_classes,
               COUNT(DISTINCT cl.teacherId) AS total_teachers,
               COUNT(CASE WHEN cl.endDate IS NOT NULL THEN cl.id END) AS total_complete_classes
             FROM classes cl

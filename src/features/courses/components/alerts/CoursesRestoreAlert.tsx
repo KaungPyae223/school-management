@@ -17,7 +17,7 @@ const CoursesRestoreAlert = ({
   back?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useRestoreCourse();
+  const { mutateAsync, isPending } = useRestoreCourse(id);
   const navigate = useNavigate();
 
   const handleRestore = async () => {

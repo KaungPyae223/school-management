@@ -144,6 +144,7 @@ declare global {
         onlyActive?: boolean;
       }) => Promise<{ data?: any; error?: string }>;
       getTeacher: (id: number) => Promise<{ data?: any; error?: string }>;
+      getTeacherDetail: (id: number) => Promise<{ data?: any; error?: string }>;
       createTeacher: (
         data: any,
       ) => Promise<{ success: boolean; data?: any; error?: string }>;

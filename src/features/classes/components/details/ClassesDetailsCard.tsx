@@ -25,23 +25,9 @@ import ImageDisplay from "../../../../components/image/ImageDisplay";
 import CardDayBadge from "../../../../components/card-utils/CardDayBadge";
 
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
-import { classService } from "../../../../services/classes";
-import { useAppQuery } from "../../../../hooks/use-app-query";
-import LoadingComponent from "../../../../components/loading/LoadingComponent";
 
-const ClassesDetailsCard = ({ id }: { id: number }) => {
+const ClassesDetailsCard = ({ classData }: { classData: any }) => {
   const { t } = useTranslation();
-
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["classes-details", id],
-    queryFn: () => classService.getClassDetails(id),
-  }) as { data: { data: any }; isLoading: boolean };
-
-  if (isLoading) {
-    return <LoadingComponent />;
-  }
-
-  const classData = data?.data;
 
   return (
     <Card className="shadow-xs flex flex-row gap-1.5">
@@ -62,7 +48,10 @@ const ClassesDetailsCard = ({ id }: { id: number }) => {
             {t("classes.batch", { batch: replaceLocalDigit(classData.batch) })}
           </Badge>
         </div>
-        <p className="text-sm text-muted-foreground "> {classData.description}</p>
+        <p className="text-sm text-muted-foreground ">
+          {" "}
+          {classData.description}
+        </p>
 
         <ClassesTeacherCard
           image={classData.teacher_image}
@@ -79,7 +68,8 @@ const ClassesDetailsCard = ({ id }: { id: number }) => {
           </DetailsData>
           <DetailsData icon={Clock} label={t("classes.fields.time")}>
             <p className="font-medium">
-              {changeTime(classData.startTime)} - {changeTime(classData.endTime)}
+              {changeTime(classData.startTime)} -{" "}
+              {changeTime(classData.endTime)}
             </p>
           </DetailsData>
           <DetailsData icon={DollarSign} label={t("classes.fields.price")}>
@@ -96,7 +86,9 @@ const ClassesDetailsCard = ({ id }: { id: number }) => {
           </DetailsData>
           <DetailsData icon={CalendarOff} label={t("classes.fields.endDate")}>
             <p className="font-medium">
-              {classData.endDate ? formatDate(classData.endDate) : t("students.tba")}
+              {classData.endDate
+                ? formatDate(classData.endDate)
+                : t("students.tba")}
             </p>
           </DetailsData>
           <DetailsData icon={GraduationCap} label={"Total Students"}>
@@ -110,7 +102,9 @@ const ClassesDetailsCard = ({ id }: { id: number }) => {
             </p>
           </DetailsData>
           <DetailsData icon={Coins} label={"Total Revenue"}>
-            <p className="font-medium">{formatCurrency(classData.total_revenue)}</p>
+            <p className="font-medium">
+              {formatCurrency(classData.total_revenue)}
+            </p>
           </DetailsData>
         </div>
         <Separator />

@@ -17,7 +17,7 @@ const CoursesDeleteAlert = ({
   back?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { mutateAsync, isPending } = useDeleteCourse();
+  const { mutateAsync, isPending } = useDeleteCourse(id);
   const navigate = useNavigate();
 
   const handleDelete = async () => {

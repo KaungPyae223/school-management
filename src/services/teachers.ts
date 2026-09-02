@@ -61,6 +61,18 @@ export const teacherService = {
     return data;
   },
 
+  getTeacherDetail: async (id: number) => {
+    const data = await window.api.getTeacherDetail(id);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
   deleteTeacher: async (id: number) => {
     const data = await window.api.deleteTeacher(id);
 

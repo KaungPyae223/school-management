@@ -16,6 +16,7 @@ import CoursesClassesTab from "../components/details/CoursesClassesTab";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { courseService } from "../../../services/courses";
 import LoadingPage from "../../../components/loading/LoadingPage";
+import LoadingComponent from "../../../components/loading/LoadingComponent";
 
 const CoursesDetailPage = () => {
   const { t } = useTranslation();
@@ -45,22 +46,34 @@ const CoursesDetailPage = () => {
 
   const { view, changeView } = useViewTabChange("classes");
 
+  const { data, isLoading } = useAppQuery({
+    queryKey: ["courses-details", Number(courseId)],
+    queryFn: () => courseService.getCourseDetail(Number(courseId)),
+  }) as { data: { data: any }; isLoading: boolean };
+
   return (
     <>
       <div className="space-y-6">
-        <DetailsHeader
-          onDelete={() => {
-            setDeleteConfirmDialogOpen(true);
-          }}
-          onUpdate={() => {
-            navigate(`/courses/edit/${courseId}`);
-          }}
-          onRestore={() => {
-            setRestoreConfirmDialogOpen(true);
-          }}
-          isDeleted={false}
-        />
-        <CoursesDetailsCard id={Number(courseId)} />
+        {isLoading ? (
+          <LoadingComponent />
+        ) : (
+          <>
+            <DetailsHeader
+              onDelete={() => {
+                setDeleteConfirmDialogOpen(true);
+              }}
+              onUpdate={() => {
+                navigate(`/courses/edit/${courseId}`);
+              }}
+              onRestore={() => {
+                setRestoreConfirmDialogOpen(true);
+              }}
+              isDeleted={data?.data.deleted}
+            />
+            <CoursesDetailsCard courseData={data?.data} />
+          </>
+        )}
+
         <Separator />
         <Tabs
           value={view}

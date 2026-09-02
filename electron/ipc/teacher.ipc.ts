@@ -269,6 +269,57 @@ export const teacherIPCs = () => {
     }
   });
 
+  protectedHandle("teacher:show-detail", async (_, id) => {
+    try {
+      const teacher = await prisma.$queryRaw<any[]>`
+       WITH 
+          classes_revenue AS (
+            SELECT e.classId, 
+            SUM(p.amount) AS total_revenue
+            FROM enrollments e
+            LEFT JOIN payments p ON p.enrollmentId = e.id
+            GROUP BY e.classId
+          ),
+          teacher_classes AS (
+            SELECT c.teacherId, 
+            COUNT(DISTINCT e.studentID) AS total_students,
+            COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students,
+            COUNT(DISTINCT c.id) AS total_classes,
+            COUNT(DISTINCT c.courseId) AS total_courses,
+            COUNT(CASE WHEN c.endDate IS NULL THEN c.id END) AS total_active_classes,
+            SUM(cr.total_revenue) AS total_revenue
+            FROM classes c
+            LEFT JOIN enrollments e ON e.classId = c.id
+            LEFT JOIN classes_revenue cr ON cr.classId = c.id
+            WHERE c.teacherId = ${id}
+            GROUP BY c.teacherId
+          )
+          SELECT
+            t.*,
+            COALESCE(tc.total_classes, 0) AS total_classes,
+            COALESCE(tc.total_students, 0) AS total_students,
+            COALESCE(tc.withdrawn_students, 0) AS withdrawn_students,
+            COALESCE(tc.total_active_classes, 0) AS total_active_classes,
+            COALESCE(tc.total_courses, 0) AS total_courses,
+            COALESCE(tc.total_revenue, 0) AS total_revenue
+          FROM teachers t
+          LEFT JOIN teacher_classes tc ON tc.teacherId = t.id
+          WHERE t.id = ${id}
+      `;
+      if (!teacher) {
+        return { error: "Teacher not found" };
+      }
+      return {
+        data: {
+          ...teacher[0],
+          image: showImage(teacher[0].image),
+        },
+      };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  });
+
   protectedHandle("teacher:create", async (_, data) => {
     try {
       const { image, imageName, nrc, email, phone, ...restData } = data;

@@ -16,6 +16,7 @@ import { classService } from "../../../services/classes";
 import ClassesEnrolledStudentsList from "../components/details/ClassesEnrolledStudentsList";
 import SearchInput from "../../../components/search-input/SearchInput";
 import ClassesCompleteAlert from "../components/alerts/ClassesCompleteAlert";
+import LoadingComponent from "../../../components/loading/LoadingComponent";
 
 const ClassesDetailsPage = () => {
   const { t } = useTranslation();
@@ -42,45 +43,49 @@ const ClassesDetailsPage = () => {
 
   const navigate = useNavigate();
 
-  const { data: classDetailsData } = useAppQuery({
+  const { data, isLoading } = useAppQuery({
     queryKey: ["classes-details", Number(classId)],
     queryFn: () => classService.getClassDetails(Number(classId)),
-  }) as { data: { data: any } };
-
-  const classData = classDetailsData?.data;
+  }) as { data: any; isLoading: boolean };
 
   return (
     <>
       <div className="space-y-6">
-        <DetailsHeader
-          onDelete={() => {
-            setDeleteConfirmDialogOpen(true);
-          }}
-          onUpdate={() => {
-            navigate(`/classes/edit/${classId}`);
-          }}
-          isDeleted={false}
-        >
-          {classData?.status == "ongoing" && (
-            <Button
-              variant="outline"
-              onClick={() => setCompleteConfirmDialogOpen(true)}
+        {isLoading ? (
+          <LoadingComponent />
+        ) : (
+          <>
+            <DetailsHeader
+              onDelete={() => {
+                setDeleteConfirmDialogOpen(true);
+              }}
+              onUpdate={() => {
+                navigate(`/classes/edit/${classId}`);
+              }}
+              isDeleted={false}
             >
-              <GraduationCap className="size-3.5" />
-              {t("classes.completeClass")}
-            </Button>
-          )}
-          {classData?.status != "complete" && (
-            <Button
-              variant="default"
-              onClick={() => navigate(`/classes/enroll/${classId}`)}
-            >
-              <UserPlus className="size-3.5" />
-              {t("classes.enrolledStudent")}
-            </Button>
-          )}
-        </DetailsHeader>
-        <ClassesDetailsCard id={Number(classId)} />
+              {data?.data.status == "ongoing" && (
+                <Button
+                  variant="outline"
+                  onClick={() => setCompleteConfirmDialogOpen(true)}
+                >
+                  <GraduationCap className="size-3.5" />
+                  {t("classes.completeClass")}
+                </Button>
+              )}
+              {data?.data.status != "complete" && (
+                <Button
+                  variant="default"
+                  onClick={() => navigate(`/classes/enroll/${classId}`)}
+                >
+                  <UserPlus className="size-3.5" />
+                  {t("classes.enrolledStudent")}
+                </Button>
+              )}
+            </DetailsHeader>
+            <ClassesDetailsCard classData={data?.data} />
+          </>
+        )}
         <Separator />
         <Card className="shadow-xs">
           <CardContent className="flex flex-wrap items-center justify-between gap-4">
