@@ -175,7 +175,7 @@ export const courseIPCs = () => {
     }
   });
 
-  protectedHandle("course:show-detail", async (_, id) => {
+  protectedHandle("course:show-details", async (_, id) => {
     try {
       const course = await prisma.$queryRaw<any[]>`
           WITH class_counts AS (

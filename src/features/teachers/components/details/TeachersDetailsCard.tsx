@@ -62,32 +62,38 @@ const TeachersDetailsCard = ({ teacherData }: { teacherData: any }) => {
               {teacherData.nrc || t("students.tba")}
             </p>
           </DetailsData>
-          <DetailsData icon={LibraryBig} label={"Total Courses"}>
+          <DetailsData icon={LibraryBig} label={t("teachers.totalCourses")}>
             <p className="font-medium">
               {replaceLocalDigit(teacherData.total_courses)}
             </p>
           </DetailsData>
-          <DetailsData icon={BookOpen} label={"Total Classes"}>
+          <DetailsData icon={BookOpen} label={t("teachers.totalClasses")}>
             <p className="font-medium">
               {replaceLocalDigit(teacherData.total_classes)}
             </p>
           </DetailsData>
-          <DetailsData icon={CircleCheck} label={"Total Active Classes"}>
+          <DetailsData
+            icon={CircleCheck}
+            label={t("teachers.totalActiveClasses")}
+          >
             <p className="font-medium">
               {replaceLocalDigit(teacherData.total_active_classes)}
             </p>
           </DetailsData>
-          <DetailsData icon={GraduationCap} label={"Total Students"}>
+          <DetailsData icon={GraduationCap} label={t("teachers.totalStudents")}>
             <p className="font-medium">
               {replaceLocalDigit(teacherData.total_students)}
             </p>
           </DetailsData>
-          <DetailsData icon={DoorOpen} label={"Total Withdrawn Students"}>
+          <DetailsData
+            icon={DoorOpen}
+            label={t("teachers.totalWithdrawnStudents")}
+          >
             <p className="font-medium">
               {replaceLocalDigit(teacherData.withdrawn_students)}
             </p>
           </DetailsData>
-          <DetailsData icon={DollarSign} label={"Total Revenue"}>
+          <DetailsData icon={DollarSign} label={t("teachers.totalRevenue")}>
             <p className="font-medium">
               {replaceLocalDigit(formatCurrency(teacherData.total_revenue))}
             </p>

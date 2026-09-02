@@ -151,9 +151,9 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
               </div>
 
               <div>
-                <p className="text-xs">Withdrawn Students</p>
+                <p className="text-xs">{t("general.withdrawnStudents")}</p>
                 <p className="text-xs text-muted-foreground">
-                  Students who stopped attending
+                  {t("general.withdrawnStudentsDesc")}
                 </p>
               </div>
             </div>

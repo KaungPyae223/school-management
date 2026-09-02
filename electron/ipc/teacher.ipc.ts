@@ -266,7 +266,7 @@ export const teacherIPCs = () => {
     }
   });
 
-  protectedHandle("teacher:show-detail", async (_, id) => {
+  protectedHandle("teacher:show-details", async (_, id) => {
     try {
       const teacher = await prisma.$queryRaw<any[]>`
        WITH 

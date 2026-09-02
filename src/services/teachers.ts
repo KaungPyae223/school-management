@@ -61,8 +61,8 @@ export const teacherService = {
     return data;
   },
 
-  getTeacherDetail: async (id: number) => {
-    const data = await window.api.getTeacherDetail(id);
+  getTeacherDetails: async (id: number) => {
+    const data = await window.api.getTeacherDetails(id);
 
     if (data.error) {
       checkAuthorization(data.error);

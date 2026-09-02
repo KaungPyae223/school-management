@@ -131,7 +131,7 @@ const CoursesList = ({ data }: { data: any }) => {
 
               <TableCell className="py-4 pl-3 pr-6 text-right">
                 <TableActionButtonsContainer
-                  onView={() => navigate(`/courses/detail/${course.id}`)}
+                  onView={() => navigate(`/courses/details/${course.id}`)}
                   onEdit={() => navigate(`/courses/edit/${course.id}`)}
                   onDelete={() => handleDelete(course.id)}
                   onRestore={() => handleRestore(course.id)}

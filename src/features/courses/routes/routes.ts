@@ -19,9 +19,9 @@ const routes = [
     ErrorBoundary: ErrorPage,
   },
   {
-    path: "courses/detail/:courseId",
+    path: "courses/details/:courseId",
     lazy: async () => {
-      const module = await import("../pages/CoursesDetailPage");
+      const module = await import("../pages/CoursesDetailsPage");
       return { Component: module.default };
     },
     ErrorBoundary: ErrorPage,

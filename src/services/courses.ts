@@ -49,8 +49,8 @@ export const courseService = {
     return data;
   },
 
-  getCourseDetail: async (id: number) => {
-    const data = await window.api.getCourseDetail(id);
+  getCourseDetails: async (id: number) => {
+    const data = await window.api.getCourseDetails(id);
 
     if (data.error) {
       checkAuthorization(data.error);

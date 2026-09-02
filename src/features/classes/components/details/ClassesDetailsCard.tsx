@@ -20,11 +20,10 @@ import { Separator } from "../../../../components/ui/separator";
 import ClassesStatus from "../shared/ClassesStatus";
 import ClassesTeacherCard from "./ClassesTeacherCard";
 import { changeTime } from "../../../../utils/change-time";
-import DetailsData from "../../../../components/details/DetailsData";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import CardDayBadge from "../../../../components/card-utils/CardDayBadge";
-
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import DetailsData from "../../../../components/details/DetailsData";
 
 const ClassesDetailsCard = ({ classData }: { classData: any }) => {
   const { t } = useTranslation();
@@ -91,17 +90,23 @@ const ClassesDetailsCard = ({ classData }: { classData: any }) => {
                 : t("students.tba")}
             </p>
           </DetailsData>
-          <DetailsData icon={GraduationCap} label={"Total Students"}>
+          <DetailsData
+            icon={GraduationCap}
+            label={t("classes.fields.totalStudents")}
+          >
             <p className="font-medium">
               {replaceLocalDigit(classData.total_students)}
             </p>
           </DetailsData>
-          <DetailsData icon={DoorOpen} label={"Total Withdrawn Students"}>
+          <DetailsData
+            icon={DoorOpen}
+            label={t("classes.totalWithdrawnStudents")}
+          >
             <p className="font-medium">
               {replaceLocalDigit(classData.withdrawn_students)}
             </p>
           </DetailsData>
-          <DetailsData icon={Coins} label={"Total Revenue"}>
+          <DetailsData icon={Coins} label={t("classes.totalRevenue")}>
             <p className="font-medium">
               {formatCurrency(classData.total_revenue)}
             </p>

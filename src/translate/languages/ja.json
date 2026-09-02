@@ -179,7 +179,10 @@
     "timeUnits": {
       "minuteShort": "分",
       "secondShort": "秒"
-    }
+    },
+    "withdrawnStudents": "退会者",
+    "withdrawnStudentsDesc": "受講を中止した生徒",
+    "withdrawn": "退会"
   },
   "pagination": {
     "showing": "表示中",
@@ -356,6 +359,10 @@
     "viewTeacherDetails": "講師の詳細を見る",
     "classes": "クラス",
     "timetable": "時間割",
+    "totalCourses": "総コース数",
+    "totalActiveClasses": "開講中クラス数",
+    "totalWithdrawnStudents": "総退会者数",
+    "totalRevenue": "総収益",
     "fields": {
       "name": "名前",
       "phone": "電話番号",
@@ -468,6 +475,8 @@
     "scheduleDays": "開講スケジュール",
     "daysCount": "{{count}} 日間",
     "batch": "第{{batch}}期",
+    "totalWithdrawnStudents": "総退会者数",
+    "totalRevenue": "総収益",
     "status": {
       "not_started": "未開講",
       "ongoing": "開講中",

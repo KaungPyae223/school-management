@@ -47,7 +47,7 @@ const TeachersDetailsPage = () => {
 
   const { data, isLoading } = useAppQuery({
     queryKey: ["teachers-details", Number(teacherId)],
-    queryFn: () => teacherService.getTeacherDetail(Number(teacherId)),
+    queryFn: () => teacherService.getTeacherDetails(Number(teacherId)),
   }) as { data: any; isLoading: boolean };
 
   return (

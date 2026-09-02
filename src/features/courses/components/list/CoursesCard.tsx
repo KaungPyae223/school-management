@@ -66,7 +66,7 @@ const CoursesCard = ({ course }: { course: any }) => {
           </p>
         </CardHeader>
 
-        <CardContent className="pb-3">
+        <CardContent>
           <div className="grid grid-cols-2 gap-3">
             <CardData
               icon={
@@ -126,9 +126,9 @@ const CoursesCard = ({ course }: { course: any }) => {
                 </div>
 
                 <div>
-                  <p className="text-xs">Withdrawn Students</p>
+                  <p className="text-xs">{t("general.withdrawnStudents")}</p>
                   <p className="text-xs text-muted-foreground">
-                    Students who stopped attending
+                    {t("general.withdrawnStudentsDesc")}
                   </p>
                 </div>
               </div>
@@ -150,7 +150,7 @@ const CoursesCard = ({ course }: { course: any }) => {
 
         <CardFooter>
           <Button
-            onClick={() => navigate(`/courses/detail/${course.id}`)}
+            onClick={() => navigate(`/courses/details/${course.id}`)}
             variant="ghost"
             className="w-full justify-between"
           >

@@ -85,7 +85,7 @@ declare global {
       deleteCourse: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
-      getCourseDetail: (id: number) => Promise<{ data?: any; error?: string }>;
+      getCourseDetails: (id: number) => Promise<{ data?: any; error?: string }>;
       restoreCourse: (
         id: number,
       ) => Promise<{ success: boolean; error?: string }>;
@@ -106,6 +106,9 @@ declare global {
         order?: string;
       }) => Promise<ResponseDataType>;
       getStudent: (id: number) => Promise<{ data?: any; error?: string }>;
+      getStudentDetails: (
+        id: number,
+      ) => Promise<{ data?: any; error?: string }>;
       searchAllStudents: (data: {
         search?: string;
         page?: number;
@@ -144,7 +147,9 @@ declare global {
         onlyActive?: boolean;
       }) => Promise<{ data?: any; error?: string }>;
       getTeacher: (id: number) => Promise<{ data?: any; error?: string }>;
-      getTeacherDetail: (id: number) => Promise<{ data?: any; error?: string }>;
+      getTeacherDetails: (
+        id: number,
+      ) => Promise<{ data?: any; error?: string }>;
       createTeacher: (
         data: any,
       ) => Promise<{ success: boolean; data?: any; error?: string }>;

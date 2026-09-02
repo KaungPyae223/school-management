@@ -24,11 +24,6 @@ const routes = [
       const module = await import("../pages/StudentsEditPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
-      const result = await studentService.getStudent(Number(params.studentId));
-
-      return result.data;
-    },
     ErrorBoundary: ErrorPage,
   },
   {

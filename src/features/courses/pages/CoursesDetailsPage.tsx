@@ -15,10 +15,9 @@ import CoursesTimetableTab from "../components/details/CoursesTimetableTab";
 import CoursesClassesTab from "../components/details/CoursesClassesTab";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { courseService } from "../../../services/courses";
-import LoadingPage from "../../../components/loading/LoadingPage";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 
-const CoursesDetailPage = () => {
+const CoursesDetailsPage = () => {
   const { t } = useTranslation();
 
   useAddBreadcrumb({
@@ -30,7 +29,7 @@ const CoursesDetailPage = () => {
       },
       {
         name: t("courses.detailsBreadcrumb"),
-        link: "/courses/detail",
+        link: "/courses/details",
       },
     ],
   });
@@ -48,7 +47,7 @@ const CoursesDetailPage = () => {
 
   const { data, isLoading } = useAppQuery({
     queryKey: ["courses-details", Number(courseId)],
-    queryFn: () => courseService.getCourseDetail(Number(courseId)),
+    queryFn: () => courseService.getCourseDetails(Number(courseId)),
   }) as { data: { data: any }; isLoading: boolean };
 
   return (
@@ -125,4 +124,4 @@ const CoursesDetailPage = () => {
   );
 };
 
-export default CoursesDetailPage;
+export default CoursesDetailsPage;

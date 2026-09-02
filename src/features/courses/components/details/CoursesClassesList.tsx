@@ -64,7 +64,7 @@ const CoursesClassesList = ({ data }: { data: any }) => {
       align: "right",
     },
     {
-      title: "Withdrawn",
+      title: t("general.withdrawn"),
       key: "Withdrawn Students",
       sortable: true,
       sortKey: "withdrawn_students",

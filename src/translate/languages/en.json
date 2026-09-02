@@ -179,7 +179,10 @@
     "timeUnits": {
       "minuteShort": "m",
       "secondShort": "s"
-    }
+    },
+    "withdrawnStudents": "Withdrawn Students",
+    "withdrawnStudentsDesc": "Students who stopped attending",
+    "withdrawn": "Withdrawn"
   },
   "pagination": {
     "showing": "Showing",
@@ -356,6 +359,10 @@
     "viewTeacherDetails": "View Teacher Details",
     "classes": "Classes",
     "timetable": "Timetable",
+    "totalCourses": "Total Courses",
+    "totalActiveClasses": "Total Active Classes",
+    "totalWithdrawnStudents": "Total Withdrawn Students",
+    "totalRevenue": "Total Revenue",
     "fields": {
       "name": "Name",
       "phone": "Phone",
@@ -410,7 +417,7 @@
     "active": "Active",
     "totalEnrollments": "Total Enrollments",
     "totalStudents": "Total Students",
-    "totalWithdrawnStudents": "Total Withdrawn",
+    "totalWithdrawnStudents": "Total Withdrawn Students",
     "withdrawn": "Withdrawn",
     "totalTeachers": "Total Teachers",
     "totalClasses": "Total Classes",
@@ -468,6 +475,8 @@
     "scheduleDays": "Schedule Days",
     "daysCount": "{{count}} days",
     "batch": "Batch {{batch}}",
+    "totalWithdrawnStudents": "Total Withdrawn Students",
+    "totalRevenue": "Total Revenue",
     "status": {
       "not_started": "Not started",
       "ongoing": "Ongoing",

@@ -179,7 +179,10 @@
     "timeUnits": {
       "minuteShort": "မိနစ်",
       "secondShort": "စက္ကန့်"
-    }
+    },
+    "withdrawnStudents": "နုတ်ထွက်သူများ",
+    "withdrawnStudentsDesc": "တက်ရောက်မှု ရပ်တန့်သူများ",
+    "withdrawn": "နုတ်ထွက်"
   },
   "pagination": {
     "showing": "ပြသနေသည်",
@@ -356,6 +359,10 @@
     "viewTeacherDetails": "ဆရာ/ဆရာမအသေးစိတ်ကြည့်ရန်",
     "classes": "အတန်းများ",
     "timetable": "အချိန်ဇယား",
+    "totalCourses": "စုစုပေါင်း သင်တန်းများ",
+    "totalActiveClasses": "စုစုပေါင်း ဖွင့်လှစ်ဆဲ အတန်းများ",
+    "totalWithdrawnStudents": "စုစုပေါင်း နုတ်ထွက်သူများ",
+    "totalRevenue": "စုစုပေါင်း ဝင်ငွေ",
     "fields": {
       "name": "အမည်",
       "phone": "ဖုန်းနံပါတ်",
@@ -411,7 +418,7 @@
     "totalEnrollments": "စုစုပေါင်း အပ်နှံသူများ",
     "totalStudents": "စုစုပေါင်း ကျောင်းသားများ",
     "totalWithdrawnStudents": "စုစုပေါင်း နုတ်ထွက်သူများ",
-    "withdrawn": "နုတ်ထွက်သူများ",
+    "withdrawn": "နုတ်ထွက်",
     "totalTeachers": "စုစုပေါင်း ဆရာ/ဆရာမများ",
     "totalClasses": "စုစုပေါင်း အတန်းများ",
     "totalActiveClasses": "လက်ရှိဖွင့်လှစ်ဆဲအတန်းများ",
@@ -468,6 +475,8 @@
     "scheduleDays": "သင်တန်းရက်များ",
     "daysCount": "{{count}} ရက်",
     "batch": "အပတ်စဉ် {{batch}}",
+    "totalWithdrawnStudents": "စုစုပေါင်း နုတ်ထွက်သူများ",
+    "totalRevenue": "စုစုပေါင်း ဝင်ငွေ",
     "status": {
       "not_started": "မစတင်သေးပါ",
       "ongoing": "ဖွင့်လှစ်ဆဲ",

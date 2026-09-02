@@ -65,6 +65,8 @@ export const studentService = {
     const data = await window.api.getStudentAttendedClasses(params);
 
     if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 
@@ -75,6 +77,20 @@ export const studentService = {
     const data = await window.api.getStudent(id);
 
     if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
+  getStudentDetails: async (id: number) => {
+    const data = await window.api.getStudentDetails(id);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
       throw new Error(data.error);
     }
 

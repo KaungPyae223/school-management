@@ -2,6 +2,7 @@ import {
   BookOpen,
   CreditCard,
   DollarSign,
+  HandCoins,
   Hash,
   Mail,
   Phone,
@@ -103,7 +104,7 @@ const PaymentsList = ({ data }: PaymentsListProps) => {
             >
               <TableIconContent
                 icon={DollarSign}
-                value={formatCurrency(payment.price)}
+                value={replaceLocalDigit(formatCurrency(payment.price))}
                 align="right"
               />
             </TableCell>
@@ -112,26 +113,34 @@ const PaymentsList = ({ data }: PaymentsListProps) => {
               hidden={!selectedColumns.includes("First Paid Date")}
               align="right"
             >
-              {formatDate(new Date(payment.firstPaidAt))}
+              {replaceLocalDigit(formatDate(new Date(payment.firstPaidAt)))}
             </TableCell>
 
             <TableCell
               hidden={!selectedColumns.includes("Last Paid Date")}
               align="right"
             >
-              {formatDate(new Date(payment.lastPaidAt))}
+              {replaceLocalDigit(formatDate(new Date(payment.lastPaidAt)))}
             </TableCell>
             <TableCell
               hidden={!selectedColumns.includes("Paid Amount")}
               align="right"
             >
-              {formatCurrency(payment.paidAmount)}
+              <TableIconContent
+                icon={CreditCard}
+                value={replaceLocalDigit(formatCurrency(payment.paidAmount))}
+                align="right"
+              />
             </TableCell>
             <TableCell
               hidden={!selectedColumns.includes("Remaining Amount")}
               align="right"
             >
-              {formatCurrency(payment.remainingAmount)}
+              <TableIconContent
+                icon={HandCoins}
+                value={replaceLocalDigit(formatCurrency(payment.remainingAmount))}
+                align="right"
+              />
             </TableCell>
 
             <TableCell
@@ -140,7 +149,7 @@ const PaymentsList = ({ data }: PaymentsListProps) => {
             >
               <TableIconContent
                 icon={Hash}
-                value={payment.paymentTimes}
+                value={replaceLocalDigit(payment.paymentTimes)}
                 align="right"
               />
             </TableCell>

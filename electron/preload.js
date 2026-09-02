@@ -47,7 +47,7 @@ contextBridge.exposeInMainWorld("api", {
   updateCourse: (data) => ipcRenderer.invoke("course:update", data),
   deleteCourse: (id) => ipcRenderer.invoke("course:delete", id),
   restoreCourse: (id) => ipcRenderer.invoke("course:restore", id),
-  getCourseDetail: (id) => ipcRenderer.invoke("course:show-detail", id),
+  getCourseDetails: (id) => ipcRenderer.invoke("course:show-details", id),
   getCourseClasses: (data) =>
     ipcRenderer.invoke("course:get-course-classes", data),
 
@@ -61,12 +61,13 @@ contextBridge.exposeInMainWorld("api", {
   deleteStudent: (id) => ipcRenderer.invoke("student:delete", id),
   getStudentAttendedClasses: (data) =>
     ipcRenderer.invoke("student:get-attended-classes", data),
+  getStudentDetails: (id) => ipcRenderer.invoke("student:show-details", id),
 
   // Teacher
   getAllTeachers: (data) => ipcRenderer.invoke("teacher:index", data),
   searchAllTeachers: (data) => ipcRenderer.invoke("teacher:search-all", data),
   getTeacher: (id) => ipcRenderer.invoke("teacher:show", id),
-  getTeacherDetail: (id) => ipcRenderer.invoke("teacher:show-detail", id),
+  getTeacherDetails: (id) => ipcRenderer.invoke("teacher:show-details", id),
   createTeacher: (data) => ipcRenderer.invoke("teacher:create", data),
   updateTeacher: (data) => ipcRenderer.invoke("teacher:update", data),
   deleteTeacher: (id) => ipcRenderer.invoke("teacher:delete", id),

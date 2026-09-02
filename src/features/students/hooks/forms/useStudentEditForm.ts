@@ -34,7 +34,7 @@ export const useStudentEditForm = () => {
     },
   });
 
-  const { mutateAsync, isPending } = useEditStudent();
+  const { mutateAsync, isPending } = useEditStudent(Number(student.id));
 
   const onSubmit = () => {
     setConfirmDialogOpen(true);

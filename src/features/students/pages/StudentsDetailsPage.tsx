@@ -1,24 +1,16 @@
 import { useTranslation } from "react-i18next";
-import DetailsHeader from "../../../components/details/DetailsHeader";
-
-import { BookOpen } from "lucide-react";
-import { useLoaderData, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import StudentDeleteAlert from "../components/alerts/StudentsDeleteAlert";
 import { useState } from "react";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import StudentsDetailsCard from "../components/details/StudentsDetailsCard";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
-import { studentService } from "../../../services/students";
 import { Separator } from "../../../components/ui/separator";
 import { Card, CardContent } from "../../../components/ui/card";
 import SearchInput from "../../../components/search-input/SearchInput";
-import Paginate from "../../../components/paginate/Paginate";
-import EmptyComponent from "../../../components/empty/EmptyComponent";
-import LoadingComponent from "../../../components/loading/LoadingComponent";
 import StudentsEnrolledClassesLists from "../components/details/StudentsEnrolledClassesLists";
-import DataShow from "../../../components/data/DataShow";
+import LoadingComponent from "../../../components/loading/LoadingComponent";
+import { useGetStudentDetails } from "../hooks/api/useGetStudentDetails";
+import DetailsHeader from "../../../components/details/DetailsHeader";
 
 const StudentsDetailsPage = () => {
   const { t } = useTranslation();
@@ -39,21 +31,11 @@ const StudentsDetailsPage = () => {
 
   const navigate = useNavigate();
 
-  const studentData = useLoaderData();
+  const { studentId } = useParams();
+
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
-  const { activeQueryParams } = useGetQueryParams();
-
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["students_enrollments", studentData.id, activeQueryParams],
-    queryFn: () =>
-      studentService.getStudentAttendedClasses({
-        ...activeQueryParams,
-        id: studentData.id,
-      }),
-  }) as { data: ResponseDataType; isLoading: boolean };
-
-  console.log(data)
+  const { data, isLoading } = useGetStudentDetails(Number(studentId));
 
   return (
     <>
@@ -63,32 +45,27 @@ const StudentsDetailsPage = () => {
             setConfirmDialogOpen(true);
           }}
           onUpdate={() => {
-            navigate(`/students/edit/${studentData.id}`);
+            navigate(`/students/edit/${studentId}`);
           }}
-          isDeleted={false}
         />
-        <StudentsDetailsCard data={studentData} />
+        {isLoading ? (
+          <LoadingComponent />
+        ) : (
+          <StudentsDetailsCard data={data?.data} />
+        )}
         <Separator />
         <Card className="shadow-xs">
           <CardContent className="flex flex-wrap items-center justify-between gap-4">
             <SearchInput />
           </CardContent>
         </Card>
-        <DataShow
-          isLoading={isLoading}
-          dataLength={data?.data.length}
-          emptyDescription={t("students.noAttendedClassesDesc")}
-          emptyTitle={t("students.noAttendedClassesTitle")}
-          emptyIcon={BookOpen}
-        >
-          <StudentsEnrolledClassesLists data={data?.data} />
-          <Paginate meta={data?.meta} />
-        </DataShow>
+
+        <StudentsEnrolledClassesLists studentId={Number(studentId)} />
       </div>
       <StudentDeleteAlert
         confirmDialogOpen={confirmDialogOpen}
         setConfirmDialogOpen={setConfirmDialogOpen}
-        id={studentData.id}
+        id={Number(studentId)}
         back
       />
     </>

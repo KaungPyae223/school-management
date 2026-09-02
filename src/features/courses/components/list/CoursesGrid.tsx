@@ -9,7 +9,7 @@ const CoursesGrid = ({ data }: { data: any[] }) => {
     { field: "c.name", label: t("courses.fields.name") },
     { field: "c.price", label: t("courses.fields.price") },
     { field: "total_students", label: t("courses.totalStudents") },
-    { field: "withdrawn_students", label: "Withdrawn Students" },
+    { field: "withdrawn_students", label: t("general.withdrawnStudents") },
     { field: "total_teachers", label: t("courses.teachers") },
     { field: "total_classes", label: t("courses.classes") },
     { field: "total_active_classes", label: t("courses.active") },

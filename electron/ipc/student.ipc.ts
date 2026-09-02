@@ -111,6 +111,44 @@ export const studentIPCs = () => {
     }
   });
 
+  protectedHandle("student:show-details", async (_, id) => {
+    try {
+      const student = await prisma.$queryRaw<any[]>`
+          WITH total_payments AS (
+            SELECT e.studentID, 
+            SUM(p.amount) AS total_payments,
+            SUM(CASE WHEN e.withdrawn = 0 THEN p.amount ELSE 0 END) as total_active_payments,
+            SUM(CASE WHEN e.withdrawn = 0 THEN e.price ELSE 0 END) as total_active_amount
+            FROM enrollments e
+            LEFT JOIN payments p ON p.enrollmentId = e.id
+            GROUP BY e.studentID
+          )
+          SELECT 
+            s.*,
+            COUNT(DISTINCT e.id) as total_classes,
+            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_classes,
+            COALESCE(tp.total_active_amount - tp.total_active_payments, 0) as total_remaining_amount,
+            COALESCE(tp.total_payments, 0) as total_paid
+          FROM students s
+          LEFT JOIN enrollments e ON s.id = e.studentID
+          LEFT JOIN total_payments tp ON tp.studentID = s.id
+          WHERE s.id = ${id}
+          GROUP BY s.id
+        `;
+      if (!student) {
+        return { error: "Student not found" };
+      }
+      return {
+        data: {
+          ...student[0],
+          image: showImage(student[0].image),
+        },
+      };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  });
+
   protectedHandle("student:search-all-active", async (_, data) => {
     const { search = "", page = 1, limit = 10 } = data;
 
