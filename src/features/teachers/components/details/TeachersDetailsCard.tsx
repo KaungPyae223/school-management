@@ -1,5 +1,16 @@
 import { useTranslation } from "react-i18next";
-import { IdCard, Mail, MapPin, Phone } from "lucide-react";
+import {
+  BookOpen,
+  CircleCheck,
+  DollarSign,
+  DoorOpen,
+  GraduationCap,
+  IdCard,
+  LibraryBig,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import DetailsData from "../../../../components/details/DetailsData";
 import {
   Avatar,
@@ -11,15 +22,16 @@ import { Separator } from "../../../../components/ui/separator";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import { formatDate } from "../../../../utils/format-date";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { formatCurrency } from "../../../../utils/format-currency";
 
 const TeachersDetailsCard = ({ teacherData }: { teacherData: any }) => {
   const { t } = useTranslation();
 
-  
+  console.log(teacherData);
   return (
     <Card className="shadow-xs flex flex-row gap-1.5">
       <CardHeader className="w-lg items-center justify-center h-full">
-        <Avatar className="size-56">
+        <Avatar className="size-72">
           <AvatarImage src={teacherData.image} />
           <AvatarFallback className="text-5xl">
             {generateImageFallBack(teacherData.name)}
@@ -48,6 +60,36 @@ const TeachersDetailsCard = ({ teacherData }: { teacherData: any }) => {
           <DetailsData icon={IdCard} label={t("teachers.fields.nrc")}>
             <p className="font-medium">
               {teacherData.nrc || t("students.tba")}
+            </p>
+          </DetailsData>
+          <DetailsData icon={LibraryBig} label={"Total Courses"}>
+            <p className="font-medium">
+              {replaceLocalDigit(teacherData.total_courses)}
+            </p>
+          </DetailsData>
+          <DetailsData icon={BookOpen} label={"Total Classes"}>
+            <p className="font-medium">
+              {replaceLocalDigit(teacherData.total_classes)}
+            </p>
+          </DetailsData>
+          <DetailsData icon={CircleCheck} label={"Total Active Classes"}>
+            <p className="font-medium">
+              {replaceLocalDigit(teacherData.total_active_classes)}
+            </p>
+          </DetailsData>
+          <DetailsData icon={GraduationCap} label={"Total Students"}>
+            <p className="font-medium">
+              {replaceLocalDigit(teacherData.total_students)}
+            </p>
+          </DetailsData>
+          <DetailsData icon={DoorOpen} label={"Total Withdrawn Students"}>
+            <p className="font-medium">
+              {replaceLocalDigit(teacherData.withdrawn_students)}
+            </p>
+          </DetailsData>
+          <DetailsData icon={DollarSign} label={"Total Revenue"}>
+            <p className="font-medium">
+              {replaceLocalDigit(formatCurrency(teacherData.total_revenue))}
             </p>
           </DetailsData>
           <DetailsData

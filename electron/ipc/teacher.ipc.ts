@@ -26,7 +26,6 @@ export const teacherIPCs = () => {
       "t.nrc",
       "total_classes",
       "total_students",
-      "withdrawn_students",
     ]);
     const avilableSortDirection = new Set(["asc", "desc"]);
 
@@ -57,8 +56,7 @@ export const teacherIPCs = () => {
           ),
           student_counts AS (
             SELECT c.teacherId, 
-            COUNT(DISTINCT e.studentID) AS total_students,
-            COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
+            COUNT(DISTINCT e.studentID) AS total_students
             FROM classes c
             LEFT JOIN enrollments e ON e.classId = c.id
             GROUP BY c.teacherId
@@ -66,8 +64,7 @@ export const teacherIPCs = () => {
           SELECT
             t.*,
             COALESCE(cc.total_classes, 0) AS total_classes,
-            COALESCE(sc.total_students, 0) AS total_students,
-            COALESCE(sc.withdrawn_students, 0) AS withdrawn_students
+            COALESCE(sc.total_students, 0) AS total_students
           FROM teachers t
           LEFT JOIN class_counts cc ON cc.teacherId = t.id
           LEFT JOIN student_counts sc ON sc.teacherId = t.id
@@ -157,7 +154,7 @@ export const teacherIPCs = () => {
           cl.*,
           c.name as course_name,
           c.image as course_image,
-          COUNT(DISTINCT e.studentID) AS total_students,
+          COUNT(DISTINCT e.id) AS total_students,
           COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
           FROM classes cl
           LEFT JOIN courses c ON c.id = cl.courseId
@@ -284,10 +281,10 @@ export const teacherIPCs = () => {
             SELECT c.teacherId, 
             COUNT(DISTINCT e.studentID) AS total_students,
             COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students,
-            COUNT(DISTINCT c.id) AS total_classes,
             COUNT(DISTINCT c.courseId) AS total_courses,
-            COUNT(CASE WHEN c.endDate IS NULL THEN c.id END) AS total_active_classes,
-            SUM(cr.total_revenue) AS total_revenue
+            COUNT(DISTINCT c.id) AS total_classes,
+            COUNT(DISTINCT CASE WHEN c.endDate IS NULL THEN c.id END) AS total_active_classes,
+            COALESCE(SUM(cr.total_revenue), 0) AS total_revenue
             FROM classes c
             LEFT JOIN enrollments e ON e.classId = c.id
             LEFT JOIN classes_revenue cr ON cr.classId = c.id
@@ -298,9 +295,9 @@ export const teacherIPCs = () => {
             t.*,
             COALESCE(tc.total_classes, 0) AS total_classes,
             COALESCE(tc.total_students, 0) AS total_students,
+            COALESCE(tc.total_courses, 0) AS total_courses,
             COALESCE(tc.withdrawn_students, 0) AS withdrawn_students,
             COALESCE(tc.total_active_classes, 0) AS total_active_classes,
-            COALESCE(tc.total_courses, 0) AS total_courses,
             COALESCE(tc.total_revenue, 0) AS total_revenue
           FROM teachers t
           LEFT JOIN teacher_classes tc ON tc.teacherId = t.id

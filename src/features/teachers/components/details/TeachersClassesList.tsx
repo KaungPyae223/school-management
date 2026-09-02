@@ -6,7 +6,7 @@ import TableHeaderGenerator from "../../../../components/table/TableHeaderGenera
 import TableBody from "../../../../components/table/TableBody";
 import TableRow from "../../../../components/table/TableRow";
 import TableCell from "../../../../components/table/TableCell";
-import { BookOpen, DollarSign, Users } from "lucide-react";
+import { BookOpen, DollarSign, DoorOpen, Users } from "lucide-react";
 import TableIconContent from "../../../../components/table/TableIconContent";
 import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
@@ -58,6 +58,13 @@ const TeachersClassesList = ({ data }: { data: any }) => {
       sortKey: "total_students",
       align: "right",
     },
+    {
+      title: "Withdrawn",
+      key: "Withdrawn",
+      sortable: true,
+      sortKey: "withdrawn_students",
+      align: "right",
+    },
   ];
   const navigate = useNavigate();
 
@@ -72,6 +79,7 @@ const TeachersClassesList = ({ data }: { data: any }) => {
           "Time",
           "Status",
           "Total Students",
+          "Withdrawn",
           "Created At",
         ]}
         prefix="cl."
@@ -144,6 +152,13 @@ const TeachersClassesList = ({ data }: { data: any }) => {
               <TableIconContent
                 icon={Users}
                 value={replaceLocalDigit(classData.total_students)}
+                align="right"
+              />
+            </TableCell>
+            <TableCell align="right">
+              <TableIconContent
+                icon={DoorOpen}
+                value={replaceLocalDigit(classData.withdrawn_students)}
                 align="right"
               />
             </TableCell>

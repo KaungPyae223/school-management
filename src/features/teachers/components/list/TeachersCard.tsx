@@ -41,8 +41,6 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
     useState<boolean>(false);
   const navigate = useNavigate();
 
-  console.log(teacher);
-
   return (
     <>
       <Card className="shadow-xs flex flex-row hover:shadow-md pt-0 gap-0  transition-shadow duration-200 group overflow-hidden">
@@ -73,12 +71,6 @@ const TeacherCard = ({ teacher }: { teacher: any }) => {
               title={t("teachers.totalStudents")}
               value={teacher.total_students}
               className="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
-            />
-            <CardMeta
-              icon={DoorOpen}
-              title={"Withdrawn Students"}
-              value={teacher.withdrawn_students}
-              className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400"
             />
           </div>
         </div>
