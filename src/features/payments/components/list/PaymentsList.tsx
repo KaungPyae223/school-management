@@ -28,11 +28,7 @@ import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import { useTranslation } from "react-i18next";
 import { usePaymentsList } from "../../hooks/list/usePaymentsList";
 
-interface PaymentsListProps {
-  data: any;
-}
-
-const PaymentsList = ({ data }: PaymentsListProps) => {
+const PaymentsList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
   const { headers, selectedColumns, navigate } = usePaymentsList();
 
@@ -138,7 +134,9 @@ const PaymentsList = ({ data }: PaymentsListProps) => {
             >
               <TableIconContent
                 icon={HandCoins}
-                value={replaceLocalDigit(formatCurrency(payment.remainingAmount))}
+                value={replaceLocalDigit(
+                  formatCurrency(payment.remainingAmount),
+                )}
                 align="right"
               />
             </TableCell>

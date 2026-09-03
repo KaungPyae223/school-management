@@ -2,16 +2,13 @@ import { useTranslation } from "react-i18next";
 import { CreditCardIcon } from "lucide-react";
 import { Tabs } from "../../../components/ui/tabs";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
-import { paymentService } from "../../../services/payments";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
 import PaymentsHeader from "../components/list/PaymentsHeader";
 import { AnimatePresence, m } from "framer-motion";
 import PaymentsList from "../components/list/PaymentsList";
 import Paginate from "../../../components/paginate/Paginate";
 import DataShow from "../../../components/data/DataShow";
+import { useGetAllPayments } from "../hooks/api/useGetAllPayments";
 
 const PaymentsPage = () => {
   const { t } = useTranslation();
@@ -22,13 +19,7 @@ const PaymentsPage = () => {
 
   const { view, changeView } = useViewTabChange("outstanding");
 
-  const { activeQueryParams } = useGetQueryParams();
-
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["payments", { ...activeQueryParams, view }],
-    queryFn: () =>
-      paymentService.getAllPayments({ ...activeQueryParams, view }),
-  }) as { data: ResponseDataType; isLoading: boolean };
+  const { data, isLoading } = useGetAllPayments();
 
   return (
     <Tabs

@@ -11,12 +11,11 @@ import { Button } from "../../../components/ui/button";
 import { GraduationCap, UserPlus } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card";
 
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { classService } from "../../../services/classes";
 import ClassesEnrolledStudentsList from "../components/details/ClassesEnrolledStudentsList";
 import SearchInput from "../../../components/search-input/SearchInput";
 import ClassesCompleteAlert from "../components/alerts/ClassesCompleteAlert";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
+import { useGetClassDetails } from "../hooks/api/useGetClassDetails";
 
 const ClassesDetailsPage = () => {
   const { t } = useTranslation();
@@ -43,10 +42,7 @@ const ClassesDetailsPage = () => {
 
   const navigate = useNavigate();
 
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["classes-details", Number(classId)],
-    queryFn: () => classService.getClassDetails(Number(classId)),
-  }) as { data: any; isLoading: boolean };
+  const { data, isLoading } = useGetClassDetails(Number(classId));
 
   return (
     <>

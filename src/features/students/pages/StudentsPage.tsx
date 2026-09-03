@@ -1,19 +1,16 @@
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { Tabs } from "../../../components/ui/tabs";
 import StudentsHeader from "../components/list/StudentsHeader";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { GraduationCap } from "lucide-react";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
 import StudentsGrid from "../components/list/StudentsGrid";
 import StudentList from "../components/list/StudentsList";
-import { studentService } from "../../../services/students";
 import DataShow from "../../../components/data/DataShow";
 
 import { useTranslation } from "react-i18next";
+import { useGetAllStudents } from "../hooks/api/useGetAllStudents";
 
 const StudentsPage = () => {
   const { t } = useTranslation();
@@ -24,12 +21,7 @@ const StudentsPage = () => {
 
   const { view, changeView } = useViewTabChange();
 
-  const { activeQueryParams } = useGetQueryParams();
-
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["students", activeQueryParams],
-    queryFn: () => studentService.getAllStudents(activeQueryParams),
-  }) as { data: ResponseDataType; isLoading: boolean };
+  const { data, isLoading } = useGetAllStudents();
 
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">

@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { TableHeadType } from "../../../../types/TableHeader";
 import Table from "../../../../components/table/Table";
 import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
 import TableBody from "../../../../components/table/TableBody";
@@ -26,7 +24,6 @@ import { changeTime } from "../../../../utils/change-time";
 import { formatDate } from "../../../../utils/format-date";
 import TableActionButtonsContainer from "../../../../components/table/TableActionButtonsContainer";
 import TableActionButton from "../../../../components/table/TableActionButton";
-import { useNavigate } from "react-router";
 import StudentsEnrolledClassesDeleteAlert from "../alerts/StudentsEnrolledClassesDeleteAlert";
 import ClassesEnrollmentWithdrawAlert from "../../../classes/components/alerts/ClassesEnrollmentWithdrawAlert";
 import TableIconContent from "../../../../components/table/TableIconContent";
@@ -35,71 +32,27 @@ import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import DataShow from "../../../../components/data/DataShow";
 import Paginate from "../../../../components/paginate/Paginate";
 import { useGetStudentEnrolledClasses } from "../../hooks/api/useGetStudentEnrolledClasses";
+import { useStudentsEnrolledClassesLists } from "../../hooks/list/useStudentsEnrolledClassesLists";
 
 const StudentsEnrolledClassesLists = ({ studentId }: { studentId: number }) => {
   const { t } = useTranslation();
 
   const { data, isLoading } = useGetStudentEnrolledClasses(studentId);
 
-  const [enrolledID, setEnrolledID] = useState<number>(0);
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [withdrawEnrolledID, setWithdrawEnrolledID] = useState<number>(0);
-  const [isWithdrawStatus, setIsWithdrawStatus] = useState<boolean>(false);
-  const [withdrawDialogOpen, setWithdrawDialogOpen] = useState<boolean>(false);
-
-  const headers: TableHeadType[] = [
-    {
-      title: t("students.table.course"),
-      key: "Course",
-      sortable: true,
-      sortKey: "course_name",
-    },
-    {
-      title: t("students.table.teacher"),
-      key: "Teacher",
-      sortable: true,
-      sortKey: "teacher_name",
-    },
-    {
-      title: t("students.table.price"),
-      key: "Price",
-      sortable: true,
-      sortKey: "price",
-      align: "right",
-    },
-    {
-      title: t("students.table.period"),
-      key: "Period",
-      sortable: true,
-      sortKey: "startDate",
-    },
-    {
-      title: t("students.table.time"),
-      key: "Time",
-      sortable: true,
-      sortKey: "startTime",
-    },
-    {
-      title: t("students.table.remaining"),
-      key: "Remaining",
-      sortable: true,
-      sortKey: "remainingAmount",
-      align: "right",
-    },
-  ];
-
-  const handleDelete = (id: number) => {
-    setEnrolledID(id);
-    setConfirmDialogOpen(true);
-  };
-
-  const handleWithdraw = (id: number, currentWithdraw: boolean) => {
-    setWithdrawEnrolledID(id);
-    setIsWithdrawStatus(currentWithdraw);
-    setWithdrawDialogOpen(true);
-  };
-
-  const navigate = useNavigate();
+  const {
+    headers,
+    handleDelete,
+    handleWithdraw,
+    confirmDialogOpen,
+    withdrawDialogOpen,
+    withdrawEnrolledID,
+    isWithdrawStatus,
+    enrolledID,
+    setConfirmDialogOpen,
+    setWithdrawDialogOpen,
+    navigate,
+    selectedColumns,
+  } = useStudentsEnrolledClassesLists();
 
   return (
     <>
@@ -113,15 +66,7 @@ const StudentsEnrolledClassesLists = ({ studentId }: { studentId: number }) => {
         <Table>
           <TableHeaderGenerator
             headers={headers}
-            selectedColumns={[
-              "Course",
-              "Teacher",
-              "Price",
-              "Period",
-              "Time",
-              "Remaining",
-              "Created At",
-            ]}
+            selectedColumns={selectedColumns}
             prefix="e."
           />
           <TableBody>

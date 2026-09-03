@@ -1,25 +1,14 @@
 import { useTranslation } from "react-i18next";
-import { useAppQuery } from "../../../../hooks/use-app-query";
-import { useGetQueryParams } from "../../../../hooks/use-get-query-params";
-import type { ResponseDataType } from "../../../../types/ResponseTypes";
 import DataShow from "../../../../components/data/DataShow";
 import { BookOpen } from "lucide-react";
 import TeachersClassesList from "./TeachersClassesList";
-import { teacherService } from "../../../../services/teachers";
 import Paginate from "../../../../components/paginate/Paginate";
+import { useGetTeacherClasses } from "../../hooks/api/useGetTeacherClasses";
 
 const TeachersClassesTab = ({ id }: { id: number }) => {
   const { t } = useTranslation();
-  const { activeQueryParams } = useGetQueryParams();
 
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["teachers_classes", id, activeQueryParams],
-    queryFn: () =>
-      teacherService.getTeacherClasses({
-        ...activeQueryParams,
-        id,
-      }),
-  }) as { data: ResponseDataType; isLoading: boolean };
+  const { data, isLoading } = useGetTeacherClasses(id);
 
   return (
     <DataShow

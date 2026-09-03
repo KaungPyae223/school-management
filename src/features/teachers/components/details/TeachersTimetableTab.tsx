@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { useTimetableChange } from "../../../timetable/hooks/views/useTimetableChange";
-import { useAppQuery } from "../../../../hooks/use-app-query";
-import { classService } from "../../../../services/classes";
-import type { ResponseDataType } from "../../../../types/ResponseTypes";
 import { useFormatData } from "../../../timetable/hooks/views/useFormatData";
 import TimetableCourse from "../../../timetable/components/course/TimetableCourse";
 import TimetableDetailsContent from "../../../timetable/components/views/TimetableDetailsContent";
 import { Drawer } from "../../../../components/ui/drawer";
+import { useGetAllClasses } from "../../../classes/hooks/api/useGetAllClasses";
 
 const TeachersTimetableTab = ({ id }: { id: number }) => {
   const [open, setOpen] = useState(false);
@@ -14,16 +12,9 @@ const TeachersTimetableTab = ({ id }: { id: number }) => {
 
   const { params } = useTimetableChange();
 
-  const { data: timetableData } = useAppQuery({
-    queryKey: ["classes", { ...params, teacherId: id }],
-    queryFn: () =>
-      classService.getAllClasses({
-        ...params,
-        teacherId: id,
-      }),
-  }) as { data: ResponseDataType };
+  const { data } = useGetAllClasses({ ...params, teacherId: id });
 
-  const formattedData = timetableData?.data?.map(useFormatData);
+  const formattedData = data?.data?.map(useFormatData);
 
   const handleClassClick = (classData: any) => {
     setClassData(classData);

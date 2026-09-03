@@ -1,16 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { useLoaderData, useParams } from "react-router";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-
 import PaymentsDetailsInfoCard from "../components/details/PaymentsDetailsInfoCard";
-
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { paymentService } from "../../../services/payments";
 import DataShow from "../../../components/data/DataShow";
 import { CreditCard } from "lucide-react";
-import PaymentsCreateCard from "../components/forms/PaymentsCreateCard";
+import PaymentsCreateForm from "../components/forms/PaymentsCreateForm";
 import { Separator } from "../../../components/ui/separator";
 import PaymentsCard from "../components/list/PaymentsCard";
+import { useGetPaymentsByEnrollment } from "../hooks/api/useGetPaymentsByEnrollment";
 
 const PaymentsDetailsPage = () => {
   const { t } = useTranslation();
@@ -32,11 +29,7 @@ const PaymentsDetailsPage = () => {
 
   const { enrollment } = useLoaderData();
 
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["payments", enrollmentId],
-    queryFn: () =>
-      paymentService.getAllPaymentsByEnrollment(Number(enrollmentId)),
-  }) as { data: { data: any[] }; isLoading: boolean };
+  const { data, isLoading } = useGetPaymentsByEnrollment(Number(enrollmentId));
 
   const totalPaid =
     data?.data?.reduce(
@@ -60,7 +53,7 @@ const PaymentsDetailsPage = () => {
 
       {finalAmountDue > 0 && (
         <>
-          <PaymentsCreateCard
+          <PaymentsCreateForm
             amountDue={finalAmountDue}
             classId={enrollment.class.id}
             enrollmentId={enrollment.id}

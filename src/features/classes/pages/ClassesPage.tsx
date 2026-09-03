@@ -1,19 +1,16 @@
 import { useTranslation } from "react-i18next";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { Tabs } from "../../../components/ui/tabs";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { BookOpen } from "lucide-react";
 import Paginate from "../../../components/paginate/Paginate";
 import { AnimatePresence, m } from "framer-motion";
 import ClassesHeader from "../components/list/ClassesHeader";
 import ClassesGrid from "../components/list/ClassesGrid";
-import { classService } from "../../../services/classes";
 import ClassesList from "../components/list/ClassesList";
 import DataShow from "../../../components/data/DataShow";
 import ClassesAdvancedQuery from "../components/filters/ClassesAdvancedQuery";
+import { useGetAllClasses } from "../hooks/api/useGetAllClasses";
 
 const ClassesPage = () => {
   const { t } = useTranslation();
@@ -24,13 +21,8 @@ const ClassesPage = () => {
 
   const { view, changeView } = useViewTabChange();
 
-  const { activeQueryParams } = useGetQueryParams();
-
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["classes", activeQueryParams],
-    queryFn: () => classService.getAllClasses(activeQueryParams),
-  }) as { data: ResponseDataType; isLoading: boolean };
-
+  const { data, isLoading } = useGetAllClasses();
+  
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">
       <ClassesHeader tab={view} isTrashView={false} />

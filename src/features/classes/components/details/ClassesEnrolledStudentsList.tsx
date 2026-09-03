@@ -28,26 +28,15 @@ import { useTranslation } from "react-i18next";
 import ClassesEnrollmentDeleteAlert from "../alerts/ClassesEnrollmentDeleteAlert";
 import ClassesEnrollmentWithdrawAlert from "../alerts/ClassesEnrollmentWithdrawAlert";
 import { useClassesEnrolledStudents } from "../../hooks/list/useClassesEnrolledStudents";
-import { useAppQuery } from "../../../../hooks/use-app-query";
-import { useGetQueryParams } from "../../../../hooks/use-get-query-params";
-import { enrollmentService } from "../../../../services/enrollment";
-import type { ResponseDataType } from "../../../../types/ResponseTypes";
 import DataShow from "../../../../components/data/DataShow";
 import Paginate from "../../../../components/paginate/Paginate";
 import TableIconContent from "../../../../components/table/TableIconContent";
+import { useGetClassEnrolledStudents } from "../../hooks/api/useGetClassEnrolledStudents";
 
 const ClassesEnrolledStudentsList = ({ classId }: { classId: number }) => {
   const { t } = useTranslation();
-  const { activeQueryParams } = useGetQueryParams();
 
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["classes_enrollments", classId, activeQueryParams],
-    queryFn: () =>
-      enrollmentService.getEnrollmentByClass({
-        ...activeQueryParams,
-        classId,
-      }),
-  }) as { data: ResponseDataType; isLoading: boolean };
+  const { data, isLoading } = useGetClassEnrolledStudents(classId);
 
   const {
     headers,
@@ -134,8 +123,7 @@ const ClassesEnrolledStudentsList = ({ classId }: { classId: number }) => {
                     <TableIconContent
                       icon={Phone}
                       value={replaceLocalDigit(enrollmentData.studentPhone)}
-                      align="right"
-                    />
+                     />
                   </TableCell>
 
                   <TableCell>
@@ -146,8 +134,7 @@ const ClassesEnrolledStudentsList = ({ classId }: { classId: number }) => {
                           ? replaceLocalDigit(enrollmentData.studentEmail)
                           : t("students.na")
                       }
-                      align="right"
-                    />
+                         />
                   </TableCell>
 
                   <TableCell align="right">

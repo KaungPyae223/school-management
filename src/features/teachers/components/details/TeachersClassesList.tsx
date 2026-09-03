@@ -1,6 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
-import type { TableHeadType } from "../../../../types/TableHeader";
 import Table from "../../../../components/table/Table";
 import TableHeaderGenerator from "../../../../components/table/TableHeaderGenerator";
 import TableBody from "../../../../components/table/TableBody";
@@ -15,73 +13,18 @@ import TableActionButtonsContainer from "../../../../components/table/TableActio
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import ClassesStatus from "../../../classes/components/shared/ClassesStatus";
+import { useTeachersClassesList } from "../../hooks/list/useTeachersClassesList";
 
 const TeachersClassesList = ({ data }: { data: any }) => {
   const { t } = useTranslation();
 
-  const headers: TableHeadType[] = [
-    {
-      title: t("students.table.course"),
-      key: "Course",
-      sortable: true,
-      sortKey: "course_name",
-    },
-
-    {
-      title: t("students.table.price"),
-      key: "Price",
-      sortable: true,
-      sortKey: "cl.price",
-      align: "right",
-    },
-    {
-      title: t("students.table.period"),
-      key: "Period",
-      sortable: true,
-      sortKey: "cl.startDate",
-    },
-    {
-      title: t("students.table.time"),
-      key: "Time",
-      sortable: true,
-      sortKey: "cl.startTime",
-    },
-    {
-      title: "Status",
-      key: "Status",
-      sortable: false,
-    },
-    {
-      title: t("teachers.totalStudents"),
-      key: "Total Students",
-      sortable: true,
-      sortKey: "total_students",
-      align: "right",
-    },
-    {
-      title: "Withdrawn",
-      key: "Withdrawn",
-      sortable: true,
-      sortKey: "withdrawn_students",
-      align: "right",
-    },
-  ];
-  const navigate = useNavigate();
+  const { headers, selectedColumns, navigate } = useTeachersClassesList();
 
   return (
     <Table>
       <TableHeaderGenerator
         headers={headers}
-        selectedColumns={[
-          "Course",
-          "Price",
-          "Period",
-          "Time",
-          "Status",
-          "Total Students",
-          "Withdrawn",
-          "Created At",
-        ]}
+        selectedColumns={selectedColumns}
         prefix="cl."
       />
       <TableBody>

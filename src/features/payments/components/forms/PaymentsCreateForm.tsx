@@ -23,17 +23,15 @@ import { useTranslation } from "react-i18next";
 import NumberInput from "../../../../components/form/NumberInput";
 import { usePaymentCreateForm } from "../../hooks/forms/usePaymentCreateForm";
 
-interface PaymentsCreateCardProps {
-  amountDue: number;
-  classId: number;
-  enrollmentId: number;
-}
-
-const PaymentsCreateCard = ({
+const PaymentsCreateForm = ({
   amountDue,
   classId,
   enrollmentId,
-}: PaymentsCreateCardProps) => {
+}: {
+  amountDue: number;
+  classId: number;
+  enrollmentId: number;
+}) => {
   const { t } = useTranslation();
   const {
     form,
@@ -140,4 +138,4 @@ const PaymentsCreateCard = ({
   );
 };
 
-export default PaymentsCreateCard;
+export default PaymentsCreateForm;

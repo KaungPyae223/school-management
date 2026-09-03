@@ -6,14 +6,10 @@ import CoursesGrid from "../components/list/CoursesGrid";
 import CoursesList from "../components/list/CoursesList";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
-
 import { LibraryBig } from "lucide-react";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
-import { courseService } from "../../../services/courses";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import DataShow from "../../../components/data/DataShow";
+import { useGetAllCourses } from "../hooks/api/useGetAllCourses";
 
 const CoursesPage = () => {
   const { t } = useTranslation();
@@ -24,12 +20,7 @@ const CoursesPage = () => {
 
   const { view, changeView } = useViewTabChange();
 
-  const { activeQueryParams } = useGetQueryParams();
-
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["courses", activeQueryParams],
-    queryFn: () => courseService.getAllCourses(activeQueryParams),
-  }) as { data: ResponseDataType; isLoading: boolean };
+  const { data, isLoading } = useGetAllCourses();
 
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">

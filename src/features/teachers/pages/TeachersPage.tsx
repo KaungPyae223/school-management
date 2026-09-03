@@ -1,18 +1,15 @@
 import { useTranslation } from "react-i18next";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
-import { useGetQueryParams } from "../../../hooks/use-get-query-params";
 import { Tabs } from "../../../components/ui/tabs";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
 import { UserRoundPen } from "lucide-react";
 import Paginate from "../../../components/paginate/Paginate";
 import { m, AnimatePresence } from "framer-motion";
-import { teacherService } from "../../../services/teachers";
 import TeachersHeader from "../components/list/TeachersHeader";
 import TeachersGrid from "../components/list/TeachersGrid";
 import TeachersList from "../components/list/TeachersList";
 import DataShow from "../../../components/data/DataShow";
+import { useGetAllTeachers } from "../hooks/api/useGetAllTeachers";
 
 const TeachersPage = () => {
   const { t } = useTranslation();
@@ -23,12 +20,7 @@ const TeachersPage = () => {
 
   const { view, changeView } = useViewTabChange();
 
-  const { activeQueryParams } = useGetQueryParams();
-
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["teachers", activeQueryParams],
-    queryFn: () => teacherService.getAllTeachers(activeQueryParams),
-  }) as { data: ResponseDataType; isLoading: boolean };
+  const { data, isLoading } = useGetAllTeachers();
 
   return (
     <Tabs value={view} onValueChange={changeView} className="space-y-4">

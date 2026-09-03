@@ -13,9 +13,8 @@ import { AnimatePresence, m } from "framer-motion";
 import TeachersDetailsHeader from "../components/details/TeachersDetailsHeader";
 import TeachersClassesTab from "../components/details/TeachersClassesTab";
 import TeachersTimetableTab from "../components/details/TeachersTimetableTab";
-import { useAppQuery } from "../../../hooks/use-app-query";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
-import { teacherService } from "../../../services/teachers";
+import { useGetTeacherDetails } from "../hooks/api/useGetTeacherDetails";
 
 const TeachersDetailsPage = () => {
   const { t } = useTranslation();
@@ -45,10 +44,7 @@ const TeachersDetailsPage = () => {
 
   const { view, changeView } = useViewTabChange("classes");
 
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["teachers-details", Number(teacherId)],
-    queryFn: () => teacherService.getTeacherDetails(Number(teacherId)),
-  }) as { data: any; isLoading: boolean };
+  const { data, isLoading } = useGetTeacherDetails(Number(teacherId));
 
   return (
     <>

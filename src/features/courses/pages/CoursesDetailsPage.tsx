@@ -13,9 +13,8 @@ import CoursesDetailsHeader from "../components/details/CoursesDetailsHeader";
 import { AnimatePresence, m } from "framer-motion";
 import CoursesTimetableTab from "../components/details/CoursesTimetableTab";
 import CoursesClassesTab from "../components/details/CoursesClassesTab";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { courseService } from "../../../services/courses";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
+import { useGetCourseDetails } from "../hooks/api/useGetCourseDetails";
 
 const CoursesDetailsPage = () => {
   const { t } = useTranslation();
@@ -45,10 +44,7 @@ const CoursesDetailsPage = () => {
 
   const { view, changeView } = useViewTabChange("classes");
 
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["courses-details", Number(courseId)],
-    queryFn: () => courseService.getCourseDetails(Number(courseId)),
-  }) as { data: { data: any }; isLoading: boolean };
+  const { data, isLoading } = useGetCourseDetails(Number(courseId));
 
   return (
     <>

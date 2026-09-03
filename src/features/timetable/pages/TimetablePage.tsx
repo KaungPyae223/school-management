@@ -3,9 +3,6 @@ import { Tabs } from "../../../components/ui/tabs";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { m, AnimatePresence } from "framer-motion";
-import { useAppQuery } from "../../../hooks/use-app-query";
-import { classService } from "../../../services/classes";
-import type { ResponseDataType } from "../../../types/ResponseTypes";
 import TimetableHeader from "../components/views/TimetableHeader";
 import { useFormatData } from "../hooks/views/useFormatData";
 import { Drawer } from "../../../components/ui/drawer";
@@ -16,6 +13,7 @@ import TimetableDetailsContent from "../components/views/TimetableDetailsContent
 import TimetableTeacher from "../components/teacher/TimetableTeacher";
 import TimetableCourse from "../components/course/TimetableCourse";
 import { useTimetableChange } from "../hooks/views/useTimetableChange";
+import { useGetAllClasses } from "../../classes/hooks/api/useGetAllClasses";
 
 const TimetablePage = () => {
   const { t } = useTranslation();
@@ -31,10 +29,7 @@ const TimetablePage = () => {
 
   const { params } = useTimetableChange();
 
-  const { data } = useAppQuery({
-    queryKey: ["classes", params],
-    queryFn: () => classService.getAllClasses(params),
-  }) as { data: ResponseDataType };
+  const { data } = useGetAllClasses(params);
 
   const formattedData = data?.data?.map(useFormatData);
 

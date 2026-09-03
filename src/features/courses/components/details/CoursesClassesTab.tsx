@@ -1,25 +1,14 @@
 import { useTranslation } from "react-i18next";
-import { useAppQuery } from "../../../../hooks/use-app-query";
-import { useGetQueryParams } from "../../../../hooks/use-get-query-params";
-import type { ResponseDataType } from "../../../../types/ResponseTypes";
 import DataShow from "../../../../components/data/DataShow";
 import { BookOpen } from "lucide-react";
 import Paginate from "../../../../components/paginate/Paginate";
-import { courseService } from "../../../../services/courses";
 import CoursesClassesList from "./CoursesClassesList";
+import { useGetCoursesClasses } from "../../hooks/api/useGetCoursesClasses";
 
 const CoursesClassesTab = ({ id }: { id: number }) => {
   const { t } = useTranslation();
-  const { activeQueryParams } = useGetQueryParams();
 
-  const { data, isLoading } = useAppQuery({
-    queryKey: ["courses_classes", id, activeQueryParams],
-    queryFn: () =>
-      courseService.getCourseClasses({
-        ...activeQueryParams,
-        id,
-      }),
-  }) as { data: ResponseDataType; isLoading: boolean };
+  const { data, isLoading } = useGetCoursesClasses(id);
 
   return (
     <DataShow
