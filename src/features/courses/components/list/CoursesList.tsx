@@ -2,6 +2,7 @@ import {
   BookOpen,
   ClipboardList,
   DoorOpen,
+  GraduationCap,
   PlayCircle,
   UserPen,
 } from "lucide-react";
@@ -82,8 +83,9 @@ const CoursesList = ({ data }: { data: any }) => {
 
               <TableCell hidden={!selectedColumns.includes("Total Students")}>
                 <TableIconContent
-                  icon={ClipboardList}
+                  icon={GraduationCap}
                   value={replaceLocalDigit(course.total_students)}
+                  align="right"
                 />
               </TableCell>
 
@@ -91,6 +93,7 @@ const CoursesList = ({ data }: { data: any }) => {
                 <TableIconContent
                   icon={DoorOpen}
                   value={replaceLocalDigit(course.withdrawn_students)}
+                  align="right"
                 />
               </TableCell>
 

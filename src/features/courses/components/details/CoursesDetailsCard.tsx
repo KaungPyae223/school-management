@@ -20,12 +20,8 @@ import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 const CoursesDetailsCard = ({ courseData }: { courseData: any }) => {
   const { t } = useTranslation();
-  const avgStudents =
-    courseData.total_classes > 0
-      ? Math.round(
-          Number(courseData.total_students) / Number(courseData.total_classes),
-        )
-      : 0;
+
+  console.log(courseData);
 
   return (
     <Card className="shadow-xs flex flex-row gap-1.5">
@@ -61,7 +57,9 @@ const CoursesDetailsCard = ({ courseData }: { courseData: any }) => {
             icon={XLineTop}
             label={t("courses.averageStudentsPerClass")}
           >
-            <p className="font-medium">{replaceLocalDigit(avgStudents)}</p>
+            <p className="font-medium">
+              {replaceLocalDigit(courseData.avg_class_per_student)}
+            </p>
           </DetailsData>
           <DetailsData icon={UserPen} label={t("courses.totalTeachers")}>
             <p className="font-medium">

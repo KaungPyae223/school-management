@@ -41,40 +41,57 @@ export const courseIPCs = () => {
       ? Prisma.sql`AND (LOWER(c.name) LIKE LOWER(${`%${search}%`}) OR LOWER(c.description) LIKE LOWER(${`%${search}%`}))`
       : Prisma.empty;
 
+    const courseSort = finalSort.startsWith("c.")
+      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
+          finalSortDirection,
+        )} LIMIT ${limit} OFFSET ${skip}`
+      : Prisma.empty;
+
+    const metaSort = !finalSort.startsWith("c.")
+      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
+          finalSortDirection,
+        )} LIMIT ${limit} OFFSET ${skip}`
+      : Prisma.empty;
+
     try {
       const [courses, totalData] = await Promise.all([
         prisma.$queryRaw<any[]>`
-          WITH class_counts AS (
+          WITH 
+          course_query AS (
+            SELECT 
+            id
+            FROM courses c 
+            WHERE c.deleted = ${!!trash}
+            ${searchFilter} 
+            ${courseSort}
+           ),
+          course_meta AS (
             SELECT
               cl.courseId,
-              COUNT(cl.id) AS total_classes,
-              COUNT(CASE WHEN cl.startDate <= datetime('now') AND cl.endDate IS NULL THEN cl.id END) AS total_active_classes,
-              COUNT(DISTINCT cl.teacherId) AS total_teachers
+              COUNT(DISTINCT cl.id) AS total_classes,
+              COUNT(DISTINCT CASE WHEN cl.startDate <= datetime('now') AND cl.endDate IS NULL THEN cl.id END) AS total_active_classes,
+              COUNT(DISTINCT cl.teacherId) AS total_teachers,
+              COUNT(DISTINCT e.id) as total_students,
+              COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
             FROM classes cl
+            LEFT JOIN enrollments e ON e.classId = cl.id
+            JOIN course_query cq ON cq.id = cl.courseId
             GROUP BY cl.courseId
-          ),
-          enrollment_counts AS (
-            SELECT cl.courseId,
-              COUNT(e.id) as total_students,
-              COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
-            FROM enrollments e
-            LEFT JOIN classes cl ON cl.id = e.classId
-            GROUP BY cl.courseId
+            ${metaSort}
           )
           SELECT
             c.*,
-            COALESCE(cc.total_classes, 0) AS total_classes,
-            COALESCE(cc.total_active_classes, 0) AS total_active_classes,
-            COALESCE(ec.total_students, 0) AS total_students,
-            COALESCE(ec.withdrawn_students, 0) AS withdrawn_students,
-            COALESCE(cc.total_teachers, 0) AS total_teachers
+            COALESCE(cm.total_classes, 0) AS total_classes,
+            COALESCE(cm.total_active_classes, 0) AS total_active_classes,
+            COALESCE(cm.total_students, 0) AS total_students,
+            COALESCE(cm.withdrawn_students, 0) AS withdrawn_students,
+            COALESCE(cm.total_teachers, 0) AS total_teachers
           FROM courses c
-          LEFT JOIN class_counts cc ON cc.courseId = c.id
-          LEFT JOIN enrollment_counts ec ON ec.courseId = c.id
-          WHERE c.deleted = ${!!trash}
-          ${searchFilter}
+          LEFT JOIN course_meta cm ON cm.courseId = c.id
+          LEFT JOIN course_query cq ON cq.id = c.id 
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip} 
+          LIMIT ${limit} OFFSET ${skip}
+
         `,
         prisma.course.count({
           where: {
@@ -178,37 +195,51 @@ export const courseIPCs = () => {
   protectedHandle("course:show-details", async (_, id) => {
     try {
       const course = await prisma.$queryRaw<any[]>`
-          WITH class_counts AS (
+          WITH
+          course_classes AS (
+            SELECT 
+            cl.id
+            FROM classes cl
+            WHERE cl.courseId = ${id}
+          ),
+          total_revenue AS (
+            SELECT 
+            e.classId,
+            COUNT(DISTINCT e.id) as total_students,
+            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students,
+            SUM(p.amount) as total_revenue   
+            FROM enrollments e
+            JOIN course_classes cc ON e.classId = cc.id
+            LEFT JOIN payments p on e.id = p.enrollmentId
+            GROUP BY e.classId
+          ),
+          course_meta AS (
             SELECT
               cl.courseId,
               COUNT(cl.id) AS total_classes,
               COUNT(CASE WHEN cl.endDate IS NULL THEN cl.id END) AS total_active_classes,
               COUNT(DISTINCT cl.teacherId) AS total_teachers,
-              COUNT(CASE WHEN cl.endDate IS NOT NULL THEN cl.id END) AS total_complete_classes
+              COUNT(CASE WHEN cl.endDate IS NOT NULL THEN cl.id END) AS total_complete_classes,
+              SUM(tr.total_revenue) AS total_revenue,
+              SUM(tr.total_students) AS total_students,
+              SUM(tr.withdrawn_students) AS withdrawn_students
             FROM classes cl
-            GROUP BY cl.courseId
-          ),
-          enrollment_counts AS (
-            SELECT cl.courseId,
-              COUNT(e.id) AS total_students,
-              COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) AS withdrawn_students,
-              SUM(e.price) AS total_revenue
-            FROM enrollments e
-            LEFT JOIN classes cl ON cl.id = e.classId
+            JOIN total_revenue tr ON cl.id = tr.classId
+            where cl.courseId = ${id}
             GROUP BY cl.courseId
           )
           SELECT
             c.*,
-            COALESCE(cc.total_active_classes, 0) AS total_active_classes,
-            COALESCE(cc.total_classes, 0) AS total_classes,
-            COALESCE(cc.total_complete_classes, 0) AS total_complete_classes,
-            COALESCE(ec.total_students, 0) AS total_students,
-            COALESCE(ec.withdrawn_students, 0) AS withdrawn_students,
-            COALESCE(cc.total_teachers, 0) AS total_teachers,
-            COALESCE(ec.total_revenue, 0) AS total_revenue
+            COALESCE(cm.total_active_classes, 0) AS total_active_classes,
+            COALESCE(cm.total_classes, 0) AS total_classes,
+            COALESCE(cm.total_complete_classes, 0) AS total_complete_classes,
+            COALESCE(cm.total_students, 0) AS total_students,
+            COALESCE(cm.withdrawn_students, 0) AS withdrawn_students,
+            COALESCE(cm.total_teachers, 0) AS total_teachers,
+            COALESCE(cm.total_revenue, 0) AS total_revenue,
+            CAST(COALESCE(cm.total_students, 0) / COALESCE(cm.total_classes, 0) AS INT) AS avg_class_per_student
           FROM courses c
-          LEFT JOIN class_counts cc ON cc.courseId = c.id
-          LEFT JOIN enrollment_counts ec ON ec.courseId = c.id
+          JOIN course_meta cm ON cm.courseId = c.id
           WHERE c.id = ${id}
         `;
       if (!course) {
