@@ -10,28 +10,22 @@ import { useSearchParams } from "react-router";
 import { useState, useEffect, useMemo } from "react";
 import { debounce } from "lodash";
 
-const SearchInput = ({
-  searchParam = "search",
-  placeholder,
-}: {
-  searchParam?: string;
-  placeholder?: string;
-}) => {
+const SearchInput = () => {
   const { t } = useTranslation();
-  const defaultPlaceholder = placeholder || t("general.searchPlaceholder");
+
   const updateQueryParams = useSetQueryParams();
   const [searchParams] = useSearchParams();
 
-  const currentSearch = searchParams.get(searchParam) ?? "";
+  const currentSearch = searchParams.get("search") ?? "";
 
   const [searchTerm, setSearchTerm] = useState<string>(currentSearch);
 
   const debouncedSearch = useMemo(
     () =>
       debounce((value: string) => {
-        updateQueryParams({ [searchParam]: value });
+        updateQueryParams({ search: value });
       }, 750),
-    [],
+    [updateQueryParams],
   );
 
   useEffect(() => {
@@ -47,7 +41,7 @@ const SearchInput = ({
   return (
     <InputGroup className="max-w-xs">
       <InputGroupInput
-        placeholder={defaultPlaceholder}
+        placeholder={t("general.searchPlaceholder")}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />

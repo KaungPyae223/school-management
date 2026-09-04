@@ -213,6 +213,46 @@ export const classesIPCs = () => {
             }),
             ...(teacherId && { teacherId }),
             ...(courseId && { courseId }),
+            ...(courseIds && {
+              courseId: {
+                in: courseIds.split(",").map((id: string) => id.trim()),
+              },
+            }),
+            ...(teacherIds && {
+              teacherId: {
+                in: teacherIds.split(",").map((id: string) => id.trim()),
+              },
+            }),
+            ...(startTime && {
+              startTime: {
+                gte: startTime,
+              },
+            }),
+            ...(endTime && {
+              endTime: {
+                lte: endTime,
+              },
+            }),
+            ...(startDate && {
+              startDate: {
+                gte: startDate,
+              },
+            }),
+            ...(endDate && {
+              endDate: {
+                lte: endDate,
+              },
+            }),
+            ...(minPrice && {
+              price: {
+                gte: minPrice,
+              },
+            }),
+            ...(maxPrice && {
+              price: {
+                lte: maxPrice,
+              },
+            }),
           },
         }),
       ]);

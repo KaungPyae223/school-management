@@ -46,30 +46,47 @@ export const teacherIPCs = () => {
     )`
       : Prisma.empty;
 
+    const teacherSort = finalSort.startsWith("t.")
+      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
+          finalSortDirection,
+        )} LIMIT ${limit} OFFSET ${skip}`
+      : Prisma.empty;
+
+    const metaSort = !finalSort.startsWith("t.")
+      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
+          finalSortDirection,
+        )} LIMIT ${limit} OFFSET ${skip}`
+      : Prisma.empty;
+
     try {
       const [teachers, totalData] = await Promise.all([
         prisma.$queryRaw<any[]>`
-           WITH class_counts AS (
-            SELECT teacherId, COUNT(*) AS total_classes
-            FROM classes
-            GROUP BY teacherId
+          WITH
+          teacher_query AS (
+            SELECT 
+              id 
+            FROM teachers t
+            WHERE t.deleted = ${!!trash} 
+            ${searchFilter}
+            ${teacherSort}
           ),
-          student_counts AS (
+          teacher_meta AS (
             SELECT c.teacherId, 
-            COUNT(DISTINCT e.studentID) AS total_students
+            COUNT(DISTINCT e.studentID) AS total_students,
+            COUNT(DISTINCT c.id) AS total_classes
             FROM classes c
+            JOIN teacher_query tq ON tq.id = c.teacherId
             LEFT JOIN enrollments e ON e.classId = c.id
             GROUP BY c.teacherId
+            ${metaSort}
           )
           SELECT
             t.*,
-            COALESCE(cc.total_classes, 0) AS total_classes,
-            COALESCE(sc.total_students, 0) AS total_students
+            COALESCE(tm.total_classes, 0) AS total_classes,
+            COALESCE(tm.total_students, 0) AS total_students
           FROM teachers t
-          LEFT JOIN class_counts cc ON cc.teacherId = t.id
-          LEFT JOIN student_counts sc ON sc.teacherId = t.id
-          WHERE t.deleted = ${!!trash}
-          ${searchFilter}
+          JOIN teacher_query tq ON tq.id = t.id
+          LEFT JOIN teacher_meta tm ON tm.teacherId = t.id
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,
@@ -157,7 +174,7 @@ export const teacherIPCs = () => {
           COUNT(DISTINCT e.id) AS total_students,
           COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
           FROM classes cl
-          LEFT JOIN courses c ON c.id = cl.courseId
+          JOIN courses c ON c.id = cl.courseId
           LEFT JOIN enrollments e ON e.classId = cl.id
           WHERE cl.teacherId = ${id}
           ${searchFilter}
@@ -270,37 +287,45 @@ export const teacherIPCs = () => {
     try {
       const teacher = await prisma.$queryRaw<any[]>`
        WITH 
+          teacher_classes AS (
+            SELECT 
+              id 
+            FROM classes c
+            WHERE c.teacherId = ${id}
+          ),
           classes_revenue AS (
             SELECT e.classId, 
-            SUM(p.amount) AS total_revenue
+            SUM(p.amount) AS total_revenue,
+            COUNT(DISTINCT e.studentID) AS total_students,
+            COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
             FROM enrollments e
             LEFT JOIN payments p ON p.enrollmentId = e.id
+            JOIN teacher_classes tc ON tc.id = e.classId
             GROUP BY e.classId
           ),
-          teacher_classes AS (
+          teacher_meta AS (
             SELECT c.teacherId, 
-            COUNT(DISTINCT e.studentID) AS total_students,
-            COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students,
             COUNT(DISTINCT c.courseId) AS total_courses,
             COUNT(DISTINCT c.id) AS total_classes,
             COUNT(DISTINCT CASE WHEN c.endDate IS NULL THEN c.id END) AS total_active_classes,
-            COALESCE(SUM(cr.total_revenue), 0) AS total_revenue
+            COALESCE(SUM(cr.total_revenue), 0) AS total_revenue,
+            COALESCE(SUM(cr.total_students), 0) AS total_students,
+            COALESCE(SUM(cr.withdrawn_students), 0) AS withdrawn_students
             FROM classes c
-            LEFT JOIN enrollments e ON e.classId = c.id
             LEFT JOIN classes_revenue cr ON cr.classId = c.id
             WHERE c.teacherId = ${id}
             GROUP BY c.teacherId
           )
           SELECT
             t.*,
-            COALESCE(tc.total_classes, 0) AS total_classes,
-            COALESCE(tc.total_students, 0) AS total_students,
-            COALESCE(tc.total_courses, 0) AS total_courses,
-            COALESCE(tc.withdrawn_students, 0) AS withdrawn_students,
-            COALESCE(tc.total_active_classes, 0) AS total_active_classes,
-            COALESCE(tc.total_revenue, 0) AS total_revenue
+            COALESCE(tm.total_classes, 0) AS total_classes,
+            COALESCE(tm.total_students, 0) AS total_students,
+            COALESCE(tm.total_courses, 0) AS total_courses,
+            COALESCE(tm.withdrawn_students, 0) AS withdrawn_students,
+            COALESCE(tm.total_active_classes, 0) AS total_active_classes,
+            COALESCE(tm.total_revenue, 0) AS total_revenue
           FROM teachers t
-          LEFT JOIN teacher_classes tc ON tc.teacherId = t.id
+          LEFT JOIN teacher_meta tm ON tm.teacherId = t.id
           WHERE t.id = ${id}
       `;
       if (!teacher) {

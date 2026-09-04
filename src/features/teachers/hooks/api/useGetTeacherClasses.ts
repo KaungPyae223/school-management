@@ -3,15 +3,15 @@ import { useGetQueryParams } from "../../../../hooks/use-get-query-params";
 import { teacherService } from "../../../../services/teachers";
 import type { ResponseDataType } from "../../../../types/ResponseTypes";
 
-export const useGetTeacherClasses = (teacherId: number) => {
+export const useGetTeacherClasses = (id: number) => {
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading, error } = useAppQuery({
-    queryKey: ["teacher_classes", teacherId, activeQueryParams],
+    queryKey: ["teacher_classes", id, activeQueryParams],
     queryFn: () =>
       teacherService.getTeacherClasses({
         ...activeQueryParams,
-        teacherId,
+        id,
       }),
   }) as { data: ResponseDataType; isLoading: boolean; error: any };
 

@@ -10,6 +10,7 @@ const TeachersClassesTab = ({ id }: { id: number }) => {
 
   const { data, isLoading } = useGetTeacherClasses(id);
 
+  
   return (
     <DataShow
       isLoading={isLoading}

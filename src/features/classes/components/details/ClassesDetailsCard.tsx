@@ -7,6 +7,7 @@ import {
   CalendarOff,
   Clock,
   Coins,
+  Currency,
   DollarSign,
   DoorOpen,
   GraduationCap,
@@ -106,7 +107,7 @@ const ClassesDetailsCard = ({ classData }: { classData: any }) => {
               {replaceLocalDigit(classData.withdrawn_students)}
             </p>
           </DetailsData>
-          <DetailsData icon={Coins} label={t("classes.totalRevenue")}>
+          <DetailsData icon={Currency} label={t("classes.totalRevenue")}>
             <p className="font-medium">
               {formatCurrency(classData.total_revenue)}
             </p>

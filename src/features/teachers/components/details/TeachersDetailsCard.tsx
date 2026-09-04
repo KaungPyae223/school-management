@@ -28,7 +28,6 @@ import { formatCurrency } from "../../../../utils/format-currency";
 const TeachersDetailsCard = ({ teacherData }: { teacherData: any }) => {
   const { t } = useTranslation();
 
-  console.log(teacherData);
   return (
     <Card className="shadow-xs flex flex-row gap-1.5">
       <CardHeader className="w-lg items-center justify-center h-full">

@@ -35,6 +35,5 @@ export const useDebouncedSearch = ({
   return {
     handleSearchChange,
     searchTerm,
-    
   };
 };
