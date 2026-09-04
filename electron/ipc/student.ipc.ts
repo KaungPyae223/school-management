@@ -25,6 +25,7 @@ export const studentIPCs = () => {
       "s.dob",
       "s.gender",
       "total_classes",
+      "withdrawn_classes",
     ]);
     const avilableSortDirection = new Set(["asc", "desc"]);
 
@@ -47,7 +48,8 @@ export const studentIPCs = () => {
         prisma.$queryRaw<any[]>`
           SELECT 
             s.*,
-            COUNT(DISTINCT CASE WHEN e.withdrawn = 0 THEN e.id END) as total_classes
+            COUNT(DISTINCT  e.id) as total_classes,
+            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_classes
           FROM students s
           LEFT JOIN enrollments e ON s.id = e.studentID
           ${searchFilter}
@@ -118,22 +120,23 @@ export const studentIPCs = () => {
             SELECT e.studentID, 
             SUM(p.amount) AS total_payments,
             SUM(CASE WHEN e.withdrawn = 0 THEN p.amount ELSE 0 END) as total_active_payments,
-            SUM(CASE WHEN e.withdrawn = 0 THEN e.price ELSE 0 END) as total_active_amount
+            SUM(CASE WHEN e.withdrawn = 0 THEN e.price ELSE 0 END) as total_active_amount,
+            COUNT(DISTINCT e.id) as total_classes,
+            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_classes
             FROM enrollments e
             LEFT JOIN payments p ON p.enrollmentId = e.id
+            WHERE e.studentID = ${id}
             GROUP BY e.studentID
           )
           SELECT 
             s.*,
-            COUNT(DISTINCT e.id) as total_classes,
-            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_classes,
+            COALESCE(tp.total_classes,0) as total_classes,
+            COALESCE(tp.withdrawn_classes,0) as withdrawn_classes,
             COALESCE(tp.total_active_amount - tp.total_active_payments, 0) as total_remaining_amount,
             COALESCE(tp.total_payments, 0) as total_paid
           FROM students s
-          LEFT JOIN enrollments e ON s.id = e.studentID
           LEFT JOIN total_payments tp ON tp.studentID = s.id
           WHERE s.id = ${id}
-          GROUP BY s.id
         `;
       if (!student) {
         return { error: "Student not found" };
@@ -334,14 +337,14 @@ export const studentIPCs = () => {
       page = 1,
       limit = 10,
       search = "",
-      sort = "createdAt",
+      sort = "e.createdAt",
       sortDirection = "asc",
     } = data;
 
     const avilableSort = new Set([
       "cl.startDate",
-      "cl.price",
-      "cl.createdAt",
+      "cl.startTime",
+      "e.price",
       "teacher_name",
       "course_name",
       "remainingAmount",
@@ -368,29 +371,39 @@ export const studentIPCs = () => {
 
     conditions.push(Prisma.sql` e.studentId = ${id}`);
 
-    const searchQuery =
-      conditions.length > 0
-        ? Prisma.sql`WHERE (${Prisma.join(conditions, " AND ")})`
-        : Prisma.empty;
+    const searchQuery = Prisma.sql`WHERE (${Prisma.join(conditions, " AND ")})`;
 
     try {
       const [classes, totalData] = await Promise.all([
         prisma.$queryRaw<any[]>`
+        WITH enrollment_payments AS (
+            SELECT
+              e.classId,
+              e.price - SUM(p.amount) as remainingAmount
+            FROM enrollments e
+            LEFT JOIN payments p ON p.enrollmentId = e.id
+            WHERE e.studentID = ${id}
+            GROUP BY e.classId
+          )
           SELECT 
-            cl.*,
+            e.*,
+            cl.startDate,
+            cl.startTime,
+            cl.batch,
+            cl.endTime,
+            cl.days,
             t.name as teacher_name,
             t.email as teacher_email,
             t.image as teacher_image,
             c.name as course_name,
             e.id as enrollment_id,
             c.image as course_image,
-            e.price - SUM(p.amount) as remainingAmount,
-            e.withdrawn
-          FROM enrollments e
-          LEFT JOIN payments p ON e.id = p.enrollmentId
-          LEFT JOIN classes cl ON e.classId = cl.id
-          LEFT JOIN teachers t ON cl.teacherId = t.id 
-          LEFT JOIN courses c ON cl.courseId = c.id 
+            COALESCE(ep.remainingAmount, e.price) as remainingAmount
+          FROM classes cl
+          LEFT JOIN enrollment_payments ep ON ep.classId = cl.id
+          JOIN enrollments e ON e.classId = cl.id
+          JOIN teachers t ON cl.teacherId = t.id 
+          JOIN courses c ON cl.courseId = c.id 
           ${searchQuery}
           GROUP BY cl.id
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}

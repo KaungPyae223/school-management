@@ -39,7 +39,15 @@ export const classService = {
     }
     return data;
   },
+  getClass: async (id: number) => {
+    const data = await window.api.getClass(id);
+    if (data.error) {
+      checkAuthorization(data.error);
 
+      throw new Error(data.error);
+    }
+    return data;
+  },
   getClassDetails: async (id: number) => {
     const data = await window.api.getClassDetails(id);
     if (data.error) {

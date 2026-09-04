@@ -43,6 +43,22 @@ export const useClassesEnrolledStudents = () => {
       sortKey: "remainingAmount",
       align: "right",
     },
+    {
+      title: t("students.table.enrolledDate"),
+      key: "Enrolled Date",
+      sortable: true,
+      sortKey: "e.createdAt",
+      align: "right",
+    },
+  ];
+
+  const selectedColumns = [
+    "Name",
+    "Phone",
+    "Email",
+    "Paid Amount",
+    "Remaining Amount",
+    "Enrolled Date",
   ];
 
   const [withdrawEnrolledID, setWithdrawEnrolledID] = useState<number>(0);
@@ -72,5 +88,6 @@ export const useClassesEnrolledStudents = () => {
     setWithdrawDialogOpen,
     handleWithdraw,
     navigate,
+    selectedColumns,
   };
 };

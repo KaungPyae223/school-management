@@ -39,6 +39,7 @@ const StudentsEnrolledClassesLists = ({ studentId }: { studentId: number }) => {
 
   const { data, isLoading } = useGetStudentEnrolledClasses(studentId);
 
+  
   const {
     headers,
     handleDelete,

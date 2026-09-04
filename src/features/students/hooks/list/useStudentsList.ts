@@ -22,6 +22,7 @@ export const useStudentsList = () => {
     "Email",
     "Address",
     "Total Classes",
+    t("students.withdrawnClasses"),
     "Created At",
   ]);
 
@@ -67,6 +68,13 @@ export const useStudentsList = () => {
       key: "Total Classes",
       sortable: true,
       sortKey: "total_classes",
+      align: "right",
+    },
+    {
+      title: t("students.withdrawnClasses"),
+      key: "Withdrawn Classes",
+      sortable: true,
+      sortKey: "withdrawn_classes",
       align: "right",
     },
   ];

@@ -29,26 +29,33 @@ export const useStudentsEnrolledClassesLists = () => {
       title: t("students.table.price"),
       key: "Price",
       sortable: true,
-      sortKey: "price",
+      sortKey: "e.price",
       align: "right",
     },
     {
       title: t("students.table.period"),
       key: "Period",
       sortable: true,
-      sortKey: "startDate",
+      sortKey: "cl.startDate",
     },
     {
       title: t("students.table.time"),
       key: "Time",
       sortable: true,
-      sortKey: "startTime",
+      sortKey: "cl.startTime",
     },
     {
       title: t("students.table.remaining"),
       key: "Remaining",
       sortable: true,
       sortKey: "remainingAmount",
+      align: "right",
+    },
+    {
+      title: t("students.table.enrolledDate"),
+      key: "Enrolled Date",
+      sortable: true,
+      sortKey: "e.createdAt",
       align: "right",
     },
   ];
@@ -60,7 +67,7 @@ export const useStudentsEnrolledClassesLists = () => {
     "Period",
     "Time",
     "Remaining",
-    "Created At",
+    "Enrolled Date",
   ];
 
   const handleDelete = (id: number) => {

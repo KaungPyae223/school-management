@@ -20,6 +20,7 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
     { title: t("students.fields.gender"), key: "Gender" },
     { title: t("students.fields.dob"), key: "Date of Birth" },
     { title: t("students.totalClasses"), key: "Total Classes" },
+    { title: t("students.withdrawnClasses"), key: "Withdrawn Classes" },
   ];
 
   return (
@@ -45,6 +46,7 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
                     "Email",
                     "Address",
                     "Total Classes",
+                    t("students.withdrawnClasses"),
                     "Created At",
                   ]}
                 />

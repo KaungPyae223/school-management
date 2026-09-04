@@ -291,6 +291,7 @@
     "end": "End",
     "tba": "TBA",
     "na": "N/A",
+    "withdrawnClasses": "Withdrawn Classes",
     "fields": {
       "name": "Name",
       "phone": "Phone",
@@ -320,7 +321,8 @@
       "paymentHistory": "Payment History",
       "withdraw": "Withdraw",
       "leave": "Withdraw",
-      "rejoin": "Rejoin"
+      "rejoin": "Rejoin",
+      "enrolledDate": "Enrolled Date"
     },
     "alerts": {
       "deleteTitle": "Delete this student?",

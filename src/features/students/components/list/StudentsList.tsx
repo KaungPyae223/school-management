@@ -1,4 +1,11 @@
-import { BookOpen, Calendar, Mail, MapPin, Phone } from "lucide-react";
+import {
+  BookOpen,
+  Calendar,
+  DoorOpen,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import Table from "../../../../components/table/Table";
 import TableBody from "../../../../components/table/TableBody";
 import TableCell from "../../../../components/table/TableCell";
@@ -93,6 +100,16 @@ const StudentsList = ({ data }: { data: any }) => {
                 <TableIconContent
                   icon={BookOpen}
                   value={replaceLocalDigit(student.total_classes)}
+                  align="right"
+                />
+              </TableCell>
+              <TableCell
+                hidden={!selectedColumns.includes("Total Classes")}
+                align="right"
+              >
+                <TableIconContent
+                  icon={DoorOpen}
+                  value={replaceLocalDigit(student.withdrawn_classes)}
                   align="right"
                 />
               </TableCell>

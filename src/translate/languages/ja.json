@@ -291,6 +291,7 @@
     "end": "終了",
     "tba": "未定",
     "na": "該当なし",
+    "withdrawnClasses": "退会クラス",
     "fields": {
       "name": "名前",
       "phone": "電話番号",
@@ -320,7 +321,8 @@
       "paymentHistory": "支払い履歴",
       "withdraw": "退会",
       "leave": "退会",
-      "rejoin": "復帰"
+      "rejoin": "復帰",
+      "enrolledDate": "受講日"
     },
     "alerts": {
       "deleteTitle": "この生徒を削除しますか？",

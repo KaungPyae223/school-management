@@ -50,6 +50,7 @@ const ClassesEnrolledStudentsList = ({ classId }: { classId: number }) => {
     setWithdrawDialogOpen,
     handleWithdraw,
     navigate,
+    selectedColumns
   } = useClassesEnrolledStudents();
 
   return (
@@ -68,14 +69,7 @@ const ClassesEnrolledStudentsList = ({ classId }: { classId: number }) => {
         <Table>
           <TableHeaderGenerator
             headers={headers}
-            selectedColumns={[
-              "Name",
-              "Phone",
-              "Email",
-              "Paid Amount",
-              "Remaining Amount",
-              "Created At",
-            ]}
+            selectedColumns={selectedColumns}
             prefix="e."
           />
           <TableBody>
@@ -123,7 +117,7 @@ const ClassesEnrolledStudentsList = ({ classId }: { classId: number }) => {
                     <TableIconContent
                       icon={Phone}
                       value={replaceLocalDigit(enrollmentData.studentPhone)}
-                     />
+                    />
                   </TableCell>
 
                   <TableCell>
@@ -134,7 +128,7 @@ const ClassesEnrolledStudentsList = ({ classId }: { classId: number }) => {
                           ? replaceLocalDigit(enrollmentData.studentEmail)
                           : t("students.na")
                       }
-                         />
+                    />
                   </TableCell>
 
                   <TableCell align="right">

@@ -179,7 +179,7 @@ export const enrollmentIPCs = () => {
             s.image as studentImage
           FROM enrollments e
           LEFT JOIN payments p ON e.id = p.enrollmentId
-          LEFT JOIN students s ON e.studentId = s.id
+          JOIN students s ON e.studentId = s.id
           WHERE e.classId = ${classId}
           ${searchFilter}
           GROUP BY e.id

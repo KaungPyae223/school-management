@@ -88,7 +88,7 @@ export const courseIPCs = () => {
             COALESCE(cm.total_teachers, 0) AS total_teachers
           FROM courses c
           LEFT JOIN course_meta cm ON cm.courseId = c.id
-          LEFT JOIN course_query cq ON cq.id = c.id 
+          JOIN course_query cq ON cq.id = c.id 
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
 
@@ -237,9 +237,9 @@ export const courseIPCs = () => {
             COALESCE(cm.withdrawn_students, 0) AS withdrawn_students,
             COALESCE(cm.total_teachers, 0) AS total_teachers,
             COALESCE(cm.total_revenue, 0) AS total_revenue,
-            CAST(COALESCE(cm.total_students, 0) / COALESCE(cm.total_classes, 0) AS INT) AS avg_class_per_student
+            COALESCE(CAST(COALESCE(cm.total_students, 0) / COALESCE(cm.total_classes, 0) AS INT),0) AS avg_class_per_student
           FROM courses c
-          JOIN course_meta cm ON cm.courseId = c.id
+          LEFT JOIN course_meta cm ON cm.courseId = c.id
           WHERE c.id = ${id}
         `;
       if (!course) {
@@ -302,7 +302,7 @@ export const courseIPCs = () => {
           COUNT(DISTINCT e.studentID) AS total_students,
           COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
           FROM classes cl
-          LEFT JOIN teachers t ON t.id = cl.teacherId
+          JOIN teachers t ON t.id = cl.teacherId
           LEFT JOIN enrollments e ON e.classId = cl.id
           WHERE cl.courseId = ${id}
           ${searchFilter}

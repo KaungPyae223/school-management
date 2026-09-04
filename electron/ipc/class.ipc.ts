@@ -195,8 +195,8 @@ export const classesIPCs = () => {
             c.image as course_image
           FROM classes cl
           LEFT JOIN enrollments e ON cl.id = e.classId 
-          LEFT JOIN teachers t ON cl.teacherId = t.id 
-          LEFT JOIN courses c ON cl.courseId = c.id 
+          JOIN teachers t ON cl.teacherId = t.id 
+          JOIN courses c ON cl.courseId = c.id 
           ${searchQuery}
           GROUP BY cl.id
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
@@ -245,6 +245,31 @@ export const classesIPCs = () => {
 
   protectedHandle("class:show", async (_, id) => {
     try {
+      const classData = await prisma.class.findUnique({
+        where: { id },
+        include: {
+          teacher: true,
+          course: true,
+        },
+      });
+      if (!classData) {
+        return { error: "Class not found" };
+      }
+      return {
+        data: {
+          ...classData,
+          course_image: showImage(classData.course.image),
+          teacher_image: showImage(classData.teacher.image),
+          status: generateStatus(classData.startDate, classData.endDate),
+        },
+      };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  });
+
+  protectedHandle("class:detail", async (_, id) => {
+    try {
       const classes = await prisma.$queryRaw<any[]>`
       WITH  total_revenue AS (
         select 
@@ -269,8 +294,8 @@ export const classesIPCs = () => {
             COALESCE(tr.total_revenue, 0) as total_revenue
           FROM classes cl
           LEFT JOIN total_revenue tr ON cl.id = tr.classId 
-          LEFT JOIN teachers t ON cl.teacherId = t.id 
-          LEFT JOIN courses c ON cl.courseId = c.id 
+          JOIN teachers t ON cl.teacherId = t.id 
+          JOIN courses c ON cl.courseId = c.id 
           WHERE cl.id = ${id}
           
         `;

@@ -70,7 +70,7 @@ const StudentsDetailsCard = ({ data }: { data: any }) => {
               {replaceLocalDigit(data.total_classes || 0)}
             </p>
           </DetailsData>
-          <DetailsData icon={DoorOpen} label={"Withdrawn Classes"}>
+          <DetailsData icon={DoorOpen} label={t("students.withdrawnClasses")}>
             <p className="font-medium">
               {replaceLocalDigit(data.withdrawn_classes || 0)}
             </p>

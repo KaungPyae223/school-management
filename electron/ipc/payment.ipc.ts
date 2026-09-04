@@ -53,6 +53,7 @@ export const paymentIPCs = () => {
 
     if (view === "outstanding") {
       conditions.push(Prisma.sql`e.withdrawn = 0`);
+      conditions.push(Prisma.sql`(paidAmount = 0 OR paidAmount < e.price)`);
     }
 
     const searchQuery =
@@ -60,21 +61,26 @@ export const paymentIPCs = () => {
         ? Prisma.sql`WHERE ${Prisma.join(conditions, " AND ")}`
         : Prisma.empty;
 
-    const havingFilter =
-      view === "outstanding"
-        ? Prisma.sql`HAVING SUM(p.amount) IS NULL OR e.price - SUM(p.amount) > 0`
-        : Prisma.empty;
-
     try {
-      const [enrollments, totalData] = await Promise.all([
+      const [enrollments, total] = await Promise.all([
         prisma.$queryRaw<any[]>`
-          SELECT
-            e.*,
+          WITH enrollment_payment AS (
+            SELECT
+            enrollmentId,
             SUM(p.amount) as paidAmount,
             MAX(p.createdAt) as lastPaidAt,
             MIN(p.createdAt) as firstPaidAt,
-            COUNT(p.id) as paymentTimes,
-            e.price - SUM(p.amount) as remainingAmount,
+            COUNT(p.id) as paymentTimes
+            FROM payments p
+            GROUP BY p.enrollmentId
+          )
+          SELECT
+            e.*,
+            COALESCE(ep.paidAmount,0) as paidAmount,
+            ep.lastPaidAt,
+            ep.firstPaidAt,
+            COALESCE(ep.paymentTimes,0) as paymentTimes,
+            e.price - COALESCE(ep.paidAmount,0) as remainingAmount,
             s.name as studentName,
             s.phone as studentPhone,
             s.email as studentEmail,
@@ -84,18 +90,34 @@ export const paymentIPCs = () => {
             cl.batch as batch,
             e.withdrawn
           FROM enrollments e
-          LEFT JOIN payments p ON e.id = p.enrollmentId
-          LEFT JOIN students s ON e.studentId = s.id
-          LEFT JOIN classes cl ON e.classId = cl.id
-          LEFT JOIN courses c ON cl.courseId = c.id
+          LEFT JOIN enrollment_payment ep ON e.id = ep.enrollmentId
+          JOIN students s ON e.studentId = s.id
+          JOIN classes cl ON e.classId = cl.id
+          JOIN courses c ON cl.courseId = c.id
           ${searchQuery}
-          GROUP BY e.id
-          ${havingFilter}
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,
-        prisma.enrollment.count(),
+        prisma.$queryRaw<any[]>`
+          WITH enrollment_payment AS (
+            SELECT
+            enrollmentId,
+            SUM(p.amount) as paidAmount
+            FROM payments p
+            GROUP BY p.enrollmentId
+          )
+          SELECT
+          COUNT(DISTINCT e.id) as total
+          FROM enrollments e
+          LEFT JOIN enrollment_payment ep ON e.id = ep.enrollmentId
+          JOIN students s ON e.studentId = s.id
+          JOIN classes cl ON e.classId = cl.id
+          JOIN courses c ON cl.courseId = c.id
+          ${searchQuery}
+        `,
       ]);
+
+      const totalData = total[0].total;
 
       const totalPages = Math.ceil(Number(totalData) / Number(limit));
 

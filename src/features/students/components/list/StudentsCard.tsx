@@ -3,6 +3,7 @@ import {
   ArrowRight,
   BookOpen,
   Calendar,
+  DoorOpen,
   Mail,
   MapPin,
   Mars,
@@ -99,12 +100,18 @@ const StudentCard = ({ student }: { student: any }) => {
             value={getGenderLabel(student.gender)}
           />
         </CardContent>
-        <CardContent>
+        <CardContent className="space-y-3">
           <CardMeta
             icon={BookOpen}
             title={t("students.totalClasses")}
             value={student.total_classes}
             className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+          />
+          <CardMeta
+            icon={DoorOpen}
+            title={t("students.withdrawnClasses")}
+            value={student.withdrawn_classes}
+            className="bg-destructive/10 p-1.5 dark:bg-destructive/20 text-destructive"
           />
         </CardContent>
         <CardCretedUpdated

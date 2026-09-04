@@ -19,7 +19,7 @@ const PaymentsPage = () => {
 
   const { view, changeView } = useViewTabChange("outstanding");
 
-  const { data, isLoading } = useGetAllPayments();
+  const { data, isLoading } = useGetAllPayments({ view });
 
   return (
     <Tabs

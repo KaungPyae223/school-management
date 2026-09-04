@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import {
   BookOpen,
   CircleCheck,
+  Currency,
   DollarSign,
   DoorOpen,
   GraduationCap,
@@ -93,7 +94,7 @@ const TeachersDetailsCard = ({ teacherData }: { teacherData: any }) => {
               {replaceLocalDigit(teacherData.withdrawn_students)}
             </p>
           </DetailsData>
-          <DetailsData icon={DollarSign} label={t("teachers.totalRevenue")}>
+          <DetailsData icon={Currency} label={t("teachers.totalRevenue")}>
             <p className="font-medium">
               {replaceLocalDigit(formatCurrency(teacherData.total_revenue))}
             </p>

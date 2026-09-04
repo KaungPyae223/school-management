@@ -128,6 +128,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   className="text-purple-600 dark:text-purple-400"
                 />
               }
+              border
               iconBg="bg-purple-100 dark:bg-purple-900/30"
               label={t("classes.fields.startTime")}
               value={changeTime(classData.startTime)}
@@ -140,6 +141,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   className="text-orange-600 dark:text-orange-400"
                 />
               }
+              border
               iconBg="bg-orange-100 dark:bg-orange-900/30"
               label={t("classes.fields.endTime")}
               value={changeTime(classData.endTime)}

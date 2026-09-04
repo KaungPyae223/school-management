@@ -33,7 +33,7 @@ const routes = [
       return { Component: module.default };
     },
     loader: async ({ params }) => {
-      const result = await classService.getClassDetails(Number(params.classId));
+      const result = await classService.getClass(Number(params.classId));
 
       if (result.error) {
         throw new Error(result.error);

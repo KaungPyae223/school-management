@@ -192,6 +192,7 @@ declare global {
         teacherId?: number;
         courseId?: number;
       }) => Promise<ResponseDataType>;
+      getClass: (id: number) => Promise<{ data?: any; error?: string }>;
       getClassDetails: (id: number) => Promise<{ data?: any; error?: string }>;
       createClass: (
         data: any,
