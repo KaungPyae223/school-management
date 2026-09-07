@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { TableHeadType } from "../../../../types/TableHeader";
 import { useNavigate } from "react-router";
+import { useGetSelectedColumns } from "../../../../hooks/use-get-selected-columns";
 
 export const useCoursesClassesList = () => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ export const useCoursesClassesList = () => {
       sortKey: "cl.startTime",
     },
     {
-      title: "Status",
+      title: t("classes.fields.status"),
       key: "Status",
       sortable: false,
     },
@@ -50,9 +51,23 @@ export const useCoursesClassesList = () => {
       sortKey: "withdrawn_students",
       align: "right",
     },
+    {
+      title: t("teachers.totalRevenue"),
+      key: "Total Revenue",
+      sortable: true,
+      sortKey: "total_revenue",
+      align: "right",
+    },
+    {
+      title: t("classes.fields.remainingAmount"),
+      key: "Remaining Amount",
+      sortable: true,
+      sortKey: "remaining_amount",
+      align: "right",
+    },
   ];
 
-  const selectedColumns = [
+  const selectedColumns = useGetSelectedColumns([
     "Teacher",
     "Price",
     "Period",
@@ -61,7 +76,7 @@ export const useCoursesClassesList = () => {
     "Total Students",
     "Withdrawn Students",
     "Created At",
-  ];
+  ]);
 
   const navigate = useNavigate();
 

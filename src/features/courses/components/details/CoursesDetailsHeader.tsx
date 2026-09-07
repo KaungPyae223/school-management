@@ -3,9 +3,22 @@ import { Card, CardContent } from "../../../../components/ui/card";
 import { AnimatePresence, m } from "framer-motion";
 import SearchInput from "../../../../components/search-input/SearchInput";
 import { TabsList, TabsTrigger } from "../../../../components/ui/tabs";
+import ColumnSelector from "../../../../components/header/ColumnSelector";
 
 const CoursesDetailsHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();
+
+  const columns = [
+    { title: t("students.table.teacher"), key: "Teacher" },
+    { title: t("students.table.price"), key: "Price" },
+    { title: t("students.table.period"), key: "Period" },
+    { title: t("students.table.time"), key: "Time" },
+    { title: t("classes.fields.status"), key: "Status" },
+    { title: t("courses.totalStudents"), key: "Total Students" },
+    { title: t("courses.withdrawn"), key: "Withdrawn Students" },
+    { title: t("teachers.totalRevenue"), key: "Total Revenue" },
+    { title: t("classes.fields.remainingAmount"), key: "Remaining Amount" },
+  ];
 
   return (
     <Card className="shadow-xs">
@@ -18,8 +31,23 @@ const CoursesDetailsHeader = ({ tab }: { tab: string }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
+              className="flex flex-row gap-3"
             >
               <SearchInput />
+              <ColumnSelector
+                columns={columns}
+                alwaysSelectedColumns={["Teacher", "Price", "Period", "Time"]}
+                defaultSelectedColumns={[
+                  "Teacher",
+                  "Price",
+                  "Period",
+                  "Time",
+                  "Status",
+                  "Total Students",
+                  "Withdrawn Students",
+                  "Created At",
+                ]}
+              />
             </m.div>
           )}
           {tab === "timetable" && (

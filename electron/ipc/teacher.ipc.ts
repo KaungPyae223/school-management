@@ -131,7 +131,7 @@ export const teacherIPCs = () => {
 
   protectedHandle("teacher:get-teacher-classes", async (_, data) => {
     const {
-      id,
+      teacherId,
       page = 1,
       limit = 10,
       search = "",
@@ -167,24 +167,44 @@ export const teacherIPCs = () => {
     try {
       const [classes, totalData] = await Promise.all([
         prisma.$queryRaw<any[]>`
+        WITH teacher_classes AS (
+          SELECT cl.id FROM classes cl
+          JOIN courses c ON c.id = cl.courseId
+          WHERE cl.teacherId = ${teacherId}
+          ${searchFilter}
+        ),
+        class_enrollments AS (
+          SELECT
+            classId,
+            COUNT(DISTINCT e.id) as total_students,
+            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students,
+            SUM(p.amount) as total_revenue,
+            SUM(CASE WHEN e.withdrawn = 0 THEN p.amount ELSE 0 END) as paid_amount,
+            SUM(CASE WHEN e.withdrawn = 0 THEN e.price ELSE 0 END) as total_price
+          FROM enrollments e
+          JOIN teacher_classes tc ON tc.id = e.classId
+          LEFT JOIN payments p ON p.enrollmentId = e.id
+          GROUP BY e.classId
+        )
           SELECT
           cl.*,
           c.name as course_name,
           c.image as course_image,
-          COUNT(DISTINCT e.id) AS total_students,
-          COUNT(CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
+          COALESCE(ce.total_students, 0) as total_students,
+          COALESCE(ce.withdrawn_students, 0) as withdrawn_students,
+          COALESCE(ce.total_revenue, 0) as total_revenue,
+          COALESCE(ce.total_price - ce.paid_amount, 0) as remaining_amount
           FROM classes cl
           JOIN courses c ON c.id = cl.courseId
-          LEFT JOIN enrollments e ON e.classId = cl.id
-          WHERE cl.teacherId = ${id}
+          LEFT JOIN class_enrollments ce ON ce.classId = cl.id
+          WHERE cl.teacherId = ${teacherId}
           ${searchFilter}
-          GROUP BY cl.id
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
         `,
         prisma.class.count({
           where: {
-            teacherId: id,
+            teacherId,
             ...(search && {
               course: { name: { contains: search } },
             }),

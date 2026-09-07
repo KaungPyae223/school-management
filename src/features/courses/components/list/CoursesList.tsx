@@ -1,6 +1,5 @@
 import {
   BookOpen,
-  ClipboardList,
   DoorOpen,
   GraduationCap,
   PlayCircle,
