@@ -1,7 +1,7 @@
 import z from "zod";
 import { useTranslation } from "react-i18next";
 
-export const useClassesSchema = () => {
+export const useClassesSchema = (isEdit: boolean = false) => {
   const { t } = useTranslation();
 
   const formSchema = z
@@ -18,15 +18,21 @@ export const useClassesSchema = () => {
           1,
           t("validation.required", { field: t("classes.fields.course") }),
         ),
-      startDate: z
-        .date({
-          message: t("validation.required", {
-            field: t("classes.fields.startDate"),
-          }),
-        })
-        .refine((date) => date >= new Date(), {
-          message: t("validation.startDateFuture"),
-        }),
+      startDate: isEdit
+        ? z.date({
+            message: t("validation.required", {
+              field: t("classes.fields.startDate"),
+            }),
+          })
+        : z
+            .date({
+              message: t("validation.required", {
+                field: t("classes.fields.startDate"),
+              }),
+            })
+            .refine((date) => date >= new Date(), {
+              message: t("validation.startDateFuture"),
+            }),
       startTime: z.date({
         message: t("validation.required", {
           field: t("classes.fields.startTime"),

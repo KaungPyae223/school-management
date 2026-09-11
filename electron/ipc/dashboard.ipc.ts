@@ -15,13 +15,7 @@ export const dashboardIPCs = () => {
         active_class_status,
         total_collected,
       ] = await Promise.all([
-        await prisma.$queryRaw<
-          {
-            total_students: number;
-            total_male_students: number;
-            total_female_students: number;
-          }[]
-        >`
+        await prisma.$queryRaw<any[]>`
           SELECT 
             COUNT(s.id) as total_students,
             COUNT(CASE WHEN s.gender = 'MALE' THEN s.id END) as total_male_students,
@@ -38,13 +32,7 @@ export const dashboardIPCs = () => {
             deleted: false,
           },
         }),
-        await prisma.$queryRaw<
-          {
-            total_active_classes: number;
-            total_enrollments: number;
-            avg_enrollments_per_class: number;
-          }[]
-        >`
+        await prisma.$queryRaw<any[]>`
           SELECT 
             COUNT(DISTINCT c.id) as total_active_classes,
             COUNT(e.id) as total_enrollments,
@@ -53,12 +41,7 @@ export const dashboardIPCs = () => {
           LEFT JOIN enrollments e on e.classId = c.id
           WHERE c.endDate IS NULL
         `,
-        await prisma.$queryRaw<
-          {
-            total_remaining_amount: number;
-            total_paid_amount: number;
-          }[]
-        >`
+        await prisma.$queryRaw<any[]>`
           WITH remainig_amount as (
             SELECT 
               e.price as price,
@@ -84,6 +67,7 @@ export const dashboardIPCs = () => {
         total_collected: total_collected[0],
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -91,18 +75,19 @@ export const dashboardIPCs = () => {
     try {
       const result = await prisma.$queryRaw`
         SELECT 
-          strftime('%Y', e.createdAt) AS year,
+          strftime('%Y-%m', e.createdAt) AS date,
           strftime('%m', e.createdAt) AS month,
           SUM(e.price) as total_revenue,
           COUNT(e.id) as total_enrollments
         FROM enrollments e
-        GROUP BY year, month
-        ORDER BY year DESC, month DESC
+        GROUP BY date
+        ORDER BY date DESC
         LIMIT 6
       `;
 
       return result;
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -136,6 +121,53 @@ export const dashboardIPCs = () => {
       `;
       return result;
     } catch (error: any) {
+      console.error(error);
+      return { error: error.message };
+    }
+  });
+  protectedHandle("dashboard:today-classes", async () => {
+    try {
+      const today = new Date();
+
+      const DAYS_OF_WEEK = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ];
+
+      const today_day = DAYS_OF_WEEK[today.getDay()];
+
+      const result = await prisma.$queryRaw<any[]>`
+         SELECT 
+            cl.id,
+            cl.batch,
+            cl.startTime,
+            cl.endTime,
+            cl.days,
+            COUNT(e.id) as total_students,
+            t.name as teacher_name,
+            t.image as teacher_image,
+            c.name as course_name
+          FROM classes cl
+          LEFT JOIN enrollments e ON cl.id = e.classId 
+          JOIN teachers t ON cl.teacherId = t.id 
+          JOIN courses c ON cl.courseId = c.id 
+          WHERE 
+            cl.startDate <= ${today.toISOString()}
+            AND cl.days LIKE '%' || ${today_day} || '%'
+            AND cl.endDate IS NULL
+          GROUP BY cl.id
+      `;
+      return result.map((item: any) => ({
+        ...item,
+        teacher_image: showImage(item.teacher_image),
+      }));
+    } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });

@@ -6,7 +6,7 @@ import {
 } from "../../../../components/ui/chart";
 import { Cell, Pie, PieChart } from "recharts";
 
-const DashboardCoursePieChart = ({ data }: { data: any }) => {
+const DashboardCourseEnrollmentPieChart = ({ data }: { data: any }) => {
   const chartConfig = {
     total_enrollments: { label: "Enrollments" },
     ...Object.fromEntries(
@@ -14,6 +14,7 @@ const DashboardCoursePieChart = ({ data }: { data: any }) => {
         row.name,
         {
           label: row.name,
+          color: row.color,
         },
       ]),
     ),
@@ -48,4 +49,4 @@ const DashboardCoursePieChart = ({ data }: { data: any }) => {
   );
 };
 
-export default DashboardCoursePieChart;
+export default DashboardCourseEnrollmentPieChart;

@@ -5,6 +5,7 @@ import { TabsList, TabsTrigger } from "../../../../components/ui/tabs";
 import ColumnSelector from "../../../../components/header/ColumnSelector";
 import { useViewTabChange } from "../../../../hooks/use-view-tab-change";
 import SearchInput from "../../../../components/search-input/SearchInput";
+import { Currency, HandCoins } from "lucide-react";
 
 const PaymentsHeader = () => {
   const { t } = useTranslation();
@@ -51,9 +52,13 @@ const PaymentsHeader = () => {
 
         <TabsList>
           <TabsTrigger value="outstanding">
+            <HandCoins />
             {t("payments.outstandingPayments")}
           </TabsTrigger>
-          <TabsTrigger value="all">{t("payments.allPayments")}</TabsTrigger>
+          <TabsTrigger value="all">
+            <Currency />
+            {t("payments.allPayments")}
+          </TabsTrigger>
         </TabsList>
       </CardHeader>
     </Card>

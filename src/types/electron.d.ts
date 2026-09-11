@@ -12,6 +12,7 @@ declare global {
       getKPI: () => Promise<any>;
       revenueEnrollment: () => Promise<any>;
       coursesEnrollments: () => Promise<any>;
+      getTodayClasses: () => Promise<any>;
     };
     authAPI: {
       isAuthenticated: () => Promise<boolean>;

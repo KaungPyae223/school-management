@@ -131,6 +131,7 @@ export const paymentIPCs = () => {
         meta: { total_data: totalData, total_pages: totalPages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],
@@ -161,6 +162,7 @@ export const paymentIPCs = () => {
         })),
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message, data: null };
     }
   });
@@ -183,6 +185,7 @@ export const paymentIPCs = () => {
       await prisma.payment.delete({ where: { id } });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -206,6 +209,7 @@ export const paymentIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });

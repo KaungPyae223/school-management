@@ -4,6 +4,7 @@ import { AnimatePresence, m } from "framer-motion";
 import TimetableTeacherSelect from "../teacher/TimetableTeacherSelect";
 import { TabsList, TabsTrigger } from "../../../../components/ui/tabs";
 import TimetableCourseSelect from "../course/TimetableCourseSelect";
+import { LibraryBig, UserPen } from "lucide-react";
 
 const TimetableHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();
@@ -36,8 +37,12 @@ const TimetableHeader = ({ tab }: { tab: string }) => {
           )}
         </AnimatePresence>
         <TabsList>
-          <TabsTrigger value="courses">{t("timetable.courses")}</TabsTrigger>
-          <TabsTrigger value="teachers">{t("timetable.teachers")}</TabsTrigger>
+          <TabsTrigger value="courses">
+            <LibraryBig /> {t("timetable.courses")}
+          </TabsTrigger>
+          <TabsTrigger value="teachers">
+            <UserPen /> {t("timetable.teachers")}
+          </TabsTrigger>
         </TabsList>
       </CardHeader>
     </Card>

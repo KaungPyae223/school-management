@@ -12,6 +12,7 @@ import SettingsChangeTheme from "../components/preferences/SettingsChangeTheme";
 import SettingsManagePassword from "../components/password/SettingsManagePassword";
 import Settings2FA from "../components/2fa/Settings2FA";
 import SettingsDataBackup from "../components/backup/SettingsDataBackup";
+import SettingsChangeDefaultView from "../components/preferences/SettingsChangeDefaultView";
 
 const SettingsPage = () => {
   const { t } = useTranslation();
@@ -23,10 +24,13 @@ const SettingsPage = () => {
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
       <CardHeader className="border-b bg-muted/30">
-        <CardTitle className="text-lg text-end">{t("settings.title")}</CardTitle>
+        <CardTitle className="text-lg text-end">
+          {t("settings.title")}
+        </CardTitle>
       </CardHeader>
       <CardContent className="divide-y ">
         <SettingsChangeAppearance />
+        <SettingsChangeDefaultView />
         <SettingsChangeTheme />
         <SettingsChangeLanguage />
         <SettingsManagePassword />

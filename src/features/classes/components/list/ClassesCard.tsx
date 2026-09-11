@@ -155,7 +155,7 @@ const ClassesCard = ({ classData }: { classData: any }) => {
                   })}
                 </Badge>
               </div>
-              <div className="flex items-center gap-1.5 mt-2.5">
+              <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
                 {openingDays.map((day: string) => (
                   <CardDayBadge day={day} variant="outline" key={day} />
                 ))}

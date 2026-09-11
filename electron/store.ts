@@ -6,6 +6,7 @@ export interface StoreSchema {
     lockoutUntil: number;
     lastSeenTime: number;
   };
+  defaultView: string | null;
   user_password_hash: string | null;
   preferredLanguage: string;
   mode: string;
@@ -22,6 +23,10 @@ export const store = new Store<StoreSchema>({
       lockoutUntil: 0,
       lastSeenTime: 0,
     },
+    defaultView: JSON.stringify({
+      state: { view: "grid" },
+      version: 0,
+    }),
     user_password_hash: null,
     preferredLanguage: JSON.stringify({
       state: { language: "en-GB" },

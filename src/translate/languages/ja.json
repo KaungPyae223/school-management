@@ -8,6 +8,12 @@
       "light": "ライト",
       "dark": "ダーク"
     },
+    "changeDefaultView": {
+      "title": "デフォルト表示",
+      "description": "モジュールのデータを表示する際のデフォルトのレイアウトを設定します",
+      "grid": "グリッド表示",
+      "list": "リスト表示"
+    },
     "changeTheme": {
       "title": "テーマカラー",
       "description": "アプリのアクセントカラーを選択してください",

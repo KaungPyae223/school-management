@@ -8,6 +8,12 @@
       "light": "Light",
       "dark": "Dark"
     },
+    "changeDefaultView": {
+      "title": "Default View",
+      "description": "Set the default layout when you view the data of modules",
+      "grid": "Grid View",
+      "list": "List View"
+    },
     "changeTheme": {
       "title": "Theme Color",
       "description": "Choose an accent color for the app",

@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld("dashboardAPI", {
   getKPI: (data) => ipcRenderer.invoke("dashboard:kpi", data),
   revenueEnrollment: () => ipcRenderer.invoke("dashboard:revenue-enrollments"),
   coursesEnrollments: () => ipcRenderer.invoke("dashboard:courses-enrollments"),
+  getTodayClasses: () => ipcRenderer.invoke("dashboard:today-classes"),
 });
 
 contextBridge.exposeInMainWorld("authAPI", {

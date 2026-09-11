@@ -109,7 +109,7 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
                 })}
               </Badge>
             </div>
-            <div className="flex items-center gap-1.5 mt-2.5">
+            <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
               {openingDays.map((day: string) => (
                 <Badge variant="outline" key={day}>
                   {t(`classes.days.${day}` as any)}

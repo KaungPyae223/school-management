@@ -1,4 +1,3 @@
-// stores/color-scheme-store.ts
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { electronStorage } from "./electronStorage";

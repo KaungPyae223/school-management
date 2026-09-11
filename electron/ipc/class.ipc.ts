@@ -270,6 +270,7 @@ export const classesIPCs = () => {
         meta: { total_data: totalData, total_pages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],
@@ -304,6 +305,7 @@ export const classesIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -322,22 +324,22 @@ export const classesIPCs = () => {
         WHERE e.classId = ${id}
         GROUP BY e.classId
       )
-        SELECT 
-            cl.*,
-            t.name as teacher_name,
-            t.email as teacher_email,
-            t.image as teacher_image,
-            c.name as course_name,
-            c.image as course_image,
-            COALESCE(tr.total_students, 0) as total_students,
-            COALESCE(tr.withdraw_students, 0) as withdrawn_students,
-            COALESCE(tr.total_revenue, 0) as total_revenue
-          FROM classes cl
-          LEFT JOIN total_revenue tr ON cl.id = tr.classId 
-          JOIN teachers t ON cl.teacherId = t.id 
-          JOIN courses c ON cl.courseId = c.id 
-          WHERE cl.id = ${id}
-          
+      SELECT 
+        cl.*,
+        t.name as teacher_name,
+        t.email as teacher_email,
+        t.image as teacher_image,
+        c.name as course_name,
+        c.image as course_image,
+        COALESCE(tr.total_students, 0) as total_students,
+        COALESCE(tr.withdraw_students, 0) as withdrawn_students,
+        COALESCE(tr.total_revenue, 0) as total_revenue
+      FROM classes cl
+      LEFT JOIN total_revenue tr ON cl.id = tr.classId 
+      JOIN teachers t ON cl.teacherId = t.id 
+      JOIN courses c ON cl.courseId = c.id 
+      WHERE cl.id = ${id}
+        
         `;
       if (!classes) {
         return { error: "Class not found" };
@@ -351,6 +353,7 @@ export const classesIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -387,6 +390,7 @@ export const classesIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -419,6 +423,7 @@ export const classesIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -439,6 +444,7 @@ export const classesIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -453,6 +459,7 @@ export const classesIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });

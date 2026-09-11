@@ -2,6 +2,7 @@ import { store, StoreSchema } from "../store";
 import { protectedHandle } from "../auth/protected-ipc";
 
 const allowedKeys: (keyof StoreSchema)[] = [
+  "defaultView",
   "preferredLanguage",
   "mode",
   "colorScheme",

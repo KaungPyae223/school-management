@@ -1,6 +1,5 @@
-
 import { TabsList, TabsTrigger } from "../ui/tabs";
-import { Grid2X2Icon, List } from "lucide-react";
+import { LayoutGrid, List } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const ViewChange = () => {
@@ -9,7 +8,7 @@ const ViewChange = () => {
   return (
     <TabsList>
       <TabsTrigger value="grid">
-        <Grid2X2Icon className="w-4 h-4 mr-1" /> {t("general.grid")}
+        <LayoutGrid className="w-4 h-4 mr-1" /> {t("general.grid")}
       </TabsTrigger>
       <TabsTrigger value="list">
         <List className="w-4 h-4 mr-1" /> {t("general.list")}

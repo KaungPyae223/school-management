@@ -116,6 +116,7 @@ export const teacherIPCs = () => {
         meta: { total_data: totalData, total_pages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],
@@ -223,6 +224,7 @@ export const teacherIPCs = () => {
         meta: { total_data: totalData, total_pages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],
@@ -280,6 +282,7 @@ export const teacherIPCs = () => {
         })),
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -299,6 +302,7 @@ export const teacherIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -358,6 +362,7 @@ export const teacherIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -418,6 +423,7 @@ export const teacherIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -492,6 +498,7 @@ export const teacherIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -527,6 +534,7 @@ export const teacherIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -541,6 +549,7 @@ export const teacherIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });

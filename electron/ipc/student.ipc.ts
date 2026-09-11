@@ -81,6 +81,7 @@ export const studentIPCs = () => {
         meta: { total_data: totalData, total_pages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],
@@ -109,6 +110,7 @@ export const studentIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -148,6 +150,7 @@ export const studentIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -183,6 +186,7 @@ export const studentIPCs = () => {
         })),
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -230,6 +234,7 @@ export const studentIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -293,6 +298,7 @@ export const studentIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -327,6 +333,7 @@ export const studentIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -376,7 +383,7 @@ export const studentIPCs = () => {
     try {
       const [classes, totalData] = await Promise.all([
         prisma.$queryRaw<any[]>`
-        WITH enrollment_payments AS (
+          WITH enrollment_payments AS (
             SELECT
               e.classId,
               e.price - SUM(p.amount) as remainingAmount
@@ -439,6 +446,7 @@ export const studentIPCs = () => {
         meta: { total_data: totalData, total_pages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],

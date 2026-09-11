@@ -34,4 +34,15 @@ export const dashboardService = {
 
     return data;
   },
+  getTodayClasses: async () => {
+    const data = await window.dashboardAPI.getTodayClasses();
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
 };

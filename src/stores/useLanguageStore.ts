@@ -1,4 +1,3 @@
-// stores/color-scheme-store.ts
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { electronStorage } from "./electronStorage";
@@ -15,7 +14,7 @@ interface LanguageState {
 export const useLanguageStore = create<LanguageState>()(
   persist(
     (set) => ({
-      language: "en",
+      language: "en-GB",
       setLanguage: (language: Language) => {
         i18n.changeLanguage(language);
         set({ language: language });

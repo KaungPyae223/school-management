@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type * as z from "zod";
@@ -12,9 +12,10 @@ import { translateError } from "../../../../utils/translate-error";
 export const useClassEditForm = () => {
   const { t } = useTranslation();
   const classData = useLoaderData() as any;
-  const { formSchema } = useClassesSchema();
+  const { formSchema } = useClassesSchema(true);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const navigate = useNavigate();
 
   type FormValues = z.infer<typeof formSchema>;
 
@@ -42,9 +43,13 @@ export const useClassEditForm = () => {
     setErrorMessage("");
     try {
       const data = form.getValues();
-      await mutateAsync(data);
+      await mutateAsync({
+        ...data,
+        id: classData.id,
+      });
       toast.success(t("classes.alerts.editSuccess"));
       form.reset();
+      navigate(-1);
     } catch (error: unknown) {
       const msg = translateError(error, t);
       toast.error(msg);

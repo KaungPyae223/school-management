@@ -59,7 +59,7 @@ export const courseIPCs = () => {
           WITH 
           course_query AS (
             SELECT 
-              c.id,
+              c.id
             FROM courses c 
             WHERE c.deleted = ${!!trash}
             ${searchFilter} 
@@ -91,7 +91,6 @@ export const courseIPCs = () => {
           JOIN course_query cq ON cq.id = c.id 
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
           LIMIT ${limit} OFFSET ${skip}
-
         `,
         prisma.course.count({
           where: {
@@ -117,6 +116,7 @@ export const courseIPCs = () => {
         meta: { total_data: totalData, total_pages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],
@@ -169,6 +169,7 @@ export const courseIPCs = () => {
         })),
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -188,6 +189,7 @@ export const courseIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -252,6 +254,7 @@ export const courseIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -357,6 +360,7 @@ export const courseIPCs = () => {
         meta: { total_data: totalData, total_pages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],
@@ -387,6 +391,7 @@ export const courseIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -422,6 +427,7 @@ export const courseIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -461,6 +467,7 @@ export const courseIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -484,6 +491,7 @@ export const courseIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });

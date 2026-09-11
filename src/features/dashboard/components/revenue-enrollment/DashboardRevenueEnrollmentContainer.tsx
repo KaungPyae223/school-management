@@ -1,5 +1,5 @@
 import DashboardCard from "../../../../components/card-utils/DashboardCard";
-import { CardContent } from "../../../../components/ui/card";
+import { CardContent, CardFooter } from "../../../../components/ui/card";
 import { formatCurrency } from "../../../../utils/format-currency";
 import DataShow from "../../../../components/data/DataShow";
 import { BookOpen } from "lucide-react";
@@ -22,7 +22,7 @@ const months = [
 ];
 
 interface RevenueEnrollmentData {
-  year: string;
+  date: string;
   month: string;
   total_revenue: string;
   total_enrollments: string;
@@ -35,11 +35,7 @@ const DashboardRevenueEnrollmentContainer = ({
 }) => {
   const formattedData = data
     .sort((a: RevenueEnrollmentData, b: RevenueEnrollmentData) => {
-      const yearDiff = Number(a.year) - Number(b.year);
-
-      if (yearDiff !== 0) return yearDiff;
-
-      return Number(a.month) - Number(b.month);
+      return a.date.localeCompare(b.date);
     })
     .map((item: RevenueEnrollmentData) => ({
       month: months[Number(item.month) - 1] || "Unknown",
@@ -78,35 +74,33 @@ const DashboardRevenueEnrollmentContainer = ({
         }}
         className="border-0 shadow-none ring-0"
       >
-        <CardContent className="flex h-full flex-col ">
+        <CardContent className="p-0 flex-1">
           <DashboardRevenueEnrollmentChart data={formattedData} />
-
-          <div className="mt-auto flex justify-around border-t pt-3 text-center">
-            <div>
-              <p className="text-[11px] text-muted-foreground">
-                Monthly Avg{" "}
-                {formattedData.length > 0
-                  ? `(${formattedData[0].month} - ${formattedData[formattedData.length - 1].month})`
-                  : ""}
-              </p>
-              <p className="mt-0.5 text-sm font-semibold">
-                {replaceLocalDigit(formatCurrency(totalData.revenue))}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-[11px] text-muted-foreground">
-                Total Enrolled{" "}
-                {formattedData.length > 0
-                  ? `(${formattedData[0].month} - ${formattedData[formattedData.length - 1].month})`
-                  : ""}
-              </p>
-              <p className="mt-0.5 text-sm font-semibold">
-                {replaceLocalDigit(totalData.enrollments)} Students
-              </p>
-            </div>
-          </div>
         </CardContent>
+        <CardFooter className="py-2.5 mt-auto text-xs flex justify-around text-center items-center">
+          <div>
+            <p className="text-[11px] text-muted-foreground">
+              Monthly Avg{" "}
+              {formattedData.length > 0
+                ? `(${formattedData[0].month} - ${formattedData[formattedData.length - 1].month})`
+                : ""}
+            </p>
+            <p className="mt-0.5 text-sm font-semibold">
+              {replaceLocalDigit(formatCurrency(totalData.revenue))}
+            </p>
+          </div>
+          <div>
+            <p className="text-[11px] text-muted-foreground">
+              Total Enrolled{" "}
+              {formattedData.length > 0
+                ? `(${formattedData[0].month} - ${formattedData[formattedData.length - 1].month})`
+                : ""}
+            </p>
+            <p className="mt-0.5 text-sm font-semibold">
+              {replaceLocalDigit(totalData.enrollments)} Students
+            </p>
+          </div>
+        </CardFooter>
       </DataShow>
     </DashboardCard>
   );

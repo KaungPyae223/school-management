@@ -60,6 +60,7 @@ export const enrollmentIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -87,6 +88,7 @@ export const enrollmentIPCs = () => {
         },
       };
     } catch (error: any) {
+      console.error(error);
       return { error: error.message };
     }
   });
@@ -100,6 +102,7 @@ export const enrollmentIPCs = () => {
       });
       return { success: true };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -127,6 +130,7 @@ export const enrollmentIPCs = () => {
 
       return { success: true, data: updatedEnrollment };
     } catch (error: any) {
+      console.error(error);
       return { success: false, error: error.message };
     }
   });
@@ -213,6 +217,7 @@ export const enrollmentIPCs = () => {
         meta: { total_data: totalData, total_pages: totalPages, page, limit },
       };
     } catch (error: any) {
+      console.error(error);
       return {
         error: error.message,
         data: [],

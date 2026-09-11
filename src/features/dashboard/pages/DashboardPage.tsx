@@ -40,6 +40,7 @@ import { dashboardService } from "../../../services/dashboard";
 import LoadingPage from "../../../components/loading/LoadingPage";
 import DashboardRevenueEnrollmentContainer from "../components/revenue-enrollment/DashboardRevenueEnrollmentContainer";
 import DashboardCourseEnrollmentContainer from "../components/course-enrollment/DashboardCourseEnrollmentContainer";
+import DashboardTodayClassesContainer from "../components/today-classes/DashboardTodayClassesContainer";
 
 // ==========================================
 // DUMMY DATA BASED ON PRISMA SCHEMA
@@ -60,74 +61,6 @@ const dummyStats = {
   revenueGrowth: "+18.6%",
   collectionRate: 85.3,
 };
-
-// Dummy Today's Scheduled Classes (Class schema)
-const todayClasses = [
-  {
-    id: 101,
-    batch: 12,
-    courseName: "Fullstack Web Development",
-    courseImage:
-      "https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=150&auto=format&fit=crop&q=80",
-    teacherName: "Daw Hnin Nu Wai",
-    teacherAvatar:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
-    startTime: "09:00 AM",
-    endTime: "11:00 AM",
-    days: "Mon, Wed, Fri",
-    enrolledCount: 28,
-    status: "in-progress", // 'in-progress' | 'upcoming' | 'completed'
-    room: "Lab A (Main Campus)",
-  },
-  {
-    id: 102,
-    batch: 8,
-    courseName: "UI/UX Design Masterclass",
-    courseImage:
-      "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=150&auto=format&fit=crop&q=80",
-    teacherName: "U Aung Myat Min",
-    teacherAvatar:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-    startTime: "11:30 AM",
-    endTime: "01:30 PM",
-    days: "Mon, Wed, Fri",
-    enrolledCount: 22,
-    status: "upcoming",
-    room: "Design Studio 2",
-  },
-  {
-    id: 103,
-    batch: 5,
-    courseName: "Python for Data Science",
-    courseImage:
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=150&auto=format&fit=crop&q=80",
-    teacherName: "Dr. Kyaw Zin Thant",
-    teacherAvatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-    startTime: "02:00 PM",
-    endTime: "04:00 PM",
-    days: "Mon, Tue, Thu",
-    enrolledCount: 30,
-    status: "upcoming",
-    room: "Lecture Hall B",
-  },
-  {
-    id: 104,
-    batch: 4,
-    courseName: "Flutter Mobile App Dev",
-    courseImage:
-      "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=150&auto=format&fit=crop&q=80",
-    teacherName: "U Thant Zin Oo",
-    teacherAvatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
-    startTime: "04:30 PM",
-    endTime: "06:30 PM",
-    days: "Mon, Wed, Fri",
-    enrolledCount: 25,
-    status: "upcoming",
-    room: "Lab C (Tech Wing)",
-  },
-];
 
 // Dummy Recent Enrollments (Enrollment + Student + Class schema)
 const recentEnrollments = [
@@ -316,16 +249,19 @@ const DashboardPage = () => {
     queryKey: ["dashboard"],
 
     queryFn: async () => {
-      const [kpi, revenueEnrollment, courseEnrollment] = await Promise.all([
-        dashboardService.getKPI(),
-        dashboardService.getRevenueEnrollment(),
-        dashboardService.getCoursesEnrollments(),
-      ]);
+      const [kpi, revenueEnrollment, courseEnrollment, todayClasses] =
+        await Promise.all([
+          dashboardService.getKPI(),
+          dashboardService.getRevenueEnrollment(),
+          dashboardService.getCoursesEnrollments(),
+          dashboardService.getTodayClasses(),
+        ]);
 
       return {
         kpi,
         revenueEnrollment,
         courseEnrollment,
+        todayClasses,
       };
     },
   }) as {
@@ -333,6 +269,7 @@ const DashboardPage = () => {
       kpi: any;
       revenueEnrollment: any[];
       courseEnrollment: any[];
+      todayClasses: any[];
     };
     isLoading: boolean;
     error: any;
@@ -360,96 +297,8 @@ const DashboardPage = () => {
         />
       </div>
 
-      {/* 4. TODAY'S CLASS SCHEDULE & RECENT ENROLLMENTS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <DashboardCard
-          title={"Today's Schedule"}
-          description={"Active classes scheduled for today"}
-          action={
-            <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-              <Link to="/timetable">
-                <ArrowUpRight className="w-4 h-4 text-muted-foreground" />
-              </Link>
-            </Button>
-          }
-        >
-          <CardContent className="p-0 flex-1">
-            <ScrollArea className="h-[380px] px-4">
-              <div className="space-y-3 pb-3">
-                {todayClasses.map((item) => (
-                  <div
-                    key={item.id}
-                    className="p-3 rounded-lg border bg-card/60 hover:bg-muted/40 transition-colors space-y-2.5"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="space-y-0.5">
-                        <div className="flex items-center gap-1.5">
-                          <span className="font-semibold text-sm text-foreground hover:text-primary transition-colors">
-                            {item.courseName}
-                          </span>
-                          <Badge
-                            variant="outline"
-                            className="text-[10px] px-1 py-0 font-mono"
-                          >
-                            B-{item.batch}
-                          </Badge>
-                        </div>
-                        <p className="text-xs text-muted-foreground flex items-center gap-1">
-                          <Clock className="w-3 h-3 text-muted-foreground" />
-                          {item.startTime} - {item.endTime}
-                        </p>
-                      </div>
-
-                      {item.status === "in-progress" ? (
-                        <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 text-[10px] border-emerald-500/30 gap-1 animate-pulse">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                          Live Now
-                        </Badge>
-                      ) : (
-                        <Badge
-                          variant="secondary"
-                          className="text-[10px] text-muted-foreground"
-                        >
-                          {item.days}
-                        </Badge>
-                      )}
-                    </div>
-
-                    <div className="flex items-center justify-between pt-1 border-t text-xs text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <Avatar className="w-5 h-5">
-                          <AvatarImage
-                            src={item.teacherAvatar}
-                            alt={item.teacherName}
-                          />
-                          <AvatarFallback className="text-[9px]">
-                            {item.teacherName.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="truncate max-w-[130px] font-medium text-foreground/80">
-                          {item.teacherName}
-                        </span>
-                      </div>
-                      <span className="text-[11px] font-medium">
-                        {item.enrolledCount} enrolled
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </ScrollArea>
-          </CardContent>
-          <CardFooter className="pt-3 pb-3 border-t text-xs">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="w-full text-xs h-8"
-            >
-              <Link to="/timetable">Open Full Timetable View</Link>
-            </Button>
-          </CardFooter>
-        </DashboardCard>
+        <DashboardTodayClassesContainer data={data?.todayClasses} />
 
         {/* Recent Enrollments Table (2 Columns) */}
         <Card className="lg:col-span-2 shadow-xs flex flex-col">
