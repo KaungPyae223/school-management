@@ -1,24 +1,15 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import {
-  Users,
   GraduationCap,
   BookOpen,
-  Calendar,
   DollarSign,
-  TrendingUp,
   ArrowUpRight,
-  Plus,
   Clock,
   CheckCircle2,
   AlertCircle,
-  Sparkles,
   CreditCard,
   ChevronRight,
   Phone,
-  CalendarDays,
-  BadgeCheck,
-  UserCheck,
   UserPlus,
 } from "lucide-react";
 
@@ -37,39 +28,18 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../components/ui/select";
 
 import { ScrollArea } from "../../../components/ui/scroll-area";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "../../../components/ui/chart";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { formatCurrency } from "../../../utils/format-currency";
 import DashboardHeader from "../components/DashboardHeader";
 import DashboardCard from "../../../components/card-utils/DashboardCard";
-import DashboardKPIContainer from "../components/DashboardKPIContainer";
+import DashboardKPIContainer from "../components/kpi/DashboardKPIContainer";
 import { useAppQuery } from "../../../hooks/use-app-query";
 import { dashboardService } from "../../../services/dashboard";
 import LoadingPage from "../../../components/loading/LoadingPage";
+import DashboardRevenueEnrollmentContainer from "../components/revenue-enrollment/DashboardRevenueEnrollmentContainer";
+import DashboardCourseEnrollmentContainer from "../components/course-enrollment/DashboardCourseEnrollmentContainer";
 
 // ==========================================
 // DUMMY DATA BASED ON PRISMA SCHEMA
@@ -89,99 +59,6 @@ const dummyStats = {
   pendingRevenue: 9450000,
   revenueGrowth: "+18.6%",
   collectionRate: 85.3,
-};
-
-const revenueTrendData = [
-  { month: "Jan", revenue: 5200000, enrollments: 34, target: 4500000 },
-  { month: "Feb", revenue: 6800000, enrollments: 42, target: 5000000 },
-  { month: "Mar", revenue: 7900000, enrollments: 55, target: 6000000 },
-  { month: "Apr", revenue: 8400000, enrollments: 60, target: 7000000 },
-  { month: "May", revenue: 11200000, enrollments: 82, target: 8500000 },
-  { month: "Jun", revenue: 14750000, enrollments: 104, target: 10000000 },
-];
-
-const courseEnrollmentShare = [
-  {
-    name: "Fullstack Web Dev",
-    students: 340,
-    color: "var(--color-chart-1, #3b82f6)",
-    fill: "#3b82f6",
-  },
-  {
-    name: "UI/UX Design Masterclass",
-    students: 260,
-    color: "var(--color-chart-2, #8b5cf6)",
-    fill: "#8b5cf6",
-  },
-  {
-    name: "Python for Data Science",
-    students: 210,
-    color: "var(--color-chart-3, #10b981)",
-    fill: "#10b981",
-  },
-  {
-    name: "Flutter Mobile App Dev",
-    students: 185,
-    color: "var(--color-chart-4, #f59e0b)",
-    fill: "#f59e0b",
-  },
-  {
-    name: "Japanese Language (N3)",
-    students: 145,
-    color: "var(--color-chart-5, #ec4899)",
-    fill: "#ec4899",
-  },
-  {
-    name: "Business English",
-    students: 108,
-    color: "#06b6d4",
-    fill: "#06b6d4",
-  },
-];
-
-const chartConfig: ChartConfig = {
-  revenue: {
-    label: "Tuition Revenue (MMK)",
-    color: "#2563eb",
-  },
-  enrollments: {
-    label: "New Enrollments",
-    color: "#10b981",
-  },
-  target: {
-    label: "Monthly Target",
-    color: "#94a3b8",
-  },
-};
-
-const pieChartConfig: ChartConfig = {
-  students: {
-    label: "Students",
-  },
-  web: {
-    label: "Fullstack Web Dev",
-    color: "#3b82f6",
-  },
-  uiux: {
-    label: "UI/UX Design Masterclass",
-    color: "#8b5cf6",
-  },
-  python: {
-    label: "Python for Data Science",
-    color: "#10b981",
-  },
-  flutter: {
-    label: "Flutter Mobile App Dev",
-    color: "#f59e0b",
-  },
-  japanese: {
-    label: "Japanese Language (N3)",
-    color: "#ec4899",
-  },
-  english: {
-    label: "Business English",
-    color: "#06b6d4",
-  },
 };
 
 // Dummy Today's Scheduled Classes (Class schema)
@@ -430,237 +307,57 @@ const pendingTuitionList = [
   },
 ];
 
-// ==========================================
-// MAIN DASHBOARD COMPONENT
-// ==========================================
-
 const DashboardPage = () => {
   useAddBreadcrumb({
     title: "Dashboard",
   });
 
-  const { data, isLoading } = useAppQuery({
+  const { data, isLoading, error } = useAppQuery({
     queryKey: ["dashboard"],
 
     queryFn: async () => {
-      const [kpi] = await Promise.all([dashboardService.getKPI()]);
+      const [kpi, revenueEnrollment, courseEnrollment] = await Promise.all([
+        dashboardService.getKPI(),
+        dashboardService.getRevenueEnrollment(),
+        dashboardService.getCoursesEnrollments(),
+      ]);
 
       return {
         kpi,
+        revenueEnrollment,
+        courseEnrollment,
       };
     },
-  });
+  }) as {
+    data: {
+      kpi: any;
+      revenueEnrollment: any[];
+      courseEnrollment: any[];
+    };
+    isLoading: boolean;
+    error: any;
+  };
 
   console.log(data);
 
   if (isLoading) return <LoadingPage />;
 
+  if (error) {
+    throw error;
+  }
+
   return (
     <div className="flex flex-col space-y-7">
       <DashboardHeader />
 
-      {/* 2. STATS SUMMARY CARDS (PRISMA DOMAINS) */}
       <DashboardKPIContainer kpi={data?.kpi} />
 
-      {/* 3. CHARTS & ANALYTICS SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Chart: Revenue & Enrollment Trend (2 Columns) */}
-        <DashboardCard
-          className="lg:col-span-2 "
-          title="Revenue & Enrollment Growth"
-          description="Monthly tuition collection and student admission trajectory"
-        >
-          <CardContent className="flex h-full flex-col pt-2">
-            {/* Chart Area */}
-            <div className="flex flex-1 items-center justify-center w-full">
-              <ChartContainer config={chartConfig} className="h-80 w-full">
-                <AreaChart
-                  data={revenueTrendData}
-                  margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
-                >
-                  <defs>
-                    <linearGradient
-                      id="revenueGrad"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      <stop offset="5%" stopColor="#2563eb" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
-                    </linearGradient>
-
-                    <linearGradient id="targetGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop
-                        offset="5%"
-                        stopColor="#10b981"
-                        stopOpacity={0.25}
-                      />
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    vertical={false}
-                    opacity={0.3}
-                  />
-
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    fontSize={12}
-                  />
-
-                  <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    fontSize={11}
-                    tickFormatter={(val) => `${(val / 1000000).toFixed(1)}M`}
-                  />
-
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        formatter={(value, name) => (
-                          <div className="flex items-center justify-between gap-4">
-                            <span className="text-muted-foreground">
-                              {name}:
-                            </span>
-
-                            <span className="font-semibold text-foreground">
-                              {name === "revenue" || name === "target"
-                                ? `${formatCurrency(Number(value))} MMK`
-                                : `${value} students`}
-                            </span>
-                          </div>
-                        )}
-                      />
-                    }
-                  />
-
-                  <Area
-                    type="monotone"
-                    dataKey="revenue"
-                    name="revenue"
-                    stroke="#2563eb"
-                    strokeWidth={2.5}
-                    fillOpacity={1}
-                    fill="url(#revenueGrad)"
-                  />
-
-                  <Area
-                    type="monotone"
-                    dataKey="target"
-                    name="target"
-                    stroke="#94a3b8"
-                    strokeDasharray="4 4"
-                    strokeWidth={1.5}
-                    fillOpacity={1}
-                    fill="url(#targetGrad)"
-                  />
-                </AreaChart>
-              </ChartContainer>
-            </div>
-
-            {/* Always Bottom */}
-            <div className="mt-auto grid w-full grid-cols-3 gap-2 border-t pt-3 text-center">
-              <div>
-                <p className="text-[11px] text-muted-foreground">
-                  Monthly Avg.
-                </p>
-                <p className="mt-0.5 text-sm font-semibold">
-                  {formatCurrency(9041666)} MMK
-                </p>
-              </div>
-
-              <div>
-                <p className="text-[11px] text-muted-foreground">
-                  Total Enrolled (H1)
-                </p>
-                <p className="mt-0.5 text-sm font-semibold">377 Students</p>
-              </div>
-
-              <div>
-                <p className="text-[11px] text-muted-foreground">Peak Month</p>
-                <p className="mt-0.5 text-sm font-semibold text-blue-600 dark:text-blue-400">
-                  June (104 Enr.)
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </DashboardCard>
-
-        <DashboardCard
-          title="Course Enrollment Share"
-          description="Student distribution across active courses"
-          className="lg:col-span-1"
-        >
-          <CardContent className="pt-2">
-            <div className="w-full flex items-center justify-center">
-              <ChartContainer config={pieChartConfig} className="h-full w-full">
-                <PieChart>
-                  <Pie
-                    data={courseEnrollmentShare}
-                    dataKey="students"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={50}
-                    outerRadius={80}
-                    paddingAngle={3}
-                  >
-                    {courseEnrollmentShare.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        formatter={(val, name) => `${val} Enrolled (${name})`}
-                      />
-                    }
-                  />
-                </PieChart>
-              </ChartContainer>
-            </div>
-
-            {/* Legend list */}
-            <div className="mt-2 space-y-1.5 overflow-y-auto pr-1">
-              {courseEnrollmentShare.map((course, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center justify-between text-xs"
-                >
-                  <div className="flex items-center gap-2 truncate">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0"
-                      style={{ backgroundColor: course.fill }}
-                    />
-                    <span className="truncate text-muted-foreground">
-                      {course.name}
-                    </span>
-                  </div>
-                  <span className="font-medium text-foreground shrink-0">
-                    {course.students}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-          <CardFooter className="pt-2 pb-3 border-t text-xs text-muted-foreground flex justify-between">
-            <span>Catalog: {dummyStats.activeCourses} Courses</span>
-            <Link
-              to="/courses"
-              className="text-primary font-medium hover:underline inline-flex items-center gap-0.5"
-            >
-              View all <ChevronRight className="w-3 h-3" />
-            </Link>
-          </CardFooter>
-        </DashboardCard>
+        <DashboardRevenueEnrollmentContainer data={data?.revenueEnrollment} />
+        <DashboardCourseEnrollmentContainer
+          data={data?.courseEnrollment}
+          totalCourses={data?.kpi?.courses}
+        />
       </div>
 
       {/* 4. TODAY'S CLASS SCHEDULE & RECENT ENROLLMENTS */}

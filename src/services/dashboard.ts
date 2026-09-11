@@ -12,4 +12,26 @@ export const dashboardService = {
 
     return data;
   },
+  getRevenueEnrollment: async () => {
+    const data = await window.dashboardAPI.revenueEnrollment();
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+  getCoursesEnrollments: async () => {
+    const data = await window.dashboardAPI.coursesEnrollments();
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
 };

@@ -1,64 +1,34 @@
-import { formatCurrency } from "../../../utils/format-currency";
+import { formatCurrency } from "../../../../utils/format-currency";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import DashboardKPI from "./DashboardKPI";
 import { BookOpen, DollarSign, GraduationCap, Users } from "lucide-react";
 
-const dummyStats = {
-  totalStudents: 1248,
-  maleStudents: 684,
-  femaleStudents: 564,
-  activeCourses: 18,
-  activeBatches: 32,
-  collectedRevenue: 54800000,
-  pendingRevenue: 9450000,
-};
-
 const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
-  const studentStats = kpi?.students.reduce(
-    (acc, item) => {
-      const count = item._count.id;
-
-      acc.total += count;
-
-      if (item.gender === "MALE") {
-        acc.male += count;
-      }
-
-      if (item.gender === "FEMALE") {
-        acc.female += count;
-      }
-
-      return acc;
-    },
-    {
-      total: 0,
-      male: 0,
-      female: 0,
-    },
-  ) ?? {
-    total: 0,
-    male: 0,
-    female: 0,
-  };
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <DashboardKPI
         title="Total Students"
         icon={Users}
-        statistics={formatCurrency(studentStats.total)}
+        statistics={replaceLocalDigit(
+          formatCurrency(kpi.students?.total_students || 0),
+        )}
         iconBg="bg-blue-500/10 text-blue-600 dark:text-blue-400"
       >
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>
             Male:{" "}
             <strong className="text-foreground">
-              {formatCurrency(studentStats.male)}
+              {replaceLocalDigit(
+                formatCurrency(kpi.students?.total_male_students || 0),
+              )}
             </strong>
           </span>
           <span>
             Female:{" "}
             <strong className="text-foreground">
-              {formatCurrency(studentStats.female)}
+              {replaceLocalDigit(
+                formatCurrency(kpi.students?.total_female_students || 0),
+              )}
             </strong>
           </span>
         </div>
@@ -67,28 +37,35 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
       <DashboardKPI
         title="Active Teaching Staff"
         icon={GraduationCap}
-        statistics={formatCurrency(kpi?.teachers)}
+        statistics={replaceLocalDigit(formatCurrency(kpi?.teachers || 0))}
         iconBg="bg-purple-500/10 text-purple-600 dark:text-purple-400"
       >
         <div className="text-xs text-muted-foreground">
           Class load:{" "}
           <strong className="text-foreground">
-            {Math.round((kpi?.classes || 0) / (kpi?.teachers || 1))}{" "}
+            {replaceLocalDigit(
+              Math.round(
+                Number(kpi.active_class_status?.total_active_classes ?? 0) /
+                  Number(kpi.teachers || 1),
+              ),
+            )}{" "}
             batches/teacher
           </strong>
         </div>
       </DashboardKPI>
-
-      {/* Card 3: Active Courses & Batches */}
 
       <DashboardKPI
         title="Courses & Batches"
         icon={BookOpen}
         statistics={
           <>
-            <span>{kpi?.courses}</span>
+            <span>{replaceLocalDigit(kpi?.courses || 0)}</span>
             <span className="text-sm font-normal text-muted-foreground">
-              / {kpi?.classes} active batches
+              /{" "}
+              {replaceLocalDigit(
+                kpi.active_class_status?.total_active_classes || 0,
+              )}{" "}
+              active batches
             </span>
           </>
         }
@@ -98,26 +75,32 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
           <span>
             Avg. class size:{" "}
             <strong className="text-foreground">
-              {Math.round((kpi?.enrollments || 0) / (kpi?.classes || 1))}{" "}
+              {replaceLocalDigit(
+                kpi.active_class_status?.avg_enrollments_per_class || 0,
+              )}{" "}
               students
             </strong>
           </span>
         </div>
       </DashboardKPI>
 
-      {/* Card 4: Tuition Collections & Revenue */}
-
       <DashboardKPI
         title="Tuition Collected"
         icon={DollarSign}
-        statistics={formatCurrency(kpi?.revenue?._sum.amount || 0)}
+        statistics={replaceLocalDigit(
+          formatCurrency(kpi?.total_collected?.total_paid_amount || 0),
+        )}
         iconBg="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
       >
         <div className="flex items-center text-xs text-muted-foreground">
           <span>
             Unpaid balance:{" "}
             <strong className="text-amber-600 dark:text-amber-400">
-              {formatCurrency(dummyStats.pendingRevenue)}
+              {replaceLocalDigit(
+                formatCurrency(
+                  kpi?.total_collected?.total_remaining_amount || 0,
+                ),
+              )}
             </strong>
           </span>
         </div>

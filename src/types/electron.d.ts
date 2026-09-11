@@ -9,7 +9,9 @@ declare global {
       delete: (key: string) => Promise<void>;
     };
     dashboardAPI: {
-      getKPI: () => Promise<{ data?: any; error?: string }>;
+      getKPI: () => Promise<any>;
+      revenueEnrollment: () => Promise<any>;
+      coursesEnrollments: () => Promise<any>;
     };
     authAPI: {
       isAuthenticated: () => Promise<boolean>;

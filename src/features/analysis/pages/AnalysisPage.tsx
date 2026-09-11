@@ -12,6 +12,7 @@ import {
   Mail,
   ClipboardList,
   UserPen,
+  UserX,
 } from "lucide-react";
 
 import Table from "../../../components/table/Table";
@@ -80,12 +81,54 @@ import { formatCurrency } from "../../../utils/format-currency";
 
 // --- 1. Financial & Tuition Data ---
 const monthlyRevenueData = [
-  { month: "Jan", billed: 14700000, collected: 12500000, rate: 85.0, pending: 2200000, enrollments: 42 },
-  { month: "Feb", billed: 17500000, collected: 15200000, rate: 86.8, pending: 2300000, enrollments: 50 },
-  { month: "Mar", billed: 21000000, collected: 18400000, rate: 87.6, pending: 2600000, enrollments: 60 },
-  { month: "Apr", billed: 22800000, collected: 19600000, rate: 85.9, pending: 3200000, enrollments: 65 },
-  { month: "May", billed: 27300000, collected: 23800000, rate: 87.1, pending: 3500000, enrollments: 78 },
-  { month: "Jun", billed: 29400000, collected: 25100000, rate: 85.3, pending: 4300000, enrollments: 84 },
+  {
+    month: "Jan",
+    billed: 14700000,
+    collected: 12500000,
+    rate: 85.0,
+    pending: 2200000,
+    enrollments: 42,
+  },
+  {
+    month: "Feb",
+    billed: 17500000,
+    collected: 15200000,
+    rate: 86.8,
+    pending: 2300000,
+    enrollments: 50,
+  },
+  {
+    month: "Mar",
+    billed: 21000000,
+    collected: 18400000,
+    rate: 87.6,
+    pending: 2600000,
+    enrollments: 60,
+  },
+  {
+    month: "Apr",
+    billed: 22800000,
+    collected: 19600000,
+    rate: 85.9,
+    pending: 3200000,
+    enrollments: 65,
+  },
+  {
+    month: "May",
+    billed: 27300000,
+    collected: 23800000,
+    rate: 87.1,
+    pending: 3500000,
+    enrollments: 78,
+  },
+  {
+    month: "Jun",
+    billed: 29400000,
+    collected: 25100000,
+    rate: 85.3,
+    pending: 4300000,
+    enrollments: 84,
+  },
 ];
 
 const cumulativeCashflowData = [
@@ -114,12 +157,48 @@ const courseOutstandingDebt = [
 
 // --- 2. Course & Batch Performance Data ---
 const courseRevenueData = [
-  { course: "Fullstack Web", revenue: 119000000, collected: 102500000, batches: 12, fill: "#3b82f6" },
-  { course: "Python Data Sci", revenue: 84000000, collected: 73200000, batches: 6, fill: "#10b981" },
-  { course: "UI/UX Design", revenue: 78000000, collected: 68500000, batches: 8, fill: "#8b5cf6" },
-  { course: "Flutter Mobile", revenue: 70300000, collected: 61000000, batches: 5, fill: "#f59e0b" },
-  { course: "Japanese (N3)", revenue: 36250000, collected: 31500000, batches: 7, fill: "#ec4899" },
-  { course: "Business English", revenue: 23760000, collected: 19800000, batches: 4, fill: "#06b6d4" },
+  {
+    course: "Fullstack Web",
+    revenue: 119000000,
+    collected: 102500000,
+    batches: 12,
+    fill: "#3b82f6",
+  },
+  {
+    course: "Python Data Sci",
+    revenue: 84000000,
+    collected: 73200000,
+    batches: 6,
+    fill: "#10b981",
+  },
+  {
+    course: "UI/UX Design",
+    revenue: 78000000,
+    collected: 68500000,
+    batches: 8,
+    fill: "#8b5cf6",
+  },
+  {
+    course: "Flutter Mobile",
+    revenue: 70300000,
+    collected: 61000000,
+    batches: 5,
+    fill: "#f59e0b",
+  },
+  {
+    course: "Japanese (N3)",
+    revenue: 36250000,
+    collected: 31500000,
+    batches: 7,
+    fill: "#ec4899",
+  },
+  {
+    course: "Business English",
+    revenue: 23760000,
+    collected: 19800000,
+    batches: 4,
+    fill: "#06b6d4",
+  },
 ];
 
 const courseEnrollmentShare = [
@@ -181,7 +260,115 @@ const monthlyNewStudents = [
   { month: "Jun", newStudents: 82 },
 ];
 
-// --- 4. Faculty & Schedule Data ---
+// --- 4. Withdrawn Students Data ---
+const enrollmentStatusData = [
+  { status: "Active Enrollments", count: 345, share: 91.5, fill: "#10b981" },
+  { status: "Withdrawn Students", count: 32, share: 8.5, fill: "#ef4444" },
+];
+
+const monthlyWithdrawalTrends = [
+  { month: "Jan", withdrawals: 3, activeEnrollments: 42 },
+  { month: "Feb", withdrawals: 4, activeEnrollments: 50 },
+  { month: "Mar", withdrawals: 5, activeEnrollments: 60 },
+  { month: "Apr", withdrawals: 6, activeEnrollments: 65 },
+  { month: "May", withdrawals: 8, activeEnrollments: 78 },
+  { month: "Jun", withdrawals: 6, activeEnrollments: 82 },
+];
+
+const courseWithdrawalRates = [
+  {
+    course: "Fullstack Web",
+    totalEnrollments: 340,
+    withdrawals: 28,
+    rate: 8.2,
+    fill: "#3b82f6",
+  },
+  {
+    course: "UI/UX Design",
+    totalEnrollments: 260,
+    withdrawals: 18,
+    rate: 6.9,
+    fill: "#8b5cf6",
+  },
+  {
+    course: "Python Data Sci",
+    totalEnrollments: 210,
+    withdrawals: 15,
+    rate: 7.1,
+    fill: "#10b981",
+  },
+  {
+    course: "Flutter Mobile",
+    totalEnrollments: 185,
+    withdrawals: 12,
+    rate: 6.5,
+    fill: "#f59e0b",
+  },
+  {
+    course: "Japanese (N3)",
+    totalEnrollments: 145,
+    withdrawals: 20,
+    rate: 13.8,
+    fill: "#ec4899",
+  },
+  {
+    course: "Business English",
+    totalEnrollments: 108,
+    withdrawals: 8,
+    rate: 7.4,
+    fill: "#06b6d4",
+  },
+];
+
+const withdrawalDetailsList = [
+  {
+    id: 1,
+    studentName: "Aung Kyaw Htun",
+    course: "Fullstack Web",
+    withdrawalDate: "2026-06-15",
+    reason: "Work commitment",
+    amountForfeited: 350000,
+    paidAmount: 175000,
+  },
+  {
+    id: 2,
+    studentName: "Thet Thet Lwin",
+    course: "Japanese (N3)",
+    withdrawalDate: "2026-06-10",
+    reason: "Health issues",
+    amountForfeited: 250000,
+    paidAmount: 125000,
+  },
+  {
+    id: 3,
+    studentName: "Min Thu",
+    course: "UI/UX Design",
+    withdrawalDate: "2026-06-08",
+    reason: "Personal reasons",
+    amountForfeited: 300000,
+    paidAmount: 150000,
+  },
+  {
+    id: 4,
+    studentName: "May Thu Kyaw",
+    course: "Python Data Sci",
+    withdrawalDate: "2026-06-05",
+    reason: "Moved to another city",
+    amountForfeited: 400000,
+    paidAmount: 200000,
+  },
+  {
+    id: 5,
+    studentName: "Kyaw Zin Htet",
+    course: "Fullstack Web",
+    withdrawalDate: "2026-06-02",
+    reason: "Financial constraints",
+    amountForfeited: 350000,
+    paidAmount: 175000,
+  },
+];
+
+// --- 5. Faculty & Schedule Data ---
 const classDaysData = [
   { day: "Mon", count: 18, fill: "#3b82f6" },
   { day: "Tue", count: 12, fill: "#6366f1" },
@@ -220,7 +407,8 @@ const facultyAnalysisList = [
     name: "Daw Hnin Nu Wai",
     phone: "09-799112233",
     email: "hninnuwai@school.edu.mm",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
     subject: "Fullstack Web Dev",
     classesCount: 4,
     studentsCount: 142,
@@ -233,7 +421,8 @@ const facultyAnalysisList = [
     name: "Dr. Kyaw Zin Thant",
     phone: "09-977445566",
     email: "kyawzinthant@school.edu.mm",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
     subject: "Data Science & AI",
     classesCount: 3,
     studentsCount: 118,
@@ -246,7 +435,8 @@ const facultyAnalysisList = [
     name: "U Aung Myat Min",
     phone: "09-422667788",
     email: "aungmyatmin@school.edu.mm",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
     subject: "UI/UX Design",
     classesCount: 3,
     studentsCount: 95,
@@ -259,7 +449,8 @@ const facultyAnalysisList = [
     name: "U Thant Zin Oo",
     phone: "09-511889922",
     email: "thantzinoo@school.edu.mm",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
     subject: "Flutter Mobile",
     classesCount: 2,
     studentsCount: 82,
@@ -272,7 +463,8 @@ const facultyAnalysisList = [
     name: "Daw May Thu",
     phone: "09-250334455",
     email: "maythu@school.edu.mm",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
     subject: "Japanese Language",
     classesCount: 3,
     studentsCount: 75,
@@ -418,6 +610,35 @@ const teacherStudentsChartConfig: ChartConfig = {
   },
 };
 
+const enrollmentStatusChartConfig: ChartConfig = {
+  active: {
+    label: "Active Enrollments",
+    color: "#10b981",
+  },
+  withdrawn: {
+    label: "Withdrawn Students",
+    color: "#ef4444",
+  },
+};
+
+const withdrawalTrendChartConfig: ChartConfig = {
+  withdrawals: {
+    label: "Withdrawals",
+    color: "#ef4444",
+  },
+  activeEnrollments: {
+    label: "Active Enrollments",
+    color: "#10b981",
+  },
+};
+
+const withdrawalRateChartConfig: ChartConfig = {
+  rate: {
+    label: "Withdrawal Rate (%)",
+    color: "#ef4444",
+  },
+};
+
 // =========================================================================
 // MAIN ANALYSIS COMPONENT
 // =========================================================================
@@ -439,13 +660,17 @@ const AnalysisPage = () => {
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
               Academic & Financial Analysis
             </h1>
-            <Badge variant="outline" className="text-xs font-semibold px-2.5 py-0.5 border-primary/30 text-primary">
+            <Badge
+              variant="outline"
+              className="text-xs font-semibold px-2.5 py-0.5 border-primary/30 text-primary"
+            >
               <Sparkles className="w-3.5 h-3.5 mr-1 text-primary" />
               Statistical Reports
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground mt-1">
-            Visual breakdown of tuition collections, course enrollments, demographics, and faculty schedules.
+            Visual breakdown of tuition collections, course enrollments,
+            demographics, and faculty schedules.
           </p>
         </div>
 
@@ -464,7 +689,12 @@ const AnalysisPage = () => {
             </SelectContent>
           </Select>
 
-          <Button asChild size="sm" variant="outline" className="h-9 gap-1.5 text-xs">
+          <Button
+            asChild
+            size="sm"
+            variant="outline"
+            className="h-9 gap-1.5 text-xs"
+          >
             <Link to="/timetable">
               <Clock className="w-3.5 h-3.5 text-primary" />
               Timetable
@@ -481,7 +711,11 @@ const AnalysisPage = () => {
       </div>
 
       {/* 2. CATEGORY TABS */}
-      <Tabs defaultValue="financial" className="w-full space-y-6" onValueChange={setActiveTab}>
+      <Tabs
+        defaultValue="financial"
+        className="w-full space-y-6"
+        onValueChange={setActiveTab}
+      >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b pb-3">
           <TabsList className="grid grid-cols-2 sm:grid-cols-4 w-full sm:w-auto h-9">
             <TabsTrigger value="financial" className="text-xs gap-1.5">
@@ -503,7 +737,9 @@ const AnalysisPage = () => {
           </TabsList>
 
           <span className="text-xs text-muted-foreground hidden sm:inline-block">
-            Viewing: <strong className="text-foreground capitalize">{activeTab}</strong> Analytics
+            Viewing:{" "}
+            <strong className="text-foreground capitalize">{activeTab}</strong>{" "}
+            Analytics
           </span>
         </div>
 
@@ -516,9 +752,12 @@ const AnalysisPage = () => {
             <Card className="lg:col-span-2 shadow-xs">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <div>
-                  <CardTitle className="text-base font-semibold">Monthly Tuition: Billed vs Collected</CardTitle>
+                  <CardTitle className="text-base font-semibold">
+                    Monthly Tuition: Billed vs Collected
+                  </CardTitle>
                   <CardDescription className="text-xs">
-                    Aggregated Enrollment prices vs actual Payment receipts recorded
+                    Aggregated Enrollment prices vs actual Payment receipts
+                    recorded
                   </CardDescription>
                 </div>
                 <Badge variant="outline" className="text-xs font-mono">
@@ -527,25 +766,41 @@ const AnalysisPage = () => {
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[280px] w-full">
-                  <ChartContainer config={revenueChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={revenueChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={monthlyRevenueData}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
-                      <XAxis dataKey="month" tickLine={false} axisLine={false} fontSize={12} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        dataKey="month"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={12}
+                      />
                       <YAxis
                         tickLine={false}
                         axisLine={false}
                         fontSize={11}
-                        tickFormatter={(val) => `${(val / 1000000).toFixed(0)}M`}
+                        tickFormatter={(val) =>
+                          `${(val / 1000000).toFixed(0)}M`
+                        }
                       />
                       <ChartTooltip
                         content={
                           <ChartTooltipContent
                             formatter={(value, name) => (
                               <div className="flex items-center justify-between gap-4">
-                                <span className="text-muted-foreground">{name}:</span>
+                                <span className="text-muted-foreground">
+                                  {name}:
+                                </span>
                                 <span className="font-semibold text-foreground">
                                   {formatCurrency(Number(value))} MMK
                                 </span>
@@ -554,29 +809,51 @@ const AnalysisPage = () => {
                           />
                         }
                       />
-                      <Bar dataKey="billed" name="billed" fill="#2563eb" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="collected" name="collected" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Bar
+                        dataKey="billed"
+                        name="billed"
+                        fill="#2563eb"
+                        radius={[4, 4, 0, 0]}
+                      />
+                      <Bar
+                        dataKey="collected"
+                        name="collected"
+                        fill="#10b981"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ChartContainer>
                 </div>
               </CardContent>
               <CardFooter className="py-2.5 px-4 border-t bg-muted/20 flex items-center justify-between text-xs text-muted-foreground">
-                <span>Total Billed: <strong>{formatCurrency(132700000)} MMK</strong></span>
-                <span>Total Collected: <strong className="text-emerald-600 dark:text-emerald-400">{formatCurrency(114600000)} MMK</strong></span>
+                <span>
+                  Total Billed: <strong>{formatCurrency(132700000)} MMK</strong>
+                </span>
+                <span>
+                  Total Collected:{" "}
+                  <strong className="text-emerald-600 dark:text-emerald-400">
+                    {formatCurrency(114600000)} MMK
+                  </strong>
+                </span>
               </CardFooter>
             </Card>
 
             {/* Graph 2: Payment Status Distribution (1 Column) */}
             <Card className="shadow-xs flex flex-col justify-between">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Enrollment Payment Status</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Enrollment Payment Status
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Fully Paid vs Partial vs Unpaid students
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-2">
                 <div className="h-[200px] w-full flex items-center justify-center">
-                  <ChartContainer config={paymentStatusChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={paymentStatusChartConfig}
+                    className="h-full w-full"
+                  >
                     <PieChart>
                       <Pie
                         data={paymentStatusShare}
@@ -589,13 +866,18 @@ const AnalysisPage = () => {
                         paddingAngle={3}
                       >
                         {paymentStatusShare.map((entry, index) => (
-                          <Cell key={`cell-pay-status-${index}`} fill={entry.fill} />
+                          <Cell
+                            key={`cell-pay-status-${index}`}
+                            fill={entry.fill}
+                          />
                         ))}
                       </Pie>
                       <ChartTooltip
                         content={
                           <ChartTooltipContent
-                            formatter={(val, name) => `${val} Enrollments (${name})`}
+                            formatter={(val, name) =>
+                              `${val} Enrollments (${name})`
+                            }
                           />
                         }
                       />
@@ -605,12 +887,22 @@ const AnalysisPage = () => {
 
                 <div className="space-y-2 mt-2">
                   {paymentStatusShare.map((status, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs">
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between text-xs"
+                    >
                       <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: status.fill }} />
-                        <span className="text-muted-foreground">{status.status}</span>
+                        <span
+                          className="w-2.5 h-2.5 rounded-full shrink-0"
+                          style={{ backgroundColor: status.fill }}
+                        />
+                        <span className="text-muted-foreground">
+                          {status.status}
+                        </span>
                       </div>
-                      <span className="font-semibold text-foreground">{status.count} ({status.share}%)</span>
+                      <span className="font-semibold text-foreground">
+                        {status.count} ({status.share}%)
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -625,36 +917,68 @@ const AnalysisPage = () => {
             {/* Graph 3: Cumulative Cashflow Growth */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Cumulative Tuition Cash Flow</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Cumulative Tuition Cash Flow
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Aggregate cash collection trajectory over the semester
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[260px] w-full">
-                  <ChartContainer config={cashflowChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={cashflowChartConfig}
+                    className="h-full w-full"
+                  >
                     <AreaChart
                       data={cumulativeCashflowData}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
                       <defs>
-                        <linearGradient id="cashGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
-                          <stop offset="95%" stopColor="#10b981" stopOpacity={0.0} />
+                        <linearGradient
+                          id="cashGrad"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#10b981"
+                            stopOpacity={0.4}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#10b981"
+                            stopOpacity={0.0}
+                          />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
-                      <XAxis dataKey="month" tickLine={false} axisLine={false} fontSize={12} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        dataKey="month"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={12}
+                      />
                       <YAxis
                         tickLine={false}
                         axisLine={false}
                         fontSize={11}
-                        tickFormatter={(val) => `${(val / 1000000).toFixed(0)}M`}
+                        tickFormatter={(val) =>
+                          `${(val / 1000000).toFixed(0)}M`
+                        }
                       />
                       <ChartTooltip
                         content={
                           <ChartTooltipContent
-                            formatter={(val) => `${formatCurrency(Number(val))} MMK Collected`}
+                            formatter={(val) =>
+                              `${formatCurrency(Number(val))} MMK Collected`
+                            }
                           />
                         }
                       />
@@ -675,26 +999,38 @@ const AnalysisPage = () => {
             {/* Graph 4: Outstanding Balance by Course */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Outstanding Tuition by Course</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Outstanding Tuition by Course
+                </CardTitle>
                 <CardDescription className="text-xs">
-                  Unpaid tuition balance (Enrollment price - Payments) per course
+                  Unpaid tuition balance (Enrollment price - Payments) per
+                  course
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[260px] w-full">
-                  <ChartContainer config={outstandingDebtChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={outstandingDebtChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={courseOutstandingDebt}
                       layout="vertical"
                       margin={{ top: 5, right: 20, left: 30, bottom: 5 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.3} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        horizontal={false}
+                        opacity={0.3}
+                      />
                       <XAxis
                         type="number"
                         tickLine={false}
                         axisLine={false}
                         fontSize={11}
-                        tickFormatter={(val) => `${(val / 1000000).toFixed(1)}M`}
+                        tickFormatter={(val) =>
+                          `${(val / 1000000).toFixed(1)}M`
+                        }
                       />
                       <YAxis
                         dataKey="course"
@@ -707,11 +1043,18 @@ const AnalysisPage = () => {
                       <ChartTooltip
                         content={
                           <ChartTooltipContent
-                            formatter={(val) => `${formatCurrency(Number(val))} MMK Pending`}
+                            formatter={(val) =>
+                              `${formatCurrency(Number(val))} MMK Pending`
+                            }
                           />
                         }
                       />
-                      <Bar dataKey="pending" name="pending" fill="#ef4444" radius={[0, 4, 4, 0]}>
+                      <Bar
+                        dataKey="pending"
+                        name="pending"
+                        fill="#ef4444"
+                        radius={[0, 4, 4, 0]}
+                      >
                         {courseOutstandingDebt.map((entry, index) => (
                           <Cell key={`cell-debt-${index}`} fill={entry.fill} />
                         ))}
@@ -727,12 +1070,20 @@ const AnalysisPage = () => {
           <div className="space-y-3 pt-2">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
               <div>
-                <h3 className="text-base font-semibold text-foreground">Monthly Tuition & Collections Matrix</h3>
+                <h3 className="text-base font-semibold text-foreground">
+                  Monthly Tuition & Collections Matrix
+                </h3>
                 <p className="text-xs text-muted-foreground">
-                  Monthly breakdown of student enrollments, gross billing, cash collections, and recovery rates
+                  Monthly breakdown of student enrollments, gross billing, cash
+                  collections, and recovery rates
                 </p>
               </div>
-              <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 text-xs w-fit">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1.5 text-xs w-fit"
+              >
                 <Link to="/payments">
                   <DollarSign className="w-3.5 h-3.5" />
                   Payments Ledger
@@ -758,29 +1109,46 @@ const AnalysisPage = () => {
                           {item.month}
                         </div>
                         <div>
-                          <p className="font-medium text-foreground">2026 {item.month}</p>
-                          <p className="text-xs text-muted-foreground">Semester Term 1</p>
+                          <p className="font-medium text-foreground">
+                            2026 {item.month}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Semester Term 1
+                          </p>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <TableIconContent icon={ClipboardList} value={`${item.enrollments} students`} />
+                      <TableIconContent
+                        icon={ClipboardList}
+                        value={`${item.enrollments} students`}
+                      />
                     </TableCell>
                     <TableCell align="right">
                       <div>
-                        <p className="font-semibold text-foreground">{formatCurrency(item.billed)} MMK</p>
-                        <p className="text-xs text-muted-foreground">invoiced</p>
+                        <p className="font-semibold text-foreground">
+                          {formatCurrency(item.billed)} MMK
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          invoiced
+                        </p>
                       </div>
                     </TableCell>
                     <TableCell align="right">
                       <div>
-                        <p className="font-semibold text-emerald-600 dark:text-emerald-400">{formatCurrency(item.collected)} MMK</p>
-                        <p className="text-xs text-muted-foreground">collected</p>
+                        <p className="font-semibold text-emerald-600 dark:text-emerald-400">
+                          {formatCurrency(item.collected)} MMK
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          collected
+                        </p>
                       </div>
                     </TableCell>
                     <TableCell align="right">
                       <div>
-                        <p className="font-semibold text-amber-600 dark:text-amber-400">{formatCurrency(item.pending)} MMK</p>
+                        <p className="font-semibold text-amber-600 dark:text-amber-400">
+                          {formatCurrency(item.pending)} MMK
+                        </p>
                         <p className="text-xs text-muted-foreground">unpaid</p>
                       </div>
                     </TableCell>
@@ -804,19 +1172,28 @@ const AnalysisPage = () => {
             {/* Graph 1: Course Revenue (Billed vs Collected) */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Tuition Invoiced vs Collected by Course</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Tuition Invoiced vs Collected by Course
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Gross tuition revenue vs verified payment collections
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[280px] w-full">
-                  <ChartContainer config={courseRevenueChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={courseRevenueChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={courseRevenueData}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
                       <XAxis
                         dataKey="course"
                         tickLine={false}
@@ -828,22 +1205,38 @@ const AnalysisPage = () => {
                         tickLine={false}
                         axisLine={false}
                         fontSize={11}
-                        tickFormatter={(val) => `${(val / 1000000).toFixed(0)}M`}
+                        tickFormatter={(val) =>
+                          `${(val / 1000000).toFixed(0)}M`
+                        }
                       />
                       <ChartTooltip
                         content={
                           <ChartTooltipContent
                             formatter={(value, name) => (
                               <div className="flex items-center justify-between gap-3">
-                                <span className="text-muted-foreground">{name}:</span>
-                                <span className="font-semibold">{formatCurrency(Number(value))} MMK</span>
+                                <span className="text-muted-foreground">
+                                  {name}:
+                                </span>
+                                <span className="font-semibold">
+                                  {formatCurrency(Number(value))} MMK
+                                </span>
                               </div>
                             )}
                           />
                         }
                       />
-                      <Bar dataKey="revenue" name="revenue" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="collected" name="collected" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Bar
+                        dataKey="revenue"
+                        name="revenue"
+                        fill="#3b82f6"
+                        radius={[4, 4, 0, 0]}
+                      />
+                      <Bar
+                        dataKey="collected"
+                        name="collected"
+                        fill="#10b981"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ChartContainer>
                 </div>
@@ -853,21 +1246,35 @@ const AnalysisPage = () => {
             {/* Graph 2: Student Enrollment Share */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Student Enrollment Volume</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Student Enrollment Volume
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Total student registration distribution per course
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[280px] w-full">
-                  <ChartContainer config={courseEnrollmentChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={courseEnrollmentChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={courseEnrollmentShare}
                       layout="vertical"
                       margin={{ top: 5, right: 20, left: 30, bottom: 5 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.3} />
-                      <XAxis type="number" tickLine={false} axisLine={false} fontSize={11} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        horizontal={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        type="number"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={11}
+                      />
                       <YAxis
                         dataKey="name"
                         type="category"
@@ -883,9 +1290,17 @@ const AnalysisPage = () => {
                           />
                         }
                       />
-                      <Bar dataKey="students" name="students" fill="#3b82f6" radius={[0, 4, 4, 0]}>
+                      <Bar
+                        dataKey="students"
+                        name="students"
+                        fill="#3b82f6"
+                        radius={[0, 4, 4, 0]}
+                      >
                         {courseEnrollmentShare.map((entry, index) => (
-                          <Cell key={`cell-enr-share-${index}`} fill={entry.fill} />
+                          <Cell
+                            key={`cell-enr-share-${index}`}
+                            fill={entry.fill}
+                          />
                         ))}
                       </Bar>
                     </BarChart>
@@ -899,19 +1314,28 @@ const AnalysisPage = () => {
             {/* Graph 3: Average Students per Batch */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Average Students per Batch</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Average Students per Batch
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Class density calculated per course program
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[260px] w-full">
-                  <ChartContainer config={batchAverageChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={batchAverageChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={courseBatchAverageData}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
                       <XAxis
                         dataKey="course"
                         tickLine={false}
@@ -927,7 +1351,12 @@ const AnalysisPage = () => {
                           />
                         }
                       />
-                      <Bar dataKey="avgStudents" name="avgStudents" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                      <Bar
+                        dataKey="avgStudents"
+                        name="avgStudents"
+                        fill="#8b5cf6"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ChartContainer>
                 </div>
@@ -937,20 +1366,29 @@ const AnalysisPage = () => {
             {/* Graph 4: Course Base Price Comparison */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Course Catalog Pricing</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Course Catalog Pricing
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Standard course price (from Course.price)
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[260px] w-full">
-                  <ChartContainer config={coursePriceChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={coursePriceChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={coursePriceDistribution}
                       layout="vertical"
                       margin={{ top: 5, right: 20, left: 30, bottom: 5 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.3} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        horizontal={false}
+                        opacity={0.3}
+                      />
                       <XAxis
                         type="number"
                         tickLine={false}
@@ -969,11 +1407,18 @@ const AnalysisPage = () => {
                       <ChartTooltip
                         content={
                           <ChartTooltipContent
-                            formatter={(val) => `${formatCurrency(Number(val))} MMK`}
+                            formatter={(val) =>
+                              `${formatCurrency(Number(val))} MMK`
+                            }
                           />
                         }
                       />
-                      <Bar dataKey="price" name="price" fill="#06b6d4" radius={[0, 4, 4, 0]}>
+                      <Bar
+                        dataKey="price"
+                        name="price"
+                        fill="#06b6d4"
+                        radius={[0, 4, 4, 0]}
+                      >
                         {coursePriceDistribution.map((entry, index) => (
                           <Cell key={`cell-price-${index}`} fill={entry.fill} />
                         ))}
@@ -985,16 +1430,185 @@ const AnalysisPage = () => {
             </Card>
           </div>
 
+          {/* WITHDRAWAL RATE BY COURSE */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className="shadow-xs">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-semibold">
+                  Withdrawal Rate by Course
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Student withdrawal percentage by course program
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <div className="h-[280px] w-full">
+                  <ChartContainer
+                    config={withdrawalRateChartConfig}
+                    className="h-full w-full"
+                  >
+                    <BarChart
+                      data={courseWithdrawalRates}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                    >
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        dataKey="course"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={11}
+                        tickFormatter={(val) => val.split(" ")[0]}
+                      />
+                      <YAxis tickLine={false} axisLine={false} fontSize={11} />
+                      <ChartTooltip
+                        content={
+                          <ChartTooltipContent
+                            formatter={(val, name) => (
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="capitalize text-muted-foreground">
+                                  {name}:
+                                </span>
+                                <span className="font-semibold text-foreground">
+                                  {val}%
+                                </span>
+                              </div>
+                            )}
+                          />
+                        }
+                      />
+                      <Bar
+                        dataKey="rate"
+                        name="rate"
+                        fill="#ef4444"
+                        radius={[4, 4, 0, 0]}
+                      >
+                        {courseWithdrawalRates.map((entry, index) => (
+                          <Cell
+                            key={`cell-withdrawal-rate-${index}`}
+                            fill={entry.fill}
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ChartContainer>
+                </div>
+              </CardContent>
+              <CardFooter className="py-2.5 px-4 border-t text-xs text-muted-foreground flex justify-between">
+                <span>
+                  Highest Rate:{" "}
+                  <strong className="text-red-600 dark:text-red-400">
+                    Japanese (N3) - 13.8%
+                  </strong>
+                </span>
+                <span>
+                  Lowest Rate:{" "}
+                  <strong className="text-emerald-600 dark:text-emerald-400">
+                    Flutter Mobile - 6.5%
+                  </strong>
+                </span>
+              </CardFooter>
+            </Card>
+
+            <Card className="shadow-xs">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-semibold">
+                  Withdrawal Volume by Course
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Number of withdrawals and total enrollments per course
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <div className="h-[280px] w-full">
+                  <ChartContainer
+                    config={withdrawalRateChartConfig}
+                    className="h-full w-full"
+                  >
+                    <BarChart
+                      data={courseWithdrawalRates}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                    >
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        dataKey="course"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={11}
+                        tickFormatter={(val) => val.split(" ")[0]}
+                      />
+                      <YAxis tickLine={false} axisLine={false} fontSize={11} />
+                      <ChartTooltip
+                        content={
+                          <ChartTooltipContent
+                            formatter={(val, name) => (
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="capitalize text-muted-foreground">
+                                  {name}:
+                                </span>
+                                <span className="font-semibold text-foreground">
+                                  {val}
+                                </span>
+                              </div>
+                            )}
+                          />
+                        }
+                      />
+                      <Bar
+                        dataKey="withdrawals"
+                        name="withdrawals"
+                        fill="#ef4444"
+                        radius={[4, 4, 0, 0]}
+                      />
+                      <Bar
+                        dataKey="totalEnrollments"
+                        name="totalEnrollments"
+                        fill="#10b981"
+                        radius={[4, 4, 0, 0]}
+                      />
+                    </BarChart>
+                  </ChartContainer>
+                </div>
+              </CardContent>
+              <CardFooter className="py-2.5 px-4 border-t text-xs text-muted-foreground flex justify-between">
+                <span>
+                  Total Withdrawals:{" "}
+                  <strong className="text-red-600 dark:text-red-400">
+                    32 students
+                  </strong>
+                </span>
+                <span>
+                  Total Enrollments: <strong>377 students</strong>
+                </span>
+              </CardFooter>
+            </Card>
+          </div>
+
           {/* COURSE PERFORMANCE MATRIX TABLE */}
           <div className="space-y-3 pt-2">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
               <div>
-                <h3 className="text-base font-semibold text-foreground">Course Performance & Financial Matrix</h3>
+                <h3 className="text-base font-semibold text-foreground">
+                  Course Performance & Financial Matrix
+                </h3>
                 <p className="text-xs text-muted-foreground">
-                  Course catalog pricing, active class batches, student enrollments, and tuition revenue
+                  Course catalog pricing, active class batches, student
+                  enrollments, withdrawal metrics, and tuition revenue
                 </p>
               </div>
-              <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 text-xs w-fit">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1.5 text-xs w-fit"
+              >
                 <Link to="/courses">
                   <BookOpen className="w-3.5 h-3.5" />
                   View All Courses
@@ -1009,6 +1623,9 @@ const AnalysisPage = () => {
                 <TableHead>Batches</TableHead>
                 <TableHead>Enrollments</TableHead>
                 <TableHead>Avg Density</TableHead>
+                <TableHead>Withdrawals</TableHead>
+                <TableHead>Withdrawal Rate</TableHead>
+                <TableHead>Active Students</TableHead>
                 <TableHead align="right">Gross Invoiced</TableHead>
                 <TableHead align="right">Total Collected</TableHead>
                 <TableHead align="right">Balance Due</TableHead>
@@ -1018,7 +1635,15 @@ const AnalysisPage = () => {
                   const pending = course.revenue - course.collected;
                   const students = courseEnrollmentShare[idx]?.students || 0;
                   const avg = students / (course.batches || 1);
-                  const price = coursePriceDistribution.find(p => p.course === course.course)?.price || 300000;
+                  const price =
+                    coursePriceDistribution.find(
+                      (p) => p.course === course.course,
+                    )?.price || 300000;
+                  const withdrawalData = courseWithdrawalRates[idx] || {
+                    withdrawals: 0,
+                    rate: 0,
+                  };
+                  const activeStudents = students - withdrawalData.withdrawals;
                   return (
                     <TableRow key={idx}>
                       <TableCell>
@@ -1030,42 +1655,100 @@ const AnalysisPage = () => {
                             display="list"
                           />
                           <div>
-                            <p className="font-medium text-foreground">{course.course}</p>
-                            <p className="text-xs text-muted-foreground">Active Program</p>
+                            <p className="font-medium text-foreground">
+                              {course.course}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Active Program
+                            </p>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell align="right">
                         <div>
-                          <p className="font-semibold text-foreground">{formatCurrency(price)}</p>
-                          <p className="text-xs text-muted-foreground">per course</p>
+                          <p className="font-semibold text-foreground">
+                            {formatCurrency(price)}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            per course
+                          </p>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <TableIconContent icon={BookOpen} value={`${course.batches} batches`} />
+                        <TableIconContent
+                          icon={BookOpen}
+                          value={`${course.batches} batches`}
+                        />
                       </TableCell>
                       <TableCell>
-                        <TableIconContent icon={ClipboardList} value={`${students} students`} />
+                        <TableIconContent
+                          icon={ClipboardList}
+                          value={`${students} students`}
+                        />
                       </TableCell>
                       <TableCell>
-                        <TableIconContent icon={GraduationCap} value={`${avg.toFixed(1)} / batch`} />
+                        <TableIconContent
+                          icon={GraduationCap}
+                          value={`${avg.toFixed(1)} / batch`}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TableIconContent
+                          icon={UserX}
+                          value={`${withdrawalData.withdrawals} students`}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          className={`text-xs font-semibold ${
+                            withdrawalData.rate > 10
+                              ? "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20"
+                              : withdrawalData.rate > 7
+                                ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
+                                : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
+                          }`}
+                        >
+                          {withdrawalData.rate}%
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <TableIconContent
+                          icon={Users}
+                          value={`${activeStudents} students`}
+                        />
                       </TableCell>
                       <TableCell align="right">
                         <div>
-                          <p className="font-semibold text-foreground">{formatCurrency(course.revenue)} MMK</p>
-                          <p className="text-xs text-muted-foreground">invoiced</p>
+                          <p className="font-semibold text-foreground">
+                            {formatCurrency(course.revenue)} MMK
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            invoiced
+                          </p>
                         </div>
                       </TableCell>
                       <TableCell align="right">
                         <div>
-                          <p className="font-semibold text-emerald-600 dark:text-emerald-400">{formatCurrency(course.collected)} MMK</p>
-                          <p className="text-xs text-muted-foreground">{((course.collected / course.revenue) * 100).toFixed(0)}% paid</p>
+                          <p className="font-semibold text-emerald-600 dark:text-emerald-400">
+                            {formatCurrency(course.collected)} MMK
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {(
+                              (course.collected / course.revenue) *
+                              100
+                            ).toFixed(0)}
+                            % paid
+                          </p>
                         </div>
                       </TableCell>
                       <TableCell align="right">
                         <div>
-                          <p className="font-semibold text-amber-600 dark:text-amber-400">{formatCurrency(pending)} MMK</p>
-                          <p className="text-xs text-muted-foreground">pending</p>
+                          <p className="font-semibold text-amber-600 dark:text-amber-400">
+                            {formatCurrency(pending)} MMK
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            pending
+                          </p>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -1084,19 +1767,28 @@ const AnalysisPage = () => {
             {/* Graph 1: Gender Distribution per Course (2 Columns) */}
             <Card className="lg:col-span-2 shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Gender Distribution per Course</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Gender Distribution per Course
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Male vs Female student enrollment from Student.gender
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[280px] w-full">
-                  <ChartContainer config={genderChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={genderChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={courseGenderData}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
                       <XAxis
                         dataKey="course"
                         tickLine={false}
@@ -1110,15 +1802,29 @@ const AnalysisPage = () => {
                           <ChartTooltipContent
                             formatter={(val, name) => (
                               <div className="flex items-center justify-between gap-3">
-                                <span className="capitalize text-muted-foreground">{name}:</span>
-                                <span className="font-semibold text-foreground">{val} students</span>
+                                <span className="capitalize text-muted-foreground">
+                                  {name}:
+                                </span>
+                                <span className="font-semibold text-foreground">
+                                  {val} students
+                                </span>
                               </div>
                             )}
                           />
                         }
                       />
-                      <Bar dataKey="male" name="male" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="female" name="female" fill="#ec4899" radius={[4, 4, 0, 0]} />
+                      <Bar
+                        dataKey="male"
+                        name="male"
+                        fill="#3b82f6"
+                        radius={[4, 4, 0, 0]}
+                      />
+                      <Bar
+                        dataKey="female"
+                        name="female"
+                        fill="#ec4899"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ChartContainer>
                 </div>
@@ -1132,14 +1838,19 @@ const AnalysisPage = () => {
             {/* Graph 2: Overall Gender Share Pie (1 Column) */}
             <Card className="shadow-xs flex flex-col justify-between">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Overall Gender Ratio</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Overall Gender Ratio
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Male vs Female student population
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-2">
                 <div className="h-[200px] w-full flex items-center justify-center">
-                  <ChartContainer config={overallGenderChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={overallGenderChartConfig}
+                    className="h-full w-full"
+                  >
                     <PieChart>
                       <Pie
                         data={overallGenderData}
@@ -1152,13 +1863,18 @@ const AnalysisPage = () => {
                         paddingAngle={4}
                       >
                         {overallGenderData.map((entry, index) => (
-                          <Cell key={`cell-gender-pie-${index}`} fill={entry.fill} />
+                          <Cell
+                            key={`cell-gender-pie-${index}`}
+                            fill={entry.fill}
+                          />
                         ))}
                       </Pie>
                       <ChartTooltip
                         content={
                           <ChartTooltipContent
-                            formatter={(val, name) => `${val} students (${name})`}
+                            formatter={(val, name) =>
+                              `${val} students (${name})`
+                            }
                           />
                         }
                       />
@@ -1168,12 +1884,22 @@ const AnalysisPage = () => {
 
                 <div className="space-y-2 mt-2">
                   {overallGenderData.map((gender, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs">
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between text-xs"
+                    >
                       <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: gender.fill }} />
-                        <span className="text-muted-foreground">{gender.gender}</span>
+                        <span
+                          className="w-2.5 h-2.5 rounded-full shrink-0"
+                          style={{ backgroundColor: gender.fill }}
+                        />
+                        <span className="text-muted-foreground">
+                          {gender.gender}
+                        </span>
                       </div>
-                      <span className="font-semibold text-foreground">{gender.count}</span>
+                      <span className="font-semibold text-foreground">
+                        {gender.count}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -1188,20 +1914,34 @@ const AnalysisPage = () => {
             {/* Graph 3: Student Age Cohorts */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Student Age Cohorts</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Student Age Cohorts
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Age brackets calculated from Student.dob
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[260px] w-full">
-                  <ChartContainer config={ageCohortChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={ageCohortChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={studentAgeCohorts}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
-                      <XAxis dataKey="cohort" tickLine={false} axisLine={false} fontSize={11} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        dataKey="cohort"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={11}
+                      />
                       <YAxis tickLine={false} axisLine={false} fontSize={11} />
                       <ChartTooltip
                         content={
@@ -1210,9 +1950,17 @@ const AnalysisPage = () => {
                           />
                         }
                       />
-                      <Bar dataKey="count" name="count" fill="#3b82f6" radius={[4, 4, 0, 0]}>
+                      <Bar
+                        dataKey="count"
+                        name="count"
+                        fill="#3b82f6"
+                        radius={[4, 4, 0, 0]}
+                      >
                         {studentAgeCohorts.map((entry, index) => (
-                          <Cell key={`cell-age-cohort-${index}`} fill={entry.fill} />
+                          <Cell
+                            key={`cell-age-cohort-${index}`}
+                            fill={entry.fill}
+                          />
                         ))}
                       </Bar>
                     </BarChart>
@@ -1224,26 +1972,54 @@ const AnalysisPage = () => {
             {/* Graph 4: Monthly New Admissions Trajectory */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Monthly Admission Inflow</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Monthly Admission Inflow
+                </CardTitle>
                 <CardDescription className="text-xs">
                   New student registrations over time
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[260px] w-full">
-                  <ChartContainer config={newStudentsChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={newStudentsChartConfig}
+                    className="h-full w-full"
+                  >
                     <AreaChart
                       data={monthlyNewStudents}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
                       <defs>
-                        <linearGradient id="studentsGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#2563eb" stopOpacity={0.4} />
-                          <stop offset="95%" stopColor="#2563eb" stopOpacity={0.0} />
+                        <linearGradient
+                          id="studentsGrad"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#2563eb"
+                            stopOpacity={0.4}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#2563eb"
+                            stopOpacity={0.0}
+                          />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
-                      <XAxis dataKey="month" tickLine={false} axisLine={false} fontSize={12} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        dataKey="month"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={12}
+                      />
                       <YAxis tickLine={false} axisLine={false} fontSize={11} />
                       <ChartTooltip
                         content={
@@ -1267,16 +2043,311 @@ const AnalysisPage = () => {
             </Card>
           </div>
 
+          {/* ENROLLMENT STATUS & WITHDRAWAL ANALYSIS */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Graph 1: Enrollment Status Distribution (2 Columns) */}
+            <Card className="lg:col-span-2 shadow-xs">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-semibold">
+                  Monthly Withdrawal Trends
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Student withdrawal patterns over time alongside active
+                  enrollment volume
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <div className="h-[280px] w-full">
+                  <ChartContainer
+                    config={withdrawalTrendChartConfig}
+                    className="h-full w-full"
+                  >
+                    <AreaChart
+                      data={monthlyWithdrawalTrends}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                    >
+                      <defs>
+                        <linearGradient
+                          id="withdrawalGradNew"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#ef4444"
+                            stopOpacity={0.4}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#ef4444"
+                            stopOpacity={0.0}
+                          />
+                        </linearGradient>
+                        <linearGradient
+                          id="activeEnrollGradNew"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#10b981"
+                            stopOpacity={0.4}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#10b981"
+                            stopOpacity={0.0}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        dataKey="month"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={12}
+                      />
+                      <YAxis tickLine={false} axisLine={false} fontSize={11} />
+                      <ChartTooltip
+                        content={
+                          <ChartTooltipContent
+                            formatter={(val, name) => (
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="capitalize text-muted-foreground">
+                                  {name}:
+                                </span>
+                                <span className="font-semibold text-foreground">
+                                  {val}
+                                </span>
+                              </div>
+                            )}
+                          />
+                        }
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="withdrawals"
+                        stroke="#ef4444"
+                        strokeWidth={2.5}
+                        fillOpacity={1}
+                        fill="url(#withdrawalGradNew)"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="activeEnrollments"
+                        stroke="#10b981"
+                        strokeWidth={2.5}
+                        fillOpacity={1}
+                        fill="url(#activeEnrollGradNew)"
+                      />
+                    </AreaChart>
+                  </ChartContainer>
+                </div>
+              </CardContent>
+              <CardFooter className="py-2.5 px-4 border-t text-xs text-muted-foreground flex justify-between">
+                <span>
+                  Total Withdrawals:{" "}
+                  <strong className="text-red-600 dark:text-red-400">
+                    32 students
+                  </strong>
+                </span>
+                <span>
+                  Avg Withdrawal Rate: <strong>8.5%</strong>
+                </span>
+              </CardFooter>
+            </Card>
+
+            {/* Graph 2: Enrollment Status Pie (1 Column) */}
+            <Card className="shadow-xs flex flex-col justify-between">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-semibold">
+                  Enrollment Status
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Active vs Withdrawn student enrollments
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-2">
+                <div className="h-[200px] w-full flex items-center justify-center">
+                  <ChartContainer
+                    config={enrollmentStatusChartConfig}
+                    className="h-full w-full"
+                  >
+                    <PieChart>
+                      <Pie
+                        data={enrollmentStatusData}
+                        dataKey="count"
+                        nameKey="status"
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={50}
+                        outerRadius={80}
+                        paddingAngle={4}
+                      >
+                        {enrollmentStatusData.map((entry, index) => (
+                          <Cell
+                            key={`cell-enrollment-status-${index}`}
+                            fill={entry.fill}
+                          />
+                        ))}
+                      </Pie>
+                      <ChartTooltip
+                        content={
+                          <ChartTooltipContent
+                            formatter={(val, name) => `${val} (${name})`}
+                          />
+                        }
+                      />
+                    </PieChart>
+                  </ChartContainer>
+                </div>
+
+                <div className="space-y-2 mt-2">
+                  {enrollmentStatusData.map((status, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between text-xs"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full shrink-0"
+                          style={{ backgroundColor: status.fill }}
+                        />
+                        <span className="text-muted-foreground">
+                          {status.status}
+                        </span>
+                      </div>
+                      <span className="font-semibold text-foreground">
+                        {status.count} ({status.share}%)
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+              <CardFooter className="pt-2 pb-3 border-t text-xs text-muted-foreground">
+                <span>377 Total Student Enrollments</span>
+              </CardFooter>
+            </Card>
+          </div>
+
+          {/* WITHDRAWAL DETAILS MATRIX TABLE */}
+          <div className="space-y-3 pt-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
+              <div>
+                <h3 className="text-base font-semibold text-foreground">
+                  Withdrawal Details Matrix
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Recent student withdrawals with course details, reasons, and
+                  financial impact
+                </p>
+              </div>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1.5 text-xs w-fit"
+              >
+                <Link to="/students">
+                  <UserX className="w-3.5 h-3.5" />
+                  View All Students
+                </Link>
+              </Button>
+            </div>
+
+            <Table>
+              <TableHeader>
+                <TableHead>Student Name</TableHead>
+                <TableHead>Course</TableHead>
+                <TableHead>Withdrawal Date</TableHead>
+                <TableHead>Reason</TableHead>
+                <TableHead align="right">Amount Paid</TableHead>
+                <TableHead align="right">Amount Forfeited</TableHead>
+              </TableHeader>
+              <TableBody>
+                {withdrawalDetailsList.map((withdrawal) => (
+                  <TableRow key={withdrawal.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-lg bg-red-500/10 flex items-center justify-center">
+                          <UserX className="w-5 h-5 text-red-600 dark:text-red-400" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-foreground">
+                            {withdrawal.studentName}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Withdrawn
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="font-medium text-foreground">
+                        {withdrawal.course}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <TableIconContent
+                        icon={Calendar}
+                        value={withdrawal.withdrawalDate}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-sm text-muted-foreground">
+                        {withdrawal.reason}
+                      </span>
+                    </TableCell>
+                    <TableCell align="right">
+                      <div>
+                        <p className="font-semibold text-emerald-600 dark:text-emerald-400">
+                          {formatCurrency(withdrawal.paidAmount)} MMK
+                        </p>
+                        <p className="text-xs text-muted-foreground">paid</p>
+                      </div>
+                    </TableCell>
+                    <TableCell align="right">
+                      <div>
+                        <p className="font-semibold text-red-600 dark:text-red-400">
+                          {formatCurrency(withdrawal.amountForfeited)} MMK
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          forfeited
+                        </p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
           {/* STUDENT DEMOGRAPHICS MATRIX TABLE */}
           <div className="space-y-3 pt-2">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
               <div>
-                <h3 className="text-base font-semibold text-foreground">Program Demographics & Admission Matrix</h3>
+                <h3 className="text-base font-semibold text-foreground">
+                  Program Demographics & Admission Matrix
+                </h3>
                 <p className="text-xs text-muted-foreground">
-                  Gender distribution and student cohort profile across active course programs
+                  Gender distribution and student cohort profile across active
+                  course programs
                 </p>
               </div>
-              <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 text-xs w-fit">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1.5 text-xs w-fit"
+              >
                 <Link to="/students">
                   <Users className="w-3.5 h-3.5" />
                   View All Students
@@ -1297,7 +2368,9 @@ const AnalysisPage = () => {
                 {courseGenderData.map((item, idx) => {
                   const total = item.male + item.female;
                   const malePercent = ((item.male / total) * 100).toFixed(1);
-                  const femalePercent = ((item.female / total) * 100).toFixed(1);
+                  const femalePercent = ((item.female / total) * 100).toFixed(
+                    1,
+                  );
                   const isMaleDominant = item.male >= item.female;
                   return (
                     <TableRow key={idx}>
@@ -1310,13 +2383,20 @@ const AnalysisPage = () => {
                             display="list"
                           />
                           <div>
-                            <p className="font-medium text-foreground">{item.course}</p>
-                            <p className="text-xs text-muted-foreground">Course Program</p>
+                            <p className="font-medium text-foreground">
+                              {item.course}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Course Program
+                            </p>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <TableIconContent icon={GraduationCap} value={`${total} students`} />
+                        <TableIconContent
+                          icon={GraduationCap}
+                          value={`${total} students`}
+                        />
                       </TableCell>
                       <TableCell>
                         <span className="font-medium text-blue-600 dark:text-blue-400">
@@ -1331,7 +2411,10 @@ const AnalysisPage = () => {
                       <TableCell>
                         <div className="space-y-1">
                           <div className="w-28 h-2 rounded-full bg-pink-400/30 overflow-hidden flex">
-                            <div className="h-full bg-blue-500" style={{ width: `${malePercent}%` }} />
+                            <div
+                              className="h-full bg-blue-500"
+                              style={{ width: `${malePercent}%` }}
+                            />
                           </div>
                           <div className="flex justify-between text-[10px] text-muted-foreground w-28">
                             <span>{malePercent}% M</span>
@@ -1366,20 +2449,34 @@ const AnalysisPage = () => {
             {/* Graph 1: Classes by Day of Week */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Active Classes by Day</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Active Classes by Day
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Class batch count from Class.days
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[280px] w-full">
-                  <ChartContainer config={daysChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={daysChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={classDaysData}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
-                      <XAxis dataKey="day" tickLine={false} axisLine={false} fontSize={11} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        dataKey="day"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={11}
+                      />
                       <YAxis tickLine={false} axisLine={false} fontSize={11} />
                       <ChartTooltip
                         content={
@@ -1388,7 +2485,12 @@ const AnalysisPage = () => {
                           />
                         }
                       />
-                      <Bar dataKey="count" name="count" fill="#6366f1" radius={[4, 4, 0, 0]}>
+                      <Bar
+                        dataKey="count"
+                        name="count"
+                        fill="#6366f1"
+                        radius={[4, 4, 0, 0]}
+                      >
                         {classDaysData.map((entry, index) => (
                           <Cell key={`cell-days-${index}`} fill={entry.fill} />
                         ))}
@@ -1402,19 +2504,28 @@ const AnalysisPage = () => {
             {/* Graph 2: Class Time Slots */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Class Time Slots</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Class Time Slots
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Morning, Afternoon & Evening sessions
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[280px] w-full">
-                  <ChartContainer config={timeSlotsChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={timeSlotsChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={classTimeSlotsData}
                       margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        opacity={0.3}
+                      />
                       <XAxis
                         dataKey="slot"
                         tickLine={false}
@@ -1430,7 +2541,12 @@ const AnalysisPage = () => {
                           />
                         }
                       />
-                      <Bar dataKey="batches" name="batches" fill="#8b5cf6" radius={[4, 4, 0, 0]}>
+                      <Bar
+                        dataKey="batches"
+                        name="batches"
+                        fill="#8b5cf6"
+                        radius={[4, 4, 0, 0]}
+                      >
                         {classTimeSlotsData.map((entry, index) => (
                           <Cell key={`cell-slots-${index}`} fill={entry.fill} />
                         ))}
@@ -1444,21 +2560,35 @@ const AnalysisPage = () => {
             {/* Graph 3: Weekly Teaching Hours */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Weekly Teaching Hours</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Weekly Teaching Hours
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Teaching hours load per instructor
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[280px] w-full">
-                  <ChartContainer config={teacherHoursChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={teacherHoursChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={teacherWeeklyHoursData}
                       layout="vertical"
                       margin={{ top: 5, right: 20, left: 30, bottom: 5 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.3} />
-                      <XAxis type="number" tickLine={false} axisLine={false} fontSize={11} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        horizontal={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        type="number"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={11}
+                      />
                       <YAxis
                         dataKey="teacher"
                         type="category"
@@ -1466,7 +2596,9 @@ const AnalysisPage = () => {
                         axisLine={false}
                         fontSize={10}
                         width={95}
-                        tickFormatter={(val) => val.split(" ").slice(0, 2).join(" ")}
+                        tickFormatter={(val) =>
+                          val.split(" ").slice(0, 2).join(" ")
+                        }
                       />
                       <ChartTooltip
                         content={
@@ -1475,7 +2607,12 @@ const AnalysisPage = () => {
                           />
                         }
                       />
-                      <Bar dataKey="hours" name="hours" fill="#f59e0b" radius={[0, 4, 4, 0]} />
+                      <Bar
+                        dataKey="hours"
+                        name="hours"
+                        fill="#f59e0b"
+                        radius={[0, 4, 4, 0]}
+                      />
                     </BarChart>
                   </ChartContainer>
                 </div>
@@ -1485,21 +2622,35 @@ const AnalysisPage = () => {
             {/* Graph 4: Teacher Student Mentorship */}
             <Card className="shadow-xs">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold">Teacher Mentorship & Student Load</CardTitle>
+                <CardTitle className="text-base font-semibold">
+                  Teacher Mentorship & Student Load
+                </CardTitle>
                 <CardDescription className="text-xs">
                   Total enrolled students mentored across active batches
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="h-[280px] w-full">
-                  <ChartContainer config={teacherStudentsChartConfig} className="h-full w-full">
+                  <ChartContainer
+                    config={teacherStudentsChartConfig}
+                    className="h-full w-full"
+                  >
                     <BarChart
                       data={teacherStudentsLoadData}
                       layout="vertical"
                       margin={{ top: 5, right: 20, left: 35, bottom: 5 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.3} />
-                      <XAxis type="number" tickLine={false} axisLine={false} fontSize={11} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        horizontal={false}
+                        opacity={0.3}
+                      />
+                      <XAxis
+                        type="number"
+                        tickLine={false}
+                        axisLine={false}
+                        fontSize={11}
+                      />
                       <YAxis
                         dataKey="teacher"
                         type="category"
@@ -1507,7 +2658,9 @@ const AnalysisPage = () => {
                         axisLine={false}
                         fontSize={10}
                         width={95}
-                        tickFormatter={(val) => val.split(" ").slice(0, 2).join(" ")}
+                        tickFormatter={(val) =>
+                          val.split(" ").slice(0, 2).join(" ")
+                        }
                       />
                       <ChartTooltip
                         content={
@@ -1516,9 +2669,17 @@ const AnalysisPage = () => {
                           />
                         }
                       />
-                      <Bar dataKey="students" name="students" fill="#3b82f6" radius={[0, 4, 4, 0]}>
+                      <Bar
+                        dataKey="students"
+                        name="students"
+                        fill="#3b82f6"
+                        radius={[0, 4, 4, 0]}
+                      >
                         {teacherStudentsLoadData.map((entry, index) => (
-                          <Cell key={`cell-teacher-stud-${index}`} fill={entry.fill} />
+                          <Cell
+                            key={`cell-teacher-stud-${index}`}
+                            fill={entry.fill}
+                          />
                         ))}
                       </Bar>
                     </BarChart>
@@ -1532,12 +2693,20 @@ const AnalysisPage = () => {
           <div className="space-y-3 pt-2">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
               <div>
-                <h3 className="text-base font-semibold text-foreground">Faculty Class & Revenue Load Matrix</h3>
+                <h3 className="text-base font-semibold text-foreground">
+                  Faculty Class & Revenue Load Matrix
+                </h3>
                 <p className="text-xs text-muted-foreground">
-                  Assigned classes, weekly hours, total students, and tuition revenue handled per teacher
+                  Assigned classes, weekly hours, total students, and tuition
+                  revenue handled per teacher
                 </p>
               </div>
-              <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 text-xs w-fit">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1.5 text-xs w-fit"
+              >
                 <Link to="/teachers">
                   <UserPen className="w-3.5 h-3.5" />
                   View All Teachers
@@ -1564,11 +2733,17 @@ const AnalysisPage = () => {
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
                           <AvatarImage src={teacher.image} alt={teacher.name} />
-                          <AvatarFallback>{generateImageFallBack(teacher.name)}</AvatarFallback>
+                          <AvatarFallback>
+                            {generateImageFallBack(teacher.name)}
+                          </AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-medium text-foreground">{teacher.name}</p>
-                          <p className="text-xs text-muted-foreground">{teacher.subject}</p>
+                          <p className="font-medium text-foreground">
+                            {teacher.name}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {teacher.subject}
+                          </p>
                         </div>
                       </div>
                     </TableCell>
@@ -1579,27 +2754,46 @@ const AnalysisPage = () => {
                       <TableIconContent icon={Mail} value={teacher.email} />
                     </TableCell>
                     <TableCell>
-                      <span className="font-medium text-foreground">{teacher.subject}</span>
+                      <span className="font-medium text-foreground">
+                        {teacher.subject}
+                      </span>
                     </TableCell>
                     <TableCell>
-                      <TableIconContent icon={BookOpen} value={`${teacher.classesCount} batches`} />
+                      <TableIconContent
+                        icon={BookOpen}
+                        value={`${teacher.classesCount} batches`}
+                      />
                     </TableCell>
                     <TableCell>
-                      <TableIconContent icon={Clock} value={`${teacher.weeklyHours} hrs/wk`} />
+                      <TableIconContent
+                        icon={Clock}
+                        value={`${teacher.weeklyHours} hrs/wk`}
+                      />
                     </TableCell>
                     <TableCell>
-                      <TableIconContent icon={GraduationCap} value={`${teacher.studentsCount} students`} />
+                      <TableIconContent
+                        icon={GraduationCap}
+                        value={`${teacher.studentsCount} students`}
+                      />
                     </TableCell>
                     <TableCell align="right">
                       <div>
-                        <p className="font-semibold text-foreground">{formatCurrency(teacher.totalBilled)} MMK</p>
-                        <p className="text-xs text-muted-foreground">invoiced</p>
+                        <p className="font-semibold text-foreground">
+                          {formatCurrency(teacher.totalBilled)} MMK
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          invoiced
+                        </p>
                       </div>
                     </TableCell>
                     <TableCell align="right">
                       <div>
-                        <p className="font-semibold text-emerald-600 dark:text-emerald-400">{formatCurrency(teacher.totalCollected)} MMK</p>
-                        <p className="text-xs text-muted-foreground">collected</p>
+                        <p className="font-semibold text-emerald-600 dark:text-emerald-400">
+                          {formatCurrency(teacher.totalCollected)} MMK
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          collected
+                        </p>
                       </div>
                     </TableCell>
                   </TableRow>

@@ -4,9 +4,9 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card";
-import { Separator } from "../../../components/ui/separator";
-import { cn } from "../../../lib/utils";
+} from "../../../../components/ui/card";
+import { Separator } from "../../../../components/ui/separator";
+import { cn } from "../../../../lib/utils";
 
 const DashboardKPI = ({
   title,

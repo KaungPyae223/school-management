@@ -59,7 +59,7 @@ export const courseIPCs = () => {
           WITH 
           course_query AS (
             SELECT 
-              id
+              c.id,
             FROM courses c 
             WHERE c.deleted = ${!!trash}
             ${searchFilter} 
