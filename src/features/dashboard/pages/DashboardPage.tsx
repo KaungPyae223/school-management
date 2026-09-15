@@ -32,6 +32,14 @@ import {
 import { ScrollArea } from "../../../components/ui/scroll-area";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { formatCurrency } from "../../../utils/format-currency";
+import { generateImageFallBack } from "../../../utils/generate-image-fallback";
+import { replaceLocalDigit } from "../../../utils/replace-local-digit";
+import TableHeader from "../../../components/table/TableHeader";
+import TableHead from "../../../components/table/TableHead";
+import TableBody from "../../../components/table/TableBody";
+import TableRow from "../../../components/table/TableRow";
+import TableCell from "../../../components/table/TableCell";
+import TableIconContent from "../../../components/table/TableIconContent";
 import DashboardHeader from "../components/DashboardHeader";
 import DashboardCard from "../../../components/card-utils/DashboardCard";
 import DashboardKPIContainer from "../components/kpi/DashboardKPIContainer";
@@ -316,71 +324,64 @@ const DashboardPage = () => {
             </Button>
           </CardHeader>
           <CardContent className="p-0 flex-1">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="border-b bg-muted/30 text-muted-foreground font-medium">
-                    <th className="py-2.5 px-4">Student</th>
-                    <th className="py-2.5 px-3">Enrolled Course</th>
-                    <th className="py-2.5 px-3">Tuition Fee</th>
-                    <th className="py-2.5 px-3">Payment Status</th>
-                    <th className="py-2.5 px-4 text-right">Time</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
+            <div className="relative overflow-x-auto">
+              <table className="w-full overflow-x-auto text-sm">
+                <TableHeader>
+                  <TableHead>Student</TableHead>
+                  <TableHead>Enrolled Course</TableHead>
+                  <TableHead align="right">Tuition Fee</TableHead>
+                  <TableHead>Payment Status</TableHead>
+                  <TableHead align="right">Time</TableHead>
+                </TableHeader>
+                <TableBody>
                   {recentEnrollments.map((enrollment) => (
-                    <tr
-                      key={enrollment.id}
-                      className="hover:bg-muted/30 transition-colors"
-                    >
-                      {/* Student info */}
-                      <td className="py-3 px-4">
-                        <div className="flex items-center gap-2.5">
-                          <Avatar className="w-8 h-8">
+                    <TableRow key={enrollment.id}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-10 w-10">
                             <AvatarImage
                               src={enrollment.studentImage}
                               alt={enrollment.studentName}
                             />
-                            <AvatarFallback className="text-xs">
-                              {enrollment.studentName.charAt(0)}
+                            <AvatarFallback>
+                              {generateImageFallBack(enrollment.studentName)}
                             </AvatarFallback>
                           </Avatar>
-                          <div>
-                            <p className="font-semibold text-foreground">
+                          <div className="min-w-0">
+                            <p className="font-medium text-foreground">
                               {enrollment.studentName}
                             </p>
-                            <p className="text-[11px] text-muted-foreground flex items-center gap-1">
-                              <Phone className="w-2.5 h-2.5" />
-                              {enrollment.studentPhone}
-                            </p>
+                            <TableIconContent
+                              icon={Phone}
+                              value={replaceLocalDigit(enrollment.studentPhone)}
+                              className="text-xs text-muted-foreground"
+                            />
                           </div>
                         </div>
-                      </td>
+                      </TableCell>
 
-                      {/* Course */}
-                      <td className="py-3 px-3">
-                        <div className="font-medium text-foreground">
-                          {enrollment.courseName}
-                        </div>
-                        <div className="text-[11px] text-muted-foreground">
-                          Batch {enrollment.batch}
-                        </div>
-                      </td>
+                      <TableCell>
+                        <TableIconContent
+                          icon={BookOpen}
+                          value={enrollment.courseName}
+                        />
+                        <p className="mt-0.5 text-xs text-muted-foreground pl-5.5">
+                          Batch {replaceLocalDigit(enrollment.batch)}
+                        </p>
+                      </TableCell>
 
-                      {/* Tuition */}
-                      <td className="py-3 px-3">
-                        <div className="font-semibold text-foreground">
-                          {formatCurrency(enrollment.price)} MMK
-                        </div>
-                        {enrollment.paymentStatus === "partial" && (
-                          <div className="text-[10px] text-amber-600">
-                            Paid: {formatCurrency(enrollment.paidAmount)}
-                          </div>
-                        )}
-                      </td>
+                      <TableCell align="right">
+                        <p className="font-semibold">
+                          {formatCurrency(enrollment.price)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {enrollment.paymentStatus === "partial"
+                            ? `Paid: ${formatCurrency(enrollment.paidAmount)}`
+                            : "Per course"}
+                        </p>
+                      </TableCell>
 
-                      {/* Status */}
-                      <td className="py-3 px-3">
+                      <TableCell>
                         {enrollment.paymentStatus === "paid" && (
                           <Badge
                             variant="secondary"
@@ -408,15 +409,19 @@ const DashboardPage = () => {
                             Unpaid
                           </Badge>
                         )}
-                      </td>
+                      </TableCell>
 
-                      {/* Enrolled time */}
-                      <td className="py-3 px-4 text-right text-muted-foreground whitespace-nowrap">
-                        {enrollment.enrolledAt}
-                      </td>
-                    </tr>
+                      <TableCell align="right">
+                        <TableIconContent
+                          icon={Clock}
+                          value={enrollment.enrolledAt}
+                          align="right"
+                          className="text-muted-foreground"
+                        />
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
+                </TableBody>
               </table>
             </div>
           </CardContent>
