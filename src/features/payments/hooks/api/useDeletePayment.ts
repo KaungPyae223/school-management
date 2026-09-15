@@ -13,6 +13,9 @@ export const useDeletePayment = (classId: number) => {
           queryKey: ["enrollments"],
         }),
         queryClient.invalidateQueries({
+          queryKey: ["payments-by-enrollment"],
+        }),
+        queryClient.invalidateQueries({
           queryKey: ["payments"],
         }),
         queryClient.invalidateQueries({

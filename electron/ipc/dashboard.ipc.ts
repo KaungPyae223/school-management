@@ -171,4 +171,45 @@ export const dashboardIPCs = () => {
       return { error: error.message };
     }
   });
+  protectedHandle("dashboard:recent-enrollment", async (_, data) => {
+    const { page = 1, limit = 10 } = data;
+
+    const skip = Number(page - 1) * Number(limit);
+
+    try {
+      const result = await prisma.$queryRaw<any[]>`
+        SELECT 
+          e.id,
+          e.createdAt,
+          e.price,
+          cl.batch,
+          s.name as student_name,
+          s.image as student_image,
+          s.phone as student_phone,
+          c.name as course_name,
+          COALESCE(SUM(p.amount), 0) as paid_amount
+        FROM enrollments e
+        JOIN classes cl ON e.classId = cl.id
+        JOIN students s ON e.studentId = s.id
+        JOIN courses c ON cl.courseId = c.id
+        LEFT JOIN payments p ON e.id = p.enrollmentId
+        WHERE e.createdAt >= ${new Date(
+          new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
+        ).toISOString()}
+        GROUP BY e.id
+        ORDER BY e.createdAt DESC
+        LIMIT ${limit} OFFSET ${skip}
+      `;
+
+      return {
+        data: result.map((item: any) => ({
+          ...item,
+          student_image: showImage(item.student_image),
+        })),
+      };
+    } catch (error: any) {
+      console.error(error);
+      return { error: error.message };
+    }
+  });
 };

@@ -2,47 +2,58 @@ import { checkAuthorization } from "./check-authorization";
 
 export const dashboardService = {
   getKPI: async () => {
-    const data = await window.dashboardAPI.getKPI();
+    const result = await window.dashboardAPI.getKPI();
 
-    if (data.error) {
-      checkAuthorization(data.error);
+    if (result.error) {
+      checkAuthorization(result.error);
 
-      throw new Error(data.error);
+      throw new Error(result.error);
     }
 
-    return data;
+    return result;
   },
   getRevenueEnrollment: async () => {
-    const data = await window.dashboardAPI.revenueEnrollment();
+    const result = await window.dashboardAPI.revenueEnrollment();
 
-    if (data.error) {
-      checkAuthorization(data.error);
+    if (result.error) {
+      checkAuthorization(result.error);
 
-      throw new Error(data.error);
+      throw new Error(result.error);
     }
 
-    return data;
+    return result;
   },
   getCoursesEnrollments: async () => {
-    const data = await window.dashboardAPI.coursesEnrollments();
+    const result = await window.dashboardAPI.coursesEnrollments();
 
-    if (data.error) {
-      checkAuthorization(data.error);
+    if (result.error) {
+      checkAuthorization(result.error);
 
-      throw new Error(data.error);
+      throw new Error(result.error);
     }
 
-    return data;
+    return result;
   },
   getTodayClasses: async () => {
-    const data = await window.dashboardAPI.getTodayClasses();
+    const result = await window.dashboardAPI.getTodayClasses();
 
-    if (data.error) {
-      checkAuthorization(data.error);
+    if (result.error) {
+      checkAuthorization(result.error);
 
-      throw new Error(data.error);
+      throw new Error(result.error);
     }
 
-    return data;
+    return result;
+  },
+  getRecentEnrollment: async (data: { page: number; limit: number }) => {
+    const result = await window.dashboardAPI.getRecentEnrollment(data);
+
+    if (result.error) {
+      checkAuthorization(result.error);
+
+      throw new Error(result.error);
+    }
+
+    return result;
   },
 };

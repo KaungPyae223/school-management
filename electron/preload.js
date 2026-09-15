@@ -11,6 +11,8 @@ contextBridge.exposeInMainWorld("dashboardAPI", {
   revenueEnrollment: () => ipcRenderer.invoke("dashboard:revenue-enrollments"),
   coursesEnrollments: () => ipcRenderer.invoke("dashboard:courses-enrollments"),
   getTodayClasses: () => ipcRenderer.invoke("dashboard:today-classes"),
+  getRecentEnrollment: (data) =>
+    ipcRenderer.invoke("dashboard:recent-enrollment", data),
 });
 
 contextBridge.exposeInMainWorld("authAPI", {

@@ -9,7 +9,7 @@ export const useScrollFetch = ({
   hasMore: boolean;
   isLoading: boolean;
   fetchData: (s: string, c: boolean) => void;
-  searchTerm: string;
+  searchTerm?: string;
 }) => {
   const loadingRef = useRef<HTMLDivElement>(null);
 

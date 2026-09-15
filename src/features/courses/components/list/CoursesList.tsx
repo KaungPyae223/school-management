@@ -131,7 +131,7 @@ const CoursesList = ({ data }: { data: any }) => {
                 {formatDate(course.updatedAt)}
               </TableCell>
 
-              <TableCell className="py-4 pl-3 pr-6 text-right">
+              <TableCell className="py-4 pl-3 text-right">
                 <TableActionButtonsContainer
                   onView={() => navigate(`/courses/details/${course.id}`)}
                   onEdit={() => navigate(`/courses/edit/${course.id}`)}

@@ -24,10 +24,11 @@ const DashboardTodayClassesContainer = ({ data }: { data: any }) => {
         className="border-0 shadow-none ring-0"
       >
         <CardContent className="p-0 flex-1">
-          <ScrollArea className="h-96 px-4">
-            <div className="space-y-3 pb-3">
-              {data.map((item) => (
+          <ScrollArea className="h-96 px-4 pb-0">
+            <div className="space-y-3 ">
+              {data.map((item: any) => (
                 <DashboardTodayClassesCard data={item} key={item.id} />
+               
               ))}
             </div>
           </ScrollArea>

@@ -21,7 +21,7 @@ export const useFetchOnScroll = ({
       const response = await fetchFunction({
         search: value,
         page,
-        limit: 5,
+        limit: 10,
         onlyActive,
       });
       const results: any[] = response?.data ?? [];

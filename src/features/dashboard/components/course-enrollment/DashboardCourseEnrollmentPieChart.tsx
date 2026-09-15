@@ -10,7 +10,7 @@ const DashboardCourseEnrollmentPieChart = ({ data }: { data: any }) => {
   const chartConfig = {
     total_enrollments: { label: "Enrollments" },
     ...Object.fromEntries(
-      data.map((row) => [
+      data.map((row: any) => [
         row.name,
         {
           label: row.name,
@@ -33,7 +33,7 @@ const DashboardCourseEnrollmentPieChart = ({ data }: { data: any }) => {
           outerRadius={80}
           paddingAngle={3}
         >
-          {data.map((entry, index) => (
+          {data.map((entry: any, index: number) => (
             <Cell key={`cell-${index}`} fill={entry.fill} />
           ))}
         </Pie>

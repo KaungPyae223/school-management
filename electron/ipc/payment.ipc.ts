@@ -53,7 +53,7 @@ export const paymentIPCs = () => {
 
     if (view === "outstanding") {
       conditions.push(Prisma.sql`e.withdrawn = 0`);
-      conditions.push(Prisma.sql`(paidAmount = 0 OR paidAmount < e.price)`);
+      conditions.push(Prisma.sql`COALESCE(ep.paidAmount, 0) < e.price`);
     }
 
     const searchQuery =

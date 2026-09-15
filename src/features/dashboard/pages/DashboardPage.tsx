@@ -1,12 +1,10 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   GraduationCap,
   BookOpen,
   DollarSign,
   ArrowUpRight,
   Clock,
-  CheckCircle2,
-  AlertCircle,
   CreditCard,
   ChevronRight,
   Phone,
@@ -40,6 +38,7 @@ import TableBody from "../../../components/table/TableBody";
 import TableRow from "../../../components/table/TableRow";
 import TableCell from "../../../components/table/TableCell";
 import TableIconContent from "../../../components/table/TableIconContent";
+import TableActionButtonsContainer from "../../../components/table/TableActionButtonsContainer";
 import DashboardHeader from "../components/DashboardHeader";
 import DashboardCard from "../../../components/card-utils/DashboardCard";
 import DashboardKPIContainer from "../components/kpi/DashboardKPIContainer";
@@ -49,6 +48,7 @@ import LoadingPage from "../../../components/loading/LoadingPage";
 import DashboardRevenueEnrollmentContainer from "../components/revenue-enrollment/DashboardRevenueEnrollmentContainer";
 import DashboardCourseEnrollmentContainer from "../components/course-enrollment/DashboardCourseEnrollmentContainer";
 import DashboardTodayClassesContainer from "../components/today-classes/DashboardTodayClassesContainer";
+import DashboardRecentEnrollmentContainer from "../components/recent-enrollment/DashboardRecentEnrollmentContainer";
 
 // ==========================================
 // DUMMY DATA BASED ON PRISMA SCHEMA
@@ -70,79 +70,7 @@ const dummyStats = {
   collectionRate: 85.3,
 };
 
-// Dummy Recent Enrollments (Enrollment + Student + Class schema)
-const recentEnrollments = [
-  {
-    id: 1,
-    studentName: "Mya Myat Noe",
-    studentPhone: "09-798123456",
-    studentGender: "FEMALE",
-    studentImage:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
-    courseName: "Fullstack Web Dev",
-    batch: 12,
-    price: 350000,
-    paidAmount: 350000,
-    paymentStatus: "paid", // 'paid' | 'partial' | 'unpaid'
-    enrolledAt: "10 mins ago",
-  },
-  {
-    id: 2,
-    studentName: "Kaung Sithu",
-    studentPhone: "09-420987654",
-    studentGender: "MALE",
-    studentImage:
-      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
-    courseName: "UI/UX Design Masterclass",
-    batch: 8,
-    price: 300000,
-    paidAmount: 150000,
-    paymentStatus: "partial",
-    enrolledAt: "1 hour ago",
-  },
-  {
-    id: 3,
-    studentName: "Thiri Shwe Sin",
-    studentPhone: "09-976543210",
-    studentGender: "FEMALE",
-    studentImage:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
-    courseName: "Python for Data Science",
-    batch: 5,
-    price: 400000,
-    paidAmount: 400000,
-    paymentStatus: "paid",
-    enrolledAt: "3 hours ago",
-  },
-  {
-    id: 4,
-    studentName: "Aung Phone Myint",
-    studentPhone: "09-250123789",
-    studentGender: "MALE",
-    studentImage:
-      "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=150&auto=format&fit=crop&q=80",
-    courseName: "Japanese Language (N3)",
-    batch: 7,
-    price: 250000,
-    paidAmount: 0,
-    paymentStatus: "unpaid",
-    enrolledAt: "5 hours ago",
-  },
-  {
-    id: 5,
-    studentName: "Khin Wint Wah",
-    studentPhone: "09-770889900",
-    studentGender: "FEMALE",
-    studentImage:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&auto=format&fit=crop&q=80",
-    courseName: "Flutter Mobile App Dev",
-    batch: 4,
-    price: 380000,
-    paidAmount: 380000,
-    paymentStatus: "paid",
-    enrolledAt: "Yesterday",
-  },
-];
+
 
 // Dummy Recent Payments Feed (Payment + Enrollment schema)
 const recentPayments = [
@@ -249,6 +177,8 @@ const pendingTuitionList = [
 ];
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
+
   useAddBreadcrumb({
     title: "Dashboard",
   });
@@ -308,135 +238,7 @@ const DashboardPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <DashboardTodayClassesContainer data={data?.todayClasses} />
 
-        {/* Recent Enrollments Table (2 Columns) */}
-        <Card className="lg:col-span-2 shadow-xs flex flex-col">
-          <CardHeader className="pb-3 flex flex-row items-center justify-between">
-            <div>
-              <CardTitle className="text-base font-semibold">
-                Recent Enrollments
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Latest student admissions and class registrations
-              </CardDescription>
-            </div>
-            <Button asChild variant="outline" size="sm" className="text-xs h-8">
-              <Link to="/students">View All Students</Link>
-            </Button>
-          </CardHeader>
-          <CardContent className="p-0 flex-1">
-            <div className="relative overflow-x-auto">
-              <table className="w-full overflow-x-auto text-sm">
-                <TableHeader>
-                  <TableHead>Student</TableHead>
-                  <TableHead>Enrolled Course</TableHead>
-                  <TableHead align="right">Tuition Fee</TableHead>
-                  <TableHead>Payment Status</TableHead>
-                  <TableHead align="right">Time</TableHead>
-                </TableHeader>
-                <TableBody>
-                  {recentEnrollments.map((enrollment) => (
-                    <TableRow key={enrollment.id}>
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <Avatar className="h-10 w-10">
-                            <AvatarImage
-                              src={enrollment.studentImage}
-                              alt={enrollment.studentName}
-                            />
-                            <AvatarFallback>
-                              {generateImageFallBack(enrollment.studentName)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="min-w-0">
-                            <p className="font-medium text-foreground">
-                              {enrollment.studentName}
-                            </p>
-                            <TableIconContent
-                              icon={Phone}
-                              value={replaceLocalDigit(enrollment.studentPhone)}
-                              className="text-xs text-muted-foreground"
-                            />
-                          </div>
-                        </div>
-                      </TableCell>
-
-                      <TableCell>
-                        <TableIconContent
-                          icon={BookOpen}
-                          value={enrollment.courseName}
-                        />
-                        <p className="mt-0.5 text-xs text-muted-foreground pl-5.5">
-                          Batch {replaceLocalDigit(enrollment.batch)}
-                        </p>
-                      </TableCell>
-
-                      <TableCell align="right">
-                        <p className="font-semibold">
-                          {formatCurrency(enrollment.price)}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {enrollment.paymentStatus === "partial"
-                            ? `Paid: ${formatCurrency(enrollment.paidAmount)}`
-                            : "Per course"}
-                        </p>
-                      </TableCell>
-
-                      <TableCell>
-                        {enrollment.paymentStatus === "paid" && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 text-[11px] font-medium"
-                          >
-                            <CheckCircle2 className="w-3 h-3 mr-1" />
-                            Fully Paid
-                          </Badge>
-                        )}
-                        {enrollment.paymentStatus === "partial" && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 text-[11px] font-medium"
-                          >
-                            <AlertCircle className="w-3 h-3 mr-1" />
-                            Partial
-                          </Badge>
-                        )}
-                        {enrollment.paymentStatus === "unpaid" && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20 text-[11px] font-medium"
-                          >
-                            <AlertCircle className="w-3 h-3 mr-1" />
-                            Unpaid
-                          </Badge>
-                        )}
-                      </TableCell>
-
-                      <TableCell align="right">
-                        <TableIconContent
-                          icon={Clock}
-                          value={enrollment.enrolledAt}
-                          align="right"
-                          className="text-muted-foreground"
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </table>
-            </div>
-          </CardContent>
-          <CardFooter className="py-2.5 px-4 border-t bg-muted/20 flex items-center justify-between text-xs text-muted-foreground">
-            <span>
-              Showing recent 5 of {dummyStats.totalStudents} registrations
-            </span>
-            <Link
-              to="/classes"
-              className="text-primary hover:underline font-medium inline-flex items-center gap-1"
-            >
-              Enroll Student <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
-          </CardFooter>
-        </Card>
+        <DashboardRecentEnrollmentContainer />
       </div>
 
       {/* 5. BOTTOM SECTION: RECENT PAYMENTS FEED & TOP INSTRUCTORS */}

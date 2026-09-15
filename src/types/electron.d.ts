@@ -13,6 +13,10 @@ declare global {
       revenueEnrollment: () => Promise<any>;
       coursesEnrollments: () => Promise<any>;
       getTodayClasses: () => Promise<any>;
+      getRecentEnrollment: (data: {
+        page?: number;
+        limit?: number;
+      }) => Promise<any>;
     };
     authAPI: {
       isAuthenticated: () => Promise<boolean>;

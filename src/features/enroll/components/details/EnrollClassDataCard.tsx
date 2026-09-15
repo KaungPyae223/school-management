@@ -28,7 +28,7 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
       <div className="flex  items-center">
         <ImageDisplay
           image={data.course_image}
-          alt={data.course.name}
+          alt={data.course_name}
           display="data"
           fallbackIcon={BookOpen}
         />
@@ -36,7 +36,7 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
         <div className="flex-1 space-y-3 m-4">
           <div className="flex items-center justify-between gap-2">
             <h3 className="text-lg font-semibold line-clamp-1">
-              {data.course.name}
+              {data.course_name}
             </h3>
             <Badge variant="outline">
               {t("classes.batch", { batch: replaceLocalDigit(data.batch) })}
@@ -44,7 +44,7 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
           </div>
           <ClassesTeacherCard
             image={data.teacher_image}
-            name={data.teacher.name}
+            name={data.teacher_name}
           />
         </div>
       </div>
