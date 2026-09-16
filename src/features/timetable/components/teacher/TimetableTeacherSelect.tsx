@@ -27,9 +27,11 @@ const TimetableTeacherSelect = () => {
   const { t } = useTranslation();
   const {
     searchTerm,
-    teacherData,
+    teachers,
     isLoading,
-    hasMore,
+    isFetchingNextPage,
+    hasNextPage,
+    error,
     loadingRef,
     handleSearchChange,
     toggleColumn,
@@ -37,6 +39,10 @@ const TimetableTeacherSelect = () => {
     deselectAllFiltered,
     checkSelect,
   } = useTimetableTeacherSelect();
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <DropdownMenu>
@@ -71,12 +77,12 @@ const TimetableTeacherSelect = () => {
         <DropdownMenuSeparator />
 
         <ScrollArea className="h-75 p-1">
-          {teacherData.length === 0 && !isLoading ? (
+          {teachers.length === 0 && !isLoading && !isFetchingNextPage ? (
             <div className="text-center text-sm text-muted-foreground py-4">
               {t("timetable.noTeachersFound")}
             </div>
           ) : (
-            teacherData.map((teacher, index) => (
+            teachers.map((teacher, index) => (
               <div key={teacher.id}>
                 <DropdownMenuCheckboxItem
                   className="flex items-center gap-3 p-2 cursor-pointer transition-colors"
@@ -94,13 +100,13 @@ const TimetableTeacherSelect = () => {
                     {teacher.name}
                   </span>
                 </DropdownMenuCheckboxItem>
-                {index < teacherData.length - 1 && <DropdownMenuSeparator />}
+                {index < teacher.length - 1 && <DropdownMenuSeparator />}
               </div>
             ))
           )}
-          {hasMore && (
+          {hasNextPage && (
             <div ref={loadingRef} className="py-2 text-center">
-              {isLoading && (
+              {(isLoading || isFetchingNextPage) && (
                 <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                   <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
                   {t("form.loading")}

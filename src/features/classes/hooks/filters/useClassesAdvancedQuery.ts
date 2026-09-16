@@ -13,18 +13,20 @@ export const useClassesAdvancedQuery = () => {
   type FormInput = z.input<typeof formSchema>;
   type FormOutput = z.output<typeof formSchema>;
 
+  const defaultValues: FormInput = {
+    courseIds: "",
+    teacherIds: "",
+    startTime: undefined,
+    endTime: undefined,
+    startDate: undefined,
+    endDate: undefined,
+    minPrice: "" as unknown as number,
+    maxPrice: "" as unknown as number,
+  };
+
   const form = useForm<FormInput, any, FormOutput>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      courseIds: "",
-      teacherIds: "",
-      startTime: undefined,
-      endTime: undefined,
-      startDate: undefined,
-      endDate: undefined,
-      minPrice: "" as unknown as number,
-      maxPrice: "" as unknown as number,
-    },
+    defaultValues,
   });
 
   const [searchParams] = useSearchParams();
@@ -63,7 +65,7 @@ export const useClassesAdvancedQuery = () => {
   }, []);
 
   const handleCancelAll = () => {
-    form.reset();
+    form.reset(defaultValues);
     updateQueryParams({
       courseIds: "",
       teacherIds: "",

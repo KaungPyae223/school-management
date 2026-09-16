@@ -9,6 +9,7 @@ export const useEditStudent = (id: number) => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["students"] }),
         queryClient.invalidateQueries({ queryKey: ["students-details", id] }),
+        queryClient.invalidateQueries({ queryKey: ["getAllStudents"] }),
       ]);
     },
   });

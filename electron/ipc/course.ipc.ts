@@ -33,7 +33,7 @@ export const courseIPCs = () => {
     const finalSort = avilableSort.has(sort) ? sort : "c.createdAt";
     const finalSortDirection = avilableSortDirection.has(sortDirection)
       ? sortDirection
-      : "asc";
+      : "desc";
 
     const skip = Number(page - 1) * Number(limit);
 

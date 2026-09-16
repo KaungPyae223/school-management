@@ -6,7 +6,10 @@ export const useCreateTeacher = () => {
   return useMutation({
     mutationFn: teacherService.createTeacher,
     onSuccess: () => {
-      return queryClient.invalidateQueries({ queryKey: ["teachers"] });
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["teachers"] }),
+        queryClient.invalidateQueries({ queryKey: ["getAllTeachers"] }),
+      ]);
     },
   });
 };

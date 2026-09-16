@@ -109,14 +109,18 @@ const PaymentsList = ({ data }: { data: any }) => {
               hidden={!selectedColumns.includes("First Paid Date")}
               align="right"
             >
-              {replaceLocalDigit(formatDate(new Date(payment.firstPaidAt)))}
+              {payment.firstPaidAt
+                ? replaceLocalDigit(formatDate(new Date(payment.firstPaidAt)))
+                : t("students.na")}
             </TableCell>
 
             <TableCell
               hidden={!selectedColumns.includes("Last Paid Date")}
               align="right"
             >
-              {replaceLocalDigit(formatDate(new Date(payment.lastPaidAt)))}
+              {payment.lastPaidAt
+                ? replaceLocalDigit(formatDate(new Date(payment.lastPaidAt)))
+                : t("students.na")}
             </TableCell>
             <TableCell
               hidden={!selectedColumns.includes("Paid Amount")}

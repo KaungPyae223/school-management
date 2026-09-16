@@ -1,27 +1,47 @@
-import { useEffect, useState } from "react";
-import { useFetchOnScroll } from "../../../../hooks/use-fetch-on-scroll";
 import { dashboardService } from "../../../../services/dashboard";
 import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
+import { useAppInfiniteQuery } from "../../../../hooks/use-app-infinite-query";
 
 export const useGetRecentEnrollment = () => {
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [data, setData] = useState<any[]>([]);
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useAppInfiniteQuery({
+    queryKey: ["getRecentEnrollment"],
 
-  const { fetchData, isLoading, hasMore } = useFetchOnScroll({
-    setData,
-    fetchFunction: dashboardService.getRecentEnrollment,
+    initialPageParam: 1,
+
+    queryFn: ({ pageParam }) =>
+      dashboardService.getRecentEnrollment({
+        page: pageParam as number,
+        limit: 10,
+      }),
+
+    getNextPageParam: (lastPage: any, pages) => {
+      const results = lastPage?.data ?? [];
+
+      return results.length === 10 ? pages.length + 1 : undefined;
+    },
   });
 
   const loadingRef = useScrollFetch({
-    hasMore,
-    isLoading,
-    fetchData,
+    hasMore: hasNextPage,
+    isLoading: isFetchingNextPage,
+    fetchData: fetchNextPage,
   });
 
-  useEffect(() => {
-    fetchData("", false);
-    setInitialLoading(false);
-  }, []);
+  const enrollments = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
 
-  return { data, initialLoading, loadingRef, hasMore, isLoading };
+  return {
+    enrollments,
+    isLoading,
+    error,
+    loadingRef,
+    isFetchingNextPage,
+    hasNextPage,
+  };
 };

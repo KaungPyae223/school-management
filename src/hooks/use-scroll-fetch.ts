@@ -4,12 +4,10 @@ export const useScrollFetch = ({
   hasMore,
   isLoading,
   fetchData,
-  searchTerm,
 }: {
   hasMore: boolean;
   isLoading: boolean;
-  fetchData: (s: string, c: boolean) => void;
-  searchTerm?: string;
+  fetchData: () => void;
 }) => {
   const loadingRef = useRef<HTMLDivElement>(null);
 
@@ -20,7 +18,7 @@ export const useScrollFetch = ({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore && !isLoading) {
-          fetchData(searchTerm, true);
+          fetchData();
         }
       },
       { threshold: 0.1, rootMargin: "100px" },

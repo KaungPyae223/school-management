@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import type { ControllerRenderProps } from "react-hook-form";
 import { courseService } from "../../../../services/courses";
-import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
+import { useDebouncedSearch } from "../../../../hooks/use-debounced-search";
+import { useGetCourseInputData } from "../api/useGetCourseInputData";
 
 export interface Course {
   id: number;
@@ -23,31 +24,34 @@ export const useCourseSelect = (
 
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-  const [courseData, setCourseData] = useState<Course[]>([]);
+
+  const { handleSearchChange, debouncedSearchTerm, searchTerm } =
+    useDebouncedSearch();
 
   const {
-    fetchData,
-    fetchSelectedData,
+    courses,
     isLoading,
-    hasMore,
-    handleSearchChange,
-    searchTerm,
+    error,
     loadingRef,
-  } = useGetFilterData({
-    setData: setCourseData,
-    setSelectedData: setSelectedCourses,
-    fetchFunction: courseService.searchAllCourses,
-  });
+    isFetchingNextPage,
+    hasNextPage,
+  } = useGetCourseInputData(debouncedSearchTerm);
+
+  const getSelectedCourses = async (courseIDs: number[]) => {
+    const res = await courseService.searchAllCourses({
+      courseIDs,
+    });
+
+    setSelectedCourses(res.data);
+  };
 
   useEffect(() => {
-    fetchData("", false);
-
     const courseIDsFromURL = searchParams.get("courseIds");
     const urlCourseValue =
       courseIDsFromURL?.split(",").filter(Boolean).map(Number) ?? [];
 
     if (urlCourseValue.length > 0) {
-      fetchSelectedData(urlCourseValue);
+      getSelectedCourses(urlCourseValue);
     }
   }, []);
 
@@ -73,7 +77,7 @@ export const useCourseSelect = (
     setSelectedCourses((prev) => prev.filter((c) => c.id !== courseId));
   };
 
-  const displayCourses = courseData.filter(
+  const displayCourses = courses.filter(
     (course) => !courseValue.includes(course?.id),
   );
 
@@ -84,7 +88,9 @@ export const useCourseSelect = (
     selectedCourses,
     displayCourses,
     isLoading,
-    hasMore,
+    error,
+    isFetchingNextPage,
+    hasNextPage,
     loadingRef,
     handleSearchChange,
     handleSelectCourse,

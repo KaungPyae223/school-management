@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const CardInfo = ({
   icon: Icon,
@@ -9,6 +10,8 @@ const CardInfo = ({
   label: string;
   value: string;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex items-center gap-3 group">
       <div className="p-2 text-muted-foreground rounded-md bg-muted flex items-center justify-center shrink-0">
@@ -19,7 +22,7 @@ const CardInfo = ({
           {label}
         </p>
         <p className="text-sm font-medium text-foreground truncate">
-          {value || "N/A"}
+          {value || t("students.na")}
         </p>
       </div>
     </div>

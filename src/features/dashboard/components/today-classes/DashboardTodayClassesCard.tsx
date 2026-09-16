@@ -18,10 +18,7 @@ const DashboardTodayClassesCard = ({ data }: { data: any }) => {
   const navigate = useNavigate();
 
   return (
-    <div
-      key={data.id}
-      className="p-3 rounded-lg border bg-card/60 hover:bg-muted/40 transition-colors space-y-2.5"
-    >
+    <div key={data.id} className="p-3 rounded-lg border space-y-2.5">
       <div className="space-y-2">
         <div className="flex flex-row justify-between items-center">
           <div className="flex items-center gap-1.5">
@@ -61,7 +58,7 @@ const DashboardTodayClassesCard = ({ data }: { data: any }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between pt-2.5 border-t text-xs text-muted-foreground">
+      <div className="flex items-center justify-between pt-2.5 border-t text-xs">
         <div className="flex min-w-0 items-center gap-2">
           <Avatar className="size-6 shrink-0">
             <AvatarImage src={data.teacher_image} alt={data.teacher_name} />

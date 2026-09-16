@@ -15,12 +15,15 @@ import {
   CircleDollarSign,
   Hash,
   BookOpen,
+  ChevronRight,
 } from "lucide-react";
 import FormHeader from "../../../../components/form/FormHeader";
 import DetailsData from "../../../../components/details/DetailsData";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { Button } from "../../../../components/ui/button";
+import { useNavigate } from "react-router";
 
 const PaymentsDetailsInfoCard = ({
   enrollment,
@@ -32,6 +35,7 @@ const PaymentsDetailsInfoCard = ({
   totalPaid: number;
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
@@ -76,6 +80,16 @@ const PaymentsDetailsInfoCard = ({
                     {enrollment.student.name}
                   </p>
                 </div>
+                <Button
+                  onClick={() =>
+                    navigate(`/students/details/${enrollment.studentId}`)
+                  }
+                  variant="outline"
+                  size="icon"
+                  className="ms-auto"
+                >
+                  <ChevronRight />
+                </Button>
               </div>
             </div>
           </div>

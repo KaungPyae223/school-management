@@ -8,6 +8,7 @@ export const useEditTeacher = (id: number) => {
     onSuccess: () => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["teachers"] }),
+        queryClient.invalidateQueries({ queryKey: ["getAllTeachers"] }),
         queryClient.invalidateQueries({ queryKey: ["teachers-details", id] }),
       ]);
     },

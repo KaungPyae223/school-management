@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import type { ControllerRenderProps } from "react-hook-form";
-import { studentService } from "../../../../services/students";
-import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
+import { useDebouncedSearch } from "../../../../hooks/use-debounced-search";
+import { useGetStudentInputData } from "../api/useGetStudentInputData";
 
 export interface Student {
   id: string;
@@ -18,23 +18,18 @@ export const useEnrollStudentInput = (
   const [showStudentDropDown, setShowStudentDropDown] =
     useState<boolean>(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-  const [studentData, setStudentData] = useState<Student[]>([]);
+
+  const { handleSearchChange, debouncedSearchTerm, searchTerm } =
+    useDebouncedSearch();
 
   const {
-    fetchData,
+    students,
     isLoading,
-    hasMore,
-    handleSearchChange,
-    searchTerm,
+    error,
     loadingRef,
-  } = useGetFilterData({
-    setData: setStudentData,
-    fetchFunction: studentService.searchAllStudents,
-  });
-
-  useEffect(() => {
-    fetchData("", false);
-  }, []);
+    isFetchingNextPage,
+    hasNextPage,
+  } = useGetStudentInputData(debouncedSearchTerm);
 
   const handleSelectStudent = (student: Student) => {
     field.onChange(student.id);
@@ -54,9 +49,11 @@ export const useEnrollStudentInput = (
     showStudentDropDown,
     setShowStudentDropDown,
     selectedStudent,
-    studentData,
+    students,
     isLoading,
-    hasMore,
+    error,
+    isFetchingNextPage,
+    hasNextPage,
     loadingRef,
     handleSearchChange,
     handleSelectStudent,

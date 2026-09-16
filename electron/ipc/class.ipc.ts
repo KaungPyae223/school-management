@@ -87,7 +87,7 @@ export const classesIPCs = () => {
     const finalSort = avilableSort.has(sort) ? sort : "cl.createdAt";
     const finalSortDirection = avilableSortDirection.has(sortDirection)
       ? sortDirection
-      : "asc";
+      : "desc";
 
     const skip = Number(page - 1) * Number(limit);
 
@@ -215,12 +215,14 @@ export const classesIPCs = () => {
             ...(courseId && { courseId }),
             ...(courseIds && {
               courseId: {
-                in: courseIds.split(",").map((id: string) => id.trim()),
+                in: courseIds.split(",").map((id: string) => Number(id.trim())),
               },
             }),
             ...(teacherIds && {
               teacherId: {
-                in: teacherIds.split(",").map((id: string) => id.trim()),
+                in: teacherIds
+                  .split(",")
+                  .map((id: string) => Number(id.trim())),
               },
             }),
             ...(startTime && {

@@ -1,5 +1,8 @@
 import { useTranslation } from "react-i18next";
-import type { ControllerFieldState, ControllerRenderProps } from "react-hook-form";
+import type {
+  ControllerFieldState,
+  ControllerRenderProps,
+} from "react-hook-form";
 import { BookOpen, X } from "lucide-react";
 
 import { Field } from "../../../../components/ui/field";
@@ -8,7 +11,10 @@ import { Button } from "../../../../components/ui/button";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { cn } from "../../../../lib/utils";
-import { useCourseSelect, type Course } from "../../hooks/filters/useCourseSelect";
+import {
+  useCourseSelect,
+  type Course,
+} from "../../hooks/filters/useCourseSelect";
 
 interface ClassesAdvancedQueryCourseSelectProps {
   field: ControllerRenderProps<any, "courseIds">;
@@ -28,12 +34,18 @@ const ClassesAdvancedQueryCourseSelect = ({
     selectedCourses,
     displayCourses,
     isLoading,
-    hasMore,
+    error,
+    isFetchingNextPage,
+    hasNextPage,
     loadingRef,
     handleSearchChange,
     handleSelectCourse,
     handleRemoveCourse,
   } = useCourseSelect(field);
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <Field data-invalid={fieldState.invalid}>
@@ -52,7 +64,7 @@ const ClassesAdvancedQueryCourseSelect = ({
 
         {showDropDown && displayCourses.length > 0 && (
           <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1 shadow-lg dark:shadow-gray-900/30">
-            <ScrollArea className="max-h-72">
+            <ScrollArea className="max-h-80">
               {displayCourses.map((data: Course) => (
                 <div
                   key={data.id}
@@ -78,9 +90,9 @@ const ClassesAdvancedQueryCourseSelect = ({
                 </div>
               ))}
 
-              {hasMore && (
+              {hasNextPage && (
                 <div ref={loadingRef} className="py-2 text-center">
-                  {isLoading && (
+                  {(isLoading || isFetchingNextPage) && (
                     <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                       <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
                       {t("form.loading")}

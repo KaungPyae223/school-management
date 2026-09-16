@@ -56,4 +56,26 @@ export const dashboardService = {
 
     return result;
   },
+  getRecentPayment: async (data: { page: number; limit: number }) => {
+    const result = await window.dashboardAPI.getRecentPayment(data);
+
+    if (result.error) {
+      checkAuthorization(result.error);
+
+      throw new Error(result.error);
+    }
+
+    return result;
+  },
+  getTotalPendingAmount: async () => {
+    const result = await window.dashboardAPI.getTotalPendingAmount();
+
+    if (result.error) {
+      checkAuthorization(result.error);
+
+      throw new Error(result.error);
+    }
+
+    return result;
+  },
 };

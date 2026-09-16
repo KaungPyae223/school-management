@@ -1,16 +1,14 @@
-import {
-  Sidebar,
-} from "../ui/sidebar";
-import Content from "./SideBarContent";
-import Footer from "./SideBarFooter";
-import Header from "./SideBarHeader";
+import { Sidebar } from "../ui/sidebar";
+import SideBarContent from "./SideBarContent";
+import SideBarFooter from "./SideBarFooter";
+import SideBarHeader from "./SideBarHeader";
 
 export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
-      <Header />
-      <Content />
-      <Footer />
+      <SideBarHeader />
+      <SideBarContent />
+      <SideBarFooter />
     </Sidebar>
   );
 }

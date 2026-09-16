@@ -21,6 +21,8 @@ export const useEnrollClass = () => {
         }),
         queryClient.invalidateQueries({ queryKey: ["students"] }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
+        queryClient.invalidateQueries({ queryKey: ["getRecentEnrollment"] }),
+        queryClient.invalidateQueries({ queryKey: ["getRecentPayment"] }),
       ]);
     },
   });

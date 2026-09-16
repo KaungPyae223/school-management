@@ -11,7 +11,6 @@ import enrollRoutes from "../features/enroll/routes/routes";
 import paymentRoutes from "../features/payments/routes/routes";
 import settingRoutes from "../features/settings/routes/routes";
 import authRoutes from "../features/auth/routes/routes";
-import analysisRoutes from "../features/analysis/routes/routes";
 import Layout from "../layouts/Layout";
 
 const routes = [
@@ -28,7 +27,6 @@ const routes = [
       ...enrollRoutes,
       ...paymentRoutes,
       ...settingRoutes,
-      ...analysisRoutes,
       {
         path: "*",
         Component: NotFound,

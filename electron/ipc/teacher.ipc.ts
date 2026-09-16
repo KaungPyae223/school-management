@@ -32,7 +32,7 @@ export const teacherIPCs = () => {
     const finalSort = avilableSort.has(sort) ? sort : "t.createdAt";
     const finalSortDirection = avilableSortDirection.has(sortDirection)
       ? sortDirection
-      : "asc";
+      : "desc";
 
     const skip = Number(page - 1) * Number(limit);
 

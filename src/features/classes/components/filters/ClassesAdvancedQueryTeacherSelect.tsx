@@ -1,15 +1,25 @@
 import { useTranslation } from "react-i18next";
-import type { ControllerFieldState, ControllerRenderProps } from "react-hook-form";
+import type {
+  ControllerFieldState,
+  ControllerRenderProps,
+} from "react-hook-form";
 import { X } from "lucide-react";
 
 import { Field } from "../../../../components/ui/field";
 import { Input } from "../../../../components/ui/input";
 import { Button } from "../../../../components/ui/button";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "../../../../components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../../../components/ui/avatar";
 import { cn } from "../../../../lib/utils";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
-import { useTeacherSelect, type Teacher } from "../../hooks/filters/useTeacherSelect";
+import {
+  useTeacherSelect,
+  type Teacher,
+} from "../../hooks/filters/useTeacherSelect";
 
 interface ClassesAdvancedQueryTeacherSelectProps {
   field: ControllerRenderProps<any, "teacherIds">;
@@ -29,12 +39,18 @@ const ClassesAdvancedQueryTeacherSelect = ({
     selectedTeachers,
     displayTeachers,
     isLoading,
-    hasMore,
+    hasNextPage,
+    isFetchingNextPage,
+    error,
     loadingRef,
     handleSearchChange,
     handleSelectTeacher,
     handleRemoveTeacher,
   } = useTeacherSelect(field);
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <Field data-invalid={fieldState.invalid}>
@@ -53,7 +69,7 @@ const ClassesAdvancedQueryTeacherSelect = ({
 
         {showDropDown && displayTeachers.length > 0 && (
           <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1 shadow-lg dark:shadow-gray-900/30">
-            <ScrollArea className="max-h-72">
+            <ScrollArea className="max-h-80">
               {displayTeachers.map((data: Teacher) => (
                 <div
                   key={data.id}
@@ -78,9 +94,9 @@ const ClassesAdvancedQueryTeacherSelect = ({
                 </div>
               ))}
 
-              {hasMore && (
+              {hasNextPage && (
                 <div ref={loadingRef} className="py-2 text-center">
-                  {isLoading && (
+                  {(isLoading || isFetchingNextPage) && (
                     <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                       <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
                       {t("form.loading")}

@@ -22,16 +22,22 @@ const TimetableCourseSelect = () => {
   const { t } = useTranslation();
   const {
     searchTerm,
-    courseData,
+    courses,
     isLoading,
-    hasMore,
+    isFetchingNextPage,
+    hasNextPage,
     loadingRef,
+    error,
     handleSearchChange,
     toggleColumn,
     selectAllFiltered,
     deselectAllFiltered,
     checkSelect,
   } = useTimetableCourseSelect();
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <DropdownMenu>
@@ -66,12 +72,12 @@ const TimetableCourseSelect = () => {
         <DropdownMenuSeparator />
 
         <ScrollArea className="h-75 p-1">
-          {courseData.length === 0 && !isLoading ? (
+          {courses.length === 0 && !isLoading && !isFetchingNextPage ? (
             <div className="text-center text-sm text-muted-foreground py-4">
               {t("timetable.noCoursesFound")}
             </div>
           ) : (
-            courseData.map((course, index) => (
+            courses.map((course, index) => (
               <div key={course.id}>
                 <DropdownMenuCheckboxItem
                   className="flex items-center gap-3 p-2 cursor-pointer transition-colors"
@@ -89,13 +95,13 @@ const TimetableCourseSelect = () => {
                     {course.name}
                   </span>
                 </DropdownMenuCheckboxItem>
-                {index < courseData.length - 1 && <DropdownMenuSeparator />}
+                {index < course.length - 1 && <DropdownMenuSeparator />}
               </div>
             ))
           )}
-          {hasMore && (
+          {hasNextPage && (
             <div ref={loadingRef} className="py-2 text-center">
-              {isLoading && (
+              {(isLoading || isFetchingNextPage) && (
                 <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                   <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
                   {t("form.loading")}

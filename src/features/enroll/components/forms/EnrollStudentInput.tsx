@@ -1,4 +1,7 @@
-import type { ControllerFieldState, ControllerRenderProps } from "react-hook-form";
+import type {
+  ControllerFieldState,
+  ControllerRenderProps,
+} from "react-hook-form";
 import { Trash } from "lucide-react";
 import { Field, FieldError } from "../../../../components/ui/field";
 import { Input } from "../../../../components/ui/input";
@@ -26,14 +29,20 @@ const EnrollStudentInput = ({ field, fieldState }: EnrollStudentInputProps) => {
     showStudentDropDown,
     setShowStudentDropDown,
     selectedStudent,
-    studentData,
+    students,
     isLoading,
-    hasMore,
+    error,
+    isFetchingNextPage,
+    hasNextPage,
     loadingRef,
     handleSearchChange,
     handleSelectStudent,
     handleRemoveStudent,
   } = useEnrollStudentInput(field);
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <Field data-invalid={fieldState.invalid}>
@@ -51,10 +60,10 @@ const EnrollStudentInput = ({ field, fieldState }: EnrollStudentInputProps) => {
           autoComplete="off"
           className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
-        {showStudentDropDown && studentData.length > 0 && (
+        {showStudentDropDown && students.length > 0 && (
           <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1">
-            <ScrollArea className="max-h-72">
-              {studentData.map((data) => (
+            <ScrollArea className="max-h-80">
+              {students.map((data) => (
                 <div
                   className="flex items-center gap-3 p-2 hover:bg-muted cursor-pointer"
                   key={data.id}
@@ -75,9 +84,9 @@ const EnrollStudentInput = ({ field, fieldState }: EnrollStudentInputProps) => {
                   </div>
                 </div>
               ))}
-              {hasMore && (
+              {hasNextPage && (
                 <div ref={loadingRef} className="py-2 text-center">
-                  {isLoading && (
+                  {(isLoading || isFetchingNextPage) && (
                     <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                       <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
                       Loading more...

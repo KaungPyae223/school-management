@@ -21,6 +21,7 @@ export const useDeletePayment = (classId: number) => {
         queryClient.invalidateQueries({
           queryKey: ["classes_enrollments", classId],
         }),
+        queryClient.invalidateQueries({ queryKey: ["getRecentPayment"] }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
       ]);
     },

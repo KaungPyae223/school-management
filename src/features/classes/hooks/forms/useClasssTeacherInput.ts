@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ControllerRenderProps } from "react-hook-form";
-import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
-import { teacherService } from "../../../../services/teachers";
+import { useDebouncedSearch } from "../../../../hooks/use-debounced-search";
+import { useGetTeacherInputData } from "../api/useGetTeacherInputData";
 
 export interface Teacher {
   id: number;
@@ -15,24 +15,18 @@ export const useClassTeacherInput = (
 ) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
-  const [teacherData, setTeacherData] = useState<Teacher[]>([]);
+
+  const { handleSearchChange, debouncedSearchTerm, searchTerm } =
+    useDebouncedSearch();
 
   const {
-    fetchData,
+    teachers,
     isLoading,
-    hasMore,
-    handleSearchChange,
-    searchTerm,
+    error,
     loadingRef,
-  } = useGetFilterData({
-    setData: setTeacherData,
-    fetchFunction: teacherService.searchAllTeachers,
-    onlyActive: true,
-  });
-
-  useEffect(() => {
-    fetchData("", false);
-  }, []);
+    isFetchingNextPage,
+    hasNextPage,
+  } = useGetTeacherInputData(debouncedSearchTerm, true);
 
   useEffect(() => {
     if (defaultSelectedTeacher && field.value == defaultSelectedTeacher.id) {
@@ -59,10 +53,12 @@ export const useClassTeacherInput = (
     showDropDown,
     setShowDropDown,
     selectedTeacher,
-    teacherData,
     isLoading,
-    hasMore,
     loadingRef,
+    teachers,
+    error,
+    isFetchingNextPage,
+    hasNextPage,
     handleSearchChange,
     handleSelectTeacher,
     handleRemoveTeacher,

@@ -26,10 +26,11 @@ export const useFetchOnScroll = ({
       });
       const results: any[] = response?.data ?? [];
       setData((prev) => (append ? [...prev, ...results] : results));
-      setHasMore(results.length === 5);
+      setHasMore(results.length === 10);
       setPage((prevPage) => prevPage + 1);
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       setIsLoading(false);
     }

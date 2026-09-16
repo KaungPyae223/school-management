@@ -6,7 +6,10 @@ export const useDeleteStudent = () => {
   return useMutation({
     mutationFn: studentService.deleteStudent,
     onSuccess: () => {
-      return queryClient.invalidateQueries({ queryKey: ["students"] });
+      return Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["students"] }),
+        queryClient.invalidateQueries({ queryKey: ["getAllStudents"] }),
+      ]);
     },
   });
 };

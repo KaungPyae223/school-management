@@ -187,6 +187,7 @@ export const dashboardIPCs = () => {
           s.image as student_image,
           s.phone as student_phone,
           c.name as course_name,
+          c.image as course_image,
           COALESCE(SUM(p.amount), 0) as paid_amount
         FROM enrollments e
         JOIN classes cl ON e.classId = cl.id
@@ -205,8 +206,70 @@ export const dashboardIPCs = () => {
         data: result.map((item: any) => ({
           ...item,
           student_image: showImage(item.student_image),
+          course_image: showImage(item.course_image),
         })),
       };
+    } catch (error: any) {
+      console.error(error);
+      return { error: error.message };
+    }
+  });
+  protectedHandle("dashboard:recent-payment", async (_, data) => {
+    const { page = 1, limit = 10 } = data;
+
+    const skip = Number(page - 1) * Number(limit);
+
+    try {
+      const result = await prisma.$queryRaw<any[]>`
+        SELECT 
+          p.id,
+          p.createdAt,
+          p.amount,
+          e.id as enrollment_id,
+          s.name as student_name,
+          s.image as student_image,
+          c.name as course_name,
+          cl.batch
+        FROM payments p
+        JOIN enrollments e ON p.enrollmentId = e.id
+        JOIN students s ON e.studentId = s.id
+        JOIN classes cl ON e.classId = cl.id
+        JOIN courses c ON cl.courseId = c.id
+        ORDER BY p.createdAt DESC
+        LIMIT ${limit} OFFSET ${skip}
+      `;
+
+      return {
+        data: result.map((item: any) => ({
+          ...item,
+          student_image: showImage(item.student_image),
+        })),
+      };
+    } catch (error: any) {
+      console.error(error);
+      return { error: error.message };
+    }
+  });
+  protectedHandle("dashboard:get-total-pending-amount", async () => {
+    try {
+      const result = await prisma.$queryRaw<any[]>`
+        WITH total_paid AS (
+          SELECT
+            enrollmentId,
+            SUM(amount) AS total_paid
+          FROM payments
+          GROUP BY enrollmentId
+        )
+        SELECT
+          COALESCE(SUM(
+            e.price - COALESCE(p.total_paid, 0)
+          ), 0) AS total_pending_amount
+        FROM enrollments e
+        LEFT JOIN total_paid p ON e.id = p.enrollmentId
+        WHERE e.withdrawn = 0
+      `;
+
+      return result[0].total_pending_amount;
     } catch (error: any) {
       console.error(error);
       return { error: error.message };

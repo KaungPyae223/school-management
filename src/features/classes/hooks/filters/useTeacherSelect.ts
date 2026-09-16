@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import type { ControllerRenderProps } from "react-hook-form";
 import { teacherService } from "../../../../services/teachers";
-import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
+import { useGetTeacherInputData } from "../api/useGetTeacherInputData";
+import { useDebouncedSearch } from "../../../../hooks/use-debounced-search";
 
 export interface Teacher {
   id: number;
@@ -22,31 +23,34 @@ export const useTeacherSelect = (
 
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedTeachers, setSelectedTeachers] = useState<Teacher[]>([]);
-  const [teacherData, setTeacherData] = useState<Teacher[]>([]);
+
+  const { handleSearchChange, debouncedSearchTerm, searchTerm } =
+    useDebouncedSearch();
 
   const {
-    fetchData,
-    fetchSelectedData,
+    teachers,
     isLoading,
-    hasMore,
-    handleSearchChange,
-    searchTerm,
+    error,
     loadingRef,
-  } = useGetFilterData({
-    setData: setTeacherData,
-    setSelectedData: setSelectedTeachers,
-    fetchFunction: teacherService.searchAllTeachers,
-  });
+    isFetchingNextPage,
+    hasNextPage,
+  } = useGetTeacherInputData(debouncedSearchTerm);
+
+  const getSelectedTeachers = async (teacherIDs: number[]) => {
+    const res = await teacherService.searchAllTeachers({
+      teacherIDs,
+    });
+
+    setSelectedTeachers(res.data);
+  };
 
   useEffect(() => {
-    fetchData("", false);
-
     const teacherIDsFromURL = searchParams.get("teacherIds");
     const urlTeacherValue =
       teacherIDsFromURL?.split(",").filter(Boolean).map(Number) ?? [];
 
     if (urlTeacherValue.length > 0) {
-      fetchSelectedData(urlTeacherValue);
+      getSelectedTeachers(urlTeacherValue);
     }
   }, []);
 
@@ -72,7 +76,7 @@ export const useTeacherSelect = (
     setSelectedTeachers((prev) => prev.filter((t) => t.id !== teacherId));
   };
 
-  const displayTeachers = teacherData.filter(
+  const displayTeachers = teachers.filter(
     (teacher) => !teacherValue.includes(teacher?.id),
   );
 
@@ -83,7 +87,9 @@ export const useTeacherSelect = (
     selectedTeachers,
     displayTeachers,
     isLoading,
-    hasMore,
+    hasNextPage,
+    isFetchingNextPage,
+    error,
     loadingRef,
     handleSearchChange,
     handleSelectTeacher,

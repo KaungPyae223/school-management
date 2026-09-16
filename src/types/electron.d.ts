@@ -17,6 +17,11 @@ declare global {
         page?: number;
         limit?: number;
       }) => Promise<any>;
+      getRecentPayment: (data: {
+        page?: number;
+        limit?: number;
+      }) => Promise<any>;
+      getTotalPendingAmount: () => Promise<any>;
     };
     authAPI: {
       isAuthenticated: () => Promise<boolean>;

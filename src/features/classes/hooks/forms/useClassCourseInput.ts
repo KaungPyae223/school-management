@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ControllerRenderProps } from "react-hook-form";
-import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
-import { courseService } from "../../../../services/courses";
+import { useDebouncedSearch } from "../../../../hooks/use-debounced-search";
+import { useGetCourseInputData } from "../api/useGetCourseInputData";
 
 export interface Course {
   id: number;
@@ -17,24 +17,17 @@ export const useClassCourseInput = (
 ) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [courseData, setCourseData] = useState<Course[]>([]);
+  const { handleSearchChange, debouncedSearchTerm, searchTerm } =
+    useDebouncedSearch();
 
   const {
-    fetchData,
+    courses,
     isLoading,
-    hasMore,
-    handleSearchChange,
-    searchTerm,
+    error,
     loadingRef,
-  } = useGetFilterData({
-    setData: setCourseData,
-    fetchFunction: courseService.searchAllCourses,
-    onlyActive: true,
-  });
-
-  useEffect(() => {
-    fetchData("", false);
-  }, []);
+    isFetchingNextPage,
+    hasNextPage,
+  } = useGetCourseInputData(debouncedSearchTerm, true);
 
   useEffect(() => {
     if (defaultSelectedCourse && field.value == defaultSelectedCourse.id) {
@@ -63,10 +56,12 @@ export const useClassCourseInput = (
     showDropDown,
     setShowDropDown,
     selectedCourse,
-    courseData,
     isLoading,
-    hasMore,
+    courses,
+    error,
     loadingRef,
+    isFetchingNextPage,
+    hasNextPage,
     handleSearchChange,
     handleSelectCourse,
     handleRemoveCourse,

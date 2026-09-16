@@ -8,6 +8,7 @@ export const useCreateCourse = () => {
     onSuccess: () => {
       return Promise.all([
         queryClient.invalidateQueries({ queryKey: ["courses"] }),
+        queryClient.invalidateQueries({ queryKey: ["getAllCourses"] }),
         queryClient.invalidateQueries({ queryKey: ["courses-details"] }),
       ]);
     },

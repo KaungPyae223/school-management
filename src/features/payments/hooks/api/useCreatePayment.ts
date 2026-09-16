@@ -22,6 +22,7 @@ export const useCreatePayment = (classId: number) => {
           queryKey: ["classes_enrollments", classId],
         }),
         queryClient.invalidateQueries({ queryKey: ["students_enrollments"] }),
+        queryClient.invalidateQueries({ queryKey: ["getRecentPayment"] }),
       ]);
     },
   });

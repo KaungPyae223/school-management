@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { GraduationCap } from "lucide-react";
+import { School } from "lucide-react";
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -17,7 +17,7 @@ const Header = () => {
           <SidebarMenuButton size="lg" asChild>
             <a href="/">
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-emerald-600 dark:bg-emerald-500 text-white">
-                <GraduationCap className="size-5" />
+                <School className="size-5" />
               </div>
               <div className="flex gap-0.5 ms-1.5 leading-none">
                 <span className="font-semibold">{t("general.appTitle")}</span>

@@ -13,6 +13,10 @@ contextBridge.exposeInMainWorld("dashboardAPI", {
   getTodayClasses: () => ipcRenderer.invoke("dashboard:today-classes"),
   getRecentEnrollment: (data) =>
     ipcRenderer.invoke("dashboard:recent-enrollment", data),
+  getRecentPayment: (data) =>
+    ipcRenderer.invoke("dashboard:recent-payment", data),
+  getTotalPendingAmount: () =>
+    ipcRenderer.invoke("dashboard:get-total-pending-amount"),
 });
 
 contextBridge.exposeInMainWorld("authAPI", {

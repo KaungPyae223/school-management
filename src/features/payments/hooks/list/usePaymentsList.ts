@@ -54,12 +54,14 @@ export const usePaymentsList = () => {
       key: "First Paid Date",
       sortable: true,
       sortKey: "firstPaidAt",
+      align: "right",
     },
     {
       title: t("payments.lastPaidDate"),
       key: "Last Paid Date",
       sortable: true,
       sortKey: "lastPaidAt",
+      align: "right",
     },
     {
       title: t("payments.paidAmount"),

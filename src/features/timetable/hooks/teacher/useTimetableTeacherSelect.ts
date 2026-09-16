@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { useSetQueryParams } from "../../../../hooks/use-set-query-params";
-import { teacherService } from "../../../../services/teachers";
-import { useGetFilterData } from "../../../../hooks/use-get-filter-data";
+import { useDebouncedSearch } from "../../../../hooks/use-debounced-search";
+import { useGetTimetableSelectTeacher } from "../api/useGetTimetableSelectTeacher";
 
 export interface Teacher {
   id: number;
@@ -19,25 +18,19 @@ export const useTimetableTeacherSelect = () => {
 
   const deSelected = searchParam.get("deSelectedTeachers");
 
-  const [teacherData, setTeacherData] = useState<Teacher[]>([]);
-
   const updateQueryParams = useSetQueryParams();
 
-  const {
-    isLoading,
-    fetchData,
-    hasMore,
-    handleSearchChange,
-    searchTerm,
-    loadingRef,
-  } = useGetFilterData({
-    setData: setTeacherData,
-    fetchFunction: teacherService.searchAllTeachers,
-  });
+  const { handleSearchChange, debouncedSearchTerm, searchTerm } =
+    useDebouncedSearch();
 
-  useEffect(() => {
-    fetchData("", false);
-  }, []);
+  const {
+    teachers,
+    isLoading,
+    error,
+    loadingRef,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useGetTimetableSelectTeacher(debouncedSearchTerm);
 
   const toggleColumn = (id: string) => {
     const newSelect = selected.includes(id)
@@ -75,9 +68,11 @@ export const useTimetableTeacherSelect = () => {
 
   return {
     searchTerm,
-    teacherData,
+    teachers,
     isLoading,
-    hasMore,
+    isFetchingNextPage,
+    hasNextPage,
+    error,
     loadingRef,
     handleSearchChange,
     toggleColumn,

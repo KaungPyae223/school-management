@@ -1,23 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
 
-export const useDebouncedSearch = ({
-  setPage,
-  setHasMore,
-  fetchData,
-}: {
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  setHasMore: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchData: (value: any, append: boolean) => Promise<any>;
-}) => {
+export const useDebouncedSearch = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
 
   const debouncedSearch = useMemo(
     () =>
       debounce((value: string) => {
-        setPage(1);
-        setHasMore(true);
-        fetchData(value, false);
+        setDebouncedSearchTerm(value);
       }, 750),
     [],
   );
@@ -29,11 +20,11 @@ export const useDebouncedSearch = ({
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
-    setPage(1);
   };
 
   return {
     handleSearchChange,
+    debouncedSearchTerm,
     searchTerm,
   };
 };

@@ -37,14 +37,20 @@ const ClassesCourseInput = ({
     showDropDown,
     setShowDropDown,
     selectedCourse,
-    courseData,
     isLoading,
-    hasMore,
+    courses,
+    error,
     loadingRef,
+    isFetchingNextPage,
+    hasNextPage,
     handleSearchChange,
     handleSelectCourse,
     handleRemoveCourse,
   } = useClassCourseInput(field, setValue, defaultSelectedCourse);
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <Field data-invalid={fieldState.invalid}>
@@ -63,10 +69,10 @@ const ClassesCourseInput = ({
           className={cn(fieldState.invalid ? "border-destructive" : "")}
         />
 
-        {showDropDown && courseData.length > 0 && (
+        {showDropDown && courses.length > 0 && (
           <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1 shadow-lg dark:shadow-gray-900/30">
-            <ScrollArea className="max-h-72">
-              {courseData.map((data: Course) => (
+            <ScrollArea className="max-h-80">
+              {courses.map((data: Course) => (
                 <div
                   key={data.id}
                   className="flex items-center justify-between p-2 hover:bg-muted cursor-pointer"
@@ -94,9 +100,9 @@ const ClassesCourseInput = ({
                 </div>
               ))}
 
-              {hasMore && (
+              {isFetchingNextPage && (
                 <div ref={loadingRef} className="py-2 text-center">
-                  {isLoading && (
+                  {(isLoading || isFetchingNextPage) && (
                     <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                       <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
                       {t("form.loading")}

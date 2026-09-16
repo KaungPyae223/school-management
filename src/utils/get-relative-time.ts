@@ -1,9 +1,5 @@
 export const getRelativeTime = (date: Date): string => {
-  console.log(date);
-
   const timestamp = date.getTime();
-
-  console.log(timestamp);
 
   if (Number.isNaN(timestamp)) {
     return "Invalid date";
