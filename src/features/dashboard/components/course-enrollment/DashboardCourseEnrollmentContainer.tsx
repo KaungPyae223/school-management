@@ -5,6 +5,7 @@ import { ChevronRight, LibraryBig } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import DashboardCourseEnrollmentPieChart from "./DashboardCourseEnrollmentPieChart";
 import DataShow from "../../../../components/data/DataShow";
+import { useTranslation } from "react-i18next";
 
 const colors = [
   "#3b82f6",
@@ -22,6 +23,9 @@ const DashboardCourseEnrollmentContainer = ({
   data: any;
   totalCourses: number;
 }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
   const formattedData = data.map((item: any, i: number) => ({
     name: item.name,
     total_enrollments: Number(item.total_enrollments),
@@ -29,22 +33,20 @@ const DashboardCourseEnrollmentContainer = ({
     fill: colors[i % colors.length],
   }));
 
-  const navigate = useNavigate();
-
   return (
     <DashboardCard
-      title="Course Enrollment Share"
-      description="Student distribution across active courses"
+      title={t("dashboard.courseEnrollment.title")}
+      description={t("dashboard.courseEnrollment.description")}
       className="lg:col-span-1"
     >
       <DataShow
         isLoading={false}
         dataLength={data?.length}
-        emptyTitle="No courses data"
-        emptyDescription="Courses will appear here once created"
+        emptyTitle={t("dashboard.courseEnrollment.emptyTitle")}
+        emptyDescription={t("dashboard.courseEnrollment.emptyDescription")}
         emptyIcon={LibraryBig}
         action={{
-          label: "Create Courses",
+          label: t("dashboard.courseEnrollment.createCourses"),
           link: "/courses/create",
         }}
         className="border-0 shadow-none ring-0"
@@ -78,20 +80,21 @@ const DashboardCourseEnrollmentContainer = ({
         </CardContent>
         <CardFooter className="py-2.5 mt-auto text-xs flex justify-between items-center">
           <span className="text-muted-foreground">
-            Total:{" "}
+            {t("dashboard.courseEnrollment.total")}:{" "}
             <span className="text-primary font-medium">{totalCourses}</span>{" "}
-            Courses
+            {t("dashboard.courseEnrollment.courses")}
           </span>
           <Button
             variant="outline"
             size="sm"
             onClick={() => navigate("/courses")}
           >
-            View All <ChevronRight />
+            {t("dashboard.courseEnrollment.viewAll")} <ChevronRight />
           </Button>
         </CardFooter>
       </DataShow>
     </DashboardCard>
   );
 };
+
 export default DashboardCourseEnrollmentContainer;

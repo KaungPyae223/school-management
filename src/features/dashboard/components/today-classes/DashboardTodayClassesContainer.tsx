@@ -6,20 +6,22 @@ import { Button } from "../../../../components/ui/button";
 import { useNavigate } from "react-router-dom";
 import DataShow from "../../../../components/data/DataShow";
 import DashboardTodayClassesCard from "./DashboardTodayClassesCard";
+import { useTranslation } from "react-i18next";
 
 const DashboardTodayClassesContainer = ({ data }: { data: any }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <DashboardCard
-      title={"Today's Schedule"}
-      description={"Active classes scheduled for today"}
+      title={t("dashboard.todayClasses.title")}
+      description={t("dashboard.todayClasses.description")}
     >
       <DataShow
         isLoading={false}
         dataLength={1}
-        emptyTitle="No today's classes"
-        emptyDescription="There are no classes scheduled for today"
+        emptyTitle={t("dashboard.todayClasses.emptyTitle")}
+        emptyDescription={t("dashboard.todayClasses.emptyDescription")}
         emptyIcon={BookOpen}
         className="border-0 shadow-none ring-0"
       >
@@ -28,7 +30,6 @@ const DashboardTodayClassesContainer = ({ data }: { data: any }) => {
             <div className="space-y-3 ">
               {data.map((item: any) => (
                 <DashboardTodayClassesCard data={item} key={item.id} />
-               
               ))}
             </div>
           </ScrollArea>
@@ -40,7 +41,7 @@ const DashboardTodayClassesContainer = ({ data }: { data: any }) => {
             className="w-full "
             variant="outline"
           >
-            Open Full Timetable View
+            {t("dashboard.todayClasses.openFullTimetable")}
           </Button>
         </CardFooter>
       </DataShow>

@@ -5,6 +5,7 @@ import DataShow from "../../../../components/data/DataShow";
 import { BookOpen } from "lucide-react";
 import DashboardRevenueEnrollmentChart from "./DashboardRevenueEnrollmentChart";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { useTranslation } from "react-i18next";
 
 const months = [
   "Jan",
@@ -33,6 +34,8 @@ const DashboardRevenueEnrollmentContainer = ({
 }: {
   data: RevenueEnrollmentData[];
 }) => {
+  const { t } = useTranslation();
+
   const formattedData = data
     .sort((a: RevenueEnrollmentData, b: RevenueEnrollmentData) => {
       return a.date.localeCompare(b.date);
@@ -59,17 +62,17 @@ const DashboardRevenueEnrollmentContainer = ({
   return (
     <DashboardCard
       className="lg:col-span-2 "
-      title="Revenue & Enrollment Growth"
-      description="Monthly tuition collection and student admission trajectory"
+      title={t("dashboard.revenueEnrollment.title")}
+      description={t("dashboard.revenueEnrollment.description")}
     >
       <DataShow
         isLoading={false}
         dataLength={data?.length}
-        emptyTitle="No revenue or enrollment data"
-        emptyDescription="Revenue and enrollment trends will appear here once students are enrolled and payments are recorded."
+        emptyTitle={t("dashboard.revenueEnrollment.emptyTitle")}
+        emptyDescription={t("dashboard.revenueEnrollment.emptyDescription")}
         emptyIcon={BookOpen}
         action={{
-          label: "Create Enrollment",
+          label: t("dashboard.revenueEnrollment.createEnrollment"),
           link: "/classes",
         }}
         className="border-0 shadow-none ring-0"
@@ -80,7 +83,7 @@ const DashboardRevenueEnrollmentContainer = ({
         <CardFooter className="py-2.5 mt-auto text-xs flex justify-around text-center items-center">
           <div>
             <p className="text-[11px] text-muted-foreground">
-              Monthly Avg{" "}
+              {t("dashboard.revenueEnrollment.monthlyAvg")}{" "}
               {formattedData.length > 0
                 ? `(${formattedData[0].month} - ${formattedData[formattedData.length - 1].month})`
                 : ""}
@@ -91,13 +94,14 @@ const DashboardRevenueEnrollmentContainer = ({
           </div>
           <div>
             <p className="text-[11px] text-muted-foreground">
-              Total Enrolled{" "}
+              {t("dashboard.revenueEnrollment.totalEnrolled")}{" "}
               {formattedData.length > 0
                 ? `(${formattedData[0].month} - ${formattedData[formattedData.length - 1].month})`
                 : ""}
             </p>
             <p className="mt-0.5 text-sm font-semibold">
-              {replaceLocalDigit(totalData.enrollments)} Students
+              {replaceLocalDigit(totalData.enrollments)}{" "}
+              {t("dashboard.revenueEnrollment.students")}
             </p>
           </div>
         </CardFooter>

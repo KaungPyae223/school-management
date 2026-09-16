@@ -12,9 +12,11 @@ import { formatCurrency } from "../../../../utils/format-currency";
 import { getRelativeTime } from "../../../../utils/get-relative-time";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { BookOpen } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const DashboardRecentEnrollmentCard = ({ data }: { data: any }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="rounded-lg border p-3 ">
@@ -31,7 +33,7 @@ const DashboardRecentEnrollmentCard = ({ data }: { data: any }) => {
 
           <div className="min-w-0 ">
             <p className="mb-0.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Student
+              {t("dashboard.cards.student")}
             </p>
 
             <p className="truncate text-sm font-semibold text-foreground">
@@ -56,7 +58,7 @@ const DashboardRecentEnrollmentCard = ({ data }: { data: any }) => {
 
           <div className="min-w-0 flex-1">
             <p className="mb-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-              Course
+              {t("dashboard.cards.course")}
             </p>
 
             <div className="flex min-w-0 items-center gap-2">
@@ -77,7 +79,7 @@ const DashboardRecentEnrollmentCard = ({ data }: { data: any }) => {
         <div className="flex items-center justify-between gap-4 p-4 md:block md:text-right">
           <div>
             <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-              Course Fee
+              {t("dashboard.cards.courseFee")}
             </p>
 
             <p className="mt-1 text-base font-bold tracking-tight text-foreground">

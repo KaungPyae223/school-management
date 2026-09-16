@@ -7,9 +7,11 @@ import DataShow from "../../../../components/data/DataShow";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
 import { useGetRecentPayment } from "../../hooks/api/useGetRecentPayment";
 import DashboardRecentPaymentCard from "./DashboardRecentPaymentCard";
+import { useTranslation } from "react-i18next";
 
 const DashboardRecentPaymentContainer = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     isLoading,
@@ -26,14 +28,14 @@ const DashboardRecentPaymentContainer = () => {
 
   return (
     <DashboardCard
-      title="Recent Payment Transactions"
-      description="View the latest student payment transactions and payment details."
+      title={t("dashboard.recentPayments.title")}
+      description={t("dashboard.recentPayments.description")}
     >
       <DataShow
         isLoading={isLoading}
         dataLength={payments?.length}
-        emptyTitle="No payment transactions"
-        emptyDescription="Payment transactions will appear here once students make payments."
+        emptyTitle={t("dashboard.recentPayments.emptyTitle")}
+        emptyDescription={t("dashboard.recentPayments.emptyDescription")}
         emptyIcon={CreditCard}
         className="border-0 shadow-none ring-0"
       >
@@ -58,7 +60,7 @@ const DashboardRecentPaymentContainer = () => {
         </CardContent>
         <CardFooter className="py-2.5 mt-auto text-xs flex justify-between items-center">
           <span className="text-muted-foreground">
-            Showing payments from the previous 7 days.{" "}
+            {t("dashboard.recentPayments.showingPayments")}{" "}
           </span>
           <Button
             variant="outline"
@@ -66,7 +68,8 @@ const DashboardRecentPaymentContainer = () => {
             className="text-xs h-8"
             onClick={() => navigate("/payments")}
           >
-            View All Payments <ChevronRight className="w-3.5 h-3.5" />
+            {t("dashboard.recentPayments.viewAllPayments")}{" "}
+            <ChevronRight className="w-3.5 h-3.5" />
           </Button>
         </CardFooter>
       </DataShow>

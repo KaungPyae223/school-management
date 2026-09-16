@@ -7,9 +7,11 @@ import DataShow from "../../../../components/data/DataShow";
 import { GraduationCap, ChevronRight } from "lucide-react";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
 import DashboardRecentEnrollmentCard from "./DashboardRecentEnrollmentCard";
+import { useTranslation } from "react-i18next";
 
 const DashboardRecentEnrollmentContainer = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     enrollments,
@@ -27,8 +29,8 @@ const DashboardRecentEnrollmentContainer = () => {
   return (
     <DashboardCard
       className="lg:col-span-2 "
-      title="Recent Enrollments"
-      description="Latest student admissions and class registrations"
+      title={t("dashboard.recentEnrollments.title")}
+      description={t("dashboard.recentEnrollments.description")}
       action={
         <Button
           onClick={() => navigate("/students")}
@@ -36,15 +38,15 @@ const DashboardRecentEnrollmentContainer = () => {
           size="sm"
           className="text-xs h-8"
         >
-          View All Students
+          {t("dashboard.recentEnrollments.viewAllStudents")}
         </Button>
       }
     >
       <DataShow
         isLoading={isLoading}
         dataLength={enrollments?.length}
-        emptyTitle="No recent enrollments"
-        emptyDescription="Recent enrollments will appear here once students are enrolled and payments are recorded."
+        emptyTitle={t("dashboard.recentEnrollments.emptyTitle")}
+        emptyDescription={t("dashboard.recentEnrollments.emptyDescription")}
         emptyIcon={GraduationCap}
         className="border-0 shadow-none ring-0"
       >
@@ -55,6 +57,7 @@ const DashboardRecentEnrollmentContainer = () => {
                 <DashboardRecentEnrollmentCard
                   key={enrollment.id}
                   data={enrollment}
+                  
                 />
               ))}
               {hasNextPage && (
@@ -74,7 +77,7 @@ const DashboardRecentEnrollmentContainer = () => {
 
       <CardFooter className="py-2.5 mt-auto text-xs flex justify-between items-center">
         <span className="text-muted-foreground">
-          Showing enrollments from the previous 7 days.{" "}
+          {t("dashboard.recentEnrollments.showingEnrollments")}{" "}
         </span>
 
         <Button
@@ -82,7 +85,8 @@ const DashboardRecentEnrollmentContainer = () => {
           size="sm"
           onClick={() => navigate("/classes")}
         >
-          Enroll Student <ChevronRight className="w-3.5 h-3.5" />
+          {t("dashboard.recentEnrollments.enrollStudent")}{" "}
+          <ChevronRight className="w-3.5 h-3.5" />
         </Button>
       </CardFooter>
     </DashboardCard>
@@ -90,3 +94,4 @@ const DashboardRecentEnrollmentContainer = () => {
 };
 
 export default DashboardRecentEnrollmentContainer;
+

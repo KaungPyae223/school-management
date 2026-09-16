@@ -638,6 +638,99 @@
     "close": "Close",
     "viewClassDetails": "View Class Details"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "header": {
+      "title": "Academic Dashboard",
+      "timetable": "Timetable",
+      "newEnrollment": "New Enrollment"
+    },
+    "kpi": {
+      "totalStudents": "Total Students",
+      "male": "Male",
+      "female": "Female",
+      "activeTeachingStaff": "Active Teaching Staff",
+      "classLoad": "Class load",
+      "batchesPerTeacher": "batches/teacher",
+      "coursesAndBatches": "Courses & Batches",
+      "activeBatches": "active batches",
+      "avgClassSize": "Avg. class size",
+      "students": "students",
+      "tuitionCollected": "Tuition Collected",
+      "unpaidBalance": "Unpaid balance"
+    },
+    "revenueEnrollment": {
+      "title": "Revenue & Enrollment Growth",
+      "description": "Monthly tuition collection and student admission trajectory",
+      "emptyTitle": "No revenue or enrollment data",
+      "emptyDescription": "Revenue and enrollment trends will appear here once students are enrolled and payments are recorded.",
+      "createEnrollment": "Create Enrollment",
+      "monthlyAvg": "Monthly Avg",
+      "totalEnrolled": "Total Enrolled",
+      "students": "Students"
+    },
+    "courseEnrollment": {
+      "title": "Course Enrollment Share",
+      "description": "Student distribution across active courses",
+      "emptyTitle": "No courses data",
+      "emptyDescription": "Courses will appear here once created",
+      "createCourses": "Create Courses",
+      "total": "Total",
+      "courses": "Courses",
+      "viewAll": "View All"
+    },
+    "todayClasses": {
+      "title": "Today's Schedule",
+      "description": "Active classes scheduled for today",
+      "emptyTitle": "No today's classes",
+      "emptyDescription": "There are no classes scheduled for today",
+      "openFullTimetable": "Open Full Timetable View"
+    },
+    "recentEnrollments": {
+      "title": "Recent Enrollments",
+      "description": "Latest student admissions and class registrations",
+      "viewAllStudents": "View All Students",
+      "emptyTitle": "No recent enrollments",
+      "emptyDescription": "Recent enrollments will appear here once students are enrolled and payments are recorded.",
+      "showingEnrollments": "Showing enrollments from the previous 7 days.",
+      "enrollStudent": "Enroll Student"
+    },
+    "recentPayments": {
+      "title": "Recent Payment Transactions",
+      "description": "View the latest student payment transactions and payment details.",
+      "emptyTitle": "No payment transactions",
+      "emptyDescription": "Payment transactions will appear here once students make payments.",
+      "showingPayments": "Showing payments from the previous 7 days.",
+      "viewAllPayments": "View All Payments"
+    },
+    "outstandingPayments": {
+      "title": "Outstanding Payments",
+      "description": "View the list of enrollments with outstanding tuition fees.",
+      "emptyTitle": "No outstanding payments",
+      "emptyDescription": "There are no outstanding payments at the moment.",
+      "totalPending": "Total Pending",
+      "viewAllPayments": "View All Payments"
+    },
+    "footer": {
+      "title": "Quick Management Actions",
+      "description": "Direct access to core school management modules",
+      "addStudent": "Add Student",
+      "addCourse": "Add Course",
+      "addTeacher": "Add Teacher"
+    },
+    "cards": {
+      "student": "Student",
+      "course": "Course",
+      "courseFee": "Course Fee",
+      "paid": "paid",
+      "enrolledAt": "Enrolled At",
+      "paidAmount": "Paid Amount",
+      "paymentDate": "Payment Date",
+      "outstandingAmount": "Outstanding Amount",
+      "lastPaidDate": "Last Paid Date",
+      "viewDetails": "View Details"
+    }
+  },
   "validation": {
     "minLength": "{{field}} must be at least {{min}} characters.",
     "maxLength": "{{field}} must be at most {{max}} characters.",

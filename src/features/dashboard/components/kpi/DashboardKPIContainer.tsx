@@ -2,12 +2,15 @@ import { formatCurrency } from "../../../../utils/format-currency";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import DashboardKPI from "./DashboardKPI";
 import { BookOpen, DollarSign, GraduationCap, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <DashboardKPI
-        title="Total Students"
+        title={t("dashboard.kpi.totalStudents")}
         icon={Users}
         statistics={replaceLocalDigit(
           formatCurrency(kpi.students?.total_students || 0),
@@ -16,7 +19,7 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
       >
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>
-            Male:{" "}
+            {t("dashboard.kpi.male")}:{" "}
             <strong className="text-foreground">
               {replaceLocalDigit(
                 formatCurrency(kpi.students?.total_male_students || 0),
@@ -24,7 +27,7 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
             </strong>
           </span>
           <span>
-            Female:{" "}
+            {t("dashboard.kpi.female")}:{" "}
             <strong className="text-foreground">
               {replaceLocalDigit(
                 formatCurrency(kpi.students?.total_female_students || 0),
@@ -35,13 +38,13 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
       </DashboardKPI>
 
       <DashboardKPI
-        title="Active Teaching Staff"
+        title={t("dashboard.kpi.activeTeachingStaff")}
         icon={GraduationCap}
         statistics={replaceLocalDigit(formatCurrency(kpi?.teachers || 0))}
         iconBg="bg-purple-500/10 text-purple-600 dark:text-purple-400"
       >
         <div className="text-xs text-muted-foreground">
-          Class load:{" "}
+          {t("dashboard.kpi.classLoad")}:{" "}
           <strong className="text-foreground">
             {replaceLocalDigit(
               Math.round(
@@ -49,13 +52,13 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
                   Number(kpi.teachers || 1),
               ),
             )}{" "}
-            batches/teacher
+            {t("dashboard.kpi.batchesPerTeacher")}
           </strong>
         </div>
       </DashboardKPI>
 
       <DashboardKPI
-        title="Courses & Batches"
+        title={t("dashboard.kpi.coursesAndBatches")}
         icon={BookOpen}
         statistics={
           <>
@@ -65,7 +68,7 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
               {replaceLocalDigit(
                 kpi.active_class_status?.total_active_classes || 0,
               )}{" "}
-              active batches
+              {t("dashboard.kpi.activeBatches")}
             </span>
           </>
         }
@@ -73,19 +76,19 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
       >
         <div className="flex items-center justify-between text-[11px] text-muted-foreground">
           <span>
-            Avg. class size:{" "}
+            {t("dashboard.kpi.avgClassSize")}:{" "}
             <strong className="text-foreground">
               {replaceLocalDigit(
                 kpi.active_class_status?.avg_enrollments_per_class || 0,
               )}{" "}
-              students
+              {t("dashboard.kpi.students")}
             </strong>
           </span>
         </div>
       </DashboardKPI>
 
       <DashboardKPI
-        title="Tuition Collected"
+        title={t("dashboard.kpi.tuitionCollected")}
         icon={DollarSign}
         statistics={replaceLocalDigit(
           formatCurrency(kpi?.total_collected?.total_paid_amount || 0),
@@ -94,7 +97,7 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
       >
         <div className="flex items-center text-xs text-muted-foreground">
           <span>
-            Unpaid balance:{" "}
+            {t("dashboard.kpi.unpaidBalance")}:{" "}
             <strong className="text-amber-600 dark:text-amber-400">
               {replaceLocalDigit(
                 formatCurrency(

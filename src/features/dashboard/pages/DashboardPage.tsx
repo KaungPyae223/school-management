@@ -10,10 +10,13 @@ import DashboardRecentPaymentContainer from "../components/recent-payment/Dashbo
 import DashboardOutstandingPaymentContainer from "../components/outstanding-payment/DashboardOutstandingPaymentContainer";
 import DashboardFooter from "../components/general/DashboardFooter";
 import { useGetKpi } from "../hooks/api/useGetKpi";
+import { useTranslation } from "react-i18next";
 
 const DashboardPage = () => {
+  const { t } = useTranslation();
+
   useAddBreadcrumb({
-    title: "Dashboard",
+    title: t("dashboard.title"),
   });
 
   const { data, isLoading, error } = useGetKpi();

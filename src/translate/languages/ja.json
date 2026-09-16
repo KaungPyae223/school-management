@@ -638,6 +638,99 @@
     "close": "閉じる",
     "viewClassDetails": "クラスの詳細を見る"
   },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "header": {
+      "title": "アカデミックダッシュボード",
+      "timetable": "時間割",
+      "newEnrollment": "新規登録"
+    },
+    "kpi": {
+      "totalStudents": "生徒数",
+      "male": "男性",
+      "female": "女性",
+      "activeTeachingStaff": "アクティブな教員",
+      "classLoad": "クラス負荷",
+      "batchesPerTeacher": "クラス/教員",
+      "coursesAndBatches": "コースとクラス",
+      "activeBatches": "アクティブなクラス",
+      "avgClassSize": "平均クラスサイズ",
+      "students": "生徒",
+      "tuitionCollected": "収集済み授業料",
+      "unpaidBalance": "未払い残高"
+    },
+    "revenueEnrollment": {
+      "title": "収益と登録数の推移",
+      "description": "月次の授業料収集と生徒入学の推移",
+      "emptyTitle": "収益または登録データがありません",
+      "emptyDescription": "生徒が登録され、支払いが記録されると、収益と登録の推移がここに表示されます。",
+      "createEnrollment": "登録を作成",
+      "monthlyAvg": "月次平均",
+      "totalEnrolled": "総登録数",
+      "students": "生徒"
+    },
+    "courseEnrollment": {
+      "title": "コース別登録割合",
+      "description": "アクティブなコース間の生徒分布",
+      "emptyTitle": "コースデータがありません",
+      "emptyDescription": "コースを作成するとここに表示されます。",
+      "createCourses": "コースを作成",
+      "total": "合計",
+      "courses": "コース",
+      "viewAll": "すべて表示"
+    },
+    "todayClasses": {
+      "title": "今日のスケジュール",
+      "description": "今日予定されているアクティブなクラス",
+      "emptyTitle": "今日のクラスがありません",
+      "emptyDescription": "今日予定されているクラスはありません。",
+      "openFullTimetable": "完全な時間割を開く"
+    },
+    "recentEnrollments": {
+      "title": "最近の登録",
+      "description": "最新の生徒入学とクラス登録",
+      "viewAllStudents": "すべての生徒を表示",
+      "emptyTitle": "最近の登録がありません",
+      "emptyDescription": "生徒が登録され、支払いが記録されると、最近の登録がここに表示されます。",
+      "showingEnrollments": "過去7日間の登録を表示しています。",
+      "enrollStudent": "生徒を登録"
+    },
+    "recentPayments": {
+      "title": "最近の支払い取引",
+      "description": "最新の生徒支払い取引と支払い詳細を表示します。",
+      "emptyTitle": "支払い取引がありません",
+      "emptyDescription": "生徒が支払いを行うと、支払い取引がここに表示されます。",
+      "showingPayments": "過去7日間の支払いを表示しています。",
+      "viewAllPayments": "すべての支払いを表示"
+    },
+    "outstandingPayments": {
+      "title": "未払い支払い",
+      "description": "未払い授業料がある登録のリストを表示します。",
+      "emptyTitle": "未払い支払いがありません",
+      "emptyDescription": "現在、未払い支払いはありません。",
+      "totalPending": "未払い合計",
+      "viewAllPayments": "すべての支払いを表示"
+    },
+    "footer": {
+      "title": "クイック管理アクション",
+      "description": "学校管理コアモジュールへの直接アクセス",
+      "addStudent": "生徒を追加",
+      "addCourse": "コースを追加",
+      "addTeacher": "教員を追加"
+    },
+    "cards": {
+      "student": "生徒",
+      "course": "コース",
+      "courseFee": "コース料金",
+      "paid": "支払済み",
+      "enrolledAt": "登録日",
+      "paidAmount": "支払金額",
+      "paymentDate": "支払日",
+      "outstandingAmount": "未払金額",
+      "lastPaidDate": "最終支払日",
+      "viewDetails": "詳細を表示"
+    }
+  },
   "validation": {
     "minLength": "{{field}}は{{min}}文字以上で入力してください。",
     "maxLength": "{{field}}は{{max}}文字以内で入力してください。",

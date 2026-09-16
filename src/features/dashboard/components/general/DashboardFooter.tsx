@@ -2,9 +2,11 @@ import { BookOpen, School, UserPen, UserPlus } from "lucide-react";
 import { Card, CardContent } from "../../../../components/ui/card";
 import { Button } from "../../../../components/ui/button";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const DashboardFooter = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Card className="shadow-xs">
@@ -15,10 +17,10 @@ const DashboardFooter = () => {
           </div>
           <div>
             <h3 className="font-semibold text-sm text-foreground">
-              Quick Management Actions
+              {t("dashboard.footer.title")}
             </h3>
             <p className="text-xs text-muted-foreground">
-              Direct access to core school management modules
+              {t("dashboard.footer.description")}
             </p>
           </div>
         </div>
@@ -30,7 +32,7 @@ const DashboardFooter = () => {
             onClick={() => navigate("/students/create")}
           >
             <UserPlus className="w-3.5 h-3.5 mr-1" />
-            Add Student
+            {t("dashboard.footer.addStudent")}
           </Button>
           <Button
             variant="outline"
@@ -39,7 +41,7 @@ const DashboardFooter = () => {
             onClick={() => navigate("/courses/create")}
           >
             <BookOpen className="w-3.5 h-3.5 mr-1" />
-            Add Course
+            {t("dashboard.footer.addCourse")}
           </Button>
           <Button
             variant="outline"
@@ -48,7 +50,7 @@ const DashboardFooter = () => {
             onClick={() => navigate("/teachers/create")}
           >
             <UserPen className="w-3.5 h-3.5 mr-1" />
-            Add Teacher
+            {t("dashboard.footer.addTeacher")}
           </Button>
         </div>
       </CardContent>

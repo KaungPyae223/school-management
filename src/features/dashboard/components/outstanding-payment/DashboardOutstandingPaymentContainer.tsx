@@ -9,12 +9,14 @@ import { ScrollArea } from "../../../../components/ui/scroll-area";
 import DashboardOutstandingPaymentCard from "./DashboardOutstandingPaymentCard";
 import { useGetOutstandingPayment } from "../../hooks/api/useGetOutstandingPayment";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { useTranslation } from "react-i18next";
 
 const DashboardOutstandingPaymentContainer = ({
   totalPendingAmount,
 }: {
   totalPendingAmount: number;
 }) => {
+  const { t } = useTranslation();
   const {
     payments,
     hasNextPage,
@@ -30,14 +32,14 @@ const DashboardOutstandingPaymentContainer = ({
 
   return (
     <DashboardCard
-      title="Outstanding Payments"
-      description="View the list of enrollments with outstanding tuition fees."
+      title={t("dashboard.outstandingPayments.title")}
+      description={t("dashboard.outstandingPayments.description")}
     >
       <DataShow
         isLoading={isLoading}
         dataLength={payments.length}
-        emptyTitle="No outstanding payments"
-        emptyDescription="There are no outstanding payments at the moment."
+        emptyTitle={t("dashboard.outstandingPayments.emptyTitle")}
+        emptyDescription={t("dashboard.outstandingPayments.emptyDescription")}
         emptyIcon={Clock}
         className="border-0 shadow-none ring-0"
       >
@@ -64,13 +66,14 @@ const DashboardOutstandingPaymentContainer = ({
 
       <CardFooter className="py-2.5 mt-auto text-xs flex justify-between items-center">
         <span>
-          Total Pending:{" "}
+          {t("dashboard.outstandingPayments.totalPending")}:{" "}
           <strong className="text-amber-600 dark:text-amber-400">
             {replaceLocalDigit(formatCurrency(totalPendingAmount))}
           </strong>
         </span>
         <Button variant="outline" size="sm" className="text-xs h-8">
-          View All Payments <ChevronRight className="w-3.5 h-3.5" />
+          {t("dashboard.outstandingPayments.viewAllPayments")}{" "}
+          <ChevronRight className="w-3.5 h-3.5" />
         </Button>
       </CardFooter>
     </DashboardCard>

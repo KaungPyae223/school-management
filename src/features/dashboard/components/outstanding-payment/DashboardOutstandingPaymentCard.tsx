@@ -9,9 +9,11 @@ import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
 import { generateImageFallBack } from "../../../../utils/generate-image-fallback";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { useTranslation } from "react-i18next";
 
 const DashboardOutstandingPaymentCard = ({ data }: { data: any }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div key={data.id} className="p-3 rounded-lg border">
