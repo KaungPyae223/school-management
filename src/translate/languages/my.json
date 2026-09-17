@@ -728,7 +728,10 @@
       "paymentDate": "ငွေပေးချေသည့်ရက်",
       "outstandingAmount": "ပေးရန်ကျန်ငွေ",
       "lastPaidDate": "နောက်ဆုံးပေးချေသည့်ရက်",
-      "viewDetails": "အသေးစိတ်ကြည့်ရန်"
+      "viewDetails": "အသေးစိတ်ကြည့်ရန်",
+      "batch": "အပတ်စဉ်",
+      "enrolled": "စာရင်းသွင်းထားသည်",
+      "teacher": "ဆရာ/ဆရာမ"
     }
   },
   "validation": {

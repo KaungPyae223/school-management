@@ -57,11 +57,11 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
 
         <div className="flex gap-2">
           <ViewChange />
-          <Button variant="outline">
+          <Button variant="outline" data-tour="export-csv">
             <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 
-          <Link to="/students/create">
+          <Link to="/students/create" data-tour="create-student">
             <Button>
               <Plus className="w-4 h-4 mr-0.5" /> {t("students.addStudent")}
             </Button>

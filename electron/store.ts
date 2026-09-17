@@ -8,6 +8,7 @@ export interface StoreSchema {
   };
   defaultView: string | null;
   user_password_hash: string | null;
+  appTourStorage: string | null;
   preferredLanguage: string;
   mode: string;
   colorScheme: string;
@@ -30,6 +31,10 @@ export const store = new Store<StoreSchema>({
     user_password_hash: null,
     preferredLanguage: JSON.stringify({
       state: { language: "en-GB" },
+      version: 0,
+    }),
+    appTourStorage: JSON.stringify({
+      state: { completedTours: [] },
       version: 0,
     }),
     mode: JSON.stringify({ state: { mode: "system" }, version: 0 }),

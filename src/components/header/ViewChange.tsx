@@ -6,7 +6,7 @@ const ViewChange = () => {
   const { t } = useTranslation();
 
   return (
-    <TabsList>
+    <TabsList data-tour="view-change">
       <TabsTrigger value="grid">
         <LayoutGrid className="w-4 h-4 mr-1" /> {t("general.grid")}
       </TabsTrigger>

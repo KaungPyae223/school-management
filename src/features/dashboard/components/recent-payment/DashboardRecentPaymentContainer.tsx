@@ -30,6 +30,7 @@ const DashboardRecentPaymentContainer = () => {
     <DashboardCard
       title={t("dashboard.recentPayments.title")}
       description={t("dashboard.recentPayments.description")}
+      dataTour="recent-payment"
     >
       <DataShow
         isLoading={isLoading}

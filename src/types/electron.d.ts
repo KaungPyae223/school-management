@@ -4,9 +4,9 @@ import type { ResponseDataType } from "./ResponseTypes";
 declare global {
   interface Window {
     electronStore: {
-      get: (key: string) => Promise<string | null>;
-      set: (key: string, value: string) => Promise<void>;
-      delete: (key: string) => Promise<void>;
+      get: (key: string) => Promise<any>;
+      set: (key: string, value: string) => Promise<any>;
+      delete: (key: string) => Promise<any>;
     };
     dashboardAPI: {
       getKPI: () => Promise<any>;

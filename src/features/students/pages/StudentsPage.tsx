@@ -11,6 +11,7 @@ import DataShow from "../../../components/data/DataShow";
 
 import { useTranslation } from "react-i18next";
 import { useGetAllStudents } from "../hooks/api/useGetAllStudents";
+import StudentsTour from "../tour/StudentsTour";
 
 const StudentsPage = () => {
   const { t } = useTranslation();
@@ -24,47 +25,50 @@ const StudentsPage = () => {
   const { data, isLoading } = useGetAllStudents();
 
   return (
-    <Tabs value={view} onValueChange={changeView} className="space-y-4">
-      <StudentsHeader tab={view} />
-      <DataShow
-        isLoading={isLoading}
-        dataLength={data?.data.length}
-        emptyDescription={t("students.noStudentsDesc")}
-        emptyTitle={t("students.noStudentsTitle")}
-        emptyIcon={GraduationCap}
-        action={{
-          label: t("students.addStudent"),
-          link: "/students/create",
-        }}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          {view === "grid" && (
-            <m.div
-              key="grid"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <StudentsGrid data={data?.data} />
-            </m.div>
-          )}
+    <>
+      <StudentsTour />
+      <Tabs value={view} onValueChange={changeView} className="space-y-4">
+        <StudentsHeader tab={view} />
+        <DataShow
+          isLoading={isLoading}
+          dataLength={data?.data.length}
+          emptyDescription={t("students.noStudentsDesc")}
+          emptyTitle={t("students.noStudentsTitle")}
+          emptyIcon={GraduationCap}
+          action={{
+            label: t("students.addStudent"),
+            link: "/students/create",
+          }}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {view === "grid" && (
+              <m.div
+                key="grid"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <StudentsGrid data={data?.data} />
+              </m.div>
+            )}
 
-          {view === "list" && (
-            <m.div
-              key="list"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <StudentList data={data?.data} />
-            </m.div>
-          )}
-        </AnimatePresence>
-        <Paginate meta={data?.meta} />
-      </DataShow>
-    </Tabs>
+            {view === "list" && (
+              <m.div
+                key="list"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <StudentList data={data?.data} />
+              </m.div>
+            )}
+          </AnimatePresence>
+          <Paginate meta={data?.meta} />
+        </DataShow>
+      </Tabs>
+    </>
   );
 };
 

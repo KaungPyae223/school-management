@@ -34,6 +34,7 @@ const DashboardOutstandingPaymentContainer = ({
     <DashboardCard
       title={t("dashboard.outstandingPayments.title")}
       description={t("dashboard.outstandingPayments.description")}
+      dataTour="outstanding-payment"
     >
       <DataShow
         isLoading={isLoading}

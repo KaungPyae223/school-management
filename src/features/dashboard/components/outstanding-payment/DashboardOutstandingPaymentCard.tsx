@@ -11,7 +11,21 @@ import { generateImageFallBack } from "../../../../utils/generate-image-fallback
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import { useTranslation } from "react-i18next";
 
-const DashboardOutstandingPaymentCard = ({ data }: { data: any }) => {
+interface OutstandingPaymentData {
+  id: string;
+  studentImage: string;
+  studentName: string;
+  courseName: string;
+  batch: number;
+  remainingAmount: number;
+  lastPaidAt: Date | string;
+}
+
+const DashboardOutstandingPaymentCard = ({
+  data,
+}: {
+  data: OutstandingPaymentData;
+}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -33,13 +47,15 @@ const DashboardOutstandingPaymentCard = ({ data }: { data: any }) => {
             </div>
 
             <p className="mt-1 truncate text-xs text-muted-foreground">
-              {data.courseName} (Batch {data.batch})
+              {data.courseName} ({t("dashboard.cards.batch")}-{data.batch})
             </p>
           </div>
         </div>
 
         <div className="shrink-0 text-right space-y-1">
-          <p className="text-xs text-muted-foreground">Outstanding Amount</p>
+          <p className="text-xs text-muted-foreground">
+            {t("dashboard.cards.outstandingAmount")}
+          </p>
           <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
             {replaceLocalDigit(formatCurrency(data.remainingAmount))}
           </p>
@@ -48,7 +64,7 @@ const DashboardOutstandingPaymentCard = ({ data }: { data: any }) => {
 
       <div className="mt-3 flex items-center justify-between border-t pt-3">
         <p className="text-muted-foreground text-xs ">
-          Last Paid Date:{" "}
+          {t("dashboard.cards.lastPaidDate")}:{" "}
           <span className="font-medium text-foreground">
             {formatDate(new Date(data.lastPaidAt))}
           </span>
@@ -59,7 +75,7 @@ const DashboardOutstandingPaymentCard = ({ data }: { data: any }) => {
           variant="outline"
           size="xs"
         >
-          View Details
+          {t("dashboard.cards.viewDetails")}
         </Button>
       </div>
     </div>

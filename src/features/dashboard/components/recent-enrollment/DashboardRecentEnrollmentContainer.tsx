@@ -41,6 +41,7 @@ const DashboardRecentEnrollmentContainer = () => {
           {t("dashboard.recentEnrollments.viewAllStudents")}
         </Button>
       }
+      dataTour="recent-enrollment"
     >
       <DataShow
         isLoading={isLoading}
@@ -57,7 +58,6 @@ const DashboardRecentEnrollmentContainer = () => {
                 <DashboardRecentEnrollmentCard
                   key={enrollment.id}
                   data={enrollment}
-                  
                 />
               ))}
               {hasNextPage && (
@@ -94,4 +94,3 @@ const DashboardRecentEnrollmentContainer = () => {
 };
 
 export default DashboardRecentEnrollmentContainer;
-

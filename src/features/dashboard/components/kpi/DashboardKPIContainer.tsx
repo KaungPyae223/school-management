@@ -8,7 +8,10 @@ const DashboardKPIContainer = ({ kpi }: { kpi: any }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+      data-tour="kpi"
+    >
       <DashboardKPI
         title={t("dashboard.kpi.totalStudents")}
         icon={Users}

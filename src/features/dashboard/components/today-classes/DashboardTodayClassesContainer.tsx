@@ -16,6 +16,7 @@ const DashboardTodayClassesContainer = ({ data }: { data: any }) => {
     <DashboardCard
       title={t("dashboard.todayClasses.title")}
       description={t("dashboard.todayClasses.description")}
+      dataTour="today-classes"
     >
       <DataShow
         isLoading={false}

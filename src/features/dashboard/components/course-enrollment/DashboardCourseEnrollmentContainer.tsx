@@ -38,6 +38,7 @@ const DashboardCourseEnrollmentContainer = ({
       title={t("dashboard.courseEnrollment.title")}
       description={t("dashboard.courseEnrollment.description")}
       className="lg:col-span-1"
+      dataTour="course-enrollment"
     >
       <DataShow
         isLoading={false}

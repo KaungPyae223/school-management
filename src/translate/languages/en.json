@@ -728,7 +728,10 @@
       "paymentDate": "Payment Date",
       "outstandingAmount": "Outstanding Amount",
       "lastPaidDate": "Last Paid Date",
-      "viewDetails": "View Details"
+      "viewDetails": "View Details",
+      "batch": "Batch",
+      "enrolled": "enrolled",
+      "teacher": "Teacher"
     }
   },
   "validation": {

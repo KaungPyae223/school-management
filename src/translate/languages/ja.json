@@ -728,7 +728,10 @@
       "paymentDate": "支払日",
       "outstandingAmount": "未払金額",
       "lastPaidDate": "最終支払日",
-      "viewDetails": "詳細を表示"
+      "viewDetails": "詳細を表示",
+      "batch": "クラス",
+      "enrolled": "登録済み",
+      "teacher": "教員"
     }
   },
   "validation": {

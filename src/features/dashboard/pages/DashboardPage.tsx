@@ -11,6 +11,7 @@ import DashboardOutstandingPaymentContainer from "../components/outstanding-paym
 import DashboardFooter from "../components/general/DashboardFooter";
 import { useGetKpi } from "../hooks/api/useGetKpi";
 import { useTranslation } from "react-i18next";
+import DashboardTour from "../tour/DashboardTourt";
 
 const DashboardPage = () => {
   const { t } = useTranslation();
@@ -28,35 +29,39 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="flex flex-col space-y-7">
-      <DashboardHeader />
+    <>
+      <DashboardTour />
 
-      <DashboardKPIContainer kpi={data?.kpi} />
+      <div className="flex flex-col space-y-7">
+        <DashboardHeader />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <DashboardRevenueEnrollmentContainer data={data?.revenueEnrollment} />
-        <DashboardCourseEnrollmentContainer
-          data={data?.courseEnrollment}
-          totalCourses={data?.kpi?.courses}
-        />
+        <DashboardKPIContainer kpi={data?.kpi} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <DashboardRevenueEnrollmentContainer data={data?.revenueEnrollment} />
+          <DashboardCourseEnrollmentContainer
+            data={data?.courseEnrollment}
+            totalCourses={data?.kpi?.courses}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <DashboardTodayClassesContainer data={data?.todayClasses} />
+
+          <DashboardRecentEnrollmentContainer />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <DashboardRecentPaymentContainer />
+
+          <DashboardOutstandingPaymentContainer
+            totalPendingAmount={data?.totalPendingAmount}
+          />
+        </div>
+
+        <DashboardFooter />
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <DashboardTodayClassesContainer data={data?.todayClasses} />
-
-        <DashboardRecentEnrollmentContainer />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <DashboardRecentPaymentContainer />
-
-        <DashboardOutstandingPaymentContainer
-          totalPendingAmount={data?.totalPendingAmount}
-        />
-      </div>
-
-      <DashboardFooter />
-    </div>
+    </>
   );
 };
 

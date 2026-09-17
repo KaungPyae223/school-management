@@ -39,7 +39,7 @@ const SearchInput = () => {
   }, [searchTerm]);
 
   return (
-    <InputGroup className="max-w-xs">
+    <InputGroup className="max-w-xs" data-tour="search">
       <InputGroupInput
         placeholder={t("general.searchPlaceholder")}
         value={searchTerm}

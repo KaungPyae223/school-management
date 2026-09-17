@@ -6,6 +6,7 @@ const allowedKeys: (keyof StoreSchema)[] = [
   "preferredLanguage",
   "mode",
   "colorScheme",
+  "appTourStorage",
 ];
 
 export const storeIPCs = () => {
@@ -14,6 +15,7 @@ export const storeIPCs = () => {
       return null;
     }
     const result = (await store.get(key)) ?? null;
+
     return result;
   });
   protectedHandle(

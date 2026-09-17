@@ -9,9 +9,22 @@ import { generateImageFallBack } from "../../../../utils/generate-image-fallback
 import { formatCurrency } from "../../../../utils/format-currency";
 import { formatDate } from "../../../../utils/format-date";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { useTranslation } from "react-i18next";
 
-const DashboardRecentPaymentCard = ({ data }: any) => {
+interface RecentPaymentData {
+  id: string;
+  student_image: string;
+  student_name: string;
+  course_name: string;
+  batch: number;
+  amount: number;
+  enrollment_id: string;
+  createdAt: Date | string;
+}
+
+const DashboardRecentPaymentCard = ({ data }: { data: RecentPaymentData }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div key={data.id} className="p-3 rounded-lg border">
@@ -31,13 +44,15 @@ const DashboardRecentPaymentCard = ({ data }: any) => {
             </div>
 
             <p className="mt-1 truncate text-xs text-muted-foreground">
-              {data.course_name} (Batch {data.batch})
+              {data.course_name} ({t("dashboard.cards.batch")}-{data.batch})
             </p>
           </div>
         </div>
 
         <div className="shrink-0 text-right space-y-1">
-          <p className="text-xs text-muted-foreground">Paid Amount</p>
+          <p className="text-xs text-muted-foreground">
+            {t("dashboard.cards.paidAmount")}
+          </p>
           <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
             + {replaceLocalDigit(formatCurrency(data.amount))}
           </p>
@@ -46,9 +61,9 @@ const DashboardRecentPaymentCard = ({ data }: any) => {
 
       <div className="mt-3 flex items-center justify-between border-t pt-3">
         <p className="text-muted-foreground text-xs ">
-          Payment Date:{" "}
+          {t("dashboard.cards.paymentDate")}:{" "}
           <span className="font-medium text-foreground">
-            {formatDate(data.createdAt)}
+            {formatDate(new Date(data.createdAt))}
           </span>
         </p>
         <Button
@@ -56,7 +71,7 @@ const DashboardRecentPaymentCard = ({ data }: any) => {
           variant="outline"
           size="xs"
         >
-          View Details
+          {t("dashboard.cards.viewDetails")}
         </Button>
       </div>
     </div>

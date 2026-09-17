@@ -1,4 +1,4 @@
-import { Clock, Dot, Users } from "lucide-react";
+import { Clock, Users } from "lucide-react";
 import { Badge } from "../../../../components/ui/badge";
 import { changeTime } from "../../../../utils/change-time";
 import {
@@ -13,7 +13,21 @@ import { useNavigate } from "react-router";
 import { Button } from "../../../../components/ui/button";
 import { Separator } from "../../../../components/ui/separator";
 
-const DashboardTodayClassesCard = ({ data }: { data: any }) => {
+const DashboardTodayClassesCard = ({
+  data,
+}: {
+  data: {
+    id: string;
+    course_name: string;
+    batch: number;
+    days: string;
+    startTime: Date | string;
+    endTime: Date | string;
+    total_students: number;
+    teacher_image: string;
+    teacher_name: string;
+  };
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -26,7 +40,7 @@ const DashboardTodayClassesCard = ({ data }: { data: any }) => {
               {data.course_name}
             </span>
             <Badge variant="outline" className="text-xs px-2 py-0 font-mono">
-              B-{data.batch}
+              {t("dashboard.cards.batch")}-{data.batch}
             </Badge>
           </div>
           <Badge
@@ -35,14 +49,26 @@ const DashboardTodayClassesCard = ({ data }: { data: any }) => {
           >
             {data.days
               .split(",")
-              .map((day: string) => t(`general.days.${day}` as any))
+              .map((day: string) =>
+                t(
+                  `general.days.${day}` as
+                    | "general.days.Monday"
+                    | "general.days.Tuesday"
+                    | "general.days.Wednesday"
+                    | "general.days.Thursday"
+                    | "general.days.Friday"
+                    | "general.days.Saturday"
+                    | "general.days.Sunday",
+                ),
+              )
               .join(", ")}
           </Badge>
         </div>
         <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
             <Clock className="size-3" />
-            {changeTime(data.startTime)} – {changeTime(data.endTime)}
+            {changeTime(new Date(data.startTime))} –{" "}
+            {changeTime(new Date(data.endTime))}
           </span>
 
           <Separator
@@ -53,7 +79,7 @@ const DashboardTodayClassesCard = ({ data }: { data: any }) => {
           <span className="inline-flex items-center gap-1">
             <Users className="size-3" />
             {replaceLocalDigit(data.total_students || 0)}{" "}
-            {t("classes.enrolled", { defaultValue: "enrolled" })}
+            {t("dashboard.cards.enrolled")}
           </span>
         </div>
       </div>
@@ -69,7 +95,7 @@ const DashboardTodayClassesCard = ({ data }: { data: any }) => {
 
           <div>
             <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
-              {t("classes.teacher", { defaultValue: "Teacher" })}
+              {t("dashboard.cards.teacher", { defaultValue: "Teacher" })}
             </p>
             <p className="truncate text-xs font-medium text-foreground">
               {data.teacher_name}
@@ -81,7 +107,7 @@ const DashboardTodayClassesCard = ({ data }: { data: any }) => {
           variant="outline"
           size="xs"
         >
-          View Details
+          {t("dashboard.cards.viewDetails")}
         </Button>
       </div>
     </div>

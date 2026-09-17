@@ -21,8 +21,6 @@ import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 const CoursesDetailsCard = ({ courseData }: { courseData: any }) => {
   const { t } = useTranslation();
 
-  console.log(courseData);
-
   return (
     <Card className="shadow-xs flex flex-row gap-1.5">
       <CardHeader className="w-lg">

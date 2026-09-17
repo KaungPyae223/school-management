@@ -16,8 +16,7 @@ const options = [
 
 const SettingsChangeTheme = () => {
   const { t } = useTranslation();
-  const colorScheme = useColorSchemeStore((s) => s.colorScheme);
-  const setColorScheme = useColorSchemeStore((s) => s.setColorScheme);
+  const { colorScheme, setColorScheme } = useColorSchemeStore();
 
   return (
     <div className="flex items-center gap-5 justify-between py-3.5">

@@ -14,7 +14,24 @@ import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { BookOpen } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const DashboardRecentEnrollmentCard = ({ data }: { data: any }) => {
+interface RecentEnrollmentData {
+  id: string;
+  student_image: string;
+  student_name: string;
+  student_phone: string;
+  course_image: string;
+  course_name: string;
+  batch: number;
+  price: number;
+  paid_amount: number;
+  createdAt: Date | string;
+}
+
+const DashboardRecentEnrollmentCard = ({
+  data,
+}: {
+  data: RecentEnrollmentData;
+}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -89,7 +106,8 @@ const DashboardRecentEnrollmentCard = ({ data }: { data: any }) => {
 
           <div className="md:mt-1.5">
             <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
-              {replaceLocalDigit(formatCurrency(data.paid_amount))} paid
+              {replaceLocalDigit(formatCurrency(data.paid_amount))}{" "}
+              {t("dashboard.cards.paid")}
             </p>
           </div>
         </div>
@@ -97,9 +115,9 @@ const DashboardRecentEnrollmentCard = ({ data }: { data: any }) => {
 
       <div className="mt-3 flex items-center justify-between border-t pt-3">
         <p className="text-muted-foreground text-xs ">
-          Enrolled At:{" "}
+          {t("dashboard.cards.enrolledAt")}:{" "}
           <span className="font-medium text-foreground">
-            {getRelativeTime(data.createdAt)}
+            {getRelativeTime(new Date(data.createdAt))}
           </span>
         </p>
         <Button
@@ -107,7 +125,7 @@ const DashboardRecentEnrollmentCard = ({ data }: { data: any }) => {
           variant="outline"
           size="xs"
         >
-          View Details
+          {t("dashboard.cards.viewDetails")}
         </Button>
       </div>
     </div>
