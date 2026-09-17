@@ -12,11 +12,15 @@ import paymentRoutes from "../features/payments/routes/routes";
 import settingRoutes from "../features/settings/routes/routes";
 import authRoutes from "../features/auth/routes/routes";
 import Layout from "../layouts/Layout";
+import { authLoader } from "./auth-loader";
+import LoadingPage from "../components/loading/LoadingPage";
 
 const routes = [
   {
     path: "/",
+    loader: authLoader,
     Component: Layout,
+    HydrateFallback: LoadingPage,
     children: [
       ...dashboardRoutes,
       ...courceRoutes,
