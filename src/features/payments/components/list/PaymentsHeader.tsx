@@ -51,11 +51,11 @@ const PaymentsHeader = () => {
         </div>
 
         <TabsList>
-          <TabsTrigger value="outstanding">
+          <TabsTrigger value="outstanding" data-tour="outstanding-payment">
             <HandCoins />
             {t("payments.outstandingPayments")}
           </TabsTrigger>
-          <TabsTrigger value="all">
+          <TabsTrigger value="all" data-tour="all-payment">
             <Currency />
             {t("payments.allPayments")}
           </TabsTrigger>

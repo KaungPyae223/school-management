@@ -42,7 +42,7 @@ const TimetableCourseSelect = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="gap-2">
+        <Button variant="outline" className="gap-2" data-tour="course-filter">
           <LibraryBig className="h-4 w-4" />
           <span>{t("timetable.courses")}</span>
         </Button>

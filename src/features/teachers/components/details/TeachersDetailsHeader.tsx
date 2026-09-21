@@ -63,8 +63,12 @@ const TeachersDetailsHeader = ({ tab }: { tab: string }) => {
           )}
         </AnimatePresence>
         <TabsList>
-          <TabsTrigger value="classes">{t("teachers.classes")}</TabsTrigger>
-          <TabsTrigger value="timetable">{t("teachers.timetable")}</TabsTrigger>
+          <TabsTrigger value="classes" data-tour="teacher-classes">
+            {t("teachers.classes")}
+          </TabsTrigger>
+          <TabsTrigger value="timetable" data-tour="teacher-timetable">
+            {t("teachers.timetable")}
+          </TabsTrigger>
         </TabsList>
       </CardContent>
     </Card>

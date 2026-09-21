@@ -142,8 +142,39 @@
       "passwordPlaceholder": "Enter Password"
     }
   },
+  "help": {
+    "introTitle": "About This App",
+    "introDescription": "School Management is a desktop application for running a tutoring school — manage students, teachers, courses, classes, enrollments and payments. All data is stored locally and securely on your device, so it works fully offline. Use the options below to replay the guided tour, explore the source code, or get in touch.",
+    "gettingStarted": {
+      "title": "Getting Started",
+      "description": "Revisit the walkthrough or explore the project."
+    },
+    "tour": {
+      "title": "Guided Tour",
+      "description": "Reset and replay the step-by-step walkthrough.",
+      "button": "Reset Tour",
+      "confirmTitle": "Reset the guided tour?",
+      "confirmDescription": "The tour will start again the next time you open each page.",
+      "confirmButton": "Reset Tour",
+      "success": "Guided tour has been reset."
+    },
+    "source": {
+      "title": "Source Code",
+      "description": "This project is open source and free to use.",
+      "button": "View on GitHub"
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "description": "Questions or feedback? Reach me on any of these channels.",
+      "email": "Email",
+      "telegram": "Telegram",
+      "facebook": "Facebook"
+    }
+  },
   "general": {
     "sortBy": "Sort By",
+    "invalidDate": "Invalid date",
+    "justNow": "just now",
     "none": "None",
     "asc": "Ascending",
     "desc": "Descending",
@@ -732,6 +763,159 @@
       "batch": "Batch",
       "enrolled": "enrolled",
       "teacher": "Teacher"
+    }
+  },
+  "tour": {
+    "card": {
+      "skip": "Skip",
+      "back": "Back",
+      "next": "Next",
+      "finish": "Finish",
+      "step": "Step"
+    },
+    "dashboard": {
+      "kpi": "Key Performance Indicators",
+      "kpiContent": "Get a quick overview of your school with important metrics such as students, teachers, courses, and payments.",
+      "revenueEnrollment": "Revenue & Enrollment",
+      "revenueEnrollmentContent": "Compare monthly revenue and student enrollment to understand how your school's performance has changed over the past six months.",
+      "courseEnrollment": "Course Enrollment",
+      "courseEnrollmentContent": "View enrollment trends across your courses and see how many students are enrolled in each course.",
+      "todayClasses": "Today's Classes",
+      "todayClassesContent": "Keep track of today's scheduled classes, including the class time, course, and teacher.",
+      "recentEnrollments": "Recent Enrollments",
+      "recentEnrollmentsContent": "See the latest student enrollments and quickly keep up with new registrations.",
+      "recentPayments": "Recent Payments",
+      "recentPaymentsContent": "Review the most recent payments and monitor your school's latest payment activity.",
+      "outstandingPayments": "Outstanding Payments",
+      "outstandingPaymentsContent": "Track pending payments and see the total amount that is still outstanding."
+    },
+    "students": {
+      "search": "Search Students",
+      "searchContent": "Search for students by name, email, or phone number.",
+      "viewChange": "Change View",
+      "viewChangeContent": "Change the view of the students data between list and grid.",
+      "exportCsv": "Export CSV",
+      "exportCsvContent": "Export student data to CSV for easy analysis and reporting.",
+      "createStudent": "Create Student",
+      "createStudentContent": "Create a new student by providing the necessary information."
+    },
+    "classes": {
+      "search": "Search Classes",
+      "searchContent": "Search for classes by course name or teacher name.",
+      "advancedSearch": "Advanced Search",
+      "advancedSearchContent": "Search for classes by advanced search options.",
+      "teacherFilter": "Teacher Filter",
+      "teacherFilterContent": "Filter classes by selecting a specific teacher.",
+      "courseFilter": "Course Filter",
+      "courseFilterContent": "Filter classes by selecting a specific course.",
+      "dateRange": "Date Range Filter",
+      "dateRangeContent": "Select a start date, an end date, or both to filter classes. If both dates are selected, the end date must be after the start date. Example: 01 Jan 2026 – 15 Jan 2026.",
+      "timeRange": "Time Range Filter",
+      "timeRangeContent": "Select a start time, an end time, or both to filter classes. If both times are selected, the end time must be after the start time. Example: 10:00 AM – 02:00 PM.",
+      "priceRange": "Price Range Filter",
+      "priceRangeContent": "Select a minimum price, a maximum price, or both to filter classes. If both prices are selected, the minimum price must be less than the maximum price. Example: $10 - $50.",
+      "resetFilters": "Reset Filters",
+      "resetFiltersContent": "Clear all selected filters and reset the class list to its default view.",
+      "applyFilters": "Apply Filters",
+      "applyFiltersContent": "Apply the selected filters to quickly find classes that match your criteria.",
+      "viewChange": "Change View",
+      "viewChangeContent": "Change the view of the classes data between list and grid.",
+      "exportCsv": "Export CSV",
+      "exportCsvContent": "Export class data to CSV for easy analysis and reporting.",
+      "createClass": "Create Class",
+      "createClassContent": "Create a new class by providing the necessary information."
+    },
+    "courses": {
+      "search": "Search Courses",
+      "searchContent": "Search for courses by name.",
+      "trash": "Trash",
+      "trashContent": "View and manage courses that have been deleted.",
+      "viewChange": "Change View",
+      "viewChangeContent": "Change the view of the courses data between list and grid.",
+      "exportCsv": "Export CSV",
+      "exportCsvContent": "Export course data to CSV for easy analysis and reporting.",
+      "createCourse": "Create Course",
+      "createCourseContent": "Create a new course by providing the necessary information."
+    },
+    "teachers": {
+      "search": "Search Teachers",
+      "searchContent": "Search for teachers by name, email, or phone number.",
+      "trash": "Trash",
+      "trashContent": "View and manage teachers who have been deleted.",
+      "viewChange": "Change View",
+      "viewChangeContent": "Change the view of the teachers data between list and grid.",
+      "exportCsv": "Export CSV",
+      "exportCsvContent": "Export teacher data to CSV for easy analysis and reporting.",
+      "createTeacher": "Create Teacher",
+      "createTeacherContent": "Create a new teacher by providing the necessary information."
+    },
+    "payments": {
+      "search": "Search Payments",
+      "searchContent": "Search for payments by student name, course name",
+      "outstandingPayment": "Outstanding Payments",
+      "outstandingPaymentContent": "View payments that are still pending and have not yet been paid.",
+      "allPayment": "All Payments",
+      "allPaymentContent": "View all payments, including those that are paid and outstanding."
+    },
+    "timetable": {
+      "courseFilter": "Course Filter",
+      "courseFilterContent": "Use this filter to quickly find timetable entries for a specific course.",
+      "courseTimetable": "Course Timetable",
+      "courseTimetableContent": "View the scheduled classes and timings from the course point of view.",
+      "teacherTimetable": "Teacher Timetable",
+      "teacherTimetableContent": "View the scheduled classes and timings from the teacher point of view."
+    },
+    "classesCreate": {
+      "selectCourse": "Select Course",
+      "selectCourseContent": "Choose the course for this class.",
+      "selectTeacher": "Select Teacher",
+      "selectTeacherContent": "Choose the teacher who will teach this class.",
+      "selectDay": "Select Day",
+      "selectDayContent": "Choose the day of the week when this class will be held.",
+      "selectStartDate": "Select Start Date",
+      "selectStartDateContent": "Choose the date when this class will begin. The start date must be in the future.",
+      "selectStartTime": "Select Start Time",
+      "selectStartTimeContent": "Choose the class start time. It must be earlier than the end time. Note: You cannot create a class during a time when the selected teacher is already teaching another class.",
+      "selectEndTime": "Select End Time",
+      "selectEndTimeContent": "Choose the class end time. It must be later than the start time. Note: You cannot create a class during a time when the selected teacher is already teaching another class.",
+      "addDescription": "Add Description",
+      "addDescriptionContent": "Add helpful details about the class, such as notes, a Telegram group link, or a Google Classroom link."
+    },
+    "classesDetails": {
+      "completeClass": "Complete Class",
+      "completeClassContent": "Mark this class as completed. This action cannot be undone.",
+      "enrollStudents": "Enroll Students",
+      "enrollStudentsContent": "Add students to this class.",
+      "editClass": "Edit Class",
+      "editClassContent": "Update the class information and details.",
+      "deleteClass": "Delete Class",
+      "deleteClassContent": "Delete this class. A class cannot be deleted if students are currently enrolled.",
+      "searchStudents": "Search Students",
+      "searchStudentsContent": "Search for enrolled students by name."
+    },
+    "coursesDetails": {
+      "editCourse": "Edit Course",
+      "editCourseContent": "Update the course's information and details.",
+      "deleteCourse": "Delete Course",
+      "deleteCourseContent": "Delete this course. If the course is assigned to existing classes, they will not be permanently deleted. Instead, their status will be changed to inactive.",
+      "searchCourseClasses": "Search Course Classes",
+      "searchCourseClassesContent": "Search the course's classes by teacher name.",
+      "courseClasses": "Course Classes",
+      "courseClassesContent": "View all classes assigned to this course.",
+      "courseTimetable": "Course Timetable",
+      "courseTimetableContent": "View the course's class schedule and timetable."
+    },
+    "teachersDetails": {
+      "editTeacher": "Edit Teacher",
+      "editTeacherContent": "Update the teacher's information and details.",
+      "deleteTeacher": "Delete Teacher",
+      "deleteTeacherContent": "Delete this teacher. If the teacher is assigned to existing classes, they will not be permanently deleted. Instead, their status will be changed to inactive.",
+      "searchTeacherClasses": "Search Teacher Classes",
+      "searchTeacherClassesContent": "Search the teacher's classes by course name.",
+      "teacherClasses": "Teacher Classes",
+      "teacherClassesContent": "View all classes assigned to this teacher.",
+      "teacherTimetable": "Teacher Timetable",
+      "teacherTimetableContent": "View the teacher's class schedule and timetable."
     }
   },
   "validation": {

@@ -59,11 +59,11 @@ const CoursesHeader = ({ tab }: { tab: string }) => {
 
           <ViewChange />
 
-          <Button variant="outline">
+          <Button variant="outline" data-tour="export-csv">
             <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 
-          <Link to="/courses/create">
+          <Link to="/courses/create" data-tour="create-course">
             <Button>
               <Plus className="w-4 h-4 mr-0.5" /> {t("courses.addCourse")}
             </Button>

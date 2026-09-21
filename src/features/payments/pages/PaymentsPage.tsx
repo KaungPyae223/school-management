@@ -9,6 +9,7 @@ import PaymentsList from "../components/list/PaymentsList";
 import Paginate from "../../../components/paginate/Paginate";
 import DataShow from "../../../components/data/DataShow";
 import { useGetAllPayments } from "../hooks/api/useGetAllPayments";
+import PaymentsTour from "../tour/PaymentsTour";
 
 const PaymentsPage = () => {
   const { t } = useTranslation();
@@ -22,48 +23,51 @@ const PaymentsPage = () => {
   const { data, isLoading } = useGetAllPayments({ view });
 
   return (
-    <Tabs
-      value={view}
-      onValueChange={changeView}
-      defaultValue="outstanding"
-      className="space-y-4"
-    >
-      <PaymentsHeader />
-      <DataShow
-        isLoading={isLoading}
-        dataLength={data?.data.length}
-        emptyDescription={t("payments.noPaymentsDesc")}
-        emptyTitle={t("payments.noPaymentsTitle")}
-        emptyIcon={CreditCardIcon}
+    <>
+      <PaymentsTour />
+      <Tabs
+        value={view}
+        onValueChange={changeView}
+        defaultValue="outstanding"
+        className="space-y-4"
       >
-        <AnimatePresence mode="wait" initial={false}>
-          {view === "outstanding" && (
-            <m.div
-              key="outstanding"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <PaymentsList data={data?.data} />
-            </m.div>
-          )}
+        <PaymentsHeader />
+        <DataShow
+          isLoading={isLoading}
+          dataLength={data?.data.length}
+          emptyDescription={t("payments.noPaymentsDesc")}
+          emptyTitle={t("payments.noPaymentsTitle")}
+          emptyIcon={CreditCardIcon}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {view === "outstanding" && (
+              <m.div
+                key="outstanding"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <PaymentsList data={data?.data} />
+              </m.div>
+            )}
 
-          {view === "all" && (
-            <m.div
-              key="all"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <PaymentsList data={data?.data} />
-            </m.div>
-          )}
-        </AnimatePresence>
-        <Paginate meta={data?.meta} />
-      </DataShow>
-    </Tabs>
+            {view === "all" && (
+              <m.div
+                key="all"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <PaymentsList data={data?.data} />
+              </m.div>
+            )}
+          </AnimatePresence>
+          <Paginate meta={data?.meta} />
+        </DataShow>
+      </Tabs>
+    </>
   );
 };
 

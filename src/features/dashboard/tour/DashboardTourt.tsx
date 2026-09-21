@@ -1,60 +1,56 @@
 import type { Step } from "react-joyride";
+import { useTranslation } from "react-i18next";
 import Tour from "../../../components/tour/Tour";
 
 const DashboardTour = () => {
+  const { t } = useTranslation();
+
   const steps: Step[] = [
     {
       target: "[data-tour='kpi']",
-      title: "Key Performance Indicators",
-      content:
-        "Get a quick overview of your school with important metrics such as students, teachers, courses, and payments.",
+      title: t("tour.dashboard.kpi"),
+      content: t("tour.dashboard.kpiContent"),
       skipBeacon: true,
     },
     {
       target: "[data-tour='revenue-enrollment']",
-      title: "Revenue & Enrollment",
-      content:
-        "Compare monthly revenue and student enrollment to understand how your school's performance has changed over the past six months.",
+      title: t("tour.dashboard.revenueEnrollment"),
+      content: t("tour.dashboard.revenueEnrollmentContent"),
       skipBeacon: true,
     },
     {
       target: "[data-tour='course-enrollment']",
-      title: "Course Enrollment",
-      content:
-        "View enrollment trends across your courses and see how many students are enrolled in each course.",
+      title: t("tour.dashboard.courseEnrollment"),
+      content: t("tour.dashboard.courseEnrollmentContent"),
       skipBeacon: true,
     },
 
     {
       target: "[data-tour='today-classes']",
-      title: "Today's Classes",
-      content:
-        "Keep track of today's scheduled classes, including the class time, course, and teacher.",
+      title: t("tour.dashboard.todayClasses"),
+      content: t("tour.dashboard.todayClassesContent"),
       skipBeacon: true,
     },
 
     {
       target: "[data-tour='recent-enrollment']",
-      title: "Recent Enrollments",
-      content:
-        "See the latest student enrollments and quickly keep up with new registrations.",
+      title: t("tour.dashboard.recentEnrollments"),
+      content: t("tour.dashboard.recentEnrollmentsContent"),
       skipBeacon: true,
     },
 
     {
       target: "[data-tour='recent-payment']",
-      title: "Recent Payments",
-      content:
-        "Review the most recent payments and monitor your school's latest payment activity.",
+      title: t("tour.dashboard.recentPayments"),
+      content: t("tour.dashboard.recentPaymentsContent"),
       skipBeacon: true,
       placement: "top",
     },
 
     {
       target: "[data-tour='outstanding-payment']",
-      title: "Outstanding Payments",
-      content:
-        "Track pending payments and see the total amount that is still outstanding.",
+      title: t("tour.dashboard.outstandingPayments"),
+      content: t("tour.dashboard.outstandingPaymentsContent"),
       skipBeacon: true,
       placement: "top",
     },

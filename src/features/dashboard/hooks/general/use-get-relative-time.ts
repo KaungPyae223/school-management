@@ -1,13 +1,17 @@
-export const getRelativeTime = (date: Date): string => {
+import { useTranslation } from "react-i18next";
+
+export const useGetRelativeTime = (date: Date): string => {
+  const { t, i18n } = useTranslation();
+
   const timestamp = date.getTime();
 
   if (Number.isNaN(timestamp)) {
-    return "Invalid date";
+    return t("general.invalidDate");
   }
 
   const diffInSeconds = Math.round((timestamp - Date.now()) / 1000);
 
-  const formatter = new Intl.RelativeTimeFormat("en", {
+  const formatter = new Intl.RelativeTimeFormat(i18n.language, {
     numeric: "always",
   });
 
@@ -32,5 +36,5 @@ export const getRelativeTime = (date: Date): string => {
     }
   }
 
-  return "just now";
+  return t("general.justNow");
 };

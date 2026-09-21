@@ -5,11 +5,15 @@ import { electronStorage } from "./electronStorage";
 export type TourId =
   | "dashboard"
   | "courses"
+  | "courses-details"
   | "students"
   | "teachers"
+  | "teachers-details"
   | "classes"
-  | "payments";
-
+  | "payments"
+  | "classes-create"
+  | "classes-details"
+  | "timetable";
 interface TourState {
   completedTours: TourId[];
 

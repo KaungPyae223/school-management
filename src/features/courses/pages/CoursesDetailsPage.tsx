@@ -15,6 +15,7 @@ import CoursesTimetableTab from "../components/details/CoursesTimetableTab";
 import CoursesClassesTab from "../components/details/CoursesClassesTab";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import { useGetCourseDetails } from "../hooks/api/useGetCourseDetails";
+import CoursesDetailsTour from "../tour/CoursesDetailsTour";
 
 const CoursesDetailsPage = () => {
   const { t } = useTranslation();
@@ -48,6 +49,7 @@ const CoursesDetailsPage = () => {
 
   return (
     <>
+      <CoursesDetailsTour />
       <div className="space-y-6">
         {isLoading ? (
           <LoadingComponent />

@@ -97,7 +97,7 @@ const ClassesForm = ({
               name="days"
               control={form.control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
+                <Field data-tour="select-day" data-invalid={fieldState.invalid}>
                   <RequiredLabel id="days">
                     {t("classes.fields.days")}
                   </RequiredLabel>
@@ -113,7 +113,10 @@ const ClassesForm = ({
               name="startDate"
               control={form.control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
+                <Field
+                  data-tour="select-start-date"
+                  data-invalid={fieldState.invalid}
+                >
                   <RequiredLabel id="startDate">
                     {t("classes.fields.startDate")}
                   </RequiredLabel>
@@ -135,7 +138,10 @@ const ClassesForm = ({
                 name="startTime"
                 control={form.control}
                 render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
+                  <Field
+                    data-tour="select-start-time"
+                    data-invalid={fieldState.invalid}
+                  >
                     <RequiredLabel id="startTime">
                       {t("classes.fields.startTime")}
                     </RequiredLabel>
@@ -155,7 +161,10 @@ const ClassesForm = ({
                 name="endTime"
                 control={form.control}
                 render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
+                  <Field
+                    data-tour="select-end-time"
+                    data-invalid={fieldState.invalid}
+                  >
                     <RequiredLabel id="endTime">
                       {t("classes.fields.endTime")}
                     </RequiredLabel>
@@ -176,7 +185,10 @@ const ClassesForm = ({
               name="description"
               control={form.control}
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
+                <Field
+                  data-tour="description"
+                  data-invalid={fieldState.invalid}
+                >
                   <FieldLabel htmlFor="classDescription">
                     {t("classes.fields.description")}
                   </FieldLabel>

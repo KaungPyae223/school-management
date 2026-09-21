@@ -10,6 +10,7 @@ import { LibraryBig } from "lucide-react";
 import { useViewTabChange } from "../../../hooks/use-view-tab-change";
 import DataShow from "../../../components/data/DataShow";
 import { useGetAllCourses } from "../hooks/api/useGetAllCourses";
+import CoursesTour from "../tour/CoursesTour";
 
 const CoursesPage = () => {
   const { t } = useTranslation();
@@ -23,47 +24,50 @@ const CoursesPage = () => {
   const { data, isLoading } = useGetAllCourses();
 
   return (
-    <Tabs value={view} onValueChange={changeView} className="space-y-4">
-      <CoursesHeader tab={view} />
-      <DataShow
-        isLoading={isLoading}
-        dataLength={data?.data.length}
-        emptyDescription={t("courses.noCoursesDesc")}
-        emptyTitle={t("courses.noCoursesTitle")}
-        emptyIcon={LibraryBig}
-        action={{
-          label: t("courses.addCourse"),
-          link: "/courses/create",
-        }}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          {view === "grid" && (
-            <m.div
-              key="grid"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CoursesGrid data={data?.data} />
-            </m.div>
-          )}
+    <>
+      <CoursesTour />
+      <Tabs value={view} onValueChange={changeView} className="space-y-4">
+        <CoursesHeader tab={view} />
+        <DataShow
+          isLoading={isLoading}
+          dataLength={data?.data.length}
+          emptyDescription={t("courses.noCoursesDesc")}
+          emptyTitle={t("courses.noCoursesTitle")}
+          emptyIcon={LibraryBig}
+          action={{
+            label: t("courses.addCourse"),
+            link: "/courses/create",
+          }}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {view === "grid" && (
+              <m.div
+                key="grid"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CoursesGrid data={data?.data} />
+              </m.div>
+            )}
 
-          {view === "list" && (
-            <m.div
-              key="list"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CoursesList data={data?.data} />
-            </m.div>
-          )}
-        </AnimatePresence>
-        <Paginate meta={data?.meta} />
-      </DataShow>
-    </Tabs>
+            {view === "list" && (
+              <m.div
+                key="list"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CoursesList data={data?.data} />
+              </m.div>
+            )}
+          </AnimatePresence>
+          <Paginate meta={data?.meta} />
+        </DataShow>
+      </Tabs>
+    </>
   );
 };
 

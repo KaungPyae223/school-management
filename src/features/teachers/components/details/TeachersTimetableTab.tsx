@@ -14,8 +14,6 @@ const TeachersTimetableTab = ({ id }: { id: number }) => {
 
   const { data } = useGetAllClasses({ ...params, teacherId: id });
 
-  
-
   const formattedData = data?.data?.map(useFormatData);
 
   const handleClassClick = (classData: any) => {

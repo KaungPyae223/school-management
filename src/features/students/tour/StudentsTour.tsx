@@ -1,31 +1,34 @@
 import type { Step } from "react-joyride";
+import { useTranslation } from "react-i18next";
 import Tour from "../../../components/tour/Tour";
 
 const StudentsTour = () => {
+  const { t } = useTranslation();
+
   const steps: Step[] = [
     {
       target: "[data-tour='search']",
-      title: "Search Students",
-      content: "Search for students by name, email, or phone number.",
+      title: t("tour.students.search"),
+      content: t("tour.students.searchContent"),
       skipBeacon: true,
     },
     {
       target: "[data-tour='view-change']",
-      title: "Change View",
-      content: "Change the view of the students data between list and grid. ",
+      title: t("tour.students.viewChange"),
+      content: t("tour.students.viewChangeContent"),
       skipBeacon: true,
     },
     {
       target: "[data-tour='export-csv']",
-      title: "Export CSV",
-      content: "Export student data to CSV for easy analysis and reporting.",
+      title: t("tour.students.exportCsv"),
+      content: t("tour.students.exportCsvContent"),
       skipBeacon: true,
     },
 
     {
       target: "[data-tour='create-student']",
-      title: "Create Student",
-      content: "Create a new student by providing the necessary information.",
+      title: t("tour.students.createStudent"),
+      content: t("tour.students.createStudentContent"),
       skipBeacon: true,
     },
   ];

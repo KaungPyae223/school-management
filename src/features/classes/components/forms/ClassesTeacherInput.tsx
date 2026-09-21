@@ -56,7 +56,7 @@ const ClassesTeacherInput = ({
   }
 
   return (
-    <Field data-invalid={fieldState.invalid}>
+    <Field data-tour="select-teacher" data-invalid={fieldState.invalid}>
       <RequiredLabel id="teacherID">
         {t("classes.fields.teacher")}
       </RequiredLabel>

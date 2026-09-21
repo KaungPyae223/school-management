@@ -39,11 +39,15 @@ const DetailsHeader = ({
             </Button>
           ) : (
             <>
-              <Button variant="outline" onClick={onUpdate}>
+              <Button variant="outline" onClick={onUpdate} data-tour="edit">
                 <Pencil className="size-3.5" />
                 {t("general.edit")}
               </Button>
-              <Button variant="destructive" onClick={onDelete}>
+              <Button
+                variant="destructive"
+                onClick={onDelete}
+                data-tour="delete"
+              >
                 <Trash className="size-3.5" />
                 {t("general.delete")}
               </Button>

@@ -21,6 +21,7 @@ export const AdvancedQueryToggle = () => {
 
   return (
     <Button
+      data-tour="advanced-search"
       variant={isAdvancedQuery ? "default" : "outline"}
       className={cn("flex gap-2")}
       onClick={toggleAdvancedQuery}

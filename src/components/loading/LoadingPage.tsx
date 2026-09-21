@@ -4,7 +4,7 @@ const LoadingPage = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="h-[80vh] flex flex-col items-center justify-center px-4">
+    <div className="h-[85vh] flex flex-col items-center justify-center px-4">
       <div className="text-center max-w-md">
         <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
           {t("loading.pleaseWait")}

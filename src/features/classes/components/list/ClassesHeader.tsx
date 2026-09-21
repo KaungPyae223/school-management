@@ -6,18 +6,11 @@ import { Link } from "react-router";
 
 import ColumnSelector from "../../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
-import ChangeTrashView from "../../../../components/header/ChangeTrashView";
 import SearchInput from "../../../../components/search-input/SearchInput";
 import ViewChange from "../../../../components/header/ViewChange";
 import { AdvancedQueryToggle } from "../../../../components/search-input/AdvancedQueryToggle";
 
-const ClassesHeader = ({
-  tab,
-  isTrashView = true,
-}: {
-  tab: string;
-  isTrashView?: boolean;
-}) => {
+const ClassesHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();
 
   const columns = [
@@ -70,14 +63,13 @@ const ClassesHeader = ({
         </div>
 
         <div className="flex gap-2">
-          {isTrashView && <ChangeTrashView />}
-
+          
           <ViewChange />
-          <Button variant="outline">
+          <Button variant="outline" data-tour="export-csv">
             <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 
-          <Link to="/classes/create">
+          <Link to="/classes/create" data-tour="create-class">
             <Button>
               <Plus className="w-4 h-4 mr-0.5" /> {t("classes.addClass")}
             </Button>

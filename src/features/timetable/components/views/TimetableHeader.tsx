@@ -37,10 +37,10 @@ const TimetableHeader = ({ tab }: { tab: string }) => {
           )}
         </AnimatePresence>
         <TabsList>
-          <TabsTrigger value="courses">
+          <TabsTrigger value="courses" data-tour="course-timetable">
             <LibraryBig /> {t("timetable.courses")}
           </TabsTrigger>
-          <TabsTrigger value="teachers">
+          <TabsTrigger value="teachers" data-tour="teacher-timetable">
             <UserPen /> {t("timetable.teachers")}
           </TabsTrigger>
         </TabsList>

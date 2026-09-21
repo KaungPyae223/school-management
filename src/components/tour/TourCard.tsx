@@ -1,4 +1,5 @@
 import type { TooltipRenderProps } from "react-joyride";
+import { useTranslation } from "react-i18next";
 
 import {
   Card,
@@ -20,12 +21,14 @@ const TourCard = ({
   skipProps,
   tooltipProps,
 }: TooltipRenderProps) => {
+  const { t } = useTranslation();
+
   return (
     <div {...tooltipProps}>
       <Card className="w-80 shadow-xl">
         <CardHeader>
           <CardTitle>
-            {step.title ?? `Step ${index + 1}`}
+            {step.title ?? `${t("tour.card.step")} ${index + 1}`}
           </CardTitle>
         </CardHeader>
 
@@ -35,19 +38,19 @@ const TourCard = ({
 
         <CardFooter className="flex items-center justify-between pt-3">
           <Button size="sm" variant="ghost" {...skipProps}>
-            Skip
+            {t("tour.card.skip")}
           </Button>
 
           <div className="flex gap-2">
             {index > 0 && (
               <Button size="sm" variant="outline" {...backProps}>
-                Back
+                {t("tour.card.back")}
               </Button>
             )}
 
             {continuous && (
               <Button size="sm" {...primaryProps}>
-                {isLastStep ? "Finish" : "Next"}
+                {isLastStep ? t("tour.card.finish") : t("tour.card.next")}
               </Button>
             )}
           </div>

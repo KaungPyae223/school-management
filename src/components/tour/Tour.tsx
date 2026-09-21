@@ -1,14 +1,15 @@
-import { Joyride, type EventData, type Step } from "react-joyride";
+import { Joyride, STATUS, type EventData, type Step } from "react-joyride";
 import { useTourStore, type TourId } from "../../stores/useTourStore";
 import TourCard from "./TourCard";
+import { useEffect } from "react";
 
 const Tour = ({ steps, tourID }: { steps: Step[]; tourID: TourId }) => {
-  const { completeTour, isTourCompleted } = useTourStore();
+  const { completeTour, isTourCompleted, resetAllTours } = useTourStore();
 
   const completed = isTourCompleted(tourID);
 
   const handleEvent = (data: EventData) => {
-    if (data.status === "finished" || data.status === "skipped") {
+    if (data.status === STATUS.FINISHED || data.status === STATUS.SKIPPED) {
       completeTour(tourID);
     }
   };

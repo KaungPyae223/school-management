@@ -14,6 +14,7 @@ import TimetableTeacher from "../components/teacher/TimetableTeacher";
 import TimetableCourse from "../components/course/TimetableCourse";
 import { useTimetableChange } from "../hooks/views/useTimetableChange";
 import { useGetAllClasses } from "../../classes/hooks/api/useGetAllClasses";
+import TimetableTour from "../tour/TimetableTour";
 
 const TimetablePage = () => {
   const { t } = useTranslation();
@@ -39,48 +40,51 @@ const TimetablePage = () => {
   };
 
   return (
-    <Drawer open={open} onOpenChange={setOpen} direction="right">
-      <Tabs
-        value={view}
-        onValueChange={changeView}
-        defaultValue="courses"
-        className="space-y-4"
-      >
-        <TimetableHeader tab={view} />
+    <>
+      <TimetableTour />
+      <Drawer open={open} onOpenChange={setOpen} direction="right">
+        <Tabs
+          value={view}
+          onValueChange={changeView}
+          defaultValue="courses"
+          className="space-y-4"
+        >
+          <TimetableHeader tab={view} />
 
-        <AnimatePresence mode="wait" initial={false}>
-          {view === "courses" && (
-            <m.div
-              key="weekly"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <TimetableCourse
-                data={formattedData}
-                handleClassClick={handleClassClick}
-              />
-            </m.div>
-          )}
-          {view === "teachers" && (
-            <m.div
-              key="teachers"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <TimetableTeacher
-                data={formattedData}
-                handleClassClick={handleClassClick}
-              />
-            </m.div>
-          )}
-        </AnimatePresence>
-      </Tabs>
-      <TimetableDetailsContent classData={classData} />
-    </Drawer>
+          <AnimatePresence mode="wait" initial={false}>
+            {view === "courses" && (
+              <m.div
+                key="weekly"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <TimetableCourse
+                  data={formattedData}
+                  handleClassClick={handleClassClick}
+                />
+              </m.div>
+            )}
+            {view === "teachers" && (
+              <m.div
+                key="teachers"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <TimetableTeacher
+                  data={formattedData}
+                  handleClassClick={handleClassClick}
+                />
+              </m.div>
+            )}
+          </AnimatePresence>
+        </Tabs>
+        <TimetableDetailsContent classData={classData} />
+      </Drawer>
+    </>
   );
 };
 

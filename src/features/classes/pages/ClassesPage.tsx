@@ -11,6 +11,7 @@ import ClassesList from "../components/list/ClassesList";
 import DataShow from "../../../components/data/DataShow";
 import ClassesAdvancedQuery from "../components/filters/ClassesAdvancedQuery";
 import { useGetAllClasses } from "../hooks/api/useGetAllClasses";
+import ClassesTour from "../tour/ClassesTour";
 
 const ClassesPage = () => {
   const { t } = useTranslation();
@@ -22,50 +23,53 @@ const ClassesPage = () => {
   const { view, changeView } = useViewTabChange();
 
   const { data, isLoading } = useGetAllClasses();
-  
-  return (
-    <Tabs value={view} onValueChange={changeView} className="space-y-4">
-      <ClassesHeader tab={view} isTrashView={false} />
-      <ClassesAdvancedQuery />
-      <DataShow
-        isLoading={isLoading}
-        dataLength={data?.data.length}
-        emptyDescription={t("classes.noClassesDesc")}
-        emptyTitle={t("classes.noClassesTitle")}
-        emptyIcon={BookOpen}
-        action={{
-          label: t("classes.addClass"),
-          link: "/classes/create",
-        }}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          {view === "grid" && (
-            <m.div
-              key="grid"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ClassesGrid data={data?.data} />
-            </m.div>
-          )}
 
-          {view === "list" && (
-            <m.div
-              key="list"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ClassesList data={data?.data} />
-            </m.div>
-          )}
-        </AnimatePresence>
-        <Paginate meta={data?.meta} />
-      </DataShow>
-    </Tabs>
+  return (
+    <>
+      <ClassesTour />
+      <Tabs value={view} onValueChange={changeView} className="space-y-4">
+        <ClassesHeader tab={view} />
+        <ClassesAdvancedQuery />
+        <DataShow
+          isLoading={isLoading}
+          dataLength={data?.data.length}
+          emptyDescription={t("classes.noClassesDesc")}
+          emptyTitle={t("classes.noClassesTitle")}
+          emptyIcon={BookOpen}
+          action={{
+            label: t("classes.addClass"),
+            link: "/classes/create",
+          }}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {view === "grid" && (
+              <m.div
+                key="grid"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ClassesGrid data={data?.data} />
+              </m.div>
+            )}
+
+            {view === "list" && (
+              <m.div
+                key="list"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ClassesList data={data?.data} />
+              </m.div>
+            )}
+          </AnimatePresence>
+          <Paginate meta={data?.meta} />
+        </DataShow>
+      </Tabs>
+    </>
   );
 };
 

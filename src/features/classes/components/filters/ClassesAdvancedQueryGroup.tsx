@@ -11,6 +11,7 @@ const ClassesAdvancedQueryGroup = ({
   className,
   numberSelected,
   isSelected,
+  dataTour,
 }: {
   icon?: LucideIcon;
   title: React.ReactNode;
@@ -18,11 +19,15 @@ const ClassesAdvancedQueryGroup = ({
   className?: string;
   numberSelected?: number;
   isSelected?: boolean;
+  dataTour?: string;
 }) => {
   const { t } = useTranslation();
 
   return (
-    <div className={cn("rounded-lg border bg-card p-3.5 space-y-4", className)}>
+    <div
+      data-tour={dataTour}
+      className={cn("rounded-lg border bg-card p-3.5 space-y-4", className)}
+    >
       <div className="flex items-center justify-between">
         <Label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           <Icon className="size-3.5 text-primary" />

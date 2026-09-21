@@ -142,8 +142,39 @@
       "passwordPlaceholder": "パスワードを入力"
     }
   },
+  "help": {
+    "introTitle": "このアプリについて",
+    "introDescription": "学校管理システムは家庭教師塾の運営向けデスクトップアプリです。生徒、教師、コース、クラス、登録、支払いを管理できます。すべてのデータはお使いの端末に安全に保存され、オフラインでも完全に動作します。以下のオプションからガイドツアーの再生、ソースコードの確認、お問い合わせが可能です。",
+    "gettingStarted": {
+      "title": "はじめに",
+      "description": "ガイドを見直す、またはプロジェクトを探索できます。"
+    },
+    "tour": {
+      "title": "ガイドツアー",
+      "description": "ステップバイステップのガイドをリセットして再生します。",
+      "button": "ツアーをリセット",
+      "confirmTitle": "ガイドツアーをリセットしますか？",
+      "confirmDescription": "次回各ページを開いたときにツアーが最初から再生されます。",
+      "confirmButton": "ツアーをリセット",
+      "success": "ガイドツアーをリセットしました。"
+    },
+    "source": {
+      "title": "ソースコード",
+      "description": "このプロジェクトはオープンソースで自由に利用できます。",
+      "button": "GitHubで見る"
+    },
+    "contact": {
+      "title": "お問い合わせ",
+      "description": "ご質問やご意見は以下のいずれかでご連絡ください。",
+      "email": "メール",
+      "telegram": "Telegram",
+      "facebook": "Facebook"
+    }
+  },
   "general": {
     "sortBy": "並び替え",
+    "invalidDate": "無効な日付",
+    "justNow": "たった今",
     "none": "なし",
     "asc": "昇順",
     "desc": "降順",
@@ -732,6 +763,159 @@
       "batch": "クラス",
       "enrolled": "登録済み",
       "teacher": "教員"
+    }
+  },
+  "tour": {
+    "card": {
+      "skip": "スキップ",
+      "back": "戻る",
+      "next": "次へ",
+      "finish": "完了",
+      "step": "ステップ"
+    },
+    "dashboard": {
+      "kpi": "主要業績評価指標",
+      "kpiContent": "生徒、教員、コース、支払いなどの重要な指標で学校の概要をすばやく確認できます。",
+      "revenueEnrollment": "収益と登録",
+      "revenueEnrollmentContent": "月次収益と生徒登録を比較し、過去6ヶ月間の学校のパフォーマンスの変化を理解してください。",
+      "courseEnrollment": "コース登録",
+      "courseEnrollmentContent": "コースごとの登録傾向を確認し、各コースに何人の生徒が登録しているかを確認できます。",
+      "todayClasses": "今日のクラス",
+      "todayClassesContent": "今日予定されているクラスを確認できます。クラス時間、コース、教員が含まれます。",
+      "recentEnrollments": "最近の登録",
+      "recentEnrollmentsContent": "最新の生徒登録を確認し、新しい登録を素早く把握できます。",
+      "recentPayments": "最近の支払い",
+      "recentPaymentsContent": "最新の支払いを確認し、学校の最新の支払い活動を監視できます。",
+      "outstandingPayments": "未払い金",
+      "outstandingPaymentsContent": "未払い金を追跡し、まだ未払いの合計金額を確認できます。"
+    },
+    "students": {
+      "search": "生徒を検索",
+      "searchContent": "名前、メール、電話番号で生徒を検索します。",
+      "viewChange": "表示を変更",
+      "viewChangeContent": "生徒データの表示をリストとグリッドの間で変更します。",
+      "exportCsv": "CSVエクスポート",
+      "exportCsvContent": "生徒データをCSV形式でエクスポートし、簡単に分析・レポート作成できます。",
+      "createStudent": "生徒を作成",
+      "createStudentContent": "必要な情報を入力して新しい生徒を作成します。"
+    },
+    "classes": {
+      "search": "クラスを検索",
+      "searchContent": "コース名または教員名でクラスを検索します。",
+      "advancedSearch": "高度な検索",
+      "advancedSearchContent": "高度な検索オプションでクラスを検索します。",
+      "teacherFilter": "教員フィルター",
+      "teacherFilterContent": "特定の教員を選択してクラスをフィルタリングします。",
+      "courseFilter": "コースフィルター",
+      "courseFilterContent": "特定のコースを選択してクラスをフィルタリングします。",
+      "dateRange": "日付範囲フィルター",
+      "dateRangeContent": "開始日、終了日、またはその両方を選択してクラスをフィルタリングします。両方の日付を選択する場合、終了日は開始日より後である必要があります。例：2026年1月1日 – 2026年1月15日。",
+      "timeRange": "時間範囲フィルター",
+      "timeRangeContent": "開始時刻、終了時刻、またはその両方を選択してクラスをフィルタリングします。両方の時刻を選択する場合、終了時刻は開始時刻より後である必要があります。例：10:00 AM – 02:00 PM。",
+      "priceRange": "価格範囲フィルター",
+      "priceRangeContent": "最低価格、最高価格、またはその両方を選択してクラスをフィルタリングします。両方の価格を選択する場合、最低価格は最高価格より低い必要があります。例：$10 - $50。",
+      "resetFilters": "フィルターをリセット",
+      "resetFiltersContent": "選択したすべてのフィルターをクリアし、クラスリストをデフォルトの表示にリセットします。",
+      "applyFilters": "フィルターを適用",
+      "applyFiltersContent": "選択したフィルターを適用して、条件に一致するクラスを素早く見つけます。",
+      "viewChange": "表示を変更",
+      "viewChangeContent": "クラスデータの表示をリストとグリッドの間で変更します。",
+      "exportCsv": "CSVエクスポート",
+      "exportCsvContent": "クラスデータをCSV形式でエクスポートし、簡単に分析・レポート作成できます。",
+      "createClass": "クラスを作成",
+      "createClassContent": "必要な情報を入力して新しいクラスを作成します。"
+    },
+    "courses": {
+      "search": "コースを検索",
+      "searchContent": "名前でコースを検索します。",
+      "trash": "ゴミ箱",
+      "trashContent": "削除されたコースを表示・管理します。",
+      "viewChange": "表示を変更",
+      "viewChangeContent": "コースデータの表示をリストとグリッドの間で変更します。",
+      "exportCsv": "CSVエクスポート",
+      "exportCsvContent": "コースデータをCSV形式でエクスポートし、簡単に分析・レポート作成できます。",
+      "createCourse": "コースを作成",
+      "createCourseContent": "必要な情報を入力して新しいコースを作成します。"
+    },
+    "teachers": {
+      "search": "教員を検索",
+      "searchContent": "名前、メール、電話番号で教員を検索します。",
+      "trash": "ゴミ箱",
+      "trashContent": "削除された教員を表示・管理します。",
+      "viewChange": "表示を変更",
+      "viewChangeContent": "教員データの表示をリストとグリッドの間で変更します。",
+      "exportCsv": "CSVエクスポート",
+      "exportCsvContent": "教員データをCSV形式でエクスポートし、簡単に分析・レポート作成できます。",
+      "createTeacher": "教員を作成",
+      "createTeacherContent": "必要な情報を入力して新しい教員を作成します。"
+    },
+    "payments": {
+      "search": "支払いを検索",
+      "searchContent": "生徒名、コース名で支払いを検索します。",
+      "outstandingPayment": "未払い金",
+      "outstandingPaymentContent": "まだ支払われていない未払い金を表示します。",
+      "allPayment": "すべての支払い",
+      "allPaymentContent": "支払済みと未払いを含むすべての支払いを表示します。"
+    },
+    "timetable": {
+      "courseFilter": "コースフィルター",
+      "courseFilterContent": "このフィルターを使用して、特定のコースのタイムテーブルエントリを素早く見つけます。",
+      "courseTimetable": "コースタイムテーブル",
+      "courseTimetableContent": "コースの視点からスケジュールされたクラスと時間を表示します。",
+      "teacherTimetable": "教員タイムテーブル",
+      "teacherTimetableContent": "教員の視点からスケジュールされたクラスと時間を表示します。"
+    },
+    "classesCreate": {
+      "selectCourse": "コースを選択",
+      "selectCourseContent": "このクラスのコースを選択します。",
+      "selectTeacher": "教員を選択",
+      "selectTeacherContent": "このクラスを担当する教員を選択します。",
+      "selectDay": "曜日を選択",
+      "selectDayContent": "このクラスが開催される曜日を選択します。",
+      "selectStartDate": "開始日を選択",
+      "selectStartDateContent": "このクラスが開始される日付を選択します。開始日は未来の日付である必要があります。",
+      "selectStartTime": "開始時刻を選択",
+      "selectStartTimeContent": "クラスの開始時刻を選択します。終了時刻より前である必要があります。注：選択した教員がすでに別のクラスを担当している時間にクラスを作成することはできません。",
+      "selectEndTime": "終了時刻を選択",
+      "selectEndTimeContent": "クラスの終了時刻を選択します。開始時刻より後である必要があります。注：選択した教員がすでに別のクラスを担当している時間にクラスを作成することはできません。",
+      "addDescription": "説明を追加",
+      "addDescriptionContent": "クラスに関する役立つ詳細を追加します。メモ、Telegramグループリンク、Google Classroomリンクなどが含まれます。"
+    },
+    "classesDetails": {
+      "completeClass": "クラスを完了",
+      "completeClassContent": "このクラスを完了としてマークします。この操作は取り消せません。",
+      "enrollStudents": "生徒を登録",
+      "enrollStudentsContent": "このクラスに生徒を追加します。",
+      "editClass": "クラスを編集",
+      "editClassContent": "クラスの情報と詳細を更新します。",
+      "deleteClass": "クラスを削除",
+      "deleteClassContent": "このクラスを削除します。生徒が現在登録されている場合、クラスを削除することはできません。",
+      "searchStudents": "生徒を検索",
+      "searchStudentsContent": "名前で登録された生徒を検索します。"
+    },
+    "coursesDetails": {
+      "editCourse": "コースを編集",
+      "editCourseContent": "コースの情報と詳細を更新します。",
+      "deleteCourse": "コースを削除",
+      "deleteCourseContent": "このコースを削除します。コースが既存のクラスに割り当てられている場合、それらは永久に削除されません。代わりに、ステータスが非アクティブに変更されます。",
+      "searchCourseClasses": "コースクラスを検索",
+      "searchCourseClassesContent": "教員名でコースのクラスを検索します。",
+      "courseClasses": "コースクラス",
+      "courseClassesContent": "このコースに割り当てられたすべてのクラスを表示します。",
+      "courseTimetable": "コースタイムテーブル",
+      "courseTimetableContent": "コースのクラススケジュールとタイムテーブルを表示します。"
+    },
+    "teachersDetails": {
+      "editTeacher": "教員を編集",
+      "editTeacherContent": "教員の情報と詳細を更新します。",
+      "deleteTeacher": "教員を削除",
+      "deleteTeacherContent": "この教員を削除します。教員が既存のクラスに割り当てられている場合、それらは永久に削除されません。代わりに、ステータスが非アクティブに変更されます。",
+      "searchTeacherClasses": "教員クラスを検索",
+      "searchTeacherClassesContent": "コース名で教員のクラスを検索します。",
+      "teacherClasses": "教員クラス",
+      "teacherClassesContent": "この教員に割り当てられたすべてのクラスを表示します。",
+      "teacherTimetable": "教員タイムテーブル",
+      "teacherTimetableContent": "教員のクラススケジュールとタイムテーブルを表示します。"
     }
   },
   "validation": {

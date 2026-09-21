@@ -53,7 +53,7 @@ const ClassesCourseInput = ({
   }
 
   return (
-    <Field data-invalid={fieldState.invalid}>
+    <Field data-tour="select-course" data-invalid={fieldState.invalid}>
       <RequiredLabel id="courseID">{t("classes.fields.course")}</RequiredLabel>
 
       <div className="relative">
@@ -100,7 +100,7 @@ const ClassesCourseInput = ({
                 </div>
               ))}
 
-              {isFetchingNextPage && (
+              {hasNextPage && (
                 <div ref={loadingRef} className="py-2 text-center">
                   {(isLoading || isFetchingNextPage) && (
                     <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">

@@ -16,6 +16,7 @@ import SearchInput from "../../../components/search-input/SearchInput";
 import ClassesCompleteAlert from "../components/alerts/ClassesCompleteAlert";
 import LoadingComponent from "../../../components/loading/LoadingComponent";
 import { useGetClassDetails } from "../hooks/api/useGetClassDetails";
+import ClassesDetailsTour from "../tour/ClassesDetalsTour";
 
 const ClassesDetailsPage = () => {
   const { t } = useTranslation();
@@ -46,6 +47,7 @@ const ClassesDetailsPage = () => {
 
   return (
     <>
+      <ClassesDetailsTour />
       <div className="space-y-6">
         {isLoading ? (
           <LoadingComponent />
@@ -62,6 +64,7 @@ const ClassesDetailsPage = () => {
             >
               {data?.data.status == "ongoing" && (
                 <Button
+                  data-tour="complete-class"
                   variant="outline"
                   onClick={() => setCompleteConfirmDialogOpen(true)}
                 >
@@ -71,6 +74,7 @@ const ClassesDetailsPage = () => {
               )}
               {data?.data.status != "complete" && (
                 <Button
+                  data-tour="enroll-students"
                   variant="default"
                   onClick={() => navigate(`/classes/enroll/${classId}`)}
                 >

@@ -17,10 +17,10 @@ const Footer = () => {
         {/* Settings */}
         <SidebarMenuItem className="space-y-1.5">
           <SidebarMenuButton asChild tooltip={t("general.help")}>
-            <a href="#">
+            <NavLink to="/help">
               <CircleQuestionMark />
               <span>{t("general.help")}</span>
-            </a>
+            </NavLink>
           </SidebarMenuButton>
           <SidebarMenuButton asChild tooltip={t("settings.title")}>
             <NavLink to="/settings">

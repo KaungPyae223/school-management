@@ -5,6 +5,7 @@ import ConfirmDialog from "../../../components/dialog/ConfirmDialog";
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import { useClassCreateForm } from "../hooks/forms/useClassCreateForm";
 import ClassesForm from "../components/forms/ClassesForm";
+import ClassesCreateTour from "../tour/ClassesCreateTour";
 
 const ClassesCreatePage = () => {
   const { t } = useTranslation();
@@ -35,25 +36,28 @@ const ClassesCreatePage = () => {
   } = useClassCreateForm();
 
   return (
-    <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
-      <FormHeader title={t("classes.createTitle")} />
-      <ClassesForm
-        form={form}
-        errorMessage={errorMessage}
-        isPending={isPending}
-        onSubmit={onSubmit}
-        resetForm={resetForm}
-      />
+    <>
+      <ClassesCreateTour />
+      <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
+        <FormHeader title={t("classes.createTitle")} />
+        <ClassesForm
+          form={form}
+          errorMessage={errorMessage}
+          isPending={isPending}
+          onSubmit={onSubmit}
+          resetForm={resetForm}
+        />
 
-      <ConfirmDialog
-        confirmDialogOpen={confirmDialogOpen}
-        setConfirmDialogOpen={setConfirmDialogOpen}
-        onConfirm={createClass}
-        title={t("classes.alerts.createConfirmTitle")}
-        description={t("classes.alerts.createConfirmDesc")}
-        confirmButtonText={t("classes.alerts.createConfirmButton")}
-      />
-    </Card>
+        <ConfirmDialog
+          confirmDialogOpen={confirmDialogOpen}
+          setConfirmDialogOpen={setConfirmDialogOpen}
+          onConfirm={createClass}
+          title={t("classes.alerts.createConfirmTitle")}
+          description={t("classes.alerts.createConfirmDesc")}
+          confirmButtonText={t("classes.alerts.createConfirmButton")}
+        />
+      </Card>
+    </>
   );
 };
 

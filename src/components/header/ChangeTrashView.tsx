@@ -21,6 +21,7 @@ const ChangeTrashView = () => {
 
   return (
     <Button
+      data-tour="trash"
       variant={isTrashView ? "destructive" : "outline"}
       onClick={toggleTrashView}
       className="gap-2"

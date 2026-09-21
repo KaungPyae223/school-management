@@ -61,6 +61,7 @@ const ClassesAdvancedQuery = () => {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <ClassesAdvancedQueryGroup
+                      dataTour="teacher-filter"
                       icon={UserPen}
                       title={t("classes.fields.teacher")}
                       isSelected={Boolean(selectedTeachers)}
@@ -78,6 +79,7 @@ const ClassesAdvancedQuery = () => {
                     </ClassesAdvancedQueryGroup>
 
                     <ClassesAdvancedQueryGroup
+                      dataTour="course-filter"
                       icon={LibraryBig}
                       title={t("classes.fields.course")}
                       isSelected={Boolean(selectedCourses?.length)}
@@ -97,6 +99,7 @@ const ClassesAdvancedQuery = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <ClassesAdvancedQueryGroup
+                      dataTour="date-range"
                       icon={CalendarIcon}
                       title={`${t("classes.fields.startDate")} & ${t("classes.fields.endDate")}`}
                       isSelected={Boolean(startDate || endDate)}
@@ -151,6 +154,7 @@ const ClassesAdvancedQuery = () => {
                     </ClassesAdvancedQueryGroup>
 
                     <ClassesAdvancedQueryGroup
+                      dataTour="time-range"
                       icon={Clock}
                       title={t("classes.advancedQuery.timeRange")}
                       isSelected={Boolean(startTime || endTime)}
@@ -205,6 +209,7 @@ const ClassesAdvancedQuery = () => {
                     </ClassesAdvancedQueryGroup>
 
                     <ClassesAdvancedQueryGroup
+                      dataTour="price-range"
                       icon={DollarSign}
                       title={t("classes.advancedQuery.priceRange")}
                       isSelected={Boolean(minPrice || maxPrice)}
@@ -277,6 +282,7 @@ const ClassesAdvancedQuery = () => {
                       )}
 
                       <Button
+                        data-tour="reset-filters"
                         variant="outline"
                         onClick={handleCancelAll}
                         disabled={!hasActiveFilters}
@@ -285,7 +291,11 @@ const ClassesAdvancedQuery = () => {
                         <RotateCcw className="size-3.5" />
                         {t("classes.advancedQuery.cancelAll")}
                       </Button>
-                      <Button variant="default" type="submit">
+                      <Button
+                        data-tour="apply-filters"
+                        variant="default"
+                        type="submit"
+                      >
                         <Search className="size-3.5" />
                         {t("classes.advancedQuery.applyFilters")}
                       </Button>

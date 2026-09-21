@@ -1,0 +1,44 @@
+import type { Step } from "react-joyride";
+import { useTranslation } from "react-i18next";
+import Tour from "../../../components/tour/Tour";
+
+const CoursesTour = () => {
+  const { t } = useTranslation();
+
+  const steps: Step[] = [
+    {
+      target: "[data-tour='search']",
+      title: t("tour.courses.search"),
+      content: t("tour.courses.searchContent"),
+      skipBeacon: true,
+    },
+    {
+      target: "[data-tour='trash']",
+      title: t("tour.courses.trash"),
+      content: t("tour.courses.trashContent"),
+      skipBeacon: true,
+    },
+    {
+      target: "[data-tour='view-change']",
+      title: t("tour.courses.viewChange"),
+      content: t("tour.courses.viewChangeContent"),
+      skipBeacon: true,
+    },
+    {
+      target: "[data-tour='export-csv']",
+      title: t("tour.courses.exportCsv"),
+      content: t("tour.courses.exportCsvContent"),
+      skipBeacon: true,
+    },
+    {
+      target: "[data-tour='create-course']",
+      title: t("tour.courses.createCourse"),
+      content: t("tour.courses.createCourseContent"),
+      skipBeacon: true,
+    },
+  ];
+
+  return <Tour steps={steps} tourID={"courses"} />;
+};
+
+export default CoursesTour;
