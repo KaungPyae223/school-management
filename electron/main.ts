@@ -18,8 +18,7 @@ function createWindow() {
     },
   });
 
-  // Menu.setApplicationMenu(null);
-
+  
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL);
   } else {
@@ -44,7 +43,7 @@ app.whenReady().then(async () => {
     const requested = path.resolve(safeBase, filePath.replace(/^\/+/, ""));
 
     if (!requested.startsWith(safeBase)) {
-      callback({ error: -6 }); // ACCESS DENIED
+      callback({ error: -6 }); 
       return;
     }
 

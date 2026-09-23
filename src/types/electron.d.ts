@@ -72,6 +72,11 @@ declare global {
       relaunchApp: () => Promise<void>;
     };
 
+    setupAPI: {
+      isComplete: () => Promise<boolean>;
+      complete: () => Promise<void>;
+    };
+
     api: {
       getAllCourses: (data: {
         page?: number;

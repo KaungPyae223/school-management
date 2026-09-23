@@ -9,14 +9,6 @@ const SALT_ROUNDS = 10;
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_MS = 15 * 60 * 1000;
 
-const hasPassword = () => {
-  return !!store.get("user_password_hash");
-};
-
-const has2FA = () => {
-  return !!store.get("two_factor_enabled");
-};
-
 const storedPassword = async (password: string) => {
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
@@ -151,18 +143,18 @@ export const authIPCs = () => {
   });
 
   ipcMain.handle("auth:has-password", () => {
-    return hasPassword();
+    return authSession.hasPassword();
   });
 
   ipcMain.handle("auth:set-password", async (_, plainPassword) => {
     try {
-      if (has2FA() && !twoFactorSession.is2FAVerified()) {
+      if (authSession.has2FA() && !twoFactorSession.is2FAVerified()) {
         return {
           success: false,
           message: "Please verify Two-Factor Authentication first.",
         };
       }
-      if (hasPassword()) {
+      if (authSession.hasPassword()) {
         return { success: false, message: "Password cannot be set." };
       }
       if (!plainPassword) {
@@ -187,13 +179,13 @@ export const authIPCs = () => {
     "auth:change-password",
     async (_, oldPassword, newPassword) => {
       try {
-        if (has2FA() && !twoFactorSession.is2FAVerified()) {
+        if (authSession.has2FA() && !twoFactorSession.is2FAVerified()) {
           return {
             success: false,
             message: "Please verify Two-Factor Authentication first.",
           };
         }
-        if (!hasPassword()) {
+        if (!authSession.hasPassword()) {
           return { success: false, message: "No password set." };
         }
         if (!newPassword || !oldPassword) {

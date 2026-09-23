@@ -1,3 +1,4 @@
+import { store } from "../store";
 let isAuthenticated = false;
 
 export const authSession = {
@@ -7,5 +8,13 @@ export const authSession = {
 
   login() {
     isAuthenticated = true;
+  },
+
+  hasPassword() {
+    return !!store.get("user_password_hash");
+  },
+
+  has2FA() {
+    return !!store.get("two_factor_enabled");
   },
 };

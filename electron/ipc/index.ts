@@ -9,6 +9,7 @@ import { authIPCs } from "../auth/auth.ipc";
 import { register2FAIPCs } from "../auth/two-factor.ipc";
 import { backupIPCs } from "../auth/backup.ipc";
 import { dashboardIPCs } from "./dashboard.ipc";
+import { setupIPCs } from "./setup.ipc";
 
 export const registerIpcHandlers = () => {
   courseIPCs();
@@ -22,4 +23,5 @@ export const registerIpcHandlers = () => {
   register2FAIPCs();
   backupIPCs();
   dashboardIPCs();
+  setupIPCs();
 };

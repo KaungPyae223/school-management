@@ -76,9 +76,11 @@ const TimetableDetailsContent = ({ classData }: { classData: any }) => {
                 </Tooltip>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-4">
-              {classData.description}
-            </p>
+            {classData.description && (
+              <p className="text-sm text-muted-foreground mt-1 line-clamp-4">
+                {classData.description}
+              </p>
+            )}
 
             <div className="grid grid-cols-2 gap-3 ">
               <CourseStatsCard

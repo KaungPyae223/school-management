@@ -7,6 +7,7 @@ const allowedKeys: (keyof StoreSchema)[] = [
   "mode",
   "colorScheme",
   "appTourStorage",
+  
 ];
 
 export const storeIPCs = () => {

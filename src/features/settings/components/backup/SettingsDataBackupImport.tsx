@@ -34,7 +34,11 @@ import { useImportBackup } from "../../hooks/api/useImportBackup";
 import FormError from "../../../../components/form/FormError";
 import { translateError } from "../../../../utils/translate-error";
 
-const SettingsDataBackupImport = () => {
+const SettingsDataBackupImport = ({
+  removeHeader = false,
+}: {
+  removeHeader?: boolean;
+}) => {
   const { t } = useTranslation();
   const { formSchema } = useBackupImportSchema();
 
@@ -47,7 +51,7 @@ const SettingsDataBackupImport = () => {
     defaultValues: {
       password: "",
       backup: undefined,
-    } as unknown as FormValues,
+    } as unknown,
   });
 
   const { mutateAsync, isPending } = useImportBackup();
@@ -142,18 +146,19 @@ const SettingsDataBackupImport = () => {
         <FieldGroup>
           <CardContent className="space-y-4">
             <FormError errorMessage={errorMessage} />
-
-            <Alert className="flex items-center gap-3">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted">
-                <DatabaseBackup className="size-5 text-muted-foreground" />
-              </div>
-              <div>
-                <AlertTitle>{t("settings.backup.importTitle")}</AlertTitle>
-                <AlertDescription>
-                  {t("settings.backup.importDesc")}
-                </AlertDescription>
-              </div>
-            </Alert>
+            {!removeHeader && (
+              <Alert className="flex items-center gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted">
+                  <DatabaseBackup className="size-5 text-muted-foreground" />
+                </div>
+                <div>
+                  <AlertTitle>{t("settings.backup.importTitle")}</AlertTitle>
+                  <AlertDescription>
+                    {t("settings.backup.importDesc")}
+                  </AlertDescription>
+                </div>
+              </Alert>
+            )}
 
             <Alert>
               <Controller

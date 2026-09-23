@@ -73,7 +73,7 @@
       "backupCodesTitle": "Save Your Backup Codes",
       "backupCodesDesc": "If you lose access to your authenticator app, these one-time codes are the only way to sign in. Save them in a secure place.",
       "notEnabledTitle": "You do not have Two-Factor Authentication",
-      "notEnabledDesc": "Please enable Two-Factor Authentication first to manage your password safely."
+      "notEnabledDesc": "Please enable Two-Factor Authentication first to manage your password safely. Once enabled, you can reset your password using 2FA if you forget it."
     },
     "backup": {
       "title": "Data Backup & Restore",
@@ -936,5 +936,54 @@
     "priceOrderStart": "Max price must be greater than min price",
     "passwordNotMatch": "The password and confirm password do not match",
     "zipOnly": "Only .zip archive files are supported"
+  },
+  "setup": {
+    "nav": {
+      "start": "Start",
+      "back": "Back",
+      "next": "Next",
+      "complete": "Complete"
+    },
+    "confirm": {
+      "title": "Complete your setup?",
+      "description": "You can always update these settings later from the Settings page."
+    },
+    "intro": {
+      "title": "Welcome to School Management",
+      "subtitle": "Let's take a minute to tailor the app to your school. You can change any of these later in Settings.",
+      "highlights": {
+        "local": {
+          "title": "Local by design",
+          "description": "Every record stays in a secure database on this device."
+        },
+        "offline": {
+          "title": "Works offline",
+          "description": "No account, no internet required — open it and get to work."
+        },
+        "private": {
+          "title": "Private & protected",
+          "description": "Lock the app with a password only you control."
+        }
+      }
+    },
+    "preferences": {
+      "title": "Make it yours",
+      "description": "Set your language and appearance. Everything here can be changed later."
+    },
+    "password": {
+      "title": "Set a Password",
+      "description": "Create a password to lock the app, or skip and add one later from Settings.",
+      "submit": "Setting up Password",
+      "saving": "Saving",
+      "success": {
+        "chip": "Password saved",
+        "title": "You're all set",
+        "description": "Use this password every time you open School Management. You can change it later from Settings."
+      }
+    },
+    "importBackup": {
+      "title": "Import Backup",
+      "description": "Upload your backup file to restore your data from a previous application"
+    }
   }
 }

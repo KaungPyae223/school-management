@@ -47,8 +47,14 @@ contextBridge.exposeInMainWorld("backupAPI", {
   relaunchApp: () => ipcRenderer.invoke("backup:relaunch"),
 });
 
+contextBridge.exposeInMainWorld("setupAPI", {
+  isComplete: () => ipcRenderer.invoke("setup:is-complete"),
+  complete: () => ipcRenderer.invoke("setup:complete"),
+});
+
 contextBridge.exposeInMainWorld("api", {
   // Course
+
   getAllCourses: (data) => ipcRenderer.invoke("course:index", data),
   searchAllCourses: (data) => ipcRenderer.invoke("course:search-all", data),
   getCourse: (id) => ipcRenderer.invoke("course:show", id),
