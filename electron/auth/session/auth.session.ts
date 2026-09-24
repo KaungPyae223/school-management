@@ -1,4 +1,4 @@
-import { store } from "../store";
+import { store } from "../../store";
 let isAuthenticated = false;
 
 export const authSession = {

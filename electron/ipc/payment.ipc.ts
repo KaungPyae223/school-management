@@ -1,156 +1,37 @@
-import { prisma } from "../db/prisma";
 import { showImage } from "../utils/showImage";
-import { Prisma } from "../../generated/prisma/client";
 import { deleteImage } from "../utils/deleteImage";
 import { saveImage } from "../utils/saveImage";
-import { protectedHandle } from "../auth/protected-ipc";
+import { protectedHandle } from "../auth/ipc/protected.ipc";
+import { paymentRepository } from "../repository/payment.repository";
+import { buildPageMeta } from "../utils/query-utils";
 
 export const paymentIPCs = () => {
   protectedHandle("payment:index", async (_, data) => {
-    const {
-      page = 1,
-      limit = 10,
-      search = "",
-      sort = "createdAt",
-      sortDirection = "asc",
-      view = "outstanding",
-    } = data;
-
-    const avilableSort = new Set([
-      "paidAmount",
-      "remainingAmount",
-      "lastPaidAt",
-      "firstPaidAt",
-      "totalPayments",
-      "studentName",
-      "studentPhone",
-      "studentEmail",
-      "courseName",
-      "e.createdAt",
-      "e.updatedAt",
-    ]);
-    const avilableSortDirection = new Set(["asc", "desc"]);
-
-    const finalSort = avilableSort.has(sort) ? sort : "e.createdAt";
-    const finalSortDirection = avilableSortDirection.has(sortDirection)
-      ? sortDirection
-      : "desc";
-
-    const skip = Number(page - 1) * Number(limit);
-
-    const conditions = [];
-
-    if (search) {
-      conditions.push(
-        Prisma.sql`(
-          LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR
-          LOWER(s.email) LIKE LOWER(${`%${search}%`}) OR
-          LOWER(s.phone) LIKE LOWER(${`%${search}%`}) OR
-          LOWER(c.name) LIKE LOWER(${`%${search}%`})
-        )`,
-      );
-    }
-
-    if (view === "outstanding") {
-      conditions.push(Prisma.sql`e.withdrawn = 0`);
-      conditions.push(Prisma.sql`COALESCE(ep.paidAmount, 0) < e.price`);
-    }
-
-    const searchQuery =
-      conditions.length > 0
-        ? Prisma.sql`WHERE ${Prisma.join(conditions, " AND ")}`
-        : Prisma.empty;
-
     try {
-      const [enrollments, total] = await Promise.all([
-        prisma.$queryRaw<any[]>`
-          WITH enrollment_payment AS (
-            SELECT
-            enrollmentId,
-            SUM(p.amount) as paidAmount,
-            MAX(p.createdAt) as lastPaidAt,
-            MIN(p.createdAt) as firstPaidAt,
-            COUNT(p.id) as paymentTimes
-            FROM payments p
-            GROUP BY p.enrollmentId
-          )
-          SELECT
-            e.*,
-            COALESCE(ep.paidAmount,0) as paidAmount,
-            ep.lastPaidAt,
-            ep.firstPaidAt,
-            COALESCE(ep.paymentTimes,0) as paymentTimes,
-            e.price - COALESCE(ep.paidAmount,0) as remainingAmount,
-            s.name as studentName,
-            s.phone as studentPhone,
-            s.email as studentEmail,
-            s.image as studentImage,
-            c.name as courseName,
-            c.image as courseImage,
-            cl.batch as batch,
-            e.withdrawn
-          FROM enrollments e
-          LEFT JOIN enrollment_payment ep ON e.id = ep.enrollmentId
-          JOIN students s ON e.studentId = s.id
-          JOIN classes cl ON e.classId = cl.id
-          JOIN courses c ON cl.courseId = c.id
-          ${searchQuery}
-          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip}
-        `,
-        prisma.$queryRaw<any[]>`
-          WITH enrollment_payment AS (
-            SELECT
-            enrollmentId,
-            SUM(p.amount) as paidAmount
-            FROM payments p
-            GROUP BY p.enrollmentId
-          )
-          SELECT
-          COUNT(DISTINCT e.id) as total
-          FROM enrollments e
-          LEFT JOIN enrollment_payment ep ON e.id = ep.enrollmentId
-          JOIN students s ON e.studentId = s.id
-          JOIN classes cl ON e.classId = cl.id
-          JOIN courses c ON cl.courseId = c.id
-          ${searchQuery}
-        `,
-      ]);
-
-      const totalData = total[0].total;
-
-      const totalPages = Math.ceil(Number(totalData) / Number(limit));
+      const { payments, totalData } = await paymentRepository.index(data);
 
       return {
         error: null,
-        data: enrollments.map((enrollment) => ({
-          ...enrollment,
-          studentImage: showImage(enrollment.studentImage),
-          courseImage: showImage(enrollment.courseImage),
+        data: payments.map((payment) => ({
+          ...payment,
+          studentImage: showImage(payment.studentImage),
+          courseImage: showImage(payment.courseImage),
         })),
-        meta: { total_data: totalData, total_pages: totalPages, page, limit },
+        meta: buildPageMeta(totalData, data.page, data.limit),
       };
     } catch (error: any) {
       console.error(error);
       return {
         error: error.message,
         data: [],
-        meta: {
-          total_data: 0,
-          total_pages: 0,
-          page: 0,
-          limit: 0,
-        },
+        meta: buildPageMeta(),
       };
     }
   });
 
   protectedHandle("payment:get-by-enrollment", async (_, id) => {
     try {
-      const payments = await prisma.payment.findMany({
-        where: { enrollmentId: id },
-        orderBy: { createdAt: "desc" },
-      });
+      const payments = await paymentRepository.getByEnrollment(id);
       if (!payments) {
         return { error: "Payment not found", data: [] };
       }
@@ -166,30 +47,6 @@ export const paymentIPCs = () => {
       return { error: error.message, data: null };
     }
   });
-
-  protectedHandle("payment:delete", async (_, id) => {
-    try {
-      const payment = await prisma.payment.findUnique({
-        where: { id },
-        select: { image: true },
-      });
-
-      if (!payment) {
-        return { error: "Payment not found", data: null };
-      }
-
-      if (payment.image) {
-        await deleteImage(payment.image);
-      }
-
-      await prisma.payment.delete({ where: { id } });
-      return { success: true };
-    } catch (error: any) {
-      console.error(error);
-      return { success: false, error: error.message };
-    }
-  });
-
   protectedHandle("payment:create", async (_, data) => {
     try {
       const { image, imageName, ...restData } = data;
@@ -199,14 +56,31 @@ export const paymentIPCs = () => {
         imageUrl = await saveImage(image, imageName);
       }
 
-      await prisma.payment.create({
-        data: {
-          enrollmentId: restData.enrollmentId,
-          amount: Number(restData.amount),
-          image: imageUrl,
-          description: restData.description,
-        },
+      await paymentRepository.create({
+        enrollmentId: restData.enrollmentId,
+        amount: Number(restData.amount),
+        image: imageUrl,
+        description: restData.description,
       });
+      return { success: true };
+    } catch (error: any) {
+      console.error(error);
+      return { success: false, error: error.message };
+    }
+  });
+  protectedHandle("payment:delete", async (_, id) => {
+    try {
+      const payment = await paymentRepository.show(id);
+
+      if (!payment) {
+        return { error: "Payment not found", data: null };
+      }
+
+      if (payment.image) {
+        await deleteImage(payment.image);
+      }
+
+      await paymentRepository.delete(id);
       return { success: true };
     } catch (error: any) {
       console.error(error);

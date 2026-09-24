@@ -1,6 +1,6 @@
 let is2FAVerified = false;
 
-export const twoFactorSession = {
+export const twofactorSession = {
   is2FAVerified() {
     return is2FAVerified;
   },

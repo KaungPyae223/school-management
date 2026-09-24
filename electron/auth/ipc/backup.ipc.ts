@@ -4,13 +4,15 @@ import fs from "fs-extra";
 import bcrypt from "bcryptjs";
 import { format } from "date-fns";
 
-import { store } from "../store";
-import { protectedHandle } from "./protected-ipc";
-import { twoFactorSession } from "./two-factor-session";
-import { prisma } from "../db/prisma";
+import { store } from "../../store";
+import { protectedHandle } from "./protected.ipc";
+import { prisma } from "../../db/prisma";
 // @ts-ignore
 import Seven from "node-7z";
 import sevenBin from "7zip-bin";
+import { authService } from "../services/auth.service";
+import { twofactorSession } from "../session/twofactor.session";
+import { twofactorService } from "../services/twofactor.service";
 
 const DATA_DIR = app.getPath("userData");
 const DB_FILE = path.join(DATA_DIR, "app.db");
@@ -26,32 +28,16 @@ const ensureExecutable = (binPath: string) => {
   }
 };
 
-const checkMatch = async (password: string): Promise<boolean> => {
-  const encryptedHash = store.get("user_password_hash");
-
-  if (!encryptedHash) {
-    return false;
-  }
-
-  const hash = safeStorage.decryptString(Buffer.from(encryptedHash, "base64"));
-
-  return bcrypt.compare(password, hash);
-};
-
-const has2FA = () => {
-  return !!store.get("two_factor_enabled");
-};
-
 export const backupIPCs = () => {
   protectedHandle("backup:zip", async (_, password: string) => {
-    if (has2FA() && !twoFactorSession.is2FAVerified()) {
+    if (twofactorService.has2FA() && !twofactorSession.is2FAVerified()) {
       return {
         success: false,
         error: "Please verify Two-Factor Authentication first.",
       };
     }
 
-    const isPasswordMatch = await checkMatch(password);
+    const isPasswordMatch = await authService.checkMatch(password);
     if (!isPasswordMatch) {
       return { success: false, error: "Incorrect password." };
     }
@@ -111,7 +97,7 @@ export const backupIPCs = () => {
     async (__, data: { filePath: string; password: string }) => {
       const { filePath, password } = data;
 
-      if (has2FA() && !twoFactorSession.is2FAVerified()) {
+      if (twofactorService.has2FA() && !twofactorSession.is2FAVerified()) {
         return {
           success: false,
           error: "Please verify Two-Factor Authentication first.",

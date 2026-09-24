@@ -2,110 +2,15 @@ import { prisma } from "../db/prisma";
 import { saveImage } from "../utils/saveImage";
 import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";
-import { Prisma } from "../../generated/prisma/client";
 import { generateStatus } from "../utils/generateStatus";
-import { protectedHandle } from "../auth/protected-ipc";
+import { protectedHandle } from "../auth/ipc/protected.ipc";
+import { buildPageMeta, normalizeSort } from "../utils/query-utils";
+import { courseRepository } from "../repository/course.repository";
 
 export const courseIPCs = () => {
   protectedHandle("course:index", async (_, data) => {
-    const {
-      page = 1,
-      limit = 10,
-      search = "",
-      sort = "createdAt",
-      sortDirection = "asc",
-      trash = null,
-    } = data;
-
-    const avilableSort = new Set([
-      "c.name",
-      "c.price",
-      "c.createdAt",
-      "c.updatedAt",
-      "total_classes",
-      "total_active_classes",
-      "total_students",
-      "withdrawn_students",
-      "total_teachers",
-    ]);
-    const avilableSortDirection = new Set(["asc", "desc"]);
-
-    const finalSort = avilableSort.has(sort) ? sort : "c.createdAt";
-    const finalSortDirection = avilableSortDirection.has(sortDirection)
-      ? sortDirection
-      : "desc";
-
-    const skip = Number(page - 1) * Number(limit);
-
-    const searchFilter = search
-      ? Prisma.sql`AND (LOWER(c.name) LIKE LOWER(${`%${search}%`}) OR LOWER(c.description) LIKE LOWER(${`%${search}%`}))`
-      : Prisma.empty;
-
-    const courseSort = finalSort.startsWith("c.")
-      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
-          finalSortDirection,
-        )} LIMIT ${limit} OFFSET ${skip}`
-      : Prisma.empty;
-
-    const metaSort = !finalSort.startsWith("c.")
-      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
-          finalSortDirection,
-        )} LIMIT ${limit} OFFSET ${skip}`
-      : Prisma.empty;
-
     try {
-      const [courses, totalData] = await Promise.all([
-        prisma.$queryRaw<any[]>`
-          WITH 
-          course_query AS (
-            SELECT 
-              c.id
-            FROM courses c 
-            WHERE c.deleted = ${!!trash}
-            ${searchFilter} 
-            ${courseSort}
-           ),
-          course_meta AS (
-            SELECT
-              cl.courseId,
-              COUNT(DISTINCT cl.id) AS total_classes,
-              COUNT(DISTINCT CASE WHEN cl.startDate <= datetime('now') AND cl.endDate IS NULL THEN cl.id END) AS total_active_classes,
-              COUNT(DISTINCT cl.teacherId) AS total_teachers,
-              COUNT(DISTINCT e.id) as total_students,
-              COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students
-            FROM classes cl
-            LEFT JOIN enrollments e ON e.classId = cl.id
-            JOIN course_query cq ON cq.id = cl.courseId
-            GROUP BY cl.courseId
-            ${metaSort}
-          )
-          SELECT
-            c.*,
-            COALESCE(cm.total_classes, 0) AS total_classes,
-            COALESCE(cm.total_active_classes, 0) AS total_active_classes,
-            COALESCE(cm.total_students, 0) AS total_students,
-            COALESCE(cm.withdrawn_students, 0) AS withdrawn_students,
-            COALESCE(cm.total_teachers, 0) AS total_teachers
-          FROM courses c
-          LEFT JOIN course_meta cm ON cm.courseId = c.id
-          JOIN course_query cq ON cq.id = c.id 
-          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip}
-        `,
-        prisma.course.count({
-          where: {
-            ...(search && {
-              OR: [
-                { name: { contains: search } },
-                { description: { contains: search } },
-              ],
-            }),
-            deleted: !!trash,
-          },
-        }),
-      ]);
-
-      const total_pages = Math.ceil(Number(totalData) / Number(limit));
+      const { courses, totalData } = await courseRepository.index(data);
 
       return {
         error: null,
@@ -113,55 +18,21 @@ export const courseIPCs = () => {
           ...course,
           image: showImage(course.image),
         })),
-        meta: { total_data: totalData, total_pages, page, limit },
+        meta: buildPageMeta(totalData, data.page, data.limit),
       };
     } catch (error: any) {
       console.error(error);
       return {
         error: error.message,
         data: [],
-        meta: {
-          total_data: 0,
-          total_pages: 0,
-          page: 0,
-          limit: 0,
-        },
+        meta: buildPageMeta(),
       };
     }
   });
 
   protectedHandle("course:search-all", async (_, data) => {
-    const {
-      search = "",
-      page = 1,
-      limit = 10,
-      onlyActive = false,
-      courseIDs = [],
-    } = data;
-    const skip = Number(page - 1) * Number(limit);
-
     try {
-      const courses = await prisma.course.findMany({
-        where: {
-          ...(onlyActive && {
-            deleted: false,
-          }),
-          ...(search && {
-            name: { contains: search },
-          }),
-          ...(courseIDs &&
-            courseIDs.length > 0 && {
-              id: {
-                in: courseIDs,
-              },
-            }),
-        },
-        select: { id: true, name: true, price: true, image: true },
-        ...((!courseIDs || courseIDs.length === 0) && {
-          take: limit,
-          skip: skip,
-        }),
-      });
+      const courses = await courseRepository.searchAll(data);
       return {
         data: courses.map((course) => ({
           ...course,
@@ -196,54 +67,7 @@ export const courseIPCs = () => {
 
   protectedHandle("course:show-details", async (_, id) => {
     try {
-      const course = await prisma.$queryRaw<any[]>`
-          WITH
-          course_classes AS (
-            SELECT 
-            cl.id
-            FROM classes cl
-            WHERE cl.courseId = ${id}
-          ),
-          total_revenue AS (
-            SELECT 
-            e.classId,
-            COUNT(DISTINCT e.id) as total_students,
-            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students,
-            SUM(p.amount) as total_revenue   
-            FROM enrollments e
-            JOIN course_classes cc ON e.classId = cc.id
-            LEFT JOIN payments p on e.id = p.enrollmentId
-            GROUP BY e.classId
-          ),
-          course_meta AS (
-            SELECT
-              cl.courseId,
-              COUNT(cl.id) AS total_classes,
-              COUNT(CASE WHEN cl.endDate IS NULL THEN cl.id END) AS total_active_classes,
-              COUNT(DISTINCT cl.teacherId) AS total_teachers,
-              COUNT(CASE WHEN cl.endDate IS NOT NULL THEN cl.id END) AS total_complete_classes,
-              SUM(tr.total_revenue) AS total_revenue,
-              SUM(tr.total_students) AS total_students,
-              SUM(tr.withdrawn_students) AS withdrawn_students
-            FROM classes cl
-            JOIN total_revenue tr ON cl.id = tr.classId
-            where cl.courseId = ${id}
-            GROUP BY cl.courseId
-          )
-          SELECT
-            c.*,
-            COALESCE(cm.total_active_classes, 0) AS total_active_classes,
-            COALESCE(cm.total_classes, 0) AS total_classes,
-            COALESCE(cm.total_complete_classes, 0) AS total_complete_classes,
-            COALESCE(cm.total_students, 0) AS total_students,
-            COALESCE(cm.withdrawn_students, 0) AS withdrawn_students,
-            COALESCE(cm.total_teachers, 0) AS total_teachers,
-            COALESCE(cm.total_revenue, 0) AS total_revenue,
-            COALESCE(CAST(COALESCE(cm.total_students, 0) / COALESCE(cm.total_classes, 0) AS INT),0) AS avg_class_per_student
-          FROM courses c
-          LEFT JOIN course_meta cm ON cm.courseId = c.id
-          WHERE c.id = ${id}
-        `;
+      const course = await courseRepository.showDetails(id);
       if (!course) {
         return { error: "Course not found" };
       }
@@ -260,96 +84,10 @@ export const courseIPCs = () => {
   });
 
   protectedHandle("course:get-course-classes", async (_, data) => {
-    const {
-      courseId,
-      page = 1,
-      limit = 10,
-      search = "",
-      sort = "createdAt",
-      sortDirection = "asc",
-    } = data;
-
-    const avilableSort = new Set([
-      "cl.createdAt",
-      "cl.updatedAt",
-      "teacher_name",
-      "cl.price",
-      "cl.startDate",
-      "cl.startTime",
-      "total_students",
-      "withdrawn_students",
-      "total_revenue",
-      "remaining_amount",
-    ]);
-    const avilableSortDirection = new Set(["asc", "desc"]);
-
-    const finalSort = avilableSort.has(sort) ? sort : "cl.createdAt";
-    const finalSortDirection = avilableSortDirection.has(sortDirection)
-      ? sortDirection
-      : "asc";
-
-    const skip = Number(page - 1) * Number(limit);
-
-    const searchFilter = search
-      ? Prisma.sql`AND (
-      LOWER(t.name) LIKE LOWER(${`%${search}%`}) OR
-      LOWER (t.email) LIKE LOWER(${`%${search}%`})
-    )`
-      : Prisma.empty;
-
     try {
-      const [classes, totalData] = await Promise.all([
-        prisma.$queryRaw<any[]>`
-        WITH course_classes AS (
-          SELECT cl.id FROM classes cl
-          JOIN teachers t ON t.id = cl.teacherId
-          WHERE cl.courseId = ${courseId}
-          ${searchFilter}
-        ),
-        class_enrollments AS (
-          SELECT
-            classId,
-            COUNT(DISTINCT e.id) as total_students,
-            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_students,
-            SUM(p.amount) as total_revenue,
-            SUM(CASE WHEN e.withdrawn = 0 THEN p.amount ELSE 0 END) as paid_amount,
-            SUM(CASE WHEN e.withdrawn = 0 THEN e.price ELSE 0 END) as total_price
-          FROM enrollments e
-          JOIN course_classes cc ON cc.id = e.classId
-          LEFT JOIN payments p ON p.enrollmentId = e.id
-          GROUP BY e.classId
-        )
-          SELECT
-          cl.*,
-          t.name as teacher_name,
-          t.email as teacher_email,
-          t.image as teacher_image,
-          COALESCE(ce.total_students, 0) as total_students,
-          COALESCE(ce.withdrawn_students, 0) as withdrawn_students,
-          COALESCE(ce.total_revenue, 0) as total_revenue,
-          COALESCE(ce.total_price - ce.paid_amount, 0) as remaining_amount
-          FROM classes cl
-          JOIN teachers t ON t.id = cl.teacherId
-          LEFT JOIN class_enrollments ce ON ce.classId = cl.id
-          WHERE cl.courseId = ${courseId}
-          ${searchFilter}
-          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip}
-        `,
-        prisma.class.count({
-          where: {
-            courseId,
-            ...(search && {
-              teacher: {
-                name: { contains: search },
-                email: { contains: search },
-              },
-            }),
-          },
-        }),
-      ]);
+      const { classes, totalData } =
+        await courseRepository.showCourseClasses(data);
 
-      const total_pages = Math.ceil(Number(totalData) / Number(limit));
       return {
         error: null,
         data: classes.map((classData) => ({
@@ -357,19 +95,14 @@ export const courseIPCs = () => {
           image: showImage(classData.teacher_image),
           status: generateStatus(classData.startDate, classData.endDate),
         })),
-        meta: { total_data: totalData, total_pages, page, limit },
+        meta: buildPageMeta(totalData, data.page, data.limit),
       };
     } catch (error: any) {
       console.error(error);
       return {
         error: error.message,
         data: [],
-        meta: {
-          total_data: 0,
-          total_pages: 0,
-          page: 0,
-          limit: 0,
-        },
+        meta: buildPageMeta(),
       };
     }
   });
@@ -383,12 +116,11 @@ export const courseIPCs = () => {
         imageUrl = await saveImage(image, imageName);
       }
 
-      await prisma.course.create({
-        data: {
-          ...restData,
-          image: imageUrl,
-        },
+      await courseRepository.create({
+        ...restData,
+        image: imageUrl,
       });
+
       return { success: true };
     } catch (error: any) {
       console.error(error);
@@ -400,10 +132,7 @@ export const courseIPCs = () => {
     try {
       const { id, image, imageName, ...restData } = data;
 
-      const existingCourse = await prisma.course.findUnique({
-        where: { id },
-        select: { deleted: true, image: true },
-      });
+      const existingCourse = await courseRepository.show(id);
 
       if (existingCourse?.deleted) {
         return { success: false, error: "Deleted course cannot be updated" };
@@ -418,12 +147,9 @@ export const courseIPCs = () => {
         imageUrl = await saveImage(image, imageName);
       }
 
-      await prisma.course.update({
-        where: { id },
-        data: {
-          ...restData,
-          ...(imageUrl ? { image: imageUrl } : {}),
-        },
+      await courseRepository.update(id, {
+        ...restData,
+        ...(imageUrl ? { image: imageUrl } : {}),
       });
       return { success: true };
     } catch (error: any) {
@@ -434,25 +160,14 @@ export const courseIPCs = () => {
 
   protectedHandle("course:delete", async (_, id) => {
     try {
-      const hasLinkedClasses = await prisma.class.findFirst({
-        where: { courseId: id },
-        select: { id: true },
-      });
+      const hasLinkedClasses = await courseRepository.findLinkedClass(id);
 
       if (hasLinkedClasses) {
-        await prisma.course.update({
-          where: { id },
-          data: {
-            deleted: true,
-          },
-        });
+        await courseRepository.update(id, { deleted: true });
         return { success: true };
       }
 
-      const course = await prisma.course.findUnique({
-        where: { id },
-        select: { image: true },
-      });
+      const course = await courseRepository.show(id);
 
       if (!course) {
         return { success: false, error: "Course not found." };
@@ -462,9 +177,7 @@ export const courseIPCs = () => {
         await deleteImage(course.image);
       }
 
-      await prisma.course.delete({
-        where: { id },
-      });
+      await courseRepository.delete(id);
       return { success: true };
     } catch (error: any) {
       console.error(error);
@@ -474,21 +187,13 @@ export const courseIPCs = () => {
 
   protectedHandle("course:restore", async (_, id) => {
     try {
-      const course = await prisma.course.findUnique({
-        where: { id },
-        select: { image: true },
-      });
+      const course = await courseRepository.show(id);
 
       if (!course) {
         return { success: false, error: "Course not found." };
       }
 
-      await prisma.course.update({
-        where: { id },
-        data: {
-          deleted: false,
-        },
-      });
+      await courseRepository.update(id, { deleted: false });
       return { success: true };
     } catch (error: any) {
       console.error(error);

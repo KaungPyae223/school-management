@@ -1,7 +1,6 @@
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
 import DashboardHeader from "../components/general/DashboardHeader";
 import DashboardKPIContainer from "../components/kpi/DashboardKPIContainer";
-import LoadingPage from "../../../components/loading/LoadingPage";
 import DashboardRevenueEnrollmentContainer from "../components/revenue-enrollment/DashboardRevenueEnrollmentContainer";
 import DashboardCourseEnrollmentContainer from "../components/course-enrollment/DashboardCourseEnrollmentContainer";
 import DashboardTodayClassesContainer from "../components/today-classes/DashboardTodayClassesContainer";
@@ -9,9 +8,10 @@ import DashboardRecentEnrollmentContainer from "../components/recent-enrollment/
 import DashboardRecentPaymentContainer from "../components/recent-payment/DashboardRecentPaymentContainer";
 import DashboardOutstandingPaymentContainer from "../components/outstanding-payment/DashboardOutstandingPaymentContainer";
 import DashboardFooter from "../components/general/DashboardFooter";
-import { useGetKpi } from "../hooks/api/useGetKpi";
+
 import { useTranslation } from "react-i18next";
 import DashboardTour from "../tour/DashboardTourt";
+import { useLoaderData } from "react-router";
 
 const DashboardPage = () => {
   const { t } = useTranslation();
@@ -20,13 +20,8 @@ const DashboardPage = () => {
     title: t("dashboard.title"),
   });
 
-  const { data, isLoading, error } = useGetKpi();
+  const kpi = useLoaderData();
 
-  if (isLoading) return <LoadingPage />;
-
-  if (error) {
-    throw error;
-  }
 
   return (
     <>
@@ -35,18 +30,18 @@ const DashboardPage = () => {
       <div className="flex flex-col space-y-7">
         <DashboardHeader />
 
-        <DashboardKPIContainer kpi={data?.kpi} />
+        <DashboardKPIContainer kpi={kpi?.kpi} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <DashboardRevenueEnrollmentContainer data={data?.revenueEnrollment} />
+          <DashboardRevenueEnrollmentContainer data={kpi?.revenueEnrollment} />
           <DashboardCourseEnrollmentContainer
-            data={data?.courseEnrollment}
-            totalCourses={data?.kpi?.courses}
+            data={kpi?.courseEnrollment}
+            totalCourses={kpi?.kpi?.courses}
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <DashboardTodayClassesContainer data={data?.todayClasses} />
+          <DashboardTodayClassesContainer data={kpi?.todayClasses} />
 
           <DashboardRecentEnrollmentContainer />
         </div>
@@ -55,7 +50,7 @@ const DashboardPage = () => {
           <DashboardRecentPaymentContainer />
 
           <DashboardOutstandingPaymentContainer
-            totalPendingAmount={data?.totalPendingAmount}
+            totalPendingAmount={kpi?.totalPendingAmount}
           />
         </div>
 

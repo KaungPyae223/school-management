@@ -8,6 +8,7 @@ const routes = [
       const module = await import("../pages/CoursesPage");
       return { Component: module.default };
     },
+
     ErrorBoundary: ErrorPage,
   },
   {

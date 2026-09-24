@@ -3,14 +3,11 @@ import { Code2, ExternalLink } from "lucide-react";
 
 import { Button } from "../../../components/ui/button";
 
-// Dummy repository link — replace with the real source URL.
-const SOURCE_URL = "https://github.com/kaung-pyae/school-management";
-
 const HelpSourceCode = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex items-center gap-5 justify-between py-3.5">
+    <div className="flex items-center gap-5 justify-between pt-3.5">
       <div className="flex items-center gap-3">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted">
           <Code2 className="size-4 text-muted-foreground" />
@@ -24,7 +21,11 @@ const HelpSourceCode = () => {
       </div>
 
       <Button variant="outline" asChild>
-        <a href={SOURCE_URL} target="_blank" rel="noreferrer">
+        <a
+          href={"https://github.com/KaungPyae223/school-management"}
+          target="_blank"
+          rel="noreferrer"
+        >
           {t("help.source.button")}
           <ExternalLink data-icon="inline-end" />
         </a>

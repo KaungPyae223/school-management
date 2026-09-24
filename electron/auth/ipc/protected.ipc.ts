@@ -1,6 +1,5 @@
 import { ipcMain, IpcMainInvokeEvent } from "electron";
-import { authSession } from "./auth-session";
-import { error } from "node:console";
+import { authSession } from "../session/auth.session";
 
 type Handler = (event: IpcMainInvokeEvent, ...args: any) => unknown;
 

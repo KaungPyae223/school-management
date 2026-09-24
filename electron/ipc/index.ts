@@ -5,11 +5,12 @@ import { classesIPCs } from "./class.ipc";
 import { enrollmentIPCs } from "./enrollment.ipc";
 import { paymentIPCs } from "./payment.ipc";
 import { storeIPCs } from "./store.ipc";
-import { authIPCs } from "../auth/auth.ipc";
-import { register2FAIPCs } from "../auth/two-factor.ipc";
-import { backupIPCs } from "../auth/backup.ipc";
+
 import { dashboardIPCs } from "./dashboard.ipc";
 import { setupIPCs } from "./setup.ipc";
+import { authIPCs } from "../auth/ipc/auth.ipc";
+import { register2FAIPCs } from "../auth/ipc/twofactor.ipc";
+import { backupIPCs } from "../auth/ipc/backup.ipc";
 
 export const registerIpcHandlers = () => {
   courseIPCs();

@@ -20,7 +20,7 @@ const HelpGuidedTour = () => {
   };
 
   return (
-    <div className="flex items-center gap-5 justify-between py-3.5">
+    <div className="flex items-center gap-5 justify-between pb-3.5">
       <div className="flex items-center gap-3">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted">
           <Compass className="size-4 text-muted-foreground" />

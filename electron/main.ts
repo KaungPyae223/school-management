@@ -11,6 +11,8 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
+    center: true,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -18,7 +20,8 @@ function createWindow() {
     },
   });
 
-  
+  // win.removeMenu();
+
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL);
   } else {
@@ -43,7 +46,7 @@ app.whenReady().then(async () => {
     const requested = path.resolve(safeBase, filePath.replace(/^\/+/, ""));
 
     if (!requested.startsWith(safeBase)) {
-      callback({ error: -6 }); 
+      callback({ error: -6 });
       return;
     }
 

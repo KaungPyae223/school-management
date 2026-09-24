@@ -1,16 +1,24 @@
 import { useTranslation } from "react-i18next";
+import { cn } from "../../lib/utils";
 
-const LoadingPage = () => {
+const LoadingPage = ({ layout = false }: { layout?: boolean }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="h-[85vh] flex flex-col items-center justify-center px-4">
+    <div
+      className={cn(
+        "flex flex-col items-center justify-center px-4 ",
+        layout ? "flex-1" : "h-screen",
+      )}
+    >
       <div className="text-center max-w-md">
         <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
           {t("loading.pleaseWait")}
         </p>
 
-        <h1 className="text-4xl font-bold text-primary">{t("loading.title")}</h1>
+        <h1 className="text-4xl font-bold text-primary">
+          {t("loading.title")}
+        </h1>
 
         <p className="text-muted-foreground mt-3 mb-8">
           {t("loading.fetchingPageContent")}
@@ -36,4 +44,3 @@ const LoadingPage = () => {
 };
 
 export default LoadingPage;
-

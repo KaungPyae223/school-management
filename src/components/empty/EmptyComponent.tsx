@@ -32,7 +32,7 @@ const EmptyComponent = ({
   const navigate = useNavigate();
 
   return (
-    <Card className={cn("shadow-xs py-16", className)}>
+    <Card className={cn("shadow-xs py-16 flex-1", className)}>
       <Empty>
         <EmptyHeader>
           <EmptyMedia variant="icon" className="size-20">

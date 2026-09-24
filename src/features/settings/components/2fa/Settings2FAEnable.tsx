@@ -1,8 +1,4 @@
-import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type z from "zod";
-import { toast } from "sonner";
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../../components/ui/card";
 import FormHeader from "../../../../components/form/FormHeader";
@@ -12,64 +8,24 @@ import FormFooter from "../../../../components/form/FormFooter";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
 
-import { useTwoFactorSchema } from "../../schema/useTwoFactorSchema";
-import { authService } from "../../../../services/auth";
-import { useTwoFactorEnable } from "../../hooks/api/useTwoFactorEnable";
 import SettingsBackupCodeDialog from "./SettingsBackupCodeDialog";
-import { translateError } from "../../../../utils/translate-error";
+import { use2FAEnableForm } from "../../hooks/2fa/use2FAEnableForm";
 
 const Settings2FAEnable = () => {
   const { t } = useTranslation();
-  const { formSchema } = useTwoFactorSchema();
-  const [backUpDialogOpen, setBackUpDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const [qrCode, setQrCode] = useState<string>("");
-  const [secretKey, setSecretKey] = useState<string>("");
-  const [backupCodes, setBackupCodes] = useState<string[]>([]);
-
-  useEffect(() => {
-    const fetch2FA = async () => {
-      const res = await authService.generate2FA();
-
-      setQrCode(res.qrCodeUrl);
-      setSecretKey(res.secret);
-      setBackupCodes(res.backupCodes);
-    };
-
-    fetch2FA();
-  }, []);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      token: "",
-    },
-  });
-
-  const { mutateAsync, isPending } = useTwoFactorEnable();
-
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    setErrorMessage("");
-    try {
-      await mutateAsync({
-        token: data.token,
-        backupCodes,
-      });
-      toast.success(t("settings.twoFactor.enableSuccess"));
-      form.reset();
-      setBackUpDialogOpen(true);
-    } catch (error: any) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    onSubmit,
+    resetForm,
+    qrCode,
+    secretKey,
+    backupCodes,
+    backUpDialogOpen,
+    errorMessage,
+    isPending,
+    setBackUpDialogOpen,
+  } = use2FAEnableForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
@@ -82,11 +38,14 @@ const Settings2FAEnable = () => {
               <p className="text-sm">
                 {t("settings.twoFactor.scanInstruction")}
               </p>
-              <img
-                src={qrCode}
-                alt="TOTP QR Code"
-                className="max-w-64 h-64 mx-auto"
-              />
+              {qrCode && (
+                <img
+                  src={qrCode}
+                  alt="TOTP QR Code"
+                  className="max-w-64 h-64 mx-auto"
+                />
+              )}
+
               <p className="text-xs text-gray-500 font-mono text-center">
                 {t("settings.twoFactor.manualKey", { key: secretKey })}
               </p>

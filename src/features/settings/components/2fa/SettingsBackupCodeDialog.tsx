@@ -1,5 +1,4 @@
 import type React from "react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Check, Copy } from "lucide-react";
@@ -13,7 +12,7 @@ import {
   AlertDialogTitle,
 } from "../../../../components/ui/alert-dialog";
 import { Button } from "../../../../components/ui/button";
-import { useNavigate } from "react-router";
+import { useBackupCodes } from "../../hooks/2fa/useBackupCodes";
 
 interface BackupCodesDialogProps {
   open: boolean;
@@ -27,23 +26,7 @@ const SettingsBackupCodeDialog = ({
   backupCodes = [],
 }: BackupCodesDialogProps) => {
   const { t } = useTranslation();
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    if (!backupCodes.length) return;
-
-    await navigator.clipboard.writeText(backupCodes.join("\n"));
-    setCopied(true);
-
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const navigate = useNavigate();
-
-  const handleBack = async () => {
-    await handleCopy();
-    navigate(-1);
-  };
+  const { copied, handleCopy, handleBack } = useBackupCodes(backupCodes);
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>

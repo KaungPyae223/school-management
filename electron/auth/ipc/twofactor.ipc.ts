@@ -1,59 +1,8 @@
 import { ipcMain, safeStorage } from "electron";
-import { store } from "../store";
-import { totpService } from "./totp-service";
-import { twoFactorSession } from "./two-factor-session";
-
-interface CheckTokenResponse {
-  success: boolean;
-  message?: string;
-}
-
-const checkToken = async (token: string): Promise<CheckTokenResponse> => {
-  const encryptedSecret = store.get("two_factor_secret") as string | null;
-  if (!encryptedSecret) {
-    return { success: false, message: "2FA is not configured." };
-  }
-
-  const decryptedSecret = safeStorage.decryptString(
-    Buffer.from(encryptedSecret, "base64"),
-  );
-
-  const isValid = await totpService.verifyToken(token, decryptedSecret);
-
-  if (isValid) {
-    return { success: true };
-  }
-
-  const encryptedBackupCodesStr = store.get("two_factor_backup_codes") as
-    | string
-    | null;
-
-  if (encryptedBackupCodesStr) {
-    const decryptedJson = safeStorage.decryptString(
-      Buffer.from(encryptedBackupCodesStr, "base64"),
-    );
-    const backupCodes: string[] = JSON.parse(decryptedJson);
-
-    const inputCode = token.trim().toUpperCase();
-    const codeIndex = backupCodes.indexOf(inputCode);
-
-    if (codeIndex !== -1) {
-      backupCodes.splice(codeIndex, 1);
-
-      const updatedEncryptedCodes = safeStorage.encryptString(
-        JSON.stringify(backupCodes),
-      );
-      store.set(
-        "two_factor_backup_codes",
-        updatedEncryptedCodes.toString("base64"),
-      );
-
-      return { success: true, message: "Backup code used successfully." };
-    }
-  }
-
-  return { success: false, message: "Invalid 2FA code." };
-};
+import { store } from "../../store";
+import { totpService } from "../services/totp.service";
+import { twofactorSession } from "../session/twofactor.session";
+import { twofactorService } from "../services/twofactor.service";
 
 export const register2FAIPCs = () => {
   ipcMain.handle("auth:2fa-generate", async () => {
@@ -69,7 +18,7 @@ export const register2FAIPCs = () => {
         backupCodes: setupData.backupCodes,
       };
     } catch {
-      return { success: false, message: err.message };
+      return { success: false, message: "Failed to generate 2FA setup." };
     }
   });
 
@@ -99,7 +48,7 @@ export const register2FAIPCs = () => {
         store.set("two_factor_secret", encryptedSecret.toString("base64"));
         store.set("two_factor_enabled", true);
 
-        twoFactorSession.verify();
+        twofactorSession.verify();
 
         const normalizedCodes = backupCodes.map((code) =>
           code.trim().toUpperCase(),
@@ -123,9 +72,9 @@ export const register2FAIPCs = () => {
 
   ipcMain.handle("auth:2fa-verify", async (_, token: string) => {
     try {
-      const check = await checkToken(token);
+      const check = await twofactorService.checkToken(token);
       if (check.success) {
-        twoFactorSession.verify();
+        twofactorSession.verify();
       }
       return check;
     } catch {
@@ -136,7 +85,7 @@ export const register2FAIPCs = () => {
   // 4. Disable 2FA
   ipcMain.handle("auth:2fa-disable", async (_, token: string) => {
     try {
-      const check = await checkToken(token);
+      const check = await twofactorService.checkToken(token);
       if (!check.success) {
         return check;
       }
@@ -156,6 +105,6 @@ export const register2FAIPCs = () => {
   });
 
   ipcMain.handle("auth:2fa-is-verified", () => {
-    return twoFactorSession.is2FAVerified();
+    return twofactorSession.is2FAVerified();
   });
 };

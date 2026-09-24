@@ -13,12 +13,12 @@ const Layout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="flex-1">
-        <div className="border-b bg-background">
+      <main className="flex flex-col min-h-screen flex-1 ">
+        <div className="border-b bg-background shrink-0">
           <Header />
         </div>
-        <div className="p-6 container mx-auto ">
-          {isLoading ? <LoadingPage /> : <Outlet />}
+        <div className="p-6 container mx-auto flex-1 flex flex-col ">
+          {isLoading ? <LoadingPage layout /> : <Outlet />}
         </div>
       </main>
       <ScrollRestoration />

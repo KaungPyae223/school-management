@@ -1,8 +1,4 @@
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type z from "zod";
-import { toast } from "sonner";
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../../components/ui/card";
 import FormHeader from "../../../../components/form/FormHeader";
@@ -12,53 +8,22 @@ import FormFooter from "../../../../components/form/FormFooter";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
 
-import { useTwoFactorSchema } from "../../schema/useTwoFactorSchema";
-import { useTwoFactorDisable } from "../../hooks/api/useTwoFactorDisable";
 import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
-import { useNavigate } from "react-router";
-import { translateError } from "../../../../utils/translate-error";
+import { use2FADisableForm } from "../../hooks/2fa/use2FADisableForm";
 
 const Settings2FADisable = () => {
   const { t } = useTranslation();
-  const { formSchema } = useTwoFactorSchema();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      token: "",
-    },
-  });
-
-  const { mutateAsync, isPending } = useTwoFactorDisable();
-
-  const onSubmit = async () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const disable2FA = async () => {
-    const data = form.getValues();
-    setErrorMessage("");
-    try {
-      await mutateAsync(data.token);
-      toast.success(t("settings.twoFactor.disableSuccess"));
-      form.reset();
-      navigate(-1);
-    } catch (error: any) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    onSubmit,
+    disable2FA,
+    resetForm,
+    confirmDialogOpen,
+    errorMessage,
+    isPending,
+    setConfirmDialogOpen,
+  } = use2FADisableForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-xs">

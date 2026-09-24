@@ -1,10 +1,5 @@
-import { useState } from "react";
-import { useCreatePasswordSchema } from "../../schema/useCreatePasswordSchema";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type z from "zod";
+import { Controller } from "react-hook-form";
 import ConfirmDialog from "../../../../components/dialog/ConfirmDialog";
-import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../../components/ui/card";
 import FormHeader from "../../../../components/form/FormHeader";
@@ -13,9 +8,7 @@ import FormError from "../../../../components/form/FormError";
 import FormFooter from "../../../../components/form/FormFooter";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
-import { useCreatePassword } from "../../hooks/api/useCreatePassword";
-import { useNavigate } from "react-router";
-import { translateError } from "../../../../utils/translate-error";
+import { useCreatePasswordForm } from "../../hooks/password/useCreatePasswordForm";
 
 const SettingsPasswordCreate = ({
   navigateLink,
@@ -25,48 +18,17 @@ const SettingsPasswordCreate = ({
   back?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { formSchema } = useCreatePasswordSchema();
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      password: "",
-      confirmPassword: "",
-    },
-  });
-
-  const onSubmit = () => {
-    setConfirmDialogOpen(true);
-  };
-
-  const { mutateAsync, isPending } = useCreatePassword();
-
-  const createPassword = async () => {
-    setErrorMessage("");
-    try {
-      const data = form.getValues();
-
-      await mutateAsync(data.password);
-
-      toast.success(t("settings.createPassword.success"));
-      form.reset();
-      navigate(navigateLink);
-    } catch (error: any) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    } finally {
-      setConfirmDialogOpen(false);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const {
+    form,
+    onSubmit,
+    createPassword,
+    resetForm,
+    confirmDialogOpen,
+    errorMessage,
+    isPending,
+    setConfirmDialogOpen,
+  } = useCreatePasswordForm(navigateLink);
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-xs">

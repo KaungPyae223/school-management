@@ -11,8 +11,8 @@ const CHANNELS: {
 }[] = [
   {
     key: "email",
-    value: "support@schoolmgmt.app",
-    href: "mailto:support@schoolmgmt.app",
+    value: "kaungpyaeaung8123@gmail.com",
+    href: "mailto:kaungpyaeaung8123@gmail.com",
     icon: Mail,
   },
   {

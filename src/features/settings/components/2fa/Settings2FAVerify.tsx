@@ -1,8 +1,4 @@
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type z from "zod";
-import { toast } from "sonner";
+import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "../../../../components/ui/card";
 import FormHeader from "../../../../components/form/FormHeader";
@@ -11,44 +7,13 @@ import FormError from "../../../../components/form/FormError";
 import FormFooter from "../../../../components/form/FormFooter";
 import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { Input } from "../../../../components/ui/input";
-import { useTwoFactorSchema } from "../../schema/useTwoFactorSchema";
-import { useTwoFactorVerifiy } from "../../hooks/api/useTwoFactorVerifiy";
-import { useRevalidator } from "react-router";
-import { translateError } from "../../../../utils/translate-error";
+import { use2FAVerifyForm } from "../../hooks/2fa/use2FAVerifyForm";
 
 const Settings2FAVerify = () => {
   const { t } = useTranslation();
-  const { formSchema } = useTwoFactorSchema();
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const revalidator = useRevalidator();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      token: "",
-    },
-  });
-
-  const { mutateAsync, isPending } = useTwoFactorVerifiy();
-
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    setErrorMessage("");
-    try {
-      await mutateAsync(data.token);
-      toast.success(t("settings.twoFactor.verifySuccess"));
-      form.reset();
-      revalidator.revalidate();
-    } catch (error: any) {
-      const msg = translateError(error, t);
-      toast.error(msg);
-      setErrorMessage(msg);
-    }
-  };
-
-  const resetForm = () => {
-    form.reset();
-    setErrorMessage("");
-  };
+  const { form, onSubmit, resetForm, errorMessage, isPending } =
+    use2FAVerifyForm();
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-xs">

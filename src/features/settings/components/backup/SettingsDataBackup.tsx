@@ -53,17 +53,9 @@ const SettingsDataBackup = () => {
         setConfirmDialogOpen={setConfirm2FASetupDialogOpen}
         onConfirm={() => navigate("/settings/manage-2fa")}
         title={t("settings.twoFactor.notEnabledTitle")}
-        description={t("settings.twoFactor.notEnabledDesc")}
+        description={t("settings.twoFactor.notEnabledDesc2")}
         confirmButtonText={t("settings.twoFactor.enable2FA")}
-      >
-        <AlertDialogAction
-          onClick={() => navigate("/settings/manage-password")}
-          variant="destructive"
-          size="default"
-        >
-          {t("settings.managePassword.button")}
-        </AlertDialogAction>
-      </ConfirmDialog>
+      />
     </div>
   );
 };

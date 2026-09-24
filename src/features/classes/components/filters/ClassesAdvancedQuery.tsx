@@ -52,7 +52,7 @@ const ClassesAdvancedQuery = () => {
           initial={{ opacity: 0, y: -20, height: 0 }}
           animate={{ opacity: 1, y: 0, height: "auto" }}
           exit={{ opacity: 0, y: -20, height: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.4 }}
           className="overflow-hidden p-0.5"
         >
           <form id="query-form" onSubmit={form.handleSubmit(onSubmit)}>

@@ -1,5 +1,5 @@
 import { store, StoreSchema } from "../store";
-import { protectedHandle } from "../auth/protected-ipc";
+import { protectedHandle } from "../auth/ipc/protected.ipc";
 
 const allowedKeys: (keyof StoreSchema)[] = [
   "defaultView",
@@ -7,7 +7,6 @@ const allowedKeys: (keyof StoreSchema)[] = [
   "mode",
   "colorScheme",
   "appTourStorage",
-  
 ];
 
 export const storeIPCs = () => {

@@ -23,10 +23,16 @@ const CoursesPage = () => {
 
   const { data, isLoading } = useGetAllCourses();
 
+  console.log(data);
+
   return (
     <>
       <CoursesTour />
-      <Tabs value={view} onValueChange={changeView} className="space-y-4">
+      <Tabs
+        value={view}
+        onValueChange={changeView}
+        className="space-y-4 flex-1"
+      >
         <CoursesHeader tab={view} />
         <DataShow
           isLoading={isLoading}

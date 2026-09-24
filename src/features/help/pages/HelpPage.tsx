@@ -19,14 +19,13 @@ const HelpPage = () => {
   });
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-4">
-      {/* About */}
+    <div className="w-full max-w-2xl mx-auto space-y-5">
       <Card className="shadow-xs">
-        <CardHeader className="border-b bg-muted/30">
-          <CardTitle className="text-lg">{t("help.introTitle")}</CardTitle>
+        <CardHeader className="border-b">
+          <CardTitle>{t("help.introTitle")}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm leading-relaxed text-muted-foreground">
+          <p className="text-sm text-muted-foreground text-justify">
             {t("help.introDescription")}
           </p>
         </CardContent>
@@ -34,15 +33,13 @@ const HelpPage = () => {
 
       {/* Getting Started */}
       <Card className="shadow-xs">
-        <CardHeader className="border-b bg-muted/30">
-          <CardTitle className="text-lg">
-            {t("help.gettingStarted.title")}
-          </CardTitle>
+        <CardHeader className="border-b">
+          <CardTitle>{t("help.gettingStarted.title")}</CardTitle>
           <CardDescription>
             {t("help.gettingStarted.description")}
           </CardDescription>
         </CardHeader>
-        <CardContent className="divide-y">
+        <CardContent className="divide-y ">
           <HelpGuidedTour />
           <HelpSourceCode />
         </CardContent>
@@ -50,8 +47,8 @@ const HelpPage = () => {
 
       {/* Contact */}
       <Card className="shadow-xs">
-        <CardHeader className="border-b bg-muted/30">
-          <CardTitle className="text-lg">{t("help.contact.title")}</CardTitle>
+        <CardHeader className="border-b">
+          <CardTitle>{t("help.contact.title")}</CardTitle>
           <CardDescription>{t("help.contact.description")}</CardDescription>
         </CardHeader>
         <CardContent>

@@ -73,7 +73,8 @@
       "backupCodesTitle": "Save Your Backup Codes",
       "backupCodesDesc": "If you lose access to your authenticator app, these one-time codes are the only way to sign in. Save them in a secure place.",
       "notEnabledTitle": "You do not have Two-Factor Authentication",
-      "notEnabledDesc": "Please enable Two-Factor Authentication first to manage your password safely. Once enabled, you can reset your password using 2FA if you forget it."
+      "notEnabledDesc": "Please enable Two-Factor Authentication first to manage your password safely. Once enabled, you can reset your password using 2FA if you forget it.",
+      "notEnabledDesc2": "Please enable Two-Factor Authentication (2FA) to manage your backup. You cannot create or restore backups without 2FA enabled."
     },
     "backup": {
       "title": "Data Backup & Restore",

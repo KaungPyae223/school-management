@@ -1,105 +1,37 @@
-import { prisma } from "../db/prisma";
 import { saveImage } from "../utils/saveImage";
 import { showImage } from "../utils/showImage";
 import { deleteImage } from "../utils/deleteImage";
-import { Prisma } from "../../generated/prisma/client";
-import { protectedHandle } from "../auth/protected-ipc";
+import { protectedHandle } from "../auth/ipc/protected.ipc";
+import { buildPageMeta } from "../utils/query-utils";
+import { studentRepository } from "../repository/student.repository";
+import { prisma } from "../db/prisma";
 
 export const studentIPCs = () => {
   protectedHandle("student:index", async (_, data) => {
-    const {
-      page = 1,
-      limit = 10,
-      search = "",
-      sort = "createdAt",
-      sortDirection = "asc",
-    } = data;
-
-    const avilableSort = new Set([
-      "s.createdAt",
-      "s.updatedAt",
-      "s.name",
-      "s.phone",
-      "s.email",
-      "s.address",
-      "s.dob",
-      "s.gender",
-      "total_classes",
-      "withdrawn_classes",
-    ]);
-    const avilableSortDirection = new Set(["asc", "desc"]);
-
-    const finalSort = avilableSort.has(sort) ? sort : "s.createdAt";
-    const finalSortDirection = avilableSortDirection.has(sortDirection)
-      ? sortDirection
-      : "desc";
-
-    const skip = Number(page - 1) * Number(limit);
-
-    const searchFilter = search
-      ? Prisma.sql`WHERE 
-        LOWER(s.name) LIKE LOWER(${`%${search}%`}) OR 
-        LOWER(s.phone) LIKE LOWER(${`%${search}%`}) OR 
-        LOWER(s.address) LIKE LOWER(${`%${search}%`})`
-      : Prisma.empty;
-
     try {
-      const [students, totalData] = await Promise.all([
-        prisma.$queryRaw<any[]>`
-          SELECT 
-            s.*,
-            COUNT(DISTINCT  e.id) as total_classes,
-            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_classes
-          FROM students s
-          LEFT JOIN enrollments e ON s.id = e.studentID
-          ${searchFilter}
-          GROUP BY s.id
-          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip}
-        `,
-        prisma.student.count({
-          where: {
-            ...(search && {
-              OR: [
-                { name: { contains: search } },
-                { phone: { contains: search } },
-                { email: { contains: search } },
-                { address: { contains: search } },
-              ],
-            }),
-          },
-        }),
-      ]);
+      const { students, totalData } = await studentRepository.index(data);
 
-      const total_pages = Math.ceil(Number(totalData) / Number(limit));
       return {
         error: null,
-        data: students.map((student) => ({
+        data: students.map((student: any) => ({
           ...student,
           image: showImage(student.image),
         })),
-        meta: { total_data: totalData, total_pages, page, limit },
+        meta: buildPageMeta(totalData, data.page, data.limit),
       };
     } catch (error: any) {
       console.error(error);
       return {
         error: error.message,
         data: [],
-        meta: {
-          total_data: 0,
-          total_pages: 0,
-          page: 0,
-          limit: 0,
-        },
+        meta: buildPageMeta(),
       };
     }
   });
 
   protectedHandle("student:show", async (_, id) => {
     try {
-      const student = await prisma.student.findUnique({
-        where: { id },
-      });
+      const student = await studentRepository.show(id);
       if (!student) {
         return { error: "Student not found" };
       }
@@ -117,29 +49,7 @@ export const studentIPCs = () => {
 
   protectedHandle("student:show-details", async (_, id) => {
     try {
-      const student = await prisma.$queryRaw<any[]>`
-          WITH total_payments AS (
-            SELECT e.studentID, 
-            SUM(p.amount) AS total_payments,
-            SUM(CASE WHEN e.withdrawn = 0 THEN p.amount ELSE 0 END) as total_active_payments,
-            SUM(CASE WHEN e.withdrawn = 0 THEN e.price ELSE 0 END) as total_active_amount,
-            COUNT(DISTINCT e.id) as total_classes,
-            COUNT(DISTINCT CASE WHEN e.withdrawn = 1 THEN e.id END) as withdrawn_classes
-            FROM enrollments e
-            LEFT JOIN payments p ON p.enrollmentId = e.id
-            WHERE e.studentID = ${id}
-            GROUP BY e.studentID
-          )
-          SELECT 
-            s.*,
-            COALESCE(tp.total_classes,0) as total_classes,
-            COALESCE(tp.withdrawn_classes,0) as withdrawn_classes,
-            COALESCE(tp.total_active_amount - tp.total_active_payments, 0) as total_remaining_amount,
-            COALESCE(tp.total_payments, 0) as total_paid
-          FROM students s
-          LEFT JOIN total_payments tp ON tp.studentID = s.id
-          WHERE s.id = ${id}
-        `;
+      const student = await studentRepository.showDetails(id);
       if (!student) {
         return { error: "Student not found" };
       }
@@ -156,29 +66,8 @@ export const studentIPCs = () => {
   });
 
   protectedHandle("student:search-all-active", async (_, data) => {
-    const { search = "", page = 1, limit = 10 } = data;
-
-    const skip = Number(page - 1) * Number(limit);
-
     try {
-      const students = await prisma.student.findMany({
-        where: {
-          ...(search && {
-            OR: [
-              { name: { contains: data.search } },
-              { phone: { contains: data.search } },
-              { email: { contains: data.search } },
-              { address: { contains: data.search } },
-            ],
-          }),
-        },
-        select: { id: true, name: true, image: true },
-        take: Number(limit),
-        skip: Number(skip),
-        orderBy: {
-          name: "asc",
-        },
-      });
+      const students = await studentRepository.searchAllActive(data);
       return {
         data: students.map((student) => ({
           ...student,
@@ -193,30 +82,15 @@ export const studentIPCs = () => {
 
   protectedHandle("student:create", async (_, data) => {
     try {
-      const { image, imageName, email, phone, ...restData } = data;
+      const { image, imageName, ...restData } = data;
 
-      if (email !== null) {
-        const checEmail = await prisma.student.findFirst({
-          where: {
-            email,
-          },
-        });
+      const existing = await studentRepository.createValidate(restData);
 
-        if (checEmail) {
+      if (existing) {
+        if (restData.email !== null && existing.email === restData.email)
           return { success: false, error: "Email already exists" };
-        }
-      }
-
-      if (phone !== null) {
-        const checPhone = await prisma.student.findFirst({
-          where: {
-            phone,
-          },
-        });
-
-        if (checPhone) {
+        if (restData.phone !== null && existing.phone === restData.phone)
           return { success: false, error: "Phone already exists" };
-        }
       }
 
       let imageUrl = undefined;
@@ -224,13 +98,9 @@ export const studentIPCs = () => {
         imageUrl = await saveImage(image, imageName);
       }
 
-      await prisma.student.create({
-        data: {
-          ...restData,
-          phone,
-          email,
-          ...(imageUrl ? { image: imageUrl } : {}),
-        },
+      await studentRepository.create({
+        ...restData,
+        ...(imageUrl ? { image: imageUrl } : {}),
       });
       return { success: true };
     } catch (error: any) {
@@ -241,60 +111,31 @@ export const studentIPCs = () => {
 
   protectedHandle("student:update", async (_, data) => {
     try {
-      const { id, image, imageName, email, phone, ...restData } = data;
+      const { id, image, imageName, ...restData } = data;
 
-      if (email !== null && email !== undefined) {
-        const checkEmail = await prisma.student.findFirst({
-          where: {
-            email,
-            id: { not: id },
-          },
-        });
+      const validate = await studentRepository.updateValidate(id, restData);
 
-        if (checkEmail) {
+      if (validate) {
+        if (restData.email !== null && validate.email === restData.email)
           return { success: false, error: "Email already exists" };
-        }
-      }
-
-      if (phone !== null && phone !== undefined) {
-        const checkPhone = await prisma.student.findFirst({
-          where: {
-            phone,
-            id: { not: id },
-          },
-        });
-
-        if (checkPhone) {
+        if (restData.phone !== null && validate.phone === restData.phone)
           return { success: false, error: "Phone already exists" };
-        }
       }
 
       let imageUrl = undefined;
       if (image && imageName) {
-        const existingStudent = await prisma.student.findUnique({
-          where: { id },
-          select: { image: true },
-        });
+        const existingStudent = await studentRepository.findImageById(id);
 
-        if (existingStudent) {
-          const oldImage = existingStudent.image;
-
-          if (oldImage) {
-            await deleteImage(oldImage);
-          }
+        if (existingStudent && existingStudent.image) {
+          await deleteImage(existingStudent.image);
         }
 
         imageUrl = await saveImage(image, imageName);
       }
 
-      await prisma.student.update({
-        where: { id },
-        data: {
-          ...restData,
-          phone,
-          email,
-          ...(imageUrl ? { image: imageUrl } : {}),
-        },
+      await studentRepository.update(id, {
+        ...restData,
+        ...(imageUrl ? { image: imageUrl } : {}),
       });
       return { success: true };
     } catch (error: any) {
@@ -305,12 +146,8 @@ export const studentIPCs = () => {
 
   protectedHandle("student:delete", async (_, id) => {
     try {
-      const hasLinkedEnrollment = await prisma.enrollment.findFirst({
-        where: {
-          studentId: id,
-        },
-        select: { id: true },
-      });
+      const hasLinkedEnrollment =
+        await studentRepository.hasLinkedEnrollment(id);
 
       if (hasLinkedEnrollment) {
         return {
@@ -319,18 +156,13 @@ export const studentIPCs = () => {
         };
       }
 
-      const studentData = await prisma.student.findUnique({
-        where: { id },
-        select: { image: true },
-      });
+      const studentData = await studentRepository.findImageById(id);
 
       if (studentData?.image) {
         await deleteImage(studentData.image);
       }
 
-      await prisma.student.delete({
-        where: { id },
-      });
+      await studentRepository.delete(id);
       return { success: true };
     } catch (error: any) {
       console.error(error);
@@ -339,102 +171,9 @@ export const studentIPCs = () => {
   });
 
   protectedHandle("student:get-attended-classes", async (_, data) => {
-    const {
-      id = 0,
-      page = 1,
-      limit = 10,
-      search = "",
-      sort = "e.createdAt",
-      sortDirection = "asc",
-    } = data;
-
-    const avilableSort = new Set([
-      "cl.startDate",
-      "cl.startTime",
-      "e.price",
-      "teacher_name",
-      "course_name",
-      "remainingAmount",
-      "e.createdAt",
-    ]);
-    const avilableSortDirection = new Set(["asc", "desc"]);
-
-    const finalSort = avilableSort.has(sort) ? sort : "e.createdAt";
-    const finalSortDirection = avilableSortDirection.has(sortDirection)
-      ? sortDirection
-      : "asc";
-
-    const skip = Number(page - 1) * Number(limit);
-
-    const conditions = [];
-
-    if (search) {
-      conditions.push(
-        Prisma.sql` LOWER(cl.description) LIKE LOWER(${`%${search}%`}) OR
-        LOWER(t.name) LIKE LOWER(${`%${search}%`}) OR
-        LOWER(c.name) LIKE LOWER(${`%${search}%`}) `,
-      );
-    }
-
-    conditions.push(Prisma.sql` e.studentId = ${id}`);
-
-    const searchQuery = Prisma.sql`WHERE (${Prisma.join(conditions, " AND ")})`;
-
     try {
-      const [classes, totalData] = await Promise.all([
-        prisma.$queryRaw<any[]>`
-          WITH enrollment_payments AS (
-            SELECT
-              e.classId,
-              e.price - SUM(p.amount) as remainingAmount
-            FROM enrollments e
-            LEFT JOIN payments p ON p.enrollmentId = e.id
-            WHERE e.studentID = ${id}
-            GROUP BY e.classId
-          )
-          SELECT 
-            e.*,
-            cl.startDate,
-            cl.startTime,
-            cl.batch,
-            cl.endTime,
-            cl.days,
-            t.name as teacher_name,
-            t.email as teacher_email,
-            t.image as teacher_image,
-            c.name as course_name,
-            e.id as enrollment_id,
-            c.image as course_image,
-            COALESCE(ep.remainingAmount, e.price) as remainingAmount
-          FROM classes cl
-          LEFT JOIN enrollment_payments ep ON ep.classId = cl.id
-          JOIN enrollments e ON e.classId = cl.id
-          JOIN teachers t ON cl.teacherId = t.id 
-          JOIN courses c ON cl.courseId = c.id 
-          ${searchQuery}
-          GROUP BY cl.id
-          ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip}
-        `,
-        prisma.class.count({
-          where: {
-            ...(search && {
-              OR: [
-                { description: { contains: search } },
-                { teacher: { name: { contains: search } } },
-                { course: { name: { contains: search } } },
-              ],
-            }),
-            enrollments: {
-              some: {
-                studentId: id,
-              },
-            },
-          },
-        }),
-      ]);
-
-      const total_pages = Math.ceil(Number(totalData) / Number(limit));
+      const { classes, totalData } =
+        await studentRepository.getAttendedClasses(data);
 
       return {
         error: null,
@@ -443,19 +182,14 @@ export const studentIPCs = () => {
           teacher_image: showImage(item.teacher_image),
           course_image: showImage(item.course_image),
         })),
-        meta: { total_data: totalData, total_pages, page, limit },
+        meta: buildPageMeta(totalData, data.page, data.limit),
       };
     } catch (error: any) {
       console.error(error);
       return {
         error: error.message,
         data: [],
-        meta: {
-          total_data: 0,
-          total_pages: 0,
-          page: 0,
-          limit: 0,
-        },
+        meta: buildPageMeta(),
       };
     }
   });
