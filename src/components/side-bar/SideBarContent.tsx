@@ -11,6 +11,7 @@ import {
 import {
   BookOpen,
   CalendarDays,
+  ChartNoAxesCombined,
   CreditCard,
   GraduationCap,
   LayoutDashboard,
@@ -63,6 +64,12 @@ const Content = () => {
       translationKey: "timetable.title",
       url: "/timetable",
       icon: CalendarDays,
+    },
+    {
+      title: "Analysis",
+      translationKey: "analysis.title",
+      url: "/analysis",
+      icon: ChartNoAxesCombined,
     },
   ];
 

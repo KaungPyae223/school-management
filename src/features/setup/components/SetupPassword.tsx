@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 
-import { Check, Loader2Icon, ShieldCheck } from "lucide-react";
+import { Check, Info, KeyRound, Loader2Icon, ShieldCheck } from "lucide-react";
 
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
@@ -28,8 +28,11 @@ const SetupPassword = () => {
   } = useSetupPasswordCreateForm();
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex flex-col gap-6">
       <div className="text-center">
+        <div className="mx-auto mb-3 flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+          <KeyRound className="size-5" />
+        </div>
         <h2 className="text-xl font-semibold tracking-tight">
           {t("setup.password.title")}
         </h2>
@@ -40,7 +43,7 @@ const SetupPassword = () => {
       </div>
 
       {complete ? (
-        <Card className="my-auto shadow-xs ">
+        <Card className=" shadow-xs ">
           <CardContent className="text-center py-6">
             <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
               <ShieldCheck className="size-7" />
@@ -60,7 +63,7 @@ const SetupPassword = () => {
           </CardContent>
         </Card>
       ) : (
-        <Card className="my-auto shadow-xs ">
+        <Card className="shadow-xs ">
           <CardContent>
             <form
               id="setup-password-form"
@@ -135,6 +138,27 @@ const SetupPassword = () => {
                   t("setup.password.submit")
                 )}
               </Button>
+            </div>
+
+            <div className="mt-5 rounded-lg border bg-muted/40 p-3">
+              <div className="flex items-center gap-1.5 text-xs font-medium text-foreground">
+                <Info className="size-3.5 text-primary" />
+                {t("setup.password.note.title")}
+              </div>
+              <ul className="mt-2 space-y-1.5">
+                <li className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                  <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                  {t("setup.password.note.backup")}
+                </li>
+                <li className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                  <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                  {t("setup.password.note.private")}
+                </li>
+                <li className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                  <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                  {t("setup.password.note.unlock")}
+                </li>
+              </ul>
             </div>
           </CardContent>
         </Card>

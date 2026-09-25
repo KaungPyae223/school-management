@@ -11,7 +11,7 @@ const SetupIntro = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex h-full flex-col items-center text-center">
+    <div className="flex flex-col items-center text-center">
       <div className="flex size-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
         <School className="size-8" />
       </div>
@@ -23,7 +23,7 @@ const SetupIntro = () => {
         {t("setup.intro.subtitle")}
       </p>
 
-      <div className="my-auto grid w-full gap-3 text-left sm:grid-cols-3">
+      <div className="grid w-full mt-9 gap-3 text-left sm:grid-cols-3">
         {highlights.map((h) => (
           <div key={h.key} className="rounded-xl border p-4 ">
             <h.icon className="size-5 text-primary" />

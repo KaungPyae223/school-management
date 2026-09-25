@@ -18,12 +18,14 @@ interface BackupCodesDialogProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   backupCodes: string[];
+  onBack?: () => void;
 }
 
 const SettingsBackupCodeDialog = ({
   open,
   setOpen,
   backupCodes = [],
+  onBack,
 }: BackupCodesDialogProps) => {
   const { t } = useTranslation();
   const { copied, handleCopy, handleBack } = useBackupCodes(backupCodes);
@@ -77,7 +79,7 @@ const SettingsBackupCodeDialog = ({
 
         <AlertDialogFooter>
           <AlertDialogAction
-            onClick={handleBack}
+            onClick={onBack ?? handleBack}
             variant={"default"}
             size="default"
           >

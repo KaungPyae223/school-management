@@ -18,6 +18,7 @@ export const use2FAEnableForm = () => {
   const [qrCode, setQrCode] = useState<string>("");
   const [secretKey, setSecretKey] = useState<string>("");
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
+  const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     const fetch2FA = async () => {
@@ -49,6 +50,7 @@ export const use2FAEnableForm = () => {
       });
       toast.success(t("settings.twoFactor.enableSuccess"));
       form.reset();
+      setSuccess(true);
       setBackUpDialogOpen(true);
     } catch (error: any) {
       const msg = translateError(error, t);
@@ -73,5 +75,6 @@ export const use2FAEnableForm = () => {
     errorMessage,
     isPending,
     setBackUpDialogOpen,
+    success,
   };
 };

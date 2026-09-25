@@ -7,6 +7,30 @@ import { applyMigrations } from "./db/migrator";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+let loadingWindow: BrowserWindow | null = null;
+
+function createLoadingWindow() {
+  loadingWindow = new BrowserWindow({
+    width: 400,
+    height: 400,
+    center: true,
+    frame: false,
+    resizable: false,
+    alwaysOnTop: true,
+    show: false,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  });
+
+  loadingWindow.loadFile(path.join(__dirname, "loading.html"));
+
+  loadingWindow.once("ready-to-show", () => {
+    loadingWindow?.show();
+  });
+}
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
@@ -31,29 +55,40 @@ function createWindow() {
   win.once("ready-to-show", () => {
     win.maximize();
     win.show();
+
+    loadingWindow?.close();
+    loadingWindow = null;
   });
 }
 
 app.disableHardwareAcceleration();
 
 app.whenReady().then(async () => {
-  await applyMigrations();
+  createLoadingWindow();
 
-  protocol.registerFileProtocol("image", (request, callback) => {
-    const filePath = decodeURIComponent(new URL(request.url).pathname);
+  try {
+    await applyMigrations();
 
-    const safeBase = path.join(__dirname, "images");
-    const requested = path.resolve(safeBase, filePath.replace(/^\/+/, ""));
+    protocol.registerFileProtocol("image", (request, callback) => {
+      const filePath = decodeURIComponent(new URL(request.url).pathname);
 
-    if (!requested.startsWith(safeBase)) {
-      callback({ error: -6 });
-      return;
-    }
+      const safeBase = path.join(__dirname, "images");
+      const requested = path.resolve(safeBase, filePath.replace(/^\/+/, ""));
 
-    callback({ path: requested });
-  });
+      if (!requested.startsWith(safeBase)) {
+        callback({ error: -6 });
+        return;
+      }
 
-  registerIpcHandlers();
+      callback({ path: requested });
+    });
 
-  createWindow();
+    registerIpcHandlers();
+
+    createWindow();
+  } catch (error) {
+    loadingWindow?.close();
+    loadingWindow = null;
+    console.error(error);
+  }
 });

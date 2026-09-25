@@ -988,11 +988,26 @@
         "chip": "Password saved",
         "title": "You're all set",
         "description": "Use this password every time you open School Management. You can change it later from Settings."
+      },
+      "note": {
+        "title": "Why set a password?",
+        "backup": "Add a password to your backups for extra safety",
+        "private": "Keep student, teacher and payment records private",
+        "unlock": "Lock the app so only you can open it"
       }
     },
     "importBackup": {
       "title": "Import Backup",
       "description": "Upload your backup file to restore your data from a previous application"
+    },
+    "twoFactor": {
+      "title": "Add Two-Factor Authentication",
+      "description": "Secure your app with an extra login code, or skip and enable it later from Settings.",
+      "success": {
+        "chip": "2FA enabled",
+        "title": "Extra protection is on",
+        "description": "Store your backup codes somewhere safe. You'll need your authenticator app each time you unlock the app."
+      }
     }
   }
 }

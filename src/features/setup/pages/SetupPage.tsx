@@ -4,6 +4,7 @@ import { Button } from "../../../components/ui/button";
 import SetupPreferences from "../components/SetupPreferences";
 import SetupImportBackup from "../components/SetupImportBackup";
 import SetupPassword from "../components/SetupPassword";
+import Setup2FA from "../components/Setup2FA";
 import {
   Carousel,
   CarouselContent,
@@ -32,25 +33,29 @@ const SetupPage = () => {
         setApi={setStep}
         className="w-full h-screen flex gap-4 flex-col items-center justify-center"
       >
-        <CarouselContent className="h-96 max-w-xl w-full flex-1 ">
-          <CarouselItem>
-            <div className="h-full p-0.5">
+        <CarouselContent className="max-w-xl w-full ">
+          <CarouselItem className="flex flex-col justify-center">
+            <div className="p-0.5  ">
               <SetupIntro />
             </div>
           </CarouselItem>
-          <CarouselItem>
-            <div className="h-full p-0.5">
+          <CarouselItem className="flex flex-col justify-center">
+            <div className="p-0.5 ">
               <SetupPreferences />
             </div>
           </CarouselItem>
-          <CarouselItem>
-            <div className="h-full p-0.5">
+          <CarouselItem className="flex flex-col justify-center">
+            <div className="p-0.5 ">
               <SetupImportBackup />
             </div>
           </CarouselItem>
-
-          <CarouselItem>
-            <div className="h-full p-0.5">
+          <CarouselItem className="flex flex-col justify-center">
+            <div className="p-0.5">
+              <Setup2FA />
+            </div>
+          </CarouselItem>
+          <CarouselItem className="flex flex-col justify-center">
+            <div className="p-0.5">
               <SetupPassword />
             </div>
           </CarouselItem>

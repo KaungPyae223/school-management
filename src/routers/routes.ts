@@ -11,6 +11,7 @@ import enrollRoutes from "../features/enroll/routes/routes";
 import paymentRoutes from "../features/payments/routes/routes";
 import settingRoutes from "../features/settings/routes/routes";
 import authRoutes from "../features/auth/routes/routes";
+import analysisRoutes from "../features/analysis/routes/routes";
 import helpRoutes from "../features/help/routes/routes";
 import setupRoutes from "../features/setup/routes/routes";
 
@@ -33,6 +34,7 @@ const routes = [
       ...timetableRoutes,
       ...enrollRoutes,
       ...paymentRoutes,
+      ...analysisRoutes,
       ...settingRoutes,
       ...helpRoutes,
       {
