@@ -27,6 +27,9 @@ contextBridge.exposeInMainWorld("authAPI", {
     ipcRenderer.invoke("auth:set-password", plainPassword),
   changePassword: (oldPassword, newPassword) =>
     ipcRenderer.invoke("auth:change-password", oldPassword, newPassword),
+  resetPasswordCount: () => ipcRenderer.invoke("auth:reset-password-count"),
+  resetPassword: (password) =>
+    ipcRenderer.invoke("auth:reset-password", password),
   verifyPassword: (plainPassword) =>
     ipcRenderer.invoke("auth:verify-password", plainPassword),
 

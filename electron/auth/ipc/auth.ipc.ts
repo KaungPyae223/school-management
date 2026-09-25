@@ -91,6 +91,50 @@ export const authIPCs = () => {
     },
   );
 
+  ipcMain.handle("auth:reset-password-count", async () => {
+    return authService.resetPasswordCount();
+  });
+
+  ipcMain.handle("auth:reset-password", async (_, password) => {
+    try {
+      if (!twofactorSession.is2FAVerified()) {
+        return {
+          success: false,
+          message: "Please verify Two-Factor Authentication first.",
+        };
+      }
+      if (!authSession.hasPassword()) {
+        return { success: false, message: "No password set." };
+      }
+      if (!password) {
+        return { success: false, message: "Password cannot be empty." };
+      }
+
+      if (!safeStorage.isEncryptionAvailable()) {
+        return {
+          success: false,
+          message: "Secure storage is not available.",
+        };
+      }
+
+      const reset_count = authService.resetPasswordCount();
+
+      if (reset_count == 0) {
+        return {
+          success: false,
+          message: "You don't have any reset attempts left.",
+        };
+      }
+
+      store.set("reset_counts", reset_count - 1);
+
+      await authService.storedPassword(password);
+      return { success: true };
+    } catch (err) {
+      return { success: false, message: "Failed to change password." };
+    }
+  });
+
   ipcMain.handle("auth:verify-password", async (_, plainPassword) => {
     const storedHash = store.get("user_password_hash");
     if (!storedHash) return { success: false, message: "No password set." };

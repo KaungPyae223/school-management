@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type z from "zod";
@@ -13,6 +13,8 @@ export const useAuthLoginForm = (navigateLink?: string) => {
   const navigate = useNavigate();
   const { formSchema } = usePasswordSchema();
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const { is2FAEnabled, resetCount } = useLoaderData();
 
   type FormValues = z.infer<typeof formSchema>;
 
@@ -47,7 +49,7 @@ export const useAuthLoginForm = (navigateLink?: string) => {
         setErrorMessage(
           t("auth.login.attemptsRemaining", {
             count: res.remainingAttempts,
-          })
+          }),
         );
       } else if (
         res?.message ===
@@ -73,5 +75,8 @@ export const useAuthLoginForm = (navigateLink?: string) => {
     errorMessage,
     onSubmit,
     resetForm,
+    is2FAEnabled,
+    navigate,
+    resetCount,
   };
 };

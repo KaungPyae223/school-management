@@ -15,6 +15,12 @@ export const authService = {
   changePassword: async (oldPassword: string, newPassword: string) => {
     return await window.authAPI.changePassword(oldPassword, newPassword);
   },
+  resetPasswordCount: async () => {
+    return await window.authAPI.resetPasswordCount();
+  },
+  resetPassword: async (password: string) => {
+    return await window.authAPI.resetPassword(password);
+  },
   verifyPassword: async (password: string) => {
     return await window.authAPI.verifyPassword(password);
   },

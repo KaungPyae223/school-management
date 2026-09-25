@@ -4,10 +4,10 @@ import FormHeader from "../../../../components/form/FormHeader";
 import { Field, FieldError, FieldGroup } from "../../../../components/ui/field";
 import FormError from "../../../../components/form/FormError";
 import FormFooter from "../../../../components/form/FormFooter";
-import RequiredLabel from "../../../../components/form/RequiredLabel";
 import { useTranslation } from "react-i18next";
 import { Input } from "../../../../components/ui/input";
 import { useAuthLoginForm } from "../../hooks/forms/useAuthLoginForm";
+import { Label } from "../../../../components/ui/label";
 
 interface AuthLoginFormProps {
   navigateLink?: string;
@@ -15,8 +15,17 @@ interface AuthLoginFormProps {
 
 const AuthLoginForm = ({ navigateLink }: AuthLoginFormProps) => {
   const { t } = useTranslation();
-  const { form, isLocked, isPending, errorMessage, onSubmit, resetForm } =
-    useAuthLoginForm(navigateLink);
+  const {
+    form,
+    isLocked,
+    isPending,
+    errorMessage,
+    onSubmit,
+    resetForm,
+    is2FAEnabled,
+    navigate,
+    resetCount,
+  } = useAuthLoginForm(navigateLink);
 
   return (
     <Card className="w-full sm:max-w-lg mx-auto shadow-xs">
@@ -31,9 +40,19 @@ const AuthLoginForm = ({ navigateLink }: AuthLoginFormProps) => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <RequiredLabel id="password">
-                    {t("auth.fields.password")}
-                  </RequiredLabel>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password">
+                      {t("auth.fields.password")}
+                    </Label>
+                    {is2FAEnabled && resetCount > 0 && (
+                      <p
+                        onClick={() => navigate("/forget-password")}
+                        className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                      >
+                        {t("auth.forgotPassword")}
+                      </p>
+                    )}
+                  </div>
                   <Input
                     {...field}
                     id="password"
@@ -43,6 +62,7 @@ const AuthLoginForm = ({ navigateLink }: AuthLoginFormProps) => {
                     placeholder={t("auth.fields.passwordPlaceholder")}
                     autoComplete="off"
                   />
+
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}

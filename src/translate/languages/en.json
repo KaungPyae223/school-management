@@ -141,6 +141,14 @@
     "fields": {
       "password": "Password",
       "passwordPlaceholder": "Enter Password"
+    },
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": {
+      "title": "Reset New Password",
+      "success": "Password reset successfully",
+      "confirmTitle": "Confirm Password Reset",
+      "confirmDescription": "You have only {{count}} remaining attempts to reset your password. Are you sure you want to proceed?",
+      "confirmButton": "Reset Password"
     }
   },
   "help": {

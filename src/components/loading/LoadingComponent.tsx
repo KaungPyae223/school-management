@@ -8,7 +8,7 @@ const LoadingComponent = ({ className }: { className?: string }) => {
   return (
     <Card
       className={cn(
-        "h-[80vh] flex flex-col items-center justify-center px-4 shadow-xs",
+        "h-dvh flex-1 flex flex-col items-center justify-center px-4 shadow-xs",
         className,
       )}
     >

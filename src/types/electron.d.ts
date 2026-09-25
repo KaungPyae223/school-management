@@ -33,6 +33,8 @@ declare global {
         oldPassword: string,
         newPassword: string,
       ) => Promise<AuthResponseType>;
+      resetPasswordCount: () => Promise<AuthResponseType>;
+      resetPassword: (password: string) => Promise<AuthResponseType>;
       verifyPassword: (plainPassword: string) => Promise<AuthResponseType>;
       getRemainTime: () => Promise<AuthResponseType>;
 

@@ -141,6 +141,14 @@
     "fields": {
       "password": "パスワード",
       "passwordPlaceholder": "パスワードを入力"
+    },
+    "forgotPassword": "パスワードをお忘れですか？",
+    "resetPassword": {
+      "title": "新しいパスワードにリセット",
+      "success": "パスワードをリセットしました",
+      "confirmTitle": "パスワードリセットの確認",
+      "confirmDescription": "パスワードリセットの残り回数は{{count}}回です。続行してもよろしいですか？",
+      "confirmButton": "パスワードをリセット"
     }
   },
   "help": {

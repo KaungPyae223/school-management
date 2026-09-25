@@ -8,6 +8,9 @@ const MAX_ATTEMPTS = 5;
 const LOCKOUT_MS = 15 * 60 * 1000;
 
 export const authService = {
+  resetPasswordCount: () => {
+    return store.get("reset_counts");
+  },
   storedPassword: async (password: string) => {
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 

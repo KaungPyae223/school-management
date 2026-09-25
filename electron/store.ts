@@ -7,6 +7,7 @@ export interface StoreSchema {
     lastSeenTime: number;
   };
   setup: boolean;
+  reset_counts: number;
   defaultView: string | null;
   user_password_hash: string | null;
   appTourStorage: string | null;
@@ -25,6 +26,7 @@ export const store = new Store<StoreSchema>({
       lockoutUntil: 0,
       lastSeenTime: 0,
     },
+    reset_counts: 3,
     defaultView: JSON.stringify({
       state: { view: "grid" },
       version: 0,

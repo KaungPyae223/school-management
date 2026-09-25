@@ -24,13 +24,15 @@ const ErrorPage = () => {
   });
 
   return (
-    <div className="h-[80vh] flex flex-col items-center justify-center px-4">
+    <div className="flex-1 h-dvh flex flex-col items-center justify-center px-4">
       <div className="text-center max-w-md">
         <p className="text-sm font-semibold text-red-600 dark:text-red-400 uppercase tracking-wide mb-4">
           {errorStatus}
         </p>
 
-        <h1 className="text-4xl font-bold text-primary">{t("errors.unexpectedError")}</h1>
+        <h1 className="text-4xl font-bold text-primary">
+          {t("errors.unexpectedError")}
+        </h1>
 
         <p className="text-muted-foreground mt-3 mb-8">{errorMessage}</p>
 
