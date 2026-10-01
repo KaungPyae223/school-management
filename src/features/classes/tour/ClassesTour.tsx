@@ -2,10 +2,12 @@ import type { Step } from "react-joyride";
 import { useTranslation } from "react-i18next";
 import Tour from "../../../components/tour/Tour";
 import { useSetQueryParams } from "../../../hooks/use-set-query-params";
+import { useSearchParams } from "react-router-dom";
 
 const ClassesTour = () => {
   const { t } = useTranslation();
   const updateQueryParams = useSetQueryParams();
+  const [searchParams] = useSearchParams();
 
   const steps: Step[] = [
     {
@@ -20,6 +22,7 @@ const ClassesTour = () => {
       content: t("tour.classes.advancedSearchContent"),
       skipBeacon: true,
       after: () => {
+        if (searchParams.get("advancedQuery") === "true") return;
         updateQueryParams({ advancedQuery: "true" });
       },
     },

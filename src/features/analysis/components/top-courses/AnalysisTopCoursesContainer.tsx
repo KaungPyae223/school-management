@@ -29,6 +29,7 @@ const AnalysisTopCoursesContainer = () => {
       title={t("analysis.topCourses.title")}
       description={t("analysis.topCourses.description")}
       icon={Trophy}
+      dataTour="top-courses"
     >
       <DataShow
         isLoading={isLoading}

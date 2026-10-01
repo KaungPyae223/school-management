@@ -904,6 +904,36 @@
       "outstandingPayments": "Outstanding Payments",
       "outstandingPaymentsContent": "Track pending payments and see the total amount that is still outstanding."
     },
+    "analysis": {
+      "schedule": "Schedule Utilization",
+      "scheduleContent": "See enrolled students and scheduled classes for each weekday to understand when your school is busiest.",
+      "demographics": "Student Demographics",
+      "demographicsContent": "View the gender and age distribution of your students to better understand who you are teaching.",
+      "retention": "Enrollment Retention",
+      "retentionContent": "Compare new enrollments against withdrawals each month and track your overall retention rate.",
+      "topCourses": "Top Classes by Revenue",
+      "topCoursesContent": "Discover your best performing classes this period, ranked by the revenue they generated.",
+      "teacherRevenue": "Teacher Revenue Contribution",
+      "teacherRevenueContent": "See how much collected tuition each teacher contributed and their share of total revenue.",
+      "workload": "Teacher Workload",
+      "workloadContent": "Review the number of assigned classes and active students for each teacher to balance workload."
+    },
+    "settings": {
+      "appearance": "Appearance",
+      "appearanceContent": "Choose between system, light, or dark appearance to suit how you want the app to look.",
+      "defaultView": "Default View",
+      "defaultViewContent": "Set whether lists or grids appear by default when you open a section.",
+      "theme": "Theme Color",
+      "themeContent": "Pick an accent color to personalize the look of the application.",
+      "language": "Language",
+      "languageContent": "Change the application language to your preferred one.",
+      "password": "Manage Password",
+      "passwordContent": "Create or change the password used to secure access to your school data.",
+      "twoFactor": "Two-Factor Authentication",
+      "twoFactorContent": "Enable or disable two-factor authentication for an extra layer of security.",
+      "backup": "Data Backup",
+      "backupContent": "Export or import your school data to keep it safe and portable."
+    },
     "students": {
       "search": "Search Students",
       "searchContent": "Search for students by name, email, or phone number.",

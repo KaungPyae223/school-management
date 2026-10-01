@@ -904,6 +904,36 @@
       "outstandingPayments": "未払い金",
       "outstandingPaymentsContent": "未払い金を追跡し、まだ未払いの合計金額を確認できます。"
     },
+    "analysis": {
+      "schedule": "時間割の活用状況",
+      "scheduleContent": "曜日ごとの登録生徒数と予定されたクラスを確認し、学校が最も混み合う時間帯を把握できます。",
+      "demographics": "生徒の属性分布",
+      "demographicsContent": "生徒の性別と年齢の分布を確認し、教えている相手についてよりよく理解できます。",
+      "retention": "登録と継続率",
+      "retentionContent": "月別の新規登録と退会を比較し、全体の継続率を追跡できます。",
+      "topCourses": "収益上位のクラス",
+      "topCoursesContent": "今期で収益の高かった最も実績のあるクラスを、生み出した収益の順に確認できます。",
+      "teacherRevenue": "教員別の収益貢献",
+      "teacherRevenueContent": "教員ごとに徴収した授業料と、全収益に占める割合を確認できます。",
+      "workload": "教員の業務量",
+      "workloadContent": "各教員の割り当てられたクラス数と在籍生徒数を確認し、業務量を均衡させることができます。"
+    },
+    "settings": {
+      "appearance": "外観",
+      "appearanceContent": "システム、ライト、ダークの外観から、アプリの見え方を選んで設定できます。",
+      "defaultView": "デフォルト表示",
+      "defaultViewContent": "セクションを開いたときに一覧とグリッドのどちらを既定で表示するか設定できます。",
+      "theme": "テーマカラー",
+      "themeContent": "アプリの外観を自分好みにするアクセントカラーを選択できます。",
+      "language": "言語",
+      "languageContent": "アプリの言語をお好みの言語に変更できます。",
+      "password": "パスワード管理",
+      "passwordContent": "学校データへのアクセスを保護するためのパスワードを作成または変更できます。",
+      "twoFactor": "二要素認証",
+      "twoFactorContent": "セキュリティを高めるため、二要素認証の有効化・無効化を行うことができます。",
+      "backup": "データバックアップ",
+      "backupContent": "学校データの出力と読み込みを行い、安全かつ持ち運びやすく保ちます。"
+    },
     "students": {
       "search": "生徒を検索",
       "searchContent": "名前、メール、電話番号で生徒を検索します。",

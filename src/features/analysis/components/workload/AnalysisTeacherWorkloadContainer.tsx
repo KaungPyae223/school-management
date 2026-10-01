@@ -30,6 +30,7 @@ const AnalysisTeacherWorkloadContainer = () => {
       title={t("analysis.workload.title")}
       description={t("analysis.workload.description")}
       icon={ClipboardList}
+      dataTour="workload"
     >
       <DataShow
         isLoading={isLoading}

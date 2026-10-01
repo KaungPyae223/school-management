@@ -15,7 +15,10 @@ const SettingsChangeDefaultView = () => {
   const { view, setView } = useDefaultViewStore();
 
   return (
-    <div className="flex items-center gap-5 justify-between py-3.5">
+    <div
+      className="flex items-center gap-5 justify-between py-3.5"
+      data-tour="default-view"
+    >
       <div className="space-y-0.5">
         <p className="font-medium">{t("settings.changeDefaultView.title")}</p>
         <p className="text-xs text-muted-foreground">

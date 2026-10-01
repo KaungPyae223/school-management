@@ -24,6 +24,7 @@ const AnalysisEnrollmentWithdrawnContainer = ({ data }: { data: any[] }) => {
       title={t("analysis.retention.title")}
       description={t("analysis.retention.description")}
       icon={RefreshCcw}
+      dataTour="retention"
     >
       <DataShow
         isLoading={false}

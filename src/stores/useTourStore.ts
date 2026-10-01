@@ -13,7 +13,9 @@ export type TourId =
   | "payments"
   | "classes-create"
   | "classes-details"
-  | "timetable";
+  | "timetable"
+  | "analysis"
+  | "settings";
 interface TourState {
   completedTours: TourId[];
 

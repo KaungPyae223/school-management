@@ -33,6 +33,7 @@ const AnalysisTeacherRevenueContainer = ({ data }: { data: any[] }) => {
       title={t("analysis.teacherRevenue.title")}
       description={t("analysis.teacherRevenue.description")}
       icon={PieChart}
+      dataTour="teacher-revenue"
     >
       <CardContent className=" flex-1 grid grid-cols-1 sm:grid-cols-2 items-center gap-4">
         <AnalysisTeacherRevenueChart formattedData={formattedData} />

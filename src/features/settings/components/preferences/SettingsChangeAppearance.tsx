@@ -15,7 +15,10 @@ const SettingsChangeAppearance = () => {
   const { mode, setMode } = useModeStore();
 
   return (
-    <div className="flex items-center gap-5 justify-between pb-3.5">
+    <div
+      className="flex items-center gap-5 justify-between pb-3.5"
+      data-tour="appearance"
+    >
       <div className="space-y-0.5">
         <p className="font-medium">{t("settings.changeAppearance.title")}</p>
         <p className="text-xs text-muted-foreground">

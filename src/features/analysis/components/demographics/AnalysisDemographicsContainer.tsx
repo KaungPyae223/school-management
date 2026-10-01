@@ -20,6 +20,7 @@ const AnalysisDemographicsContainer = ({
       title={t("analysis.demographics.title")}
       description={t("analysis.demographics.description")}
       icon={Users}
+      dataTour="demographics"
     >
       <DataShow
         isLoading={false}

@@ -21,7 +21,10 @@ const SettingsManagePassword = () => {
   };
 
   return (
-    <div className="flex items-center gap-5 justify-between py-3.5">
+    <div
+      className="flex items-center gap-5 justify-between py-3.5"
+      data-tour="password"
+    >
       <div className="space-y-0.5">
         <p className="font-medium">{t("settings.managePassword.title")}</p>
         <p className="text-xs text-muted-foreground">

@@ -9,6 +9,7 @@ import AnalysisFooter from "../components/general/AnalysisFooter";
 import AnalysisHeader from "../components/general/AnalysisHeader";
 import { useLoaderData } from "react-router";
 import AnalysisEnrollmentWithdrawnContainer from "../components/retention/AnalysisEnrollmentWithdrawnContainer";
+import AnalysisTour from "../tour/AnalysisTour";
 
 const AnalysisPage = () => {
   const { t } = useTranslation();
@@ -20,33 +21,37 @@ const AnalysisPage = () => {
   console.log(loader);
 
   return (
-    <div className="flex flex-col space-y-7">
-      <AnalysisHeader />
+    <>
+      <AnalysisTour />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <AnalysisScheduleUtilizationContainer
-          data={loader.scheduleUtilization}
-        />
-        <AnalysisDemographicsContainer
-          genderSplit={loader.ageDemographics.genderCounts}
-          ageDistribution={loader.ageDemographics.ageGroupCounts}
-        />
+      <div className="flex flex-col space-y-7">
+        <AnalysisHeader />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <AnalysisScheduleUtilizationContainer
+            data={loader.scheduleUtilization}
+          />
+          <AnalysisDemographicsContainer
+            genderSplit={loader.ageDemographics.genderCounts}
+            ageDistribution={loader.ageDemographics.ageGroupCounts}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <AnalysisEnrollmentWithdrawnContainer
+            data={loader.enrollmentRetention}
+          />
+          <AnalysisTopCoursesContainer />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <AnalysisTeacherRevenueContainer data={loader.teacherRevenue} />
+          <AnalysisTeacherWorkloadContainer />
+        </div>
+
+        <AnalysisFooter />
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <AnalysisEnrollmentWithdrawnContainer
-          data={loader.enrollmentRetention}
-        />
-        <AnalysisTopCoursesContainer />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <AnalysisTeacherRevenueContainer data={loader.teacherRevenue} />
-        <AnalysisTeacherWorkloadContainer  />
-      </div>
-
-      <AnalysisFooter />
-    </div>
+    </>
   );
 };
 

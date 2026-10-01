@@ -28,7 +28,10 @@ const SettingsDataBackup = () => {
   };
 
   return (
-    <div className="flex items-center gap-5 justify-between pt-3.5 pb-1.5">
+    <div
+      className="flex items-center gap-5 justify-between pt-3.5 pb-1.5"
+      data-tour="backup"
+    >
       <div className="space-y-1">
         <p className="text-sm font-medium text-foreground">
           {t("settings.backup.title")}

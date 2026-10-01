@@ -26,6 +26,7 @@ const AnalysisScheduleUtilizationContainer = ({
       title={t("analysis.schedule.title")}
       description={t("analysis.schedule.description")}
       icon={CalendarDays}
+      dataTour="schedule"
     >
       <DataShow
         isLoading={false}
