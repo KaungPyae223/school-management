@@ -222,13 +222,28 @@
       "Saturday": "土曜日",
       "Sunday": "日曜日"
     },
+    "months": {
+      "Jan": "1月",
+      "Feb": "2月",
+      "Mar": "3月",
+      "Apr": "4月",
+      "May": "5月",
+      "Jun": "6月",
+      "Jul": "7月",
+      "Aug": "8月",
+      "Sep": "9月",
+      "Oct": "10月",
+      "Nov": "11月",
+      "Dec": "12月"
+    },
     "timeUnits": {
       "minuteShort": "分",
       "secondShort": "秒"
     },
     "withdrawnStudents": "退会者",
     "withdrawnStudentsDesc": "受講を中止した生徒",
-    "withdrawn": "退会"
+    "withdrawn": "退会",
+    "loadingMore": "読み込み中..."
   },
   "pagination": {
     "showing": "表示中",
@@ -707,17 +722,24 @@
       "createEnrollment": "登録を作成",
       "monthlyAvg": "月次平均",
       "totalEnrolled": "総登録数",
-      "students": "生徒"
+      "students": "生徒",
+      "tuitionRevenue": "授業料収益",
+      "newEnrollments": "新規登録",
+      "revenue": "収益",
+      "enrollments": "登録",
+      "studentsCount": "{{count}} 人"
     },
     "courseEnrollment": {
       "title": "コース別登録割合",
       "description": "アクティブなコース間の生徒分布",
       "emptyTitle": "コースデータがありません",
-      "emptyDescription": "コースを作成するとここに表示されます。",
+      "emptyDescription": "コースデータは、コースを作成するとここに表示されます。",
       "createCourses": "コースを作成",
       "total": "合計",
       "courses": "コース",
-      "viewAll": "すべて表示"
+      "viewAll": "すべて表示",
+      "enrollments": "登録",
+      "enrolled": "{{count}} 人登録"
     },
     "todayClasses": {
       "title": "今日のスケジュール",
@@ -772,6 +794,90 @@
       "batch": "クラス",
       "enrolled": "登録済み",
       "teacher": "教員"
+    }
+  },
+  "analysis": {
+    "title": "分析",
+    "header": {
+      "title": "アカデミック分析"
+    },
+    "schedule": {
+      "title": "時間割の活用状況",
+      "description": "曜日ごとの登録生徒数と予定されたクラス",
+      "emptyTitle": "表示できる時間割がありません",
+      "emptyDescription": "時間割を表示するにはクラスを作成してください。",
+      "enrolledStudents": "登録生徒数",
+      "classesScheduled": "予定されたクラス",
+      "classes": "クラス",
+      "busiestDay": "最も混雑する日",
+      "studentsCount": "{{count}} 人の生徒",
+      "weeklyClassSlots": "週あたりのクラス枠"
+    },
+    "demographics": {
+      "title": "生徒の属性分布",
+      "description": "性別と年齢の分布",
+      "emptyTitle": "表示できる生徒データがありません",
+      "emptyDescription": "データを表示するには生徒を作成してください。",
+      "createStudents": "生徒を作成",
+      "students": "生徒",
+      "studentsCount": "{{count}} 人",
+      "male": "男性",
+      "female": "女性",
+      "unknown": "不明",
+      "total": "合計"
+    },
+    "retention": {
+      "title": "登録と継続率",
+      "description": "月別の新規登録と退会",
+      "emptyTitle": "登録・継続のデータがありません",
+      "emptyDescription": "生徒の登録と退会が蓄積されると、登録と継続率のデータがここに表示されます。",
+      "newEnrollments": "新規登録",
+      "withdrawals": "退会",
+      "enrollments": "登録",
+      "studentsCount": "{{count}} 人",
+      "retentionRate": "継続率",
+      "inOut": "{{inCount}} 登録 / {{outCount}} 退会"
+    },
+    "topCourses": {
+      "title": "収益上位のクラス",
+      "description": "今期の最も実績のあるクラス",
+      "emptyTitle": "コースデータがありません",
+      "emptyDescription": "コースを作成すると、コースデータがここに表示されます。",
+      "createCourse": "コースを作成",
+      "classes": "クラス",
+      "totalRevenue": "総収益",
+      "students": "生徒",
+      "teachers": "教員"
+    },
+    "teacherRevenue": {
+      "title": "教員別の収益貢献",
+      "description": "教員ごとの徴収済み授業料の割合",
+      "totalRevenue": "総収益",
+      "totalEnrollments": "総登録数",
+      "teacher": "教員",
+      "revenue": "収益",
+      "enrollments": "登録",
+      "studentsCount": "{{count}} 人",
+      "totalCollected": "徴収合計",
+      "others": "その他"
+    },
+    "workload": {
+      "title": "教員の業務量",
+      "description": "割り当てられたクラスと在籍生徒",
+      "emptyTitle": "教員の業務量データがありません",
+      "emptyDescription": "教員を作成すると、教員の業務量データがここに表示されます。",
+      "createTeacher": "教員を作成",
+      "classes": "クラス",
+      "students": "生徒",
+      "activeClasses": "アクティブなクラス"
+    },
+    "footer": {
+      "title": "全体像が必要ですか？",
+      "description": "この分析の根拠となっている記録をご覧ください",
+      "viewStudents": "生徒を表示",
+      "viewTeachers": "教員を表示",
+      "viewCourses": "コースを表示",
+      "viewClasses": "クラスを表示"
     }
   },
   "tour": {

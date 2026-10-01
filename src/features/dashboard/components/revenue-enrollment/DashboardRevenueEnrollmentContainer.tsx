@@ -2,55 +2,16 @@ import DashboardCard from "../../../../components/card-utils/DashboardCard";
 import { CardContent, CardFooter } from "../../../../components/ui/card";
 import { formatCurrency } from "../../../../utils/format-currency";
 import DataShow from "../../../../components/data/DataShow";
-import { BookOpen } from "lucide-react";
+import { BookOpen, TrendingUp } from "lucide-react";
 import DashboardRevenueEnrollmentChart from "./DashboardRevenueEnrollmentChart";
 import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 import { useTranslation } from "react-i18next";
 
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-interface RevenueEnrollmentData {
-  date: string;
-  month: string;
-  total_revenue: string;
-  total_enrollments: string;
-}
-
-const DashboardRevenueEnrollmentContainer = ({
-  data,
-}: {
-  data: RevenueEnrollmentData[];
-}) => {
+const DashboardRevenueEnrollmentContainer = ({ data }: { data: any[] }) => {
   const { t } = useTranslation();
 
-  const formattedData = data
-    .sort((a: RevenueEnrollmentData, b: RevenueEnrollmentData) => {
-      return a.date.localeCompare(b.date);
-    })
-    .map((item: RevenueEnrollmentData) => ({
-      month: months[Number(item.month) - 1] || "Unknown",
-      revenue: Number(item.total_revenue),
-      enrollments: Number(item.total_enrollments),
-    }));
-
   const totalData = data.reduce(
-    (
-      acc: { revenue: number; enrollments: number },
-      item: RevenueEnrollmentData,
-    ) => {
+    (acc: { revenue: number; enrollments: number }, item: any) => {
       return {
         revenue: acc.revenue + Number(item.total_revenue),
         enrollments: acc.enrollments + Number(item.total_enrollments),
@@ -59,11 +20,20 @@ const DashboardRevenueEnrollmentContainer = ({
     { revenue: 0, enrollments: 0 },
   );
 
+  const getMonth = (month: string) =>
+    t(`general.months.${month}`, { defaultValue: month });
+
+  const monthRange =
+    data.length > 0
+      ? `(${getMonth(data[0].month)} - ${getMonth(data[data.length - 1].month)})`
+      : "";
+
   return (
     <DashboardCard
       className="lg:col-span-2 "
       title={t("dashboard.revenueEnrollment.title")}
       description={t("dashboard.revenueEnrollment.description")}
+      icon={TrendingUp}
       dataTour="revenue-enrollment"
     >
       <DataShow
@@ -79,15 +49,12 @@ const DashboardRevenueEnrollmentContainer = ({
         className="border-0 shadow-none ring-0"
       >
         <CardContent className="p-0 flex-1">
-          <DashboardRevenueEnrollmentChart data={formattedData} />
+          <DashboardRevenueEnrollmentChart data={data} />
         </CardContent>
         <CardFooter className="py-2.5 mt-auto text-xs flex justify-around text-center items-center">
           <div>
             <p className="text-[11px] text-muted-foreground">
-              {t("dashboard.revenueEnrollment.monthlyAvg")}{" "}
-              {formattedData.length > 0
-                ? `(${formattedData[0].month} - ${formattedData[formattedData.length - 1].month})`
-                : ""}
+              {t("dashboard.revenueEnrollment.monthlyAvg")} {monthRange}
             </p>
             <p className="mt-0.5 text-sm font-semibold">
               {replaceLocalDigit(formatCurrency(totalData.revenue))}
@@ -95,10 +62,7 @@ const DashboardRevenueEnrollmentContainer = ({
           </div>
           <div>
             <p className="text-[11px] text-muted-foreground">
-              {t("dashboard.revenueEnrollment.totalEnrolled")}{" "}
-              {formattedData.length > 0
-                ? `(${formattedData[0].month} - ${formattedData[formattedData.length - 1].month})`
-                : ""}
+              {t("dashboard.revenueEnrollment.totalEnrolled")} {monthRange}
             </p>
             <p className="mt-0.5 text-sm font-semibold">
               {replaceLocalDigit(totalData.enrollments)}{" "}

@@ -59,12 +59,28 @@ export const dashboardRepository = {
   },
   async revenueEnrollments() {
     return prisma.$queryRaw`
+      WITH months(month_number, month) AS (
+        SELECT 1, 'Jan'
+        UNION ALL SELECT 2, 'Feb'
+        UNION ALL SELECT 3, 'Mar'
+        UNION ALL SELECT 4, 'Apr'
+        UNION ALL SELECT 5, 'May'
+        UNION ALL SELECT 6, 'Jun'
+        UNION ALL SELECT 7, 'Jul'
+        UNION ALL SELECT 8, 'Aug'
+        UNION ALL SELECT 9, 'Sep'
+        UNION ALL SELECT 10, 'Oct'
+        UNION ALL SELECT 11, 'Nov'
+        UNION ALL SELECT 12, 'Dec'
+      )
       SELECT 
         strftime('%Y-%m', e.createdAt) AS date,
-        strftime('%m', e.createdAt) AS month,
-        SUM(e.price) as total_revenue,
-        COUNT(e.id) as total_enrollments
+        m.month,
+        COALESCE(SUM(p.amount), 0) AS total_revenue,
+        COUNT(e.id) AS total_enrollments
       FROM enrollments e
+      LEFT JOIN payments p ON e.id = p.enrollmentId
+      JOIN months m ON m.month_number = CAST(strftime('%m', e.createdAt) AS INTEGER)
       GROUP BY date
       ORDER BY date DESC
       LIMIT 6
@@ -209,4 +225,5 @@ export const dashboardRepository = {
 
     return result[0].total_pending_amount;
   },
+ 
 };

@@ -1,7 +1,7 @@
 import { ScrollArea } from "../../../../components/ui/scroll-area";
 import DashboardCard from "../../../../components/card-utils/DashboardCard";
 import { CardContent, CardFooter } from "../../../../components/ui/card";
-import { BookOpen } from "lucide-react";
+import { BookOpen, CalendarDays } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import { useNavigate } from "react-router-dom";
 import DataShow from "../../../../components/data/DataShow";
@@ -16,6 +16,7 @@ const DashboardTodayClassesContainer = ({ data }: { data: any }) => {
     <DashboardCard
       title={t("dashboard.todayClasses.title")}
       description={t("dashboard.todayClasses.description")}
+      icon={CalendarDays}
       dataTour="today-classes"
     >
       <DataShow

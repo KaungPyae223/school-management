@@ -8,6 +8,7 @@ import { GraduationCap, ChevronRight } from "lucide-react";
 import { ScrollArea } from "../../../../components/ui/scroll-area";
 import DashboardRecentEnrollmentCard from "./DashboardRecentEnrollmentCard";
 import { useTranslation } from "react-i18next";
+import DataLoadMore from "../../../../components/data/DataLoadMore";
 
 const DashboardRecentEnrollmentContainer = () => {
   const navigate = useNavigate();
@@ -61,14 +62,10 @@ const DashboardRecentEnrollmentContainer = () => {
                 />
               ))}
               {hasNextPage && (
-                <div ref={loadingRef} className="py-2 text-center">
-                  {isFetchingNextPage && (
-                    <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                      <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
-                      Loading more...
-                    </div>
-                  )}
-                </div>
+                <DataLoadMore
+                  loadingRef={loadingRef}
+                  isFetchingNextPage={isFetchingNextPage}
+                />
               )}
             </div>
           </ScrollArea>

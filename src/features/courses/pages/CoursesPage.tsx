@@ -23,8 +23,6 @@ const CoursesPage = () => {
 
   const { data, isLoading } = useGetAllCourses();
 
-  console.log(data);
-
   return (
     <>
       <CoursesTour />

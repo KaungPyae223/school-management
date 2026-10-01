@@ -91,14 +91,11 @@ const ClassesAdvancedQueryCourseSelect = ({
               ))}
 
               {hasNextPage && (
-                <div ref={loadingRef} className="py-2 text-center">
-                  {(isLoading || isFetchingNextPage) && (
-                    <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                      <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
-                      {t("form.loading")}
-                    </div>
-                  )}
-                </div>
+                <ScrollSelectLoading
+                  loadingRef={loadingRef}
+                  isLoading={isLoading}
+                  isFetchingNextPage={isFetchingNextPage}
+                />
               )}
             </ScrollArea>
           </div>

@@ -222,13 +222,28 @@
       "Saturday": "Sat",
       "Sunday": "Sun"
     },
+    "months": {
+      "Jan": "Jan",
+      "Feb": "Feb",
+      "Mar": "Mar",
+      "Apr": "Apr",
+      "May": "May",
+      "Jun": "Jun",
+      "Jul": "Jul",
+      "Aug": "Aug",
+      "Sep": "Sep",
+      "Oct": "Oct",
+      "Nov": "Nov",
+      "Dec": "Dec"
+    },
     "timeUnits": {
       "minuteShort": "m",
       "secondShort": "s"
     },
     "withdrawnStudents": "Withdrawn Students",
     "withdrawnStudentsDesc": "Students who stopped attending",
-    "withdrawn": "Withdrawn"
+    "withdrawn": "Withdrawn",
+    "loadingMore": "Loading more..."
   },
   "pagination": {
     "showing": "Showing",
@@ -707,17 +722,24 @@
       "createEnrollment": "Create Enrollment",
       "monthlyAvg": "Monthly Avg",
       "totalEnrolled": "Total Enrolled",
-      "students": "Students"
+      "students": "Students",
+      "tuitionRevenue": "Tuition Revenue",
+      "newEnrollments": "New Enrollments",
+      "revenue": "Revenue",
+      "enrollments": "Enrollments",
+      "studentsCount": "{{count}} Students"
     },
     "courseEnrollment": {
       "title": "Course Enrollment Share",
       "description": "Student distribution across active courses",
       "emptyTitle": "No courses data",
-      "emptyDescription": "Courses will appear here once created",
+      "emptyDescription": "Courses data will appear here once courses are created.",
       "createCourses": "Create Courses",
       "total": "Total",
       "courses": "Courses",
-      "viewAll": "View All"
+      "viewAll": "View All",
+      "enrollments": "Enrollments",
+      "enrolled": "{{count}} Enrolled"
     },
     "todayClasses": {
       "title": "Today's Schedule",
@@ -772,6 +794,90 @@
       "batch": "Batch",
       "enrolled": "enrolled",
       "teacher": "Teacher"
+    }
+  },
+  "analysis": {
+    "title": "Analysis",
+    "header": {
+      "title": "Academic Analysis"
+    },
+    "schedule": {
+      "title": "Schedule Utilization",
+      "description": "Enrolled students and scheduled classes per weekday",
+      "emptyTitle": "There is no schedule to show",
+      "emptyDescription": "Please create a class to see the schedule.",
+      "enrolledStudents": "Enrolled Students",
+      "classesScheduled": "Classes Scheduled",
+      "classes": "Classes",
+      "busiestDay": "Busiest day",
+      "studentsCount": "{{count}} students",
+      "weeklyClassSlots": "weekly class slots"
+    },
+    "demographics": {
+      "title": "Student Demographics",
+      "description": "Gender and age distribution",
+      "emptyTitle": "There is no student data to show",
+      "emptyDescription": "Please create a student to see the data.",
+      "createStudents": "Create Students",
+      "students": "Students",
+      "studentsCount": "{{count}} Students",
+      "male": "Male",
+      "female": "Female",
+      "unknown": "Unknown",
+      "total": "Total"
+    },
+    "retention": {
+      "title": "Enrollment Retention",
+      "description": "New enrollments vs withdrawals per month",
+      "emptyTitle": "No Enrollment Retention Data",
+      "emptyDescription": "The Enrollment Retention data will be displayed here when students enroll and withdraw over time.",
+      "newEnrollments": "New Enrollments",
+      "withdrawals": "Withdrawals",
+      "enrollments": "Enrollments",
+      "studentsCount": "{{count}} Students",
+      "retentionRate": "Retention rate",
+      "inOut": "{{inCount}} in / {{outCount}} out"
+    },
+    "topCourses": {
+      "title": "Top Classes by Revenue",
+      "description": "Best performing batches this period",
+      "emptyTitle": "No Courses Data",
+      "emptyDescription": "Courses data will appear here once courses are created.",
+      "createCourse": "Create Course",
+      "classes": "Classes",
+      "totalRevenue": "Total Revenue",
+      "students": "Students",
+      "teachers": "Teachers"
+    },
+    "teacherRevenue": {
+      "title": "Teacher Revenue Contribution",
+      "description": "Share of collected tuition per teacher",
+      "totalRevenue": "Total Revenue",
+      "totalEnrollments": "Total Enrollments",
+      "teacher": "Teacher",
+      "revenue": "Revenue",
+      "enrollments": "Enrollments",
+      "studentsCount": "{{count}} students",
+      "totalCollected": "total collected",
+      "others": "Others"
+    },
+    "workload": {
+      "title": "Teacher Workload",
+      "description": "Assigned classes and active students",
+      "emptyTitle": "No Teacher Workload Data",
+      "emptyDescription": "Teacher workload data will appear here once teachers are created",
+      "createTeacher": "Create Teacher",
+      "classes": "Classes",
+      "students": "Students",
+      "activeClasses": "Active Classes"
+    },
+    "footer": {
+      "title": "Need the full picture?",
+      "description": "Explore the underlying records behind these insights",
+      "viewStudents": "View Students",
+      "viewTeachers": "View Teachers",
+      "viewCourses": "View Courses",
+      "viewClasses": "View Classes"
     }
   },
   "tour": {

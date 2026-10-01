@@ -3,9 +3,10 @@ import { CardContent, CardFooter } from "../../../../components/ui/card";
 import { useNavigate } from "react-router";
 import { ChevronRight, LibraryBig } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
-import DashboardCourseEnrollmentPieChart from "./DashboardCourseEnrollmentPieChart";
+import DashboardCourseEnrollmentChart from "./DashboardCourseEnrollmentChart";
 import DataShow from "../../../../components/data/DataShow";
 import { useTranslation } from "react-i18next";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
 
 const colors = [
   "#3b82f6",
@@ -37,6 +38,7 @@ const DashboardCourseEnrollmentContainer = ({
     <DashboardCard
       title={t("dashboard.courseEnrollment.title")}
       description={t("dashboard.courseEnrollment.description")}
+      icon={LibraryBig}
       className="lg:col-span-1"
       dataTour="course-enrollment"
     >
@@ -54,7 +56,7 @@ const DashboardCourseEnrollmentContainer = ({
       >
         <CardContent>
           <div className="w-full flex items-center justify-center">
-            <DashboardCourseEnrollmentPieChart data={formattedData} />
+            <DashboardCourseEnrollmentChart data={formattedData} />
           </div>
 
           <div className="mt-2 space-y-1.5 overflow-y-auto pr-1">
@@ -73,7 +75,7 @@ const DashboardCourseEnrollmentContainer = ({
                   </span>
                 </div>
                 <span className="font-medium text-foreground shrink-0">
-                  {course.total_enrollments}
+                  {replaceLocalDigit(course.total_enrollments)}
                 </span>
               </div>
             ))}

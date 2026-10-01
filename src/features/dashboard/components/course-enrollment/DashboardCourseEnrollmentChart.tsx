@@ -5,10 +5,14 @@ import {
   type ChartConfig,
 } from "../../../../components/ui/chart";
 import { Cell, Pie, PieChart } from "recharts";
+import { replaceLocalDigit } from "../../../../utils/replace-local-digit";
+import { useTranslation } from "react-i18next";
 
-const DashboardCourseEnrollmentPieChart = ({ data }: { data: any }) => {
+const DashboardCourseEnrollmentChart = ({ data }: { data: any }) => {
+  const { t } = useTranslation();
+
   const chartConfig = {
-    total_enrollments: { label: "Enrollments" },
+    total_enrollments: { label: t("dashboard.courseEnrollment.enrollments") },
     ...Object.fromEntries(
       data.map((row: any) => [
         row.name,
@@ -40,7 +44,11 @@ const DashboardCourseEnrollmentPieChart = ({ data }: { data: any }) => {
         <ChartTooltip
           content={
             <ChartTooltipContent
-              formatter={(val, name) => `${val} Enrolled (${name})`}
+              formatter={(val, name) =>
+                `${t("dashboard.courseEnrollment.enrolled", {
+                  count: replaceLocalDigit(val),
+                })} (${name})`
+              }
             />
           }
         />
@@ -49,4 +57,4 @@ const DashboardCourseEnrollmentPieChart = ({ data }: { data: any }) => {
   );
 };
 
-export default DashboardCourseEnrollmentPieChart;
+export default DashboardCourseEnrollmentChart;

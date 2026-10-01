@@ -1,48 +1,48 @@
 import useAddBreadcrumb from "../../../hooks/use-add-breadcrumb";
-import ScheduleUtilizationCard from "../components/schedule/ScheduleUtilizationCard";
-import DemographicsCard from "../components/demographics/DemographicsCard";
-import EnrollmentWithdrawalCard from "../components/retention/EnrollmentWithdrawalCard";
-import TopClassesCard from "../components/top-classes/TopClassesCard";
-import TeacherRevenueCard from "../components/teacher-revenue/TeacherRevenueCard";
-import TeacherWorkloadCard from "../components/workload/TeacherWorkloadCard";
+import { useTranslation } from "react-i18next";
+import AnalysisScheduleUtilizationContainer from "../components/schedule/AnalysisScheduleUtilizationContainer";
+import AnalysisDemographicsContainer from "../components/demographics/AnalysisDemographicsContainer";
+import AnalysisTopCoursesContainer from "../components/top-courses/AnalysisTopCoursesContainer";
+import AnalysisTeacherRevenueContainer from "../components/teacher-revenue/AnalysisTeacherRevenueContainer";
+import AnalysisTeacherWorkloadContainer from "../components/workload/AnalysisTeacherWorkloadContainer";
 import AnalysisFooter from "../components/general/AnalysisFooter";
-import {
-  ageDistribution,
-  genderSplit,
-  monthlyTrend,
-  teacherRevenue,
-  teacherWorkload,
-  topClasses,
-  weekdayUsage,
-} from "../data/analysis-dummy";
 import AnalysisHeader from "../components/general/AnalysisHeader";
+import { useLoaderData } from "react-router";
+import AnalysisEnrollmentWithdrawnContainer from "../components/retention/AnalysisEnrollmentWithdrawnContainer";
 
 const AnalysisPage = () => {
-  useAddBreadcrumb({ title: "Analysis" });
+  const { t } = useTranslation();
+
+  useAddBreadcrumb({ title: t("analysis.title") });
+
+  const loader = useLoaderData();
+
+  console.log(loader);
 
   return (
     <div className="flex flex-col space-y-7">
       <AnalysisHeader />
 
-      {/* Schedule utilization + demographics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <ScheduleUtilizationCard data={weekdayUsage} />
-        <DemographicsCard
-          genderSplit={genderSplit}
-          ageDistribution={ageDistribution}
+        <AnalysisScheduleUtilizationContainer
+          data={loader.scheduleUtilization}
+        />
+        <AnalysisDemographicsContainer
+          genderSplit={loader.ageDemographics.genderCounts}
+          ageDistribution={loader.ageDemographics.ageGroupCounts}
         />
       </div>
 
-      {/* Retention + top classes */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <EnrollmentWithdrawalCard data={monthlyTrend} />
-        <TopClassesCard data={topClasses} />
+        <AnalysisEnrollmentWithdrawnContainer
+          data={loader.enrollmentRetention}
+        />
+        <AnalysisTopCoursesContainer />
       </div>
 
-      {/* Teacher revenue contribution + teacher workload */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <TeacherRevenueCard data={teacherRevenue} />
-        <TeacherWorkloadCard data={teacherWorkload} />
+        <AnalysisTeacherRevenueContainer data={loader.teacherRevenue} />
+        <AnalysisTeacherWorkloadContainer  />
       </div>
 
       <AnalysisFooter />

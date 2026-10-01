@@ -1,10 +1,18 @@
-import { BarChart3, Presentation, School, Users } from "lucide-react";
+import {
+  BarChart3,
+  BookOpen,
+  GraduationCap,
+  LibraryBig,
+  UserPen,
+} from "lucide-react";
 import { Card, CardContent } from "../../../../components/ui/card";
 import { Button } from "../../../../components/ui/button";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const AnalysisFooter = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Card className="shadow-xs">
@@ -15,10 +23,10 @@ const AnalysisFooter = () => {
           </div>
           <div>
             <h3 className="font-semibold text-sm text-foreground">
-              Need the full picture?
+              {t("analysis.footer.title")}
             </h3>
             <p className="text-xs text-muted-foreground">
-              Explore the underlying records behind these insights
+              {t("analysis.footer.description")}
             </p>
           </div>
         </div>
@@ -29,8 +37,8 @@ const AnalysisFooter = () => {
             className="text-xs h-8 bg-background"
             onClick={() => navigate("/students")}
           >
-            <Users className="w-3.5 h-3.5 mr-1" />
-            View Students
+            <GraduationCap className="w-3.5 h-3.5 mr-1" />
+            {t("analysis.footer.viewStudents")}
           </Button>
           <Button
             variant="outline"
@@ -38,8 +46,17 @@ const AnalysisFooter = () => {
             className="text-xs h-8 bg-background"
             onClick={() => navigate("/teachers")}
           >
-            <Presentation className="w-3.5 h-3.5 mr-1" />
-            View Teachers
+            <UserPen className="w-3.5 h-3.5 mr-1" />
+            {t("analysis.footer.viewTeachers")}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-xs h-8 bg-background"
+            onClick={() => navigate("/courses")}
+          >
+            <LibraryBig className="w-3.5 h-3.5 mr-1" />
+            {t("analysis.footer.viewCourses")}
           </Button>
           <Button
             variant="outline"
@@ -47,8 +64,8 @@ const AnalysisFooter = () => {
             className="text-xs h-8 bg-background"
             onClick={() => navigate("/classes")}
           >
-            <School className="w-3.5 h-3.5 mr-1" />
-            View Classes
+            <BookOpen className="w-3.5 h-3.5 mr-1" />
+            {t("analysis.footer.viewClasses")}
           </Button>
         </div>
       </CardContent>

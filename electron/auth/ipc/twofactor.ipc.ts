@@ -3,6 +3,7 @@ import { store } from "../../store";
 import { totpService } from "../services/totp.service";
 import { twofactorSession } from "../session/twofactor.session";
 import { twofactorService } from "../services/twofactor.service";
+import { protectedHandle } from "./protected.ipc";
 
 export const register2FAIPCs = () => {
   ipcMain.handle("auth:2fa-generate", async () => {
@@ -70,7 +71,7 @@ export const register2FAIPCs = () => {
     },
   );
 
-  ipcMain.handle("auth:2fa-verify", async (_, token: string) => {
+  protectedHandle("auth:2fa-verify", async (_, token: string) => {
     try {
       const check = await twofactorService.checkToken(token);
       if (check.success) {
@@ -82,8 +83,7 @@ export const register2FAIPCs = () => {
     }
   });
 
-  // 4. Disable 2FA
-  ipcMain.handle("auth:2fa-disable", async (_, token: string) => {
+  protectedHandle("auth:2fa-disable", async (_, token: string) => {
     try {
       const check = await twofactorService.checkToken(token);
       if (!check.success) {
@@ -100,11 +100,11 @@ export const register2FAIPCs = () => {
     }
   });
 
-  ipcMain.handle("auth:2fa-is-enabled", () => {
+  protectedHandle("auth:2fa-is-enabled", () => {
     return !!store.get("two_factor_enabled");
   });
 
-  ipcMain.handle("auth:2fa-is-verified", () => {
+  protectedHandle("auth:2fa-is-verified", () => {
     return twofactorSession.is2FAVerified();
   });
 };

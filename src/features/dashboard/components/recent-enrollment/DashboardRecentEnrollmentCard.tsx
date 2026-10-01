@@ -88,11 +88,10 @@ const DashboardRecentEnrollmentCard = ({
             {t("dashboard.cards.courseFee")}
           </p>
           <p className="text-sm font-bold tabular-nums text-foreground">
-            {replaceLocalDigit(formatCurrency(data.price))}
+            {formatCurrency(data.price)}
           </p>
           <p className="text-xs font-medium tabular-nums text-emerald-600 dark:text-emerald-400">
-            {replaceLocalDigit(formatCurrency(data.paid_amount))}{" "}
-            {t("dashboard.cards.paid")}
+            {formatCurrency(data.paid_amount)} {t("dashboard.cards.paid")}
           </p>
         </div>
       </div>

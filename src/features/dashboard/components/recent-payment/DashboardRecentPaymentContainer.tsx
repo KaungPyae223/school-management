@@ -1,4 +1,4 @@
-import { ChevronRight, CreditCard } from "lucide-react";
+import { ChevronRight, CreditCard, ReceiptText } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import { CardContent, CardFooter } from "../../../../components/ui/card";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,7 @@ const DashboardRecentPaymentContainer = () => {
     <DashboardCard
       title={t("dashboard.recentPayments.title")}
       description={t("dashboard.recentPayments.description")}
+      icon={ReceiptText}
       dataTour="recent-payment"
     >
       <DataShow

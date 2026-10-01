@@ -119,7 +119,7 @@ export const authIPCs = () => {
 
       const reset_count = authService.resetPasswordCount();
 
-      if (reset_count == 0) {
+      if (!Number.isInteger(reset_count) || reset_count <= 0) {
         return {
           success: false,
           message: "You don't have any reset attempts left.",

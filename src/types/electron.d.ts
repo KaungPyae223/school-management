@@ -8,21 +8,7 @@ declare global {
       set: (key: string, value: string) => Promise<any>;
       delete: (key: string) => Promise<any>;
     };
-    dashboardAPI: {
-      getKPI: () => Promise<any>;
-      revenueEnrollment: () => Promise<any>;
-      coursesEnrollments: () => Promise<any>;
-      getTodayClasses: () => Promise<any>;
-      getRecentEnrollment: (data: {
-        page?: number;
-        limit?: number;
-      }) => Promise<any>;
-      getRecentPayment: (data: {
-        page?: number;
-        limit?: number;
-      }) => Promise<any>;
-      getTotalPendingAmount: () => Promise<any>;
-    };
+
     authAPI: {
       isAuthenticated: () => Promise<boolean>;
       hasPassword: () => Promise<boolean>;
@@ -80,6 +66,33 @@ declare global {
     };
 
     api: {
+      scheduleUtilization: () => Promise<any>;
+      ageDemographics: () => Promise<any>;
+      enrollmentRetention: () => Promise<any>;
+      analysisCourses: (data: {
+        page?: number;
+        limit?: number;
+      }) => Promise<any>;
+      teacherRevenue: () => Promise<any>;
+      teacherWorkload: (data: {
+        page?: number;
+        limit?: number;
+      }) => Promise<any>;
+
+      getKPI: () => Promise<any>;
+      revenueEnrollment: () => Promise<any>;
+      coursesEnrollments: () => Promise<any>;
+      getTodayClasses: () => Promise<any>;
+      getRecentEnrollment: (data: {
+        page?: number;
+        limit?: number;
+      }) => Promise<any>;
+      getRecentPayment: (data: {
+        page?: number;
+        limit?: number;
+      }) => Promise<any>;
+      getTotalPendingAmount: () => Promise<any>;
+
       getAllCourses: (data: {
         page?: number;
         limit?: number;

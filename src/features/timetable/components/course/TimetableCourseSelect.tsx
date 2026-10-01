@@ -17,6 +17,7 @@ import {
 import { useTranslation } from "react-i18next";
 import ImageDisplay from "../../../../components/image/ImageDisplay";
 import { useTimetableCourseSelect } from "../../hooks/course/useTimetableCourseSelect";
+import ScrollSelectLoading from "../../../../components/form/ScrollSelectLoading";
 
 const TimetableCourseSelect = () => {
   const { t } = useTranslation();
@@ -100,14 +101,11 @@ const TimetableCourseSelect = () => {
             ))
           )}
           {hasNextPage && (
-            <div ref={loadingRef} className="py-2 text-center">
-              {(isLoading || isFetchingNextPage) && (
-                <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                  <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
-                  {t("form.loading")}
-                </div>
-              )}
-            </div>
+            <ScrollSelectLoading
+              loadingRef={loadingRef}
+              isLoading={isLoading}
+              isFetchingNextPage={isFetchingNextPage}
+            />
           )}
         </ScrollArea>
 

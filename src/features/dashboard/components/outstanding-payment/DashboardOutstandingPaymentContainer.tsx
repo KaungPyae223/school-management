@@ -1,4 +1,4 @@
-import { ChevronRight, Clock } from "lucide-react";
+import { ChevronRight, Clock, Wallet } from "lucide-react";
 
 import { CardContent, CardFooter } from "../../../../components/ui/card";
 import { formatCurrency } from "../../../../utils/format-currency";
@@ -34,6 +34,7 @@ const DashboardOutstandingPaymentContainer = ({
     <DashboardCard
       title={t("dashboard.outstandingPayments.title")}
       description={t("dashboard.outstandingPayments.description")}
+      icon={Wallet}
       dataTour="outstanding-payment"
     >
       <DataShow

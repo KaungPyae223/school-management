@@ -5,6 +5,7 @@ const DashboardCard = ({
   title,
   description,
   action,
+  icon: Icon,
   children,
   className,
   dataTour,
@@ -12,6 +13,7 @@ const DashboardCard = ({
   title: string;
   description?: string;
   action?: React.ReactNode;
+  icon?: React.ComponentType<{ className?: string }>;
   children: React.ReactNode;
   className?: string;
   dataTour?: string;
@@ -23,7 +25,12 @@ const DashboardCard = ({
           <CardTitle className="text-base font-semibold">{title}</CardTitle>
           <CardDescription className="text-xs">{description}</CardDescription>
         </div>
-        {action}
+        {action ??
+          (Icon && (
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+              <Icon className="h-4.5 w-4.5" />
+            </div>
+          ))}
       </CardHeader>
       {children}
     </Card>

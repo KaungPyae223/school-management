@@ -6,19 +6,6 @@ contextBridge.exposeInMainWorld("electronStore", {
   delete: (key) => ipcRenderer.invoke("store:delete", key),
 });
 
-contextBridge.exposeInMainWorld("dashboardAPI", {
-  getKPI: (data) => ipcRenderer.invoke("dashboard:kpi", data),
-  revenueEnrollment: () => ipcRenderer.invoke("dashboard:revenue-enrollments"),
-  coursesEnrollments: () => ipcRenderer.invoke("dashboard:courses-enrollments"),
-  getTodayClasses: () => ipcRenderer.invoke("dashboard:today-classes"),
-  getRecentEnrollment: (data) =>
-    ipcRenderer.invoke("dashboard:recent-enrollment", data),
-  getRecentPayment: (data) =>
-    ipcRenderer.invoke("dashboard:recent-payment", data),
-  getTotalPendingAmount: () =>
-    ipcRenderer.invoke("dashboard:get-total-pending-amount"),
-});
-
 contextBridge.exposeInMainWorld("authAPI", {
   getRemainTime: () => ipcRenderer.invoke("auth:get-remain-time"),
   isAuthenticated: () => ipcRenderer.invoke("auth:is-authenticated"),
@@ -56,8 +43,30 @@ contextBridge.exposeInMainWorld("setupAPI", {
 });
 
 contextBridge.exposeInMainWorld("api", {
-  // Course
+  //  Analysis
+  scheduleUtilization: () =>
+    ipcRenderer.invoke("analysis:schedule-utilization"),
+  ageDemographics: () => ipcRenderer.invoke("analysis:age-demographics"),
+  enrollmentRetention: () =>
+    ipcRenderer.invoke("analysis:enrollment-retention"),
+  analysisCourses: (data) => ipcRenderer.invoke("analysis:courses", data),
+  teacherRevenue: () => ipcRenderer.invoke("analysis:teacher-revenue"),
+  teacherWorkload: (data) =>
+    ipcRenderer.invoke("analysis:teacher-workload", data),
 
+  //  Dashboard
+  getKPI: (data) => ipcRenderer.invoke("dashboard:kpi", data),
+  revenueEnrollment: () => ipcRenderer.invoke("dashboard:revenue-enrollments"),
+  coursesEnrollments: () => ipcRenderer.invoke("dashboard:courses-enrollments"),
+  getTodayClasses: () => ipcRenderer.invoke("dashboard:today-classes"),
+  getRecentEnrollment: (data) =>
+    ipcRenderer.invoke("dashboard:recent-enrollment", data),
+  getRecentPayment: (data) =>
+    ipcRenderer.invoke("dashboard:recent-payment", data),
+  getTotalPendingAmount: () =>
+    ipcRenderer.invoke("dashboard:get-total-pending-amount"),
+
+  // Course
   getAllCourses: (data) => ipcRenderer.invoke("course:index", data),
   searchAllCourses: (data) => ipcRenderer.invoke("course:search-all", data),
   getCourse: (id) => ipcRenderer.invoke("course:show", id),

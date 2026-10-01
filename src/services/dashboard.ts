@@ -2,7 +2,7 @@ import { checkAuthorization } from "./check-authorization";
 
 export const dashboardService = {
   getKPI: async () => {
-    const result = await window.dashboardAPI.getKPI();
+    const result = await window.api.getKPI();
 
     if (result.error) {
       checkAuthorization(result.error);
@@ -13,7 +13,7 @@ export const dashboardService = {
     return result;
   },
   getRevenueEnrollment: async () => {
-    const result = await window.dashboardAPI.revenueEnrollment();
+    const result = await window.api.revenueEnrollment();
 
     if (result.error) {
       checkAuthorization(result.error);
@@ -24,7 +24,7 @@ export const dashboardService = {
     return result;
   },
   getCoursesEnrollments: async () => {
-    const result = await window.dashboardAPI.coursesEnrollments();
+    const result = await window.api.coursesEnrollments();
 
     if (result.error) {
       checkAuthorization(result.error);
@@ -35,7 +35,7 @@ export const dashboardService = {
     return result;
   },
   getTodayClasses: async () => {
-    const result = await window.dashboardAPI.getTodayClasses();
+    const result = await window.api.getTodayClasses();
 
     if (result.error) {
       checkAuthorization(result.error);
@@ -46,7 +46,7 @@ export const dashboardService = {
     return result;
   },
   getRecentEnrollment: async (data: { page: number; limit: number }) => {
-    const result = await window.dashboardAPI.getRecentEnrollment(data);
+    const result = await window.api.getRecentEnrollment(data);
 
     if (result.error) {
       checkAuthorization(result.error);
@@ -57,7 +57,7 @@ export const dashboardService = {
     return result;
   },
   getRecentPayment: async (data: { page: number; limit: number }) => {
-    const result = await window.dashboardAPI.getRecentPayment(data);
+    const result = await window.api.getRecentPayment(data);
 
     if (result.error) {
       checkAuthorization(result.error);
@@ -68,7 +68,7 @@ export const dashboardService = {
     return result;
   },
   getTotalPendingAmount: async () => {
-    const result = await window.dashboardAPI.getTotalPendingAmount();
+    const result = await window.api.getTotalPendingAmount();
 
     if (result.error) {
       checkAuthorization(result.error);
