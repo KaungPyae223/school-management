@@ -1,7 +1,6 @@
 import { app, BrowserWindow, dialog, safeStorage } from "electron";
 import path from "node:path";
 import fs from "fs-extra";
-import bcrypt from "bcryptjs";
 import { format } from "date-fns";
 
 import { store } from "../../store";

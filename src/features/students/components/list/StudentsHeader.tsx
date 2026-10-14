@@ -8,6 +8,7 @@ import ColumnSelector from "../../../../components/header/ColumnSelector";
 import { AnimatePresence, m } from "framer-motion";
 import SearchInput from "../../../../components/search-input/SearchInput";
 import ViewChange from "../../../../components/header/ViewChange";
+import { useGetAllStudents } from "../../hooks/api/useGetAllStudents";
 
 const StudentsHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();
@@ -22,6 +23,8 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
     { title: t("students.totalClasses"), key: "Total Classes" },
     { title: t("students.withdrawnClasses"), key: "Withdrawn Classes" },
   ];
+
+  const { exportCSV } = useGetAllStudents();
 
   return (
     <Card className="shadow-xs">
@@ -57,7 +60,7 @@ const StudentsHeader = ({ tab }: { tab: string }) => {
 
         <div className="flex gap-2">
           <ViewChange />
-          <Button variant="outline" data-tour="export-csv">
+          <Button onClick={exportCSV} variant="outline" data-tour="export-csv">
             <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 

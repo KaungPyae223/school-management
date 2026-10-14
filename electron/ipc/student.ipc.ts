@@ -4,9 +4,46 @@ import { deleteImage } from "../utils/deleteImage";
 import { protectedHandle } from "../auth/ipc/protected.ipc";
 import { buildPageMeta } from "../utils/query-utils";
 import { studentRepository } from "../repository/student.repository";
-import { prisma } from "../db/prisma";
+import { stringify } from "csv-stringify/sync";
+import { dialog } from "electron";
+import fs from "fs-extra";
 
 export const studentIPCs = () => {
+  protectedHandle("student:export-csv", async (_, data) => {
+    const dateStr = new Date().toISOString().split("T")[0];
+
+    const { canceled, filePath } = await dialog.showSaveDialog({
+      title: "Save Student Data CSV",
+      defaultPath: `students_${dateStr}.csv`,
+      filters: [{ name: "CSV File", extensions: ["csv"] }],
+    });
+
+    if (canceled || !filePath) {
+      return { success: false, error: "Export canceled by user." };
+    }
+
+    try {
+      const { students } = await studentRepository.index(data);
+
+      const formattedData = students.map(({ image, ...student }) => ({
+        ...student,
+        createdAt: student.createdAt ? student.createdAt.toISOString() : "",
+        updatedAt: student.updatedAt ? student.updatedAt.toISOString() : "",
+      }));
+
+      const csvContent = stringify(formattedData, {
+        header: true,
+      });
+
+      await fs.writeFile(filePath, csvContent, "utf-8");
+      return { success: true };
+    } catch (error: any) {
+      console.error(error);
+      return {
+        error: error.message,
+      };
+    }
+  });
   protectedHandle("student:index", async (_, data) => {
     try {
       const { students, totalData } = await studentRepository.index(data);

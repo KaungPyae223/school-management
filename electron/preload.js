@@ -79,6 +79,7 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.invoke("course:get-course-classes", data),
 
   // Student
+  exportStudentCSV: (data) => ipcRenderer.invoke("student:export-csv", data),
   getAllStudents: (data) => ipcRenderer.invoke("student:index", data),
   searchAllStudents: (data) =>
     ipcRenderer.invoke("student:search-all-active", data),

@@ -130,6 +130,14 @@ declare global {
         id: number;
       }) => Promise<ResponseDataType>;
 
+      exportStudentCSV: (data: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+        exportCSV?: boolean;
+      }) => Promise<{ success: boolean; error?: string }>;
       getAllStudents: (data: {
         page?: number;
         limit?: number;

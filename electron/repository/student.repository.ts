@@ -10,6 +10,7 @@ export const studentRepository = {
       search = "",
       sort = "createdAt",
       sortDirection = "asc",
+      exportCSV = false,
     } = data;
 
     const { finalSort, finalSortDirection } = normalizeSort(
@@ -53,7 +54,7 @@ export const studentRepository = {
         ${searchFilter}
         GROUP BY s.id
         ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-        LIMIT ${limit} OFFSET ${skip}
+        ${exportCSV ? Prisma.empty : Prisma.raw(`LIMIT ${limit} OFFSET ${skip}`)}
       `,
       prisma.student.count({
         where: {

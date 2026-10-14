@@ -11,9 +11,16 @@ export const useGetAllStudents = () => {
     queryFn: () => studentService.getAllStudents(activeQueryParams),
   }) as { data: ResponseDataType; isLoading: boolean; error: any };
 
+  const exportCSV = async () => {
+    await studentService.exportStudentCSV({
+      ...activeQueryParams,
+      exportCSV: true,
+    });
+  };
+
   if (error) {
     throw error;
   }
 
-  return { data, isLoading };
+  return { data, isLoading, exportCSV };
 };

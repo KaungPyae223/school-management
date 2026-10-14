@@ -25,6 +25,18 @@ export const studentService = {
     return data;
   },
 
+  exportStudentCSV: async (params: any) => {
+    const data = await window.api.exportStudentCSV(params);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
   getAllStudents: async (params: any) => {
     const data = await window.api.getAllStudents(params);
 
