@@ -17,14 +17,14 @@ const CHANNELS: {
   },
   {
     key: "telegram",
-    value: "@schoolmgmt",
-    href: "https://t.me/schoolmgmt",
+    value: "@KaungPyae2003",
+    href: "https://t.me/KaungPyae2003",
     icon: Send,
   },
   {
     key: "facebook",
-    value: "/schoolmgmt",
-    href: "https://facebook.com/schoolmgmt",
+    value: "Kaung",
+    href: "https://www.facebook.com/kaung.591455/",
     icon: ThumbsUp,
   },
 ];
