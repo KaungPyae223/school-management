@@ -59,8 +59,8 @@ export const useClassesAdvancedQuery = () => {
       endDate: activeQueryParams.endDate
         ? new Date(activeQueryParams.endDate)
         : undefined,
-      minPrice: activeQueryParams.minPrice as unknown as number,
-      maxPrice: activeQueryParams.maxPrice as unknown as number,
+      minPrice: (activeQueryParams.minPrice ?? "") as unknown as number,
+      maxPrice: (activeQueryParams.maxPrice ?? "") as unknown as number,
     });
   }, []);
 
@@ -78,6 +78,12 @@ export const useClassesAdvancedQuery = () => {
     });
   };
 
+  const isPriceSelected = (value: unknown) =>
+    value !== "" &&
+    value !== undefined &&
+    value !== null &&
+    !Number.isNaN(value);
+
   const hasActiveFilters =
     Boolean(selectedTeachers?.length) ||
     Boolean(selectedCourses?.length) ||
@@ -85,8 +91,8 @@ export const useClassesAdvancedQuery = () => {
     endDate !== undefined ||
     startTime !== undefined ||
     endTime !== undefined ||
-    minPrice !== "" ||
-    maxPrice !== "";
+    isPriceSelected(minPrice) ||
+    isPriceSelected(maxPrice);
 
   const onSubmit = (data: FormOutput) => {
     updateQueryParams({
