@@ -40,7 +40,7 @@ export const useFetchOnScroll = ({
     try {
       const response = await fetchFunction(value);
       const results: any[] = response?.data ?? [];
-      setSelectedData(results);
+      setSelectedData?.(results);
     } catch (error) {
       console.error(error);
     }

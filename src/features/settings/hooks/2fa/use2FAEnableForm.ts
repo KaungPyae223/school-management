@@ -24,9 +24,9 @@ export const use2FAEnableForm = () => {
     const fetch2FA = async () => {
       const res = await authService.generate2FA();
 
-      setQrCode(res.qrCodeUrl);
-      setSecretKey(res.secret);
-      setBackupCodes(res.backupCodes);
+      setQrCode(res.qrCodeUrl ?? "");
+      setSecretKey(res.secret ?? "");
+      setBackupCodes(res.backupCodes ?? []);
     };
 
     fetch2FA();

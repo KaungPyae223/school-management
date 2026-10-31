@@ -1,6 +1,7 @@
 import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
 import { useAppInfiniteQuery } from "../../../../hooks/use-app-infinite-query";
 import { studentService } from "../../../../services/students";
+import type { InfiniteData } from "@tanstack/react-query";
 
 export const useGetStudentInputData = (debouncedSearchTerm: string) => {
   const {
@@ -35,7 +36,10 @@ export const useGetStudentInputData = (debouncedSearchTerm: string) => {
     fetchData: fetchNextPage,
   });
 
-  const students = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+  const students =
+    (data as InfiniteData<any> | undefined)?.pages.flatMap(
+      (page) => page?.data ?? [],
+    ) ?? [];
 
   return {
     students,

@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   BookOpen,
-  DoorOpen,
   GraduationCap,
   IdCard,
   Mail,

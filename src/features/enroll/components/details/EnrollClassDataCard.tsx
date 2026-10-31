@@ -59,7 +59,7 @@ const EnrollClassDataCard = ({ data }: { data: any }) => {
             border={false}
           >
             <div className="space-x-1 space-y-1">
-              {data.days.split(",").map((day) => (
+              {data.days.split(",").map((day: string) => (
                 <CardDayBadge key={day} day={day} variant="outline" />
               ))}
             </div>

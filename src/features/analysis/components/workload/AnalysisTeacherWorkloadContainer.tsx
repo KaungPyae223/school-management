@@ -1,6 +1,5 @@
 import DashboardCard from "../../../../components/card-utils/DashboardCard";
 import { CardContent } from "../../../../components/ui/card";
-import type { TeacherWorkload } from "../../data/analysis-dummy";
 import DataShow from "../../../../components/data/DataShow";
 import { ClipboardList, UserPen } from "lucide-react";
 import AnalysisTeacherWorkloadCard from "./AnalysisTeacherWorkloadCard";
@@ -47,7 +46,7 @@ const AnalysisTeacherWorkloadContainer = () => {
         <CardContent className="p-0 flex-1 space-y-1">
           <ScrollArea className="h-96 px-4 pb-0">
             <div className="space-y-4 ">
-              {teacherWorkload.map((teacher) => (
+              {teacherWorkload.map((teacher: any) => (
                 <AnalysisTeacherWorkloadCard key={teacher.id} data={teacher} />
               ))}
               {hasNextPage && (

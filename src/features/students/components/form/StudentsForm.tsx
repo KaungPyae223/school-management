@@ -137,7 +137,6 @@ const StudentsForm = ({
                       field={field}
                       label={t("students.fields.dob")}
                       ariaInvalid={fieldState.invalid}
-                      yearDropDown
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />

@@ -24,7 +24,7 @@ const AnalysisTeacherRevenueTable = ({ formattedData }: any) => {
         </thead>
 
         <tbody className="divide-y divide-border">
-          {formattedData.map((entry) => (
+          {formattedData.map((entry: any) => (
             <tr key={entry.id} className="transition-colors hover:bg-muted/50">
               {/* Color Dot + Teacher Name */}
               <td className="py-2.5 pl-3 pr-4 border-r">

@@ -3,7 +3,6 @@ import {
   BookOpen,
   CircleCheck,
   Currency,
-  DollarSign,
   DoorOpen,
   GraduationCap,
   IdCard,

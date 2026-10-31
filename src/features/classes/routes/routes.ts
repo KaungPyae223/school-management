@@ -32,7 +32,7 @@ const routes = [
       const module = await import("../pages/ClassesEditPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
+    loader: async ({ params }: { params: { classId: string } }) => {
       const result = await classService.getClass(Number(params.classId));
 
       if (result.error) {

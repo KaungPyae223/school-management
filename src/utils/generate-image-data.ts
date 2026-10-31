@@ -1,5 +1,10 @@
+interface ImageDataResult {
+  image: ArrayBuffer | null;
+  imageName: string | null;
+}
+
 export const generateImageData = async (image: File | undefined) => {
-  let imageData = {
+  let imageData: ImageDataResult = {
     image: null,
     imageName: null,
   };

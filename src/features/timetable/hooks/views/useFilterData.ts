@@ -11,9 +11,7 @@ export const useFilterData = ({
 }) => {
   const [searchParam] = useSearchParams();
 
-  const selected = searchParam.get(selectedParam)
-    ? searchParam.get(selectedParam).split(",")
-    : [];
+  const selected = searchParam.get(selectedParam)?.split(",") ?? [];
 
   const deSelected = searchParam.get(deSelectedParam);
 

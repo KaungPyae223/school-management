@@ -16,7 +16,7 @@ const routes = [
       const module = await import("../pages/PaymentsDetailsPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
+    loader: async ({ params }: { params: { enrollmentId: string } }) => {
       const enrollment = await enrollmentService.getEnrollment(
         Number(params.enrollmentId),
       );

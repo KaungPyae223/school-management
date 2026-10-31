@@ -60,7 +60,7 @@ const DashboardCourseEnrollmentContainer = ({
           </div>
 
           <div className="mt-2 space-y-1.5 overflow-y-auto pr-1">
-            {formattedData.map((course, idx) => (
+            {formattedData.map((course: any, idx: number) => (
               <div
                 key={idx}
                 className="flex items-center justify-between text-xs"

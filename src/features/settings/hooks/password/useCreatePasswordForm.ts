@@ -9,7 +9,7 @@ import { useCreatePassword } from "../api/useCreatePassword";
 import { translateError } from "../../../../utils/translate-error";
 import { toast } from "sonner";
 
-export const useCreatePasswordForm = (navigateLink: string) => {
+export const useCreatePasswordForm = (navigateLink?: string) => {
   const { t } = useTranslation();
   const { formSchema } = useCreatePasswordSchema();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -39,7 +39,9 @@ export const useCreatePasswordForm = (navigateLink: string) => {
 
       toast.success(t("settings.createPassword.success"));
       form.reset();
-      navigate(navigateLink);
+      if (navigateLink) {
+        navigate(navigateLink);
+      }
     } catch (error: any) {
       const msg = translateError(error, t);
       toast.error(msg);

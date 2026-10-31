@@ -47,9 +47,9 @@ export const useTeacherEditForm = () => {
 
       await mutateAsync({
         ...data,
-        phone: data.phone?.trim() ? data.phone.trim() : null,
-        email: data.email?.trim() ? data.email.trim() : null,
-        nrc: data.nrc.trim() ? data.nrc.trim() : null,
+        phone: data.phone?.trim() || null,
+        email: data.email?.trim() || null,
+        nrc: data.nrc?.trim() || null,
         ...imageData,
         id: teacher.id,
       });

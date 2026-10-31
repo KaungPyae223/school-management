@@ -30,7 +30,8 @@ export const useClassDayInput = (field: ControllerRenderProps<any, "days">) => {
       : [...selectedDays, day];
 
     const sorted = updated.sort(
-      (a, b) => (DAY_ORDER[a] ?? 0) - (DAY_ORDER[b] ?? 0),
+      (a: keyof typeof DAY_ORDER, b: keyof typeof DAY_ORDER) =>
+        (DAY_ORDER[a] ?? 0) - (DAY_ORDER[b] ?? 0),
     );
 
     field.onChange(sorted.join(","));

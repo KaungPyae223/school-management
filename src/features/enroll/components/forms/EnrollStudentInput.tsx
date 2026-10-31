@@ -63,7 +63,7 @@ const EnrollStudentInput = ({ field, fieldState }: EnrollStudentInputProps) => {
         {showStudentDropDown && students.length > 0 && (
           <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1">
             <ScrollArea className="max-h-80">
-              {students.map((data) => (
+              {students.map((data: any) => (
                 <div
                   className="flex items-center gap-3 p-2 hover:bg-muted cursor-pointer"
                   key={data.id}

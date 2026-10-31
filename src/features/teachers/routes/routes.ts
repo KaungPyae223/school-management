@@ -24,7 +24,7 @@ const routes = [
       const module = await import("../pages/TeachersEditPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
+    loader: async ({ params }: { params: { teacherId: string } }) => {
       const result = await teacherService.getTeacher(Number(params.teacherId));
 
       return result.data;

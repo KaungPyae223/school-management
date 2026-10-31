@@ -12,7 +12,7 @@ const AnalysisTeacherRevenueChart = ({ formattedData }: any) => {
   const { t } = useTranslation();
 
   const total = formattedData.reduce(
-    (pv, cv) => pv + Number(cv.total_revenue),
+    (pv: number, cv: any) => pv + Number(cv.total_revenue),
     0,
   );
 
@@ -44,7 +44,7 @@ const AnalysisTeacherRevenueChart = ({ formattedData }: any) => {
             outerRadius={95}
             paddingAngle={3}
           >
-            {formattedData.map((entry) => (
+            {formattedData.map((entry: any) => (
               <Cell
                 key={`inner-${entry.id}`}
                 fill={entry.color}
@@ -63,7 +63,7 @@ const AnalysisTeacherRevenueChart = ({ formattedData }: any) => {
             outerRadius={122}
             paddingAngle={3}
           >
-            {formattedData.map((entry) => (
+            {formattedData.map((entry: any) => (
               <Cell key={`outer-${entry.id}`} fill={entry.color} />
             ))}
           </Pie>
@@ -71,7 +71,7 @@ const AnalysisTeacherRevenueChart = ({ formattedData }: any) => {
           <ChartTooltip
             content={
               <ChartTooltipContent
-                formatter={(value, name, item) => (
+                formatter={(value, _name, item) => (
                   <div className="flex items-center justify-between bg-white gap-4 text-xs">
                     <span className="text-muted-foreground">
                       {item.dataKey === "total_revenue"

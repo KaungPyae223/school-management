@@ -1,8 +1,9 @@
+import type { ClassValue } from "cn";
 import { cn } from "../../lib/utils";
 
 interface TableRowProps {
   children: React.ReactNode;
-  className?: string;
+  className?: ClassValue;
   [key: string]: any;
 }
 

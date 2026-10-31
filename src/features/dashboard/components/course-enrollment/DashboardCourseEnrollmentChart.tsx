@@ -46,7 +46,7 @@ const DashboardCourseEnrollmentChart = ({ data }: { data: any }) => {
             <ChartTooltipContent
               formatter={(val, name) =>
                 `${t("dashboard.courseEnrollment.enrolled", {
-                  count: replaceLocalDigit(val),
+                  count: replaceLocalDigit(val as string | number | undefined),
                 })} (${name})`
               }
             />

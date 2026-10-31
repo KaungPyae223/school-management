@@ -28,12 +28,12 @@ export const usePaymentCreateForm = ({
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: "" as undefined as number,
+      amount: "" as unknown as number,
       image: undefined,
       description: "",
     },
   });
-
+  
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 

@@ -30,7 +30,7 @@ const ClassesAdvancedQueryGroup = ({
     >
       <div className="flex items-center justify-between">
         <Label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          <Icon className="size-3.5 text-primary" />
+          {Icon && <Icon className="size-3.5 text-primary" />}
           {title}
         </Label>
         {isSelected && (

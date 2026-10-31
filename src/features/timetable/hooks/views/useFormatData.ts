@@ -1,4 +1,4 @@
-export const useFormatData = (classData) => {
+export const useFormatData = (classData: any) => {
   // Map days to FullCalendar day codes
 
   const startDate = classData.startDate;
@@ -27,7 +27,7 @@ export const useFormatData = (classData) => {
   // Parse days string to array
   const daysArray = classData.days ? classData.days.split(",") : [];
   const byweekday = daysArray
-    .map((day) => day.trim().slice(0, 2).toUpperCase())
+    .map((day: string) => day.trim().slice(0, 2).toUpperCase())
     .filter(Boolean);
 
   return {

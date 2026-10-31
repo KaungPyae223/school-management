@@ -17,7 +17,7 @@ import { useBackupCodes } from "../../hooks/2fa/useBackupCodes";
 interface BackupCodesDialogProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  backupCodes: string[];
+  backupCodes?: string[];
   onBack?: () => void;
 }
 

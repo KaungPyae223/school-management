@@ -15,6 +15,7 @@ import {
   useCourseSelect,
   type Course,
 } from "../../hooks/filters/useCourseSelect";
+import ScrollSelectLoading from "../../../../components/form/ScrollSelectLoading";
 
 interface ClassesAdvancedQueryCourseSelectProps {
   field: ControllerRenderProps<any, "courseIds">;

@@ -31,7 +31,7 @@ const AnalysisScheduleUtilizationChart = ({ data }: { data: any }) => {
     },
   };
 
-  const formattedData = (data || []).map((d) => ({
+  const formattedData = (data || []).map((d: any) => ({
     ...d,
     total_enrollment_count: Number(d.total_enrollment_count || 0),
     class_count: Number(d.class_count || 0),

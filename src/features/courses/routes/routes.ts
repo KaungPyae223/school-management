@@ -33,7 +33,7 @@ const routes = [
       const module = await import("../pages/CoursesEditPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
+    loader: async ({ params }: { params: { courseId: string } }) => {
       const result = await courseService.getCourse(Number(params.courseId));
 
       if (result.error) {

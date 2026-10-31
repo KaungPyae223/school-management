@@ -8,7 +8,7 @@ const routes = [
       const module = await import("../pages/EnrollPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
+    loader: async ({ params }: { params: { classId: string } }) => {
       const result = await classService.getClassDetails(Number(params.classId));
 
       return result.data;

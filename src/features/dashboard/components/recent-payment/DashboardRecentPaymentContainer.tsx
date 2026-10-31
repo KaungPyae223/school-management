@@ -44,7 +44,7 @@ const DashboardRecentPaymentContainer = () => {
         <CardContent className="p-0">
           <ScrollArea className="h-96 px-4 pb-0">
             <div className="space-y-4 ">
-              {payments?.map((payment) => (
+              {payments?.map((payment: any) => (
                 <DashboardRecentPaymentCard key={payment.id} data={payment} />
               ))}
               {hasNextPage && (

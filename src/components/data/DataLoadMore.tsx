@@ -5,7 +5,7 @@ const DataLoadMore = ({
   loadingRef,
   isFetchingNextPage,
 }: {
-  loadingRef: React.RefObject<HTMLDivElement>;
+  loadingRef: React.RefObject<HTMLDivElement | null>;
   isFetchingNextPage: boolean;
 }) => {
   const { t } = useTranslation();

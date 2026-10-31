@@ -1,6 +1,7 @@
 import { dashboardService } from "../../../../services/dashboard";
 import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
 import { useAppInfiniteQuery } from "../../../../hooks/use-app-infinite-query";
+import type { InfiniteData } from "@tanstack/react-query";
 
 export const useGetRecentEnrollment = () => {
   const {
@@ -34,7 +35,10 @@ export const useGetRecentEnrollment = () => {
     fetchData: fetchNextPage,
   });
 
-  const enrollments = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+  const enrollments =
+    (data as InfiniteData<any> | undefined)?.pages.flatMap(
+      (page) => page?.data ?? [],
+    ) ?? [];
 
   return {
     enrollments,

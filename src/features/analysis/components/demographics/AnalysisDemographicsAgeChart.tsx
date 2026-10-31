@@ -15,7 +15,7 @@ const AnalysisDemographicsAgeChart = ({ ageDistribution }: any) => {
     count: { label: t("analysis.demographics.students"), color: "#8b5cf6" },
   };
 
-  const formattedAgeDistribution = ageDistribution.map((bucket) => ({
+  const formattedAgeDistribution = ageDistribution.map((bucket: any) => ({
     ...bucket,
     count: Number(bucket.total),
   }));

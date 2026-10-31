@@ -55,7 +55,7 @@ const DashboardRecentEnrollmentContainer = () => {
         <CardContent className="p-0">
           <ScrollArea className="h-96 px-4">
             <div className="space-y-4">
-              {enrollments.map((enrollment) => (
+              {enrollments?.map((enrollment: any) => (
                 <DashboardRecentEnrollmentCard
                   key={enrollment.id}
                   data={enrollment}

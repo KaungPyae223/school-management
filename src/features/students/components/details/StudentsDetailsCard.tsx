@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import {
   Calendar,
-  CalendarDays,
   DollarSign,
   DoorOpen,
   HandCoins,

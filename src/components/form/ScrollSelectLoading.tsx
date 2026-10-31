@@ -6,7 +6,7 @@ const ScrollSelectLoading = ({
   isLoading,
   isFetchingNextPage,
 }: {
-  loadingRef: React.RefObject<HTMLDivElement>;
+  loadingRef: React.RefObject<HTMLDivElement | null>;
   isLoading: boolean;
   isFetchingNextPage: boolean;
 }) => {

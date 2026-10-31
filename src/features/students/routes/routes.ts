@@ -32,7 +32,7 @@ const routes = [
       const module = await import("../pages/StudentsDetailsPage");
       return { Component: module.default };
     },
-    loader: async ({ params }) => {
+    loader: async ({ params }: { params: { studentId: string } }) => {
       const result = await studentService.getStudent(Number(params.studentId));
 
       return result.data;

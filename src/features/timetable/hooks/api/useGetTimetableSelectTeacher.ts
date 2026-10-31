@@ -1,6 +1,7 @@
 import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
 import { useAppInfiniteQuery } from "../../../../hooks/use-app-infinite-query";
 import { teacherService } from "../../../../services/teachers";
+import type { InfiniteData } from "@tanstack/react-query";
 
 export const useGetTimetableSelectTeacher = (debouncedSearchTerm: string) => {
   const {
@@ -35,7 +36,10 @@ export const useGetTimetableSelectTeacher = (debouncedSearchTerm: string) => {
     fetchData: fetchNextPage,
   });
 
-  const teachers = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+  const teachers =
+    (data as InfiniteData<any> | undefined)?.pages.flatMap(
+      (page) => page?.data ?? [],
+    ) ?? [];
 
   return {
     teachers,

@@ -78,7 +78,7 @@ const ClassesTeacherInput = ({
         {showDropDown && teachers.length > 0 && (
           <div className="absolute w-full z-50 bg-card border divide-y rounded-lg mt-1 shadow-lg dark:shadow-gray-900/30">
             <ScrollArea className="max-h-80">
-              {teachers.map((data) => (
+              {teachers.map((data: any) => (
                 <div
                   key={data.id}
                   className="flex items-center gap-3 p-2 hover:bg-muted cursor-pointer"

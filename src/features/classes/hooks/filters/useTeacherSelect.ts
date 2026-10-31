@@ -71,13 +71,15 @@ export const useTeacherSelect = (
   };
 
   const handleRemoveTeacher = (teacherId: number) => {
-    const updated = teacherValue.filter((id) => id !== teacherId).join(",");
+    const updated = teacherValue
+      .filter((id: number) => id !== teacherId)
+      .join(",");
     field.onChange(updated);
     setSelectedTeachers((prev) => prev.filter((t) => t.id !== teacherId));
   };
 
   const displayTeachers = teachers.filter(
-    (teacher) => !teacherValue.includes(teacher?.id),
+    (teacher: Teacher) => !teacherValue.includes(teacher?.id),
   );
 
   return {

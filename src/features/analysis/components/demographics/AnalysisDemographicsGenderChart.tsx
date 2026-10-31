@@ -21,14 +21,17 @@ const AnalysisDemographicsGenderChart = ({ genderSplit }: any) => {
   };
 
   const genderCounts = genderSplit.reduce(
-    (acc, item) => {
+    (
+      acc: Record<string, number>,
+      item: { gender: string; _count: { id: number } },
+    ) => {
       acc[item.gender] = item._count.id;
       return acc;
     },
     {} as Record<string, number>,
   );
 
-  const total = genderSplit.reduce((pv, cv) => cv._count.id + pv, 0);
+  const total = genderSplit.reduce((pv: any, cv: any) => cv._count.id + pv, 0);
 
   const male = genderCounts.MALE ?? 0;
   const female = genderCounts.FEMALE ?? 0;

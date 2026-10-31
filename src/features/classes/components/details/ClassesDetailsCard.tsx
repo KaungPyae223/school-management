@@ -6,7 +6,6 @@ import {
   CalendarDays,
   CalendarOff,
   Clock,
-  Coins,
   Currency,
   DollarSign,
   DoorOpen,

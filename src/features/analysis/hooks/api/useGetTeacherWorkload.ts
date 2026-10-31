@@ -1,6 +1,7 @@
 import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
 import { useAppInfiniteQuery } from "../../../../hooks/use-app-infinite-query";
 import { analysisService } from "../../../../services/analysis";
+import type { InfiniteData } from "@tanstack/react-query";
 
 export const useGetTeacherWorkload = () => {
   const {
@@ -34,7 +35,10 @@ export const useGetTeacherWorkload = () => {
     fetchData: fetchNextPage,
   });
 
-  const teacherWorkload = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+  const teacherWorkload =
+    (data as InfiniteData<any> | undefined)?.pages.flatMap(
+      (page) => page?.data ?? [],
+    ) ?? [];
 
   return {
     teacherWorkload,

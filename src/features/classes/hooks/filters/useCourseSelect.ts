@@ -72,13 +72,13 @@ export const useCourseSelect = (
   };
 
   const handleRemoveCourse = (courseId: number) => {
-    const updated = courseValue.filter((id) => id !== courseId).join(",");
+    const updated = courseValue.filter((id: number) => id !== courseId).join(",");
     field.onChange(updated);
     setSelectedCourses((prev) => prev.filter((c) => c.id !== courseId));
   };
 
   const displayCourses = courses.filter(
-    (course) => !courseValue.includes(course?.id),
+    (course: Course) => !courseValue.includes(course?.id),
   );
 
   return {

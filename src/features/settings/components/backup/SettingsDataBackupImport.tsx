@@ -50,8 +50,8 @@ const SettingsDataBackupImport = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: "",
-      backup: undefined,
-    } as unknown,
+      backup: undefined as unknown as File,
+    },
   });
 
   const { mutateAsync, isPending } = useImportBackup();

@@ -1,3 +1,4 @@
+import type { InfiniteData } from "@tanstack/react-query";
 import { useAppInfiniteQuery } from "../../../../hooks/use-app-infinite-query";
 import { useScrollFetch } from "../../../../hooks/use-scroll-fetch";
 import { paymentService } from "../../../../services/payments";
@@ -42,7 +43,10 @@ export const useGetOutstandingPayment = () => {
     fetchData: fetchNextPage,
   });
 
-  const payments = data?.pages.flatMap((page) => page?.data ?? []) ?? [];
+  const payments =
+    (data as InfiniteData<any> | undefined)?.pages.flatMap(
+      (page) => page?.data ?? [],
+    ) ?? [];
 
   return {
     payments,

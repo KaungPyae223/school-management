@@ -69,7 +69,7 @@ const SetupPage = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
             >
-              <Button onClick={() => step.scrollNext()} className="mx-auto">
+              <Button onClick={() => step?.scrollNext()} className="mx-auto">
                 {t("setup.nav.start")}
               </Button>
             </m.div>
@@ -81,7 +81,7 @@ const SetupPage = () => {
               exit={{ opacity: 0, y: 20 }}
               className="max-w-xl mx-auto  w-full flex justify-between"
             >
-              <Button onClick={() => step.scrollPrev()} variant="outline">
+              <Button onClick={() => step?.scrollPrev()} variant="outline">
                 {t("setup.nav.back")}
               </Button>
               <AnimatePresence mode="wait" initial={false}>
@@ -92,7 +92,7 @@ const SetupPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
                   >
-                    <Button onClick={() => step.scrollNext()}>
+                    <Button onClick={() => step?.scrollNext()}>
                       {t("setup.nav.next")}
                     </Button>
                   </m.div>

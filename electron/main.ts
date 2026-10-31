@@ -22,6 +22,7 @@ function createLoadingWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
+    icon: path.join(__dirname, "assets", "icon.png"),
   });
 
   loadingWindow.loadFile(path.join(__dirname, "loading.html"));
@@ -42,6 +43,7 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
+    icon: path.join(__dirname, "assets", "icon.png"),
   });
 
   win.removeMenu();
