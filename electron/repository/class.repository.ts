@@ -24,6 +24,7 @@ export const classRepository = {
       endDate,
       minPrice,
       maxPrice,
+      exportCSV = false,
     } = data;
 
     const { finalSort, finalSortDirection } = normalizeSort(
@@ -158,7 +159,7 @@ export const classRepository = {
           ${searchQuery}
           GROUP BY cl.id
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          ${start_month ? Prisma.sql`LIMIT ${limit} OFFSET ${skip}` : Prisma.empty}
+          ${!start_month && !exportCSV ? Prisma.sql`LIMIT ${limit} OFFSET ${skip}` : Prisma.empty}
         `,
       prisma.class.count({
         where: {

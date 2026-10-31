@@ -7,8 +7,47 @@ import { generateStatus } from "../utils/generateStatus";
 import { protectedHandle } from "../auth/ipc/protected.ipc";
 import { teacherRepository } from "../repository/teacher.repository";
 import { buildPageMeta } from "../utils/query-utils";
+import { stringify } from "csv-stringify/sync";
+import { dialog } from "electron";
+import fs from "fs-extra";
 
 export const teacherIPCs = () => {
+  protectedHandle("teacher:export-csv", async (_, data) => {
+    const dateStr = new Date().toISOString().split("T")[0];
+
+    const { canceled, filePath } = await dialog.showSaveDialog({
+      title: "Save Teacher Data CSV",
+      defaultPath: `teachers_${dateStr}.csv`,
+      filters: [{ name: "CSV File", extensions: ["csv"] }],
+    });
+
+    if (canceled || !filePath) {
+      return { success: false, error: "Export canceled by user." };
+    }
+
+    try {
+      const { teachers } = await teacherRepository.index(data);
+
+      const formattedData = teachers.map(({ image, ...teacher }) => ({
+        ...teacher,
+        createdAt: teacher.createdAt ? teacher.createdAt.toISOString() : "",
+        updatedAt: teacher.updatedAt ? teacher.updatedAt.toISOString() : "",
+      }));
+
+      const csvContent = stringify(formattedData, {
+        header: true,
+      });
+
+      await fs.writeFile(filePath, csvContent, "utf-8");
+      return { success: true };
+    } catch (error: any) {
+      console.error(error);
+      return {
+        error: error.message,
+      };
+    }
+  });
+
   protectedHandle("teacher:index", async (_, data) => {
     try {
       const { teachers, totalData } = await teacherRepository.index(data);

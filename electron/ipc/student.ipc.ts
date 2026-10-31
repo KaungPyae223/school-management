@@ -10,7 +10,7 @@ import fs from "fs-extra";
 
 export const studentIPCs = () => {
   protectedHandle("student:export-csv", async (_, data) => {
-    const dateStr = new Date().toISOString().split("T")[0];
+    const dateStr = new Date().toLocaleString().split("T")[0];
 
     const { canceled, filePath } = await dialog.showSaveDialog({
       title: "Save Student Data CSV",
@@ -27,8 +27,8 @@ export const studentIPCs = () => {
 
       const formattedData = students.map(({ image, ...student }) => ({
         ...student,
-        createdAt: student.createdAt ? student.createdAt.toISOString() : "",
-        updatedAt: student.updatedAt ? student.updatedAt.toISOString() : "",
+        createdAt: student.createdAt ? student.createdAt.toLocaleString() : "",
+        updatedAt: student.updatedAt ? student.updatedAt.toLocaleString() : "",
       }));
 
       const csvContent = stringify(formattedData, {

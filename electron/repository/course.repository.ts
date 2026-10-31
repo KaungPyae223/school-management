@@ -11,6 +11,7 @@ export const courseRepository = {
       sort = "createdAt",
       sortDirection = "asc",
       trash = null,
+      exportCSV = false,
     } = data;
 
     const { finalSort, finalSortDirection } = normalizeSort(
@@ -39,17 +40,19 @@ export const courseRepository = {
       ? Prisma.sql`AND (LOWER(c.name) LIKE LOWER(${`%${search}%`}) OR LOWER(c.description) LIKE LOWER(${`%${search}%`}))`
       : Prisma.empty;
 
-    const courseSort = finalSort.startsWith("c.")
-      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
-          finalSortDirection,
-        )} LIMIT ${limit} OFFSET ${skip}`
-      : Prisma.empty;
+    const courseSort =
+      !exportCSV && finalSort.startsWith("c.")
+        ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
+            finalSortDirection,
+          )} LIMIT ${limit} OFFSET ${skip}`
+        : Prisma.empty;
 
-    const metaSort = !finalSort.startsWith("c.")
-      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
-          finalSortDirection,
-        )} LIMIT ${limit} OFFSET ${skip}`
-      : Prisma.empty;
+    const metaSort =
+      !exportCSV && !finalSort.startsWith("c.")
+        ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
+            finalSortDirection,
+          )} LIMIT ${limit} OFFSET ${skip}`
+        : Prisma.empty;
 
     const [courses, totalData] = await Promise.all([
       prisma.$queryRaw<any[]>`
@@ -87,7 +90,7 @@ export const courseRepository = {
           LEFT JOIN course_meta cm ON cm.courseId = c.id
           JOIN course_query cq ON cq.id = c.id 
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip}
+          ${exportCSV ? Prisma.empty : Prisma.sql`LIMIT ${limit} OFFSET ${skip}`}
         `,
       prisma.course.count({
         where: {

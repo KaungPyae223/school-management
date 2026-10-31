@@ -4,8 +4,61 @@ import { generateStatus } from "../utils/generateStatus";
 import { protectedHandle } from "../auth/ipc/protected.ipc";
 import { classRepository } from "../repository/class.repository";
 import { buildPageMeta } from "../utils/query-utils";
+import { stringify } from "csv-stringify/sync";
+import { dialog } from "electron";
+import fs from "fs-extra";
 
 export const classesIPCs = () => {
+  protectedHandle("class:export-csv", async (_, data) => {
+    const dateStr = new Date().toISOString().split("T")[0];
+
+    const { canceled, filePath } = await dialog.showSaveDialog({
+      title: "Save Class Data CSV",
+      defaultPath: `classes_${dateStr}.csv`,
+      filters: [{ name: "CSV File", extensions: ["csv"] }],
+    });
+
+    if (canceled || !filePath) {
+      return { success: false, error: "Export canceled by user." };
+    }
+
+    try {
+      const { classes } = await classRepository.index(data);
+
+      const formattedData = classes.map(
+        ({ teacher_image, course_image, ...classData }) => ({
+          ...classData,
+          startDate: classData.startDate
+            ? classData.startDate.toLocaleString()
+            : "",
+          endDate: classData.endDate ? classData.endDate.toLocaleString() : "",
+          startTime: classData.startTime
+            ? classData.startTime.toLocaleString()
+            : "",
+          endTime: classData.endTime ? classData.endTime.toLocaleString() : "",
+          createdAt: classData.createdAt
+            ? classData.createdAt.toLocaleString()
+            : "",
+          updatedAt: classData.updatedAt
+            ? classData.updatedAt.toLocaleString()
+            : "",
+        }),
+      );
+
+      const csvContent = stringify(formattedData, {
+        header: true,
+      });
+
+      await fs.writeFile(filePath, csvContent, "utf-8");
+      return { success: true };
+    } catch (error: any) {
+      console.error(error);
+      return {
+        error: error.message,
+      };
+    }
+  });
+
   protectedHandle("class:index", async (_, data) => {
     try {
       const { classes, totalData } = await classRepository.index(data);

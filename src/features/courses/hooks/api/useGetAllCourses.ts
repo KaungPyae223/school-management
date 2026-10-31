@@ -10,9 +10,16 @@ export const useGetAllCourses = () => {
     queryFn: () => courseService.getAllCourses(activeQueryParams),
   }) as { data: ResponseDataType; isLoading: boolean; error: any };
 
+  const exportCSV = async () => {
+    await courseService.exportCourseCSV({
+      ...activeQueryParams,
+      exportCSV: true,
+    });
+  };
+
   if (error) {
     throw error;
   }
 
-  return { data, isLoading };
+  return { data, isLoading, exportCSV };
 };

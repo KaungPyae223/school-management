@@ -11,6 +11,7 @@ export const teacherRepository = {
       sort = "createdAt",
       sortDirection = "asc",
       trash = null,
+      exportCSV = false,
     } = data;
 
     const { finalSort, finalSortDirection } = normalizeSort(
@@ -44,17 +45,19 @@ export const teacherRepository = {
     )`
       : Prisma.empty;
 
-    const teacherSort = finalSort.startsWith("t.")
-      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
-          finalSortDirection,
-        )} LIMIT ${limit} OFFSET ${skip}`
-      : Prisma.empty;
+    const teacherSort =
+      !exportCSV && finalSort.startsWith("t.")
+        ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
+            finalSortDirection,
+          )} LIMIT ${limit} OFFSET ${skip}`
+        : Prisma.empty;
 
-    const metaSort = !finalSort.startsWith("t.")
-      ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
-          finalSortDirection,
-        )} LIMIT ${limit} OFFSET ${skip}`
-      : Prisma.empty;
+    const metaSort =
+      !exportCSV && !finalSort.startsWith("t.")
+        ? Prisma.sql`ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(
+            finalSortDirection,
+          )} LIMIT ${limit} OFFSET ${skip}`
+        : Prisma.empty;
 
     const [teachers, totalData] = await Promise.all([
       prisma.$queryRaw<any[]>`
@@ -85,7 +88,7 @@ export const teacherRepository = {
           JOIN teacher_query tq ON tq.id = t.id
           LEFT JOIN teacher_meta tm ON tm.teacherId = t.id
           ORDER BY ${Prisma.raw(finalSort)} ${Prisma.raw(finalSortDirection)}
-          LIMIT ${limit} OFFSET ${skip}
+          ${exportCSV ? Prisma.empty : Prisma.sql`LIMIT ${limit} OFFSET ${skip}`}
         `,
       prisma.teacher.count({
         where: {

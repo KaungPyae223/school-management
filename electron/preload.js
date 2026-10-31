@@ -67,6 +67,7 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.invoke("dashboard:get-total-pending-amount"),
 
   // Course
+  exportCourseCSV: (data) => ipcRenderer.invoke("course:export-csv", data),
   getAllCourses: (data) => ipcRenderer.invoke("course:index", data),
   searchAllCourses: (data) => ipcRenderer.invoke("course:search-all", data),
   getCourse: (id) => ipcRenderer.invoke("course:show", id),
@@ -92,6 +93,7 @@ contextBridge.exposeInMainWorld("api", {
   getStudentDetails: (id) => ipcRenderer.invoke("student:show-details", id),
 
   // Teacher
+  exportTeacherCSV: (data) => ipcRenderer.invoke("teacher:export-csv", data),
   getAllTeachers: (data) => ipcRenderer.invoke("teacher:index", data),
   searchAllTeachers: (data) => ipcRenderer.invoke("teacher:search-all", data),
   getTeacher: (id) => ipcRenderer.invoke("teacher:show", id),
@@ -104,6 +106,7 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.invoke("teacher:get-teacher-classes", data),
 
   // Class
+  exportClassCSV: (data) => ipcRenderer.invoke("class:export-csv", data),
   getAllClasses: (data) => ipcRenderer.invoke("class:index", data),
   getClass: (id) => ipcRenderer.invoke("class:show", id),
   getClassDetails: (id) => ipcRenderer.invoke("class:detail", id),

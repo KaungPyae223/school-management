@@ -37,6 +37,18 @@ export const courseService = {
     return data;
   },
 
+  exportCourseCSV: async (params: any) => {
+    const data = await window.api.exportCourseCSV(params);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
   searchAllCourses: async (params: any) => {
     const data = await window.api.searchAllCourses(params);
 

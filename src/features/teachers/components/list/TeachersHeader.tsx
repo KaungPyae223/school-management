@@ -8,6 +8,7 @@ import { AnimatePresence, m } from "framer-motion";
 import ChangeTrashView from "../../../../components/header/ChangeTrashView";
 import SearchInput from "../../../../components/search-input/SearchInput";
 import ViewChange from "../../../../components/header/ViewChange";
+import { useGetAllTeachers } from "../../hooks/api/useGetAllTeachers";
 
 const TeachersHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();
@@ -21,6 +22,8 @@ const TeachersHeader = ({ tab }: { tab: string }) => {
     { title: t("teachers.totalClasses"), key: "Total Classes" },
     { title: t("teachers.totalStudents"), key: "Total Students" },
   ];
+
+  const { exportCSV } = useGetAllTeachers();
 
   return (
     <Card className="shadow-xs">
@@ -58,7 +61,7 @@ const TeachersHeader = ({ tab }: { tab: string }) => {
 
           <ViewChange />
 
-          <Button variant="outline" data-tour="export-csv">
+          <Button onClick={exportCSV} variant="outline" data-tour="export-csv">
             <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 

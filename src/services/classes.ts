@@ -21,6 +21,15 @@ export const classService = {
     }
     return data;
   },
+  exportClassCSV: async (payload: any) => {
+    const data = await window.api.exportClassCSV(payload);
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+    return data;
+  },
   updateClass: async (payload: any) => {
     const data = await window.api.updateClass(payload);
     if (!data.success) {

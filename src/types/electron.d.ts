@@ -93,6 +93,15 @@ declare global {
       }) => Promise<any>;
       getTotalPendingAmount: () => Promise<any>;
 
+      exportCourseCSV: (data: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+        trash?: string;
+        exportCSV?: boolean;
+      }) => Promise<{ success: boolean; error?: string }>;
       getAllCourses: (data: {
         page?: number;
         limit?: number;
@@ -172,6 +181,15 @@ declare global {
         studentId: number;
       }) => Promise<ResponseDataType>;
 
+      exportTeacherCSV: (data: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+        trash?: string;
+        exportCSV?: boolean;
+      }) => Promise<{ success: boolean; error?: string }>;
       getAllTeachers: (data: {
         page?: number;
         limit?: number;
@@ -211,6 +229,28 @@ declare global {
         id: number;
       }) => Promise<ResponseDataType>;
 
+      exportClassCSV: (data: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        sort?: string;
+        order?: string;
+        courseIds?: string;
+        teacherIds?: string;
+        startTime?: string;
+        endTime?: string;
+        startDate?: string;
+        endDate?: string;
+        minPrice?: number;
+        maxPrice?: number;
+        start_month?: string;
+        start_year?: string;
+        end_month?: string;
+        end_year?: string;
+        teacherId?: number;
+        courseId?: number;
+        exportCSV?: boolean;
+      }) => Promise<{ success: boolean; error?: string }>;
       getAllClasses: (data: {
         page?: number;
         limit?: number;

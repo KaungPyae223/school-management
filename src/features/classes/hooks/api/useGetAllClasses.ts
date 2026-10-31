@@ -7,13 +7,22 @@ export const useGetAllClasses = (params?: any) => {
   const { activeQueryParams } = useGetQueryParams();
 
   const { data, isLoading, error } = useAppQuery({
-    queryKey: ["classes", { ...activeQueryParams, ...params } ],
-    queryFn: () => classService.getAllClasses({ ...activeQueryParams, ...params }),
+    queryKey: ["classes", { ...activeQueryParams, ...params }],
+    queryFn: () =>
+      classService.getAllClasses({ ...activeQueryParams, ...params }),
   }) as { data: ResponseDataType; isLoading: boolean; error: any };
+
+  const exportCSV = async () => {
+    await classService.exportClassCSV({
+      ...activeQueryParams,
+      ...params,
+      exportCSV: true,
+    });
+  };
 
   if (error) {
     throw error;
   }
 
-  return { data, isLoading };
+  return { data, isLoading, exportCSV };
 };

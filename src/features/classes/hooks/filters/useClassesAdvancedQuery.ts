@@ -79,14 +79,14 @@ export const useClassesAdvancedQuery = () => {
   };
 
   const hasActiveFilters =
-    Boolean(selectedTeachers) ||
+    Boolean(selectedTeachers?.length) ||
     Boolean(selectedCourses?.length) ||
     startDate !== undefined ||
     endDate !== undefined ||
     startTime !== undefined ||
     endTime !== undefined ||
-    minPrice !== ("" as unknown as number) ||
-    maxPrice !== ("" as unknown as number);
+    minPrice !== "" ||
+    maxPrice !== "";
 
   const onSubmit = (data: FormOutput) => {
     updateQueryParams({

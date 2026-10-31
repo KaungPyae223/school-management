@@ -37,6 +37,18 @@ export const teacherService = {
     return data;
   },
 
+  exportTeacherCSV: async (params: any) => {
+    const data = await window.api.exportTeacherCSV(params);
+
+    if (data.error) {
+      checkAuthorization(data.error);
+
+      throw new Error(data.error);
+    }
+
+    return data;
+  },
+
   searchAllTeachers: async (params: any) => {
     const data = await window.api.searchAllTeachers(params);
 

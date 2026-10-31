@@ -9,6 +9,7 @@ import { AnimatePresence, m } from "framer-motion";
 import SearchInput from "../../../../components/search-input/SearchInput";
 import ViewChange from "../../../../components/header/ViewChange";
 import { AdvancedQueryToggle } from "../../../../components/search-input/AdvancedQueryToggle";
+import { useGetAllClasses } from "../../hooks/api/useGetAllClasses";
 
 const ClassesHeader = ({ tab }: { tab: string }) => {
   const { t } = useTranslation();
@@ -25,6 +26,8 @@ const ClassesHeader = ({ tab }: { tab: string }) => {
     { title: t("classes.fields.startDate"), key: "Start Date" },
     { title: t("classes.fields.endDate"), key: "End Date" },
   ];
+
+  const { exportCSV } = useGetAllClasses();
 
   return (
     <Card className="shadow-xs">
@@ -63,9 +66,8 @@ const ClassesHeader = ({ tab }: { tab: string }) => {
         </div>
 
         <div className="flex gap-2">
-          
           <ViewChange />
-          <Button variant="outline" data-tour="export-csv">
+          <Button onClick={exportCSV} variant="outline" data-tour="export-csv">
             <Download className="w-4 h-4 mr-0.5" /> {t("students.exportCsv")}
           </Button>
 

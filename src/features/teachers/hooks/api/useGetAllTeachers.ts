@@ -10,9 +10,16 @@ export const useGetAllTeachers = () => {
     queryFn: () => teacherService.getAllTeachers(activeQueryParams),
   }) as { data: ResponseDataType; isLoading: boolean; error: any };
 
+  const exportCSV = async () => {
+    await teacherService.exportTeacherCSV({
+      ...activeQueryParams,
+      exportCSV: true,
+    });
+  };
+
   if (error) {
     throw error;
   }
 
-  return { data, isLoading };
+  return { data, isLoading, exportCSV };
 };
