@@ -29,7 +29,7 @@ const PaymentsPage = () => {
         value={view}
         onValueChange={changeView}
         defaultValue="outstanding"
-        className="space-y-4"
+        className="space-y-4 flex-1"
       >
         <PaymentsHeader />
         <DataShow

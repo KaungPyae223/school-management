@@ -26,7 +26,11 @@ const TeachersPage = () => {
   return (
     <>
       <TeachersTour />
-      <Tabs value={view} onValueChange={changeView} className="space-y-4">
+      <Tabs
+        value={view}
+        onValueChange={changeView}
+        className="space-y-4 flex-1"
+      >
         <TeachersHeader tab={view} />
         <DataShow
           isLoading={isLoading}
