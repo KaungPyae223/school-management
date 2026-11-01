@@ -37,6 +37,10 @@ contextBridge.exposeInMainWorld("backupAPI", {
   relaunchApp: () => ipcRenderer.invoke("backup:relaunch"),
 });
 
+contextBridge.exposeInMainWorld("resetAPI", {
+  reset: (password) => ipcRenderer.invoke("reset:all", password),
+});
+
 contextBridge.exposeInMainWorld("setupAPI", {
   isComplete: () => ipcRenderer.invoke("setup:is-complete"),
   complete: () => ipcRenderer.invoke("setup:complete"),

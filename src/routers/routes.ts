@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from "react-router";
 import dashboardRoutes from "../features/dashboard/routes/routes";
 import NotFound from "../components/errors/NotFound";
 import ErrorPage from "../components/errors/ErrorPage";
@@ -48,6 +48,6 @@ const routes = [
   ...setupRoutes,
 ];
 
-const router = createBrowserRouter(routes);
+const router = createHashRouter(routes);
 
 export default router;

@@ -18,7 +18,6 @@ export type TourId =
   | "settings";
 interface TourState {
   completedTours: TourId[];
-
   isTourCompleted: (tourId: TourId) => boolean;
   completeTour: (tourId: TourId) => void;
   resetTour: (tourId: TourId) => void;

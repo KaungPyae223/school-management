@@ -55,6 +55,13 @@ const SettingsTour = () => {
       skipBeacon: true,
       placement: "left",
     },
+    {
+      target: "[data-tour='reset']",
+      title: t("tour.settings.reset"),
+      content: t("tour.settings.resetContent"),
+      skipBeacon: true,
+      placement: "left",
+    },
   ];
 
   return <Tour steps={steps} tourID={"settings"} />;

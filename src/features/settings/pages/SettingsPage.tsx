@@ -14,6 +14,7 @@ import Settings2FA from "../components/2fa/Settings2FA";
 import SettingsDataBackup from "../components/backup/SettingsDataBackup";
 import SettingsChangeDefaultView from "../components/preferences/SettingsChangeDefaultView";
 import SettingsTour from "../tour/SettingsTour";
+import SettingsReset from "../components/reset/SettingsReset";
 
 const SettingsPage = () => {
   const { t } = useTranslation();
@@ -40,6 +41,7 @@ const SettingsPage = () => {
           <SettingsManagePassword />
           <Settings2FA />
           <SettingsDataBackup />
+          <SettingsReset />
         </CardContent>
       </Card>
     </>

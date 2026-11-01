@@ -60,6 +60,12 @@ declare global {
       relaunchApp: () => Promise<void>;
     };
 
+    resetAPI: {
+      reset: (
+        password?: string,
+      ) => Promise<{ success: boolean; error?: string }>;
+    };
+
     setupAPI: {
       isComplete: () => Promise<boolean>;
       complete: () => Promise<void>;

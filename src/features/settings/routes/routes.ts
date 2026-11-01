@@ -56,6 +56,20 @@ const routes = [
     },
     ErrorBoundary: ErrorPage,
   },
+  {
+    path: "settings/reset",
+    lazy: async () => {
+      const module = await import("../pages/SettingsResetPage");
+      return { Component: module.default };
+    },
+    loader: async () => {
+      const hasPassword = await authService.hasPassword();
+      const is2FAEnabled = await authService.is2FAEnabled();
+      const is2FAVerified = await authService.is2FAVerified();
+      return { hasPassword, is2FAEnabled, is2FAVerified };
+    },
+    ErrorBoundary: ErrorPage,
+  },
 ];
 
 export default routes;

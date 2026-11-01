@@ -37,13 +37,13 @@ const Footer = () => {
             tooltip={`${t("general.developedBy")} Kaung Pyae Aung`}
             className="text-muted-foreground hover:text-sidebar-foreground"
           >
-            <a href="#">
+            <div className="cursor-default">
               <Code2 className="shrink-0" />
               <div className="flex flex-col leading-none">
                 <span className="text-[10px]">{t("general.developedBy")}</span>
                 <span className="text-xs font-medium">Kaung Pyae Aung</span>
               </div>
-            </a>
+            </div>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

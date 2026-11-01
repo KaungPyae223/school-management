@@ -115,6 +115,19 @@
       "removeFile": "Remove file",
       "file": "Backup File"
     },
+    "reset": {
+      "title": "Reset Data",
+      "description": "Reset your data to the default state.",
+      "button": "Reset",
+      "warningTitle": "Warning",
+      "warningDesc": "Resetting your data will permanently delete all application data. This action cannot be undone. Please back up any important data before proceeding.",
+      "confirmPhrase": "Confirm Reset",
+      "confirmLabel": "Please type \"{{phrase}}\" to proceed",
+      "dialogTitle": "Reset Application Data?",
+      "dialogDesc": "This will permanently delete all records, files, and settings. This action cannot be undone.",
+      "dialogButton": "Reset All Data",
+      "success": "Successfully reset all data"
+    },
     "fields": {
       "password": "Password",
       "oldPassword": "Old Password",
@@ -932,7 +945,9 @@
       "twoFactor": "Two-Factor Authentication",
       "twoFactorContent": "Enable or disable two-factor authentication for an extra layer of security.",
       "backup": "Data Backup",
-      "backupContent": "Export or import your school data to keep it safe and portable."
+      "backupContent": "Export or import your school data to keep it safe and portable.",
+      "reset": "Reset Data",
+      "resetContent": "Permanently delete all application data and return the app to its initial state."
     },
     "students": {
       "search": "Search Students",

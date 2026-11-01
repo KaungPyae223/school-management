@@ -81,7 +81,7 @@ export const translateError = (
   const errorMap: Record<string, string> = {
     unauthorized: "errors.unauthorized",
     "please verify two-factor authentication first.": "errors.verify2FAFirst",
-    "incorrect password.": "errors.incorrectPassword",
+    "incorrect password": "errors.incorrectPassword",
     "password cannot be set.": "errors.passwordCannotBeSet",
     "password cannot be empty.": "errors.passwordCannotBeEmpty",
     "no password set.": "errors.noPasswordSet",

@@ -1,5 +1,6 @@
 import { store, StoreSchema } from "../store";
 import { protectedHandle } from "../auth/ipc/protected.ipc";
+import { ipcMain } from "electron";
 
 const allowedKeys: (keyof StoreSchema)[] = [
   "defaultView",
@@ -10,12 +11,11 @@ const allowedKeys: (keyof StoreSchema)[] = [
 ];
 
 export const storeIPCs = () => {
-  protectedHandle("store:get", async (_, key: keyof StoreSchema) => {
+  ipcMain.handle("store:get", async (_, key: keyof StoreSchema) => {
     if (!allowedKeys.includes(key)) {
       return null;
     }
     const result = (await store.get(key)) ?? null;
-
     return result;
   });
   protectedHandle(
