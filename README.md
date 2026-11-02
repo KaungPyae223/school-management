@@ -9,11 +9,13 @@ No server, no internet connection, no per-user accounts. All data stays on the m
 
 **Platforms:** Linux (AppImage, .deb) · Windows (NSIS installer) · macOS (DMG)
 **Languages:** English · Myanmar (မြန်မာ) · Japanese (日本語)
+**Download:** [Linux build](https://drive.google.com/file/d/1DEr_1-tvGyRFa3PKBEtbzpwX9AE4o74g/view?usp=sharing)
 
 ---
 
 ## Table of contents
 
+- [Download](#download)
 - [Features](#features)
 - [Tech stack](#tech-stack)
 - [Architecture](#architecture)
@@ -27,6 +29,23 @@ No server, no internet connection, no per-user accounts. All data stays on the m
 - [Development notes](#development-notes)
 - [Troubleshooting](#troubleshooting)
 - [Repository and license](#repository-and-license)
+
+---
+
+## Download
+
+### Linux
+
+Ready-to-run Linux builds are hosted on Google Drive:
+
+> **Download:** <https://drive.google.com/file/d/1DEr_1-tvGyRFa3PKBEtbzpwX9AE4o74g/view?usp=sharing>
+
+Install the `.deb` with your package manager (recommended on Ubuntu 24.04 and newer, since it sets
+up the AppArmor profile and the setuid sandbox helper):
+
+```bash
+sudo apt install ./school-management_1.0.0_amd64.deb
+```
 
 ---
 
@@ -304,7 +323,8 @@ electron-builder (appId `com.school.management`, product name "School Management
 `dist/`, `dist-electron/` and `generated/` into an asar archive, unpacks the native SQLite modules,
 and copies `prisma/migrations/**/*.sql` into `Resources`. Output goes to `release/`:
 
-- Linux — AppImage and `.deb` (category `Education`)
+- Linux — AppImage and `.deb` (category `Education`) — published builds are linked from
+  [Download](#download)
 - Windows — NSIS installer (`build/icon.ico`)
 - macOS — DMG (`build/icon.icns`)
 
