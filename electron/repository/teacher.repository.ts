@@ -281,7 +281,7 @@ export const teacherRepository = {
     `;
   },
   async create(data: any) {
-    prisma.teacher.create(data);
+    return prisma.teacher.create({ data });
   },
   async createValidate(data: any) {
     const { nrc, email, phone } = data;

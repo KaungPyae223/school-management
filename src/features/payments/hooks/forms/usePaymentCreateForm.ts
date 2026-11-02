@@ -33,7 +33,7 @@ export const usePaymentCreateForm = ({
       description: "",
     },
   });
-  
+
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -60,7 +60,6 @@ export const usePaymentCreateForm = ({
       toast.success(t("payments.alerts.createSuccess"));
       form.reset();
     } catch (error: unknown) {
-      console.log(error);
       const msg = translateError(error, t);
       toast.error(msg);
       setErrorMessage(msg);

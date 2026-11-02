@@ -294,7 +294,7 @@ export const courseRepository = {
     });
   },
   async create(data: any) {
-    prisma.course.create({ data });
+    return prisma.course.create({ data });
   },
   async update(id: number, data: any) {
     return prisma.course.update({

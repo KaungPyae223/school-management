@@ -18,8 +18,6 @@ const AnalysisPage = () => {
 
   const loader = useLoaderData();
 
-  console.log(loader);
-
   return (
     <>
       <AnalysisTour />

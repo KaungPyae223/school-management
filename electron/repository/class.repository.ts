@@ -301,22 +301,22 @@ export const classRepository = {
       `;
   },
   async hasLinkedStudents(classId: number) {
-    return await prisma.enrollment.findFirst({
+    return prisma.enrollment.findFirst({
       where: { classId },
       select: { id: true },
     });
   },
 
   async create(data: any) {
-    prisma.class.create({ data });
+    return prisma.class.create({ data });
   },
   async update(id: number, data: any) {
-    prisma.class.update({
+    return prisma.class.update({
       where: { id },
       data,
     });
   },
   async delete(id: number) {
-    prisma.class.delete({ where: { id } });
+    return prisma.class.delete({ where: { id } });
   },
 };

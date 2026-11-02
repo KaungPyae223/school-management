@@ -7,12 +7,10 @@ export const showImage = (fileName: string | null | undefined) => {
 
   const filePath = path.join(app.getPath("userData"), "images", fileName);
 
-  if (!app.isPackaged) {
-    if (!fs.existsSync(filePath)) return null;
-    const data = fs.readFileSync(filePath);
-    const ext = path.extname(fileName).slice(1);
-    return `data:image/${ext};base64,${data.toString("base64")}`;
-  }
+  if (!fs.existsSync(filePath)) return null;
 
-  return `image://${filePath}`;
+  const data = fs.readFileSync(filePath);
+  const ext = path.extname(fileName).slice(1);
+  
+  return `data:image/${ext};base64,${data.toString("base64")}`;
 };
