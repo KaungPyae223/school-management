@@ -1,5 +1,12 @@
 # School Management System
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/KaungPyae223/school-management?label=release&color=brightgreen)](https://github.com/KaungPyae223/school-management/releases/latest)
+![Platforms](https://img.shields.io/badge/platforms-Linux%20%C2%B7%20Windows%20%C2%B7%20macOS-blueviolet)
+![Electron](https://img.shields.io/badge/Electron-36-2F3242?logo=electron&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20MY%20%C2%B7%20JA-informational)
+
 An offline-first desktop application for running a tuition school or training centre: students,
 teachers, courses, classes, enrollments and payments — with dashboards, analytics, a timetable,
 and encrypted backup. Built with Electron, React 19, TypeScript, Tailwind CSS and Prisma (SQLite).
@@ -16,6 +23,7 @@ No server, no internet connection, no per-user accounts. All data stays on the m
 
 ## Table of contents
 
+- [Screenshots](#screenshots)
 - [Download](#download)
 - [Features](#features)
 - [Tech stack](#tech-stack)
@@ -30,6 +38,53 @@ No server, no internet connection, no per-user accounts. All data stays on the m
 - [Development notes](#development-notes)
 - [Troubleshooting](#troubleshooting)
 - [Repository and license](#repository-and-license)
+
+---
+
+## Screenshots
+
+Captures live in [`docs/screenshots/`](docs/screenshots) and are referenced by relative path, so they
+render on GitHub, in forks, and offline in any Markdown viewer. They follow the order of the sidebar
+navigation.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/dashboard.png" alt="Dashboard — KPI cards, revenue and enrollment growth chart, course enrollment share" title="Dashboard" />
+      <br />
+      <sub><b>Dashboard</b> — student, staff, batch and tuition KPI cards with the revenue/enrollment growth and course enrollment share charts</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/courses.png" alt="Courses — grid view of course cards with cover images and enrolment statistics" title="Courses" />
+      <br />
+      <sub><b>Courses</b> — cover image and default price per course, with totals for students, teachers, classes, active batches and withdrawals</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/classes.png" alt="Classes — advanced search panel with teacher, course, date, time and price filters above the class grid" title="Classes" />
+      <br />
+      <sub><b>Classes</b> — advanced search by teacher, course, date range, time range and price range, with sort chips and status-badged class cards</sub>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/payment.png" alt="Payments — outstanding payments table with price, paid and remaining amounts" title="Payments" />
+      <br />
+      <sub><b>Payments</b> — outstanding vs. all payments views, showing price, paid and remaining amounts, instalment count and selectable columns</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/timetable.png" alt="Timetable — FullCalendar month view with the class detail sheet open" title="Timetable" />
+      <br />
+      <sub><b>Timetable</b> — FullCalendar month view with recurring class events, and the class detail sheet covering time slot, weekly days, teacher and enrolment</sub>
+    </td>
+    <td align="center">
+      <img src="docs/screenshots/analysis.png" alt="Analysis — schedule utilization, student demographics, enrollment retention and top classes by revenue" title="Analysis" />
+      <br />
+      <sub><b>Analysis</b> — schedule utilization per weekday, gender and age demographics, enrollment retention vs. withdrawals, top classes by revenue</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
