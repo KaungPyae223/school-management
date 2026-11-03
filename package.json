@@ -17,11 +17,11 @@
     "build:renderer": "tsc -b && vite build",
     "build:electron": "esbuild electron/main.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist-electron/main.js --banner:js=\"import{createRequire as __createRequire}from'node:module';const require=__createRequire(import.meta.url);\" --external:electron --external:better-sqlite3 && node scripts/copy-electron-assets.mjs",
     "build": "npm run build:renderer && npm run build:electron",
-    "dev:electron": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && VITE_DEV_SERVER_URL=http://localhost:5173 NODE_OPTIONS=--import=tsx electron electron/main.ts\"",
+    "dev:electron": "concurrently -k \"vite --host 127.0.0.1 --port 5174 --strictPort\" \"wait-on http://127.0.0.1:5174 && VITE_DEV_SERVER_URL=http://127.0.0.1:5174 NODE_OPTIONS=--import=tsx electron electron/main.ts\"",
+    "dev:electronWin": "concurrently -k \"vite --host 127.0.0.1 --port 5174 --strictPort\" \"wait-on tcp:127.0.0.1:5174 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5174 NODE_OPTIONS=--import=tsx electron electron/main.ts\"",
     "electron": "npm run build && electron-builder",
     "dist": "npm run build && electron-builder",
-    "postinstall": "electron-rebuild -f -w better-sqlite3",
-    "rebuild": "electron-rebuild -f -w better-sqlite3"
+    "postinstall": "electron-rebuild -f -w better-sqlite3"
   },
   "build": {
     "appId": "com.school.management",
@@ -88,7 +88,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cn": "^0.4.0",
-    "cross-env": "^10.1.0",
     "csv-stringify": "^6.9.0",
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
@@ -142,6 +141,7 @@
     "@vitejs/plugin-react": "^6.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
     "electron": "^36.9.5",
     "electron-builder": "^26.8.1",
     "esbuild": "^0.28.2",
