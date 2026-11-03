@@ -9,7 +9,8 @@ No server, no internet connection, no per-user accounts. All data stays on the m
 
 **Platforms:** Linux (AppImage, .deb) · Windows (NSIS installer) · macOS (DMG)
 **Languages:** English · Myanmar (မြန်မာ) · Japanese (日本語)
-**Download:** [Linux build](https://drive.google.com/file/d/1DEr_1-tvGyRFa3PKBEtbzpwX9AE4o74g/view?usp=sharing)
+**Download:** [Linux build](https://drive.google.com/file/d/1DEr_1-tvGyRFa3PKBEtbzpwX9AE4o74g/view?usp=sharing) ·
+[Windows build](https://drive.google.com/file/d/1cwfJrDZ7YVbFxwnvMdhm142ymlM9z9RN/view?usp=sharing)
 
 ---
 
@@ -46,6 +47,16 @@ up the AppArmor profile and the setuid sandbox helper):
 ```bash
 sudo apt install ./school-management_1.0.0_amd64.deb
 ```
+
+### Windows
+
+Ready-to-run Windows builds are hosted on Google Drive:
+
+> **Download:** <https://drive.google.com/file/d/1cwfJrDZ7YVbFxwnvMdhm142ymlM9z9RN/view?usp=sharing>
+
+Download and run the NSIS installer (`.exe`), then launch "School Management System" from the Start
+menu. The first run opens the setup wizard, and data is stored under
+`%APPDATA%\School Management System` (see [Where the data lives](#where-the-data-lives)).
 
 ---
 
@@ -325,7 +336,8 @@ and copies `prisma/migrations/**/*.sql` into `Resources`. Output goes to `releas
 
 - Linux — AppImage and `.deb` (category `Education`) — published builds are linked from
   [Download](#download)
-- Windows — NSIS installer (`build/icon.ico`)
+- Windows — NSIS installer (`build/icon.ico`) — published builds are linked from
+  [Download](#download)
 - macOS — DMG (`build/icon.icns`)
 
 Cross-building Windows/macOS artefacts from Linux generally requires Wine and, for macOS, an actual
