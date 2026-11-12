@@ -71,20 +71,6 @@ app.whenReady().then(async () => {
   try {
     await applyMigrations();
 
-    protocol.registerFileProtocol("image", (request, callback) => {
-      const filePath = decodeURIComponent(new URL(request.url).pathname);
-
-      const safeBase = path.join(__dirname, "images");
-      const requested = path.resolve(safeBase, filePath.replace(/^\/+/, ""));
-
-      if (!requested.startsWith(safeBase)) {
-        callback({ error: -6 });
-        return;
-      }
-
-      callback({ path: requested });
-    });
-
     registerIpcHandlers();
 
     createWindow();
